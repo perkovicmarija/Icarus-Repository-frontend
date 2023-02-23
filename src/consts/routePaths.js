@@ -47,3 +47,7 @@ export const getSupportBugAttachmentsPath = (id) => {
     return supportBugAttachments.replace(":id", id);
 }
 export const supportLogs = supportCenter + "/logs";
+
+export const auditChecklistOverview = adminRoot + "/audit-checklists";
+
+export const auditChecklist = adminRoot + "/audit-checklists/:id"

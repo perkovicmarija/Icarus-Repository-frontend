@@ -1,20 +1,36 @@
 import React from 'react';
 
-import { Dialog, DialogTitle} from '@mui/material';
+import { Dialog, DialogTitle, DialogContent } from '@mui/material';
 import PropTypes from 'prop-types';
-
 import IntlMessages from '../IntlMessages';
 
-export default function DialogFormFrame ({onClose, title, open, children}) {
+const DialogFormFrame = (props) => {
+
+    const {
+        onClose,
+        title,
+        formComponent,
+        open,
+        children,
+        customDialogTitle,
+        maxWidth = "sm"
+    } = props;
 
     return(
         <Dialog
             fullWidth={true}
             open={open}
             onClose={onClose}
-            aria-labelledby="form-dialog-title">
-            <DialogTitle id="form-dialog-title"><IntlMessages id={title} /></DialogTitle>
-            {children}
+            aria-labelledby="form-dialog-title"
+        >
+            {
+                !customDialogTitle &&
+                <DialogTitle id="form-dialog-title"><IntlMessages id={title} /></DialogTitle>
+            }
+            <DialogContent>
+                {formComponent}
+                {children}
+            </DialogContent>
         </Dialog>
     )
 }
@@ -23,3 +39,5 @@ DialogFormFrame.propTypes = {
     title: PropTypes.string.isRequired,
     formComponent: PropTypes.node
 }
+
+export default DialogFormFrame;

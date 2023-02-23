@@ -5,6 +5,9 @@ import roleSagas from './user/role/userRoleSaga';
 import groupSagas from './user/group/userGroupSaga';
 import supportCenterSagas from './support/supportSaga';
 import authoritySagas from './authority/authoritySaga';
+import auditChecklistSaga from './auditChecklist/auditChecklistSaga';
+import auditChecklistItemSaga from "./auditChecklistItem/auditChecklistItemSaga";
+import auditChecklistSubAreaSaga from "./auditChecklistSubArea/AuditChecklistSubAreaSaga";
 
 export default function* rootSaga(getState) {
     yield all([
@@ -13,6 +16,9 @@ export default function* rootSaga(getState) {
         roleSagas(),
         groupSagas(),
         supportCenterSagas(),
-        authoritySagas()
+        authoritySagas(),
+        auditChecklistSaga(),
+        auditChecklistItemSaga(),
+        auditChecklistSubAreaSaga()
     ]);
 }

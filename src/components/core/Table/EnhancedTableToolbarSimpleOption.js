@@ -40,13 +40,10 @@ function EnhancedTableToolbarSimpleOption(props) {
     return (
         <Toolbar
             className={classNames(classes.root)}>
-
             <div className={classes.title}>
                 <Typography variant="button"><IntlMessages id={title}/></Typography>
             </div>
-
             <div className={classes.spacer}/>
-
             <div className={classes.actions}>
                 <Button disabled={editDisabled} className={classes.button} color="secondary" onClick={onNewClick}>
                     <IntlMessages id={buttonLabel}/>

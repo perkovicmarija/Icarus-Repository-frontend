@@ -197,6 +197,13 @@
   "general.damaged": "Damaged",
   "general.groupName": "Group name",
   "general.number": "Number",
+  "general.search.idTitle2": "Search by ID or title",
+  "general.newRevision": "New revision",
+
+  "action.add": "Add",
+  "action.close": "Close",
+  "action.filter": "Filter",
+
 
   "support.title": "Support center",
   "support.logs": "Logs",
@@ -218,5 +225,14 @@
   "action.clearAll": "Clear all",
 
   "language.english": "English",
-  "language.croatian": "Croatian"
+  "language.croatian": "Croatian",
+
+  "qms.audits.checklists": "Checklists",
+  "qms.checklist.domain": "Domain",
+  "qms.checklist.version": "Version",
+  "qms.checklist.effectiveDate": "Effective date",
+  "qms.newChecklist": "Create new checklist",
+  "qms.checklist.objectives": "Objectives",
+  "qms.checklist.newVersion": "New version",
+  "qms.checklist.newAbbreviation": "New abbrevation"
 }

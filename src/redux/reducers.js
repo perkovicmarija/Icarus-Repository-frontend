@@ -10,6 +10,9 @@ import Authority from './authority/authorityReducer';
 import SupportCenter from './support/supportReducer';
 import Progress from './progress/progressReducer';
 import LanguageSwitcher from './languageSwitcher/languageSwitcherReducer';
+import AuditChecklist from './auditChecklist/auditChecklistReducer';
+import AuditChecklistItem from './auditChecklistItem/auditChecklistItemReducer';
+import AuditChecklistSubArea from './auditChecklistSubArea/AuditChecklistSubAreaReducer';
 
 export default (history) => combineReducers({
     router: connectRouter(history),
@@ -23,4 +26,7 @@ export default (history) => combineReducers({
     Authority,
     SupportCenter,
     LanguageSwitcher,
+    AuditChecklist,
+    AuditChecklistItem,
+    AuditChecklistSubArea
 })

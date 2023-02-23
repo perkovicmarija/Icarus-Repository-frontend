@@ -1,11 +1,10 @@
-import { Settings, SupportAgent, Group, Dashboard } from '@mui/icons-material';
+import { Settings, SupportAgent, Group, Dashboard, MenuBook } from '@mui/icons-material';
 
 import {
     dashboard,
     supportLogs,
     getUsersPath,
-    submenu1,
-    submenu2,
+    auditChecklist
 } from '../../consts/routePaths';
 
 const sidebarRoutes = [
@@ -17,25 +16,11 @@ const sidebarRoutes = [
         sidebar: true
     },
     {
-        name: "Submenu",
-        rtlName: "Submenu",
-        icon: Settings,
-        key: "submenu",
-        sidebar: true,
-        children: [
-            {
-                path: submenu1,
-                name: "Submenu 1",
-                key: "submenu-1",
-                sidebar: true
-            },
-            {
-                path: submenu2,
-                name: "Submenu 2",
-                key: "submenu-1",
-                sidebar: true
-            },
-            ]
+        path: auditChecklist,
+        name: "Audit checklists",
+        icon: MenuBook,
+        key: "auditChecklist",
+        sidebar: true
     },
     {
         path: getUsersPath(0, 25),

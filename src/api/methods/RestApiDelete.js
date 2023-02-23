@@ -25,7 +25,7 @@ const RestApiDelete = {
             }
         })
             .then(ApiStatus.statusHelper)
-            .then(response => response)
+            .then(response => response.json())
             .catch(error => {
                 let status = error.status;
                 if(status) {

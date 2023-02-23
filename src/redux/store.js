@@ -4,6 +4,7 @@ import { routerMiddleware} from 'connected-react-router';
 import createSagaMiddleware from 'redux-saga';
 import createRootReducer from './reducers'
 import rootSaga from '../redux/sagas';
+import { configureStore} from "@reduxjs/toolkit";
 //used for loading and saving state from local storage - unnecessary for now
 //import { loadState, saveState } from './localStorage';
 //import throttle from 'lodash/throttle';
@@ -17,11 +18,18 @@ const middlewares = [sagaMiddleware, routeMiddleware];
 //used for lading state from local storage - unnecessary for now
 //const persistedState = loadState();
 
-const store = createStore(
+const reducers = createRootReducer(history);
+
+const store = configureStore({
+    reducer: reducers,
+    middleware: middlewares
+});
+
+/*const store = createStore(
     createRootReducer(history),
     //persistedState,
     compose(applyMiddleware(...middlewares))
-);
+);*/
 
 //used for saving state from local storage - unnecessary for now
 /*store.subscribe(throttle(() => {

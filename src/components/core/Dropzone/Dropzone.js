@@ -9,7 +9,7 @@ import {
     IconButton,
     ListSubheader
 } from "@mui/material";
-import { DeleteIcon, VerticalAlignBottom } from "@mui/icons-material";
+import { Delete, VerticalAlignBottom } from "@mui/icons-material";
 import { useDropzone } from 'react-dropzone';
 
 import IntlMessages from '../IntlMessages'
@@ -103,7 +103,7 @@ function Dropzone(props) {
                                     <Tooltip title={<IntlMessages id="general.delete"/>}>
                                         <span>
                                             <IconButton edge="end" aria-label="delete" disabled={disabled} onClick={event => onDelete(file, index)}>
-                                                <DeleteIcon />
+                                                <Delete />
                                             </IconButton>
                                         </span>
                                     </Tooltip>

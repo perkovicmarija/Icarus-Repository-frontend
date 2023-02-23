@@ -6,6 +6,10 @@ const initState = {
 function actionTypeEndsInRequest(type) {
     return type.substring(type.length - 8) === '_REQUEST';
 }
+
+function actionTypeContainsInRequest(type) {
+    return type.toLowerCase().includes('request');
+}
 export default function ajaxStatusReducer(state = initState, action) {
     //ZA SADA PRESKACEMO LOGIN
 /*    if(actionTypeLogin(action.type)) {
@@ -19,6 +23,8 @@ export default function ajaxStatusReducer(state = initState, action) {
         );
     }
     else if(actionTypeEndsInRequest(action.type)) {
+        return Object.assign({}, state, {ajaxCallsInProgress: state.ajaxCallsInProgress + 1});
+    } else if(actionTypeContainsInRequest(action.type)) {
         return Object.assign({}, state, {ajaxCallsInProgress: state.ajaxCallsInProgress + 1});
     } else if(action.type === types.AJAX_FINISHED) {
         if(state.ajaxCallsInProgress > 0) {

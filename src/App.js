@@ -3,17 +3,18 @@ import React from 'react';
 import { Provider } from 'react-redux';
 import { createTheme, ThemeProvider, StyledEngineProvider  } from '@mui/material/styles';
 import { red, brown, blueGrey } from '@mui/material/colors';
-import LocalizationProvider from '@mui/lab/LocalizationProvider';
+import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { IntlProvider } from 'react-intl';
-import MomentUtils from '@date-io/moment';
 import moment from 'moment-timezone';
 import 'moment/locale/en-gb';
-
 import PublicRoutes from './publicRouter';
 import Boot from './redux/boot';
 import { store, history } from './redux/store';
 import AppLocale from './helpers/LanguageProvider/index';
 import { getDefaultLanguage } from './helpers/LanguageProvider/config';
+import { AdapterMoment } from '@mui/x-date-pickers/AdapterMoment';
+import { DndProvider } from "react-dnd";
+//import {MultiBackend, getBackendOptions} from "@minoru/react-dnd-treeview";
 
 const currentAppLocale =
     AppLocale[getDefaultLanguage().locale];
@@ -47,15 +48,17 @@ function App() {
             locale={currentAppLocale.locale}
             messages={currentAppLocale.messages}
         >
-            <ThemeProvider theme={theme}>
-                <StyledEngineProvider injectFirst>
-                    <LocalizationProvider dateAdapter={MomentUtils} dateLibInstance={moment} locale="en-gb">
-                        <Provider store={store}>
-                            <PublicRoutes history={history}/>
-                        </Provider>
-                    </LocalizationProvider>
-                </StyledEngineProvider>
-            </ThemeProvider>
+            {/*<DndProvider backend={MultiBackend} options={getBackendOptions()}>*/}
+                <ThemeProvider theme={theme}>
+                    <StyledEngineProvider injectFirst>
+                        <LocalizationProvider dateAdapter={AdapterMoment} dateLibInstance={moment} adapterLocale="en-gb">
+                            <Provider store={store}>
+                                <PublicRoutes history={history}/>
+                            </Provider>
+                        </LocalizationProvider>
+                    </StyledEngineProvider>
+                </ThemeProvider>
+            {/*</DndProvider>*/}
         </IntlProvider>
     )
 };

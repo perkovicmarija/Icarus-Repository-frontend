@@ -19,11 +19,20 @@ import {
     supportBug,
     submenu1,
     submenu2,
+    auditChecklistOverview,
+    auditChecklist
 } from '../../consts/routePaths';
+import AuditChecklistOverview from "../Audit/AuditChecklist/AuditChecklistOverview";
+import AuditChecklist from "../Audit/AuditChecklist/AuditChecklist";
 
 const AdminRouter = () => {
   return (
     <Switch>
+        {
+            /**
+             * Default routes
+             */
+        }
         <Route
             path={dashboard}
             component={Dashboard}
@@ -62,6 +71,23 @@ const AdminRouter = () => {
             path={user}
             component={User}
             key="user-module"
+        />
+        {
+            /**
+             * Custom routes
+             */
+        }
+        <Route
+            exact
+            path={auditChecklistOverview}
+            component={AuditChecklistOverview}
+            key="auditChecklistOverview"
+        />
+        <Route
+            exact
+            path={auditChecklist}
+            component={AuditChecklist}
+            key="auditChecklist"
         />
         <Redirect from={root} to={dashboard} />
     </Switch>

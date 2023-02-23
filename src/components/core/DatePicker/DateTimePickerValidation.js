@@ -1,10 +1,10 @@
 import React from "react";
-
-import { DateTimePicker } from "@mui/lab";
+import { DateTimePicker } from '@mui/x-date-pickers';
 import { ValidatorComponent } from "react-material-ui-form-validator";
+import TextField from "@mui/material/TextField";
 
 class DateTimePickerValidation extends ValidatorComponent {
-    render() {
+    renderValidatorComponent() {
         const {
             errorMessages,
             validators,
@@ -19,6 +19,7 @@ class DateTimePickerValidation extends ValidatorComponent {
                 {...rest}
                 error={!isValid}
                 helperText={(!isValid && this.getErrorMessage()) || helperText}
+                renderInput={(params) => <TextField {...params} />}
             />
         );
     }
