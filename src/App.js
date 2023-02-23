@@ -13,8 +13,9 @@ import { store, history } from './redux/store';
 import AppLocale from './helpers/LanguageProvider/index';
 import { getDefaultLanguage } from './helpers/LanguageProvider/config';
 import { AdapterMoment } from '@mui/x-date-pickers/AdapterMoment';
+
 import { DndProvider } from "react-dnd";
-//import {MultiBackend, getBackendOptions} from "@minoru/react-dnd-treeview";
+import { getBackendOptions, MultiBackend } from "@minoru/react-dnd-treeview";
 
 const currentAppLocale =
     AppLocale[getDefaultLanguage().locale];
@@ -48,7 +49,7 @@ function App() {
             locale={currentAppLocale.locale}
             messages={currentAppLocale.messages}
         >
-            {/*<DndProvider backend={MultiBackend} options={getBackendOptions()}>*/}
+            <DndProvider backend={MultiBackend} options={getBackendOptions()}>
                 <ThemeProvider theme={theme}>
                     <StyledEngineProvider injectFirst>
                         <LocalizationProvider dateAdapter={AdapterMoment} dateLibInstance={moment} adapterLocale="en-gb">
@@ -58,10 +59,10 @@ function App() {
                         </LocalizationProvider>
                     </StyledEngineProvider>
                 </ThemeProvider>
-            {/*</DndProvider>*/}
+            </DndProvider>
         </IntlProvider>
     )
-};
+}
 
 Boot()
     .then(() => App())

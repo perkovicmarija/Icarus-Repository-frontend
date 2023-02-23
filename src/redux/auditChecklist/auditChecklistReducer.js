@@ -76,6 +76,7 @@ const auditChecklistSlice = createSlice({
         setChecklistAfterUpdate(state, action) {
             state.auditChecklists.map((auditChecklist, index) => {
                 if(auditChecklist.auditChecklistId === action.auditChecklist.auditChecklistId) {
+                    debugger;
                     state.auditChecklists[index] = action.auditChecklist;
                 }
             });
@@ -102,7 +103,7 @@ const auditChecklistSlice = createSlice({
         setAuditChecklistTypes(state, action) {
             state.auditChecklistTypes = action.auditChecklistTypes;
         },
-        createNewVersion() {},
+        createNewVersionRequest() {},
         setFilterStringSearch(state, action) {
             state.filters.stringSearch = action.payload;
         },

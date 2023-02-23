@@ -5,16 +5,16 @@ import RestApiDelete from "../methods/RestApiDelete";
 
 const AuditChecklistSubAreaApi = {
     get(viewModel) {
-        return RestApiGet.getData(viewModel, '/audit-checklists/subareas/');
+        return RestApiGet.getData('/audit-checklists/subareas/' + viewModel.id);
     },
     update(viewModel) {
-        return RestApiPut.putData(viewModel, '/audit-checklists/subareas');
+        return RestApiPut.putData('/audit-checklists/subareas', viewModel);
     },
     create(viewModel) {
-        return RestApiPost.postData(viewModel, '/audit-checklists/subareas');
+        return RestApiPost.postData('/audit-checklists/subareas', viewModel);
     },
     delete(viewModel) {
-        return RestApiDelete.deleteData(viewModel, '/audit-checklists/subareas/');
+        return RestApiDelete.deleteData(null, '/audit-checklists/subareas/' + viewModel.auditChecklistSubAreaId, null);
     }
 }
 

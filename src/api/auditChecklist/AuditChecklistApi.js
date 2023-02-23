@@ -13,7 +13,7 @@ const AuditChecklistApi = {
         return RestApiPost.postData('/audit-checklists', viewModel);
     },
     put(viewModel) {
-        return RestApiPut.putData(viewModel, '/audit-checklists');
+        return RestApiPut.putData('/audit-checklists', viewModel);
     },
     delete(viewModel) {
         return RestApiDelete.deleteData(null,'/audit-checklists/' + viewModel.id, null);
@@ -31,13 +31,13 @@ const AuditChecklistApi = {
         return RestApiPost.postData('/audit-checklists/types', null);
     },
     createNewVersion(viewModel) {
-        return RestApiPost.postData(viewModel, '/audit-checklists/' + viewModel.auditChecklistId + '/version');
+        return RestApiPost.postData('/audit-checklists/' + viewModel.auditChecklistId + '/version', viewModel);
     },
     getAuditDndChecklist(viewModel) {
         return RestApiGet.getData('/audit-checklists/' + viewModel.id + '/dnd-tree-view', null);
     },
     updateOrderNew(viewModel) {
-        return RestApiPut.putData(viewModel.data, '/audit-checklists/' + viewModel.auditChecklistId + '/dnd-tree-view');
+        return RestApiPut.putData('/audit-checklists/' + viewModel.auditChecklistId + '/dnd-tree-view', viewModel.data);
     },
     createPDF(viewModel) {
         return RestApiPostDownloadAxios.postData(viewModel, '/audit-checklists/create-pdf');

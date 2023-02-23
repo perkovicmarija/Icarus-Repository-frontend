@@ -38,7 +38,7 @@ const DialogFormRevisions = (props) => {
                                             <TableCell>{item.abbreviation}</TableCell>
                                             <TableCell>
                                                 <IconButton aria-label="View"
-                                                            onClick={(event) => handleViewChecklist(event, item)}>
+                                                            onClick={() => handleViewChecklist(item)}>
                                                     <Visibility/>
                                                 </IconButton>
                                             </TableCell>

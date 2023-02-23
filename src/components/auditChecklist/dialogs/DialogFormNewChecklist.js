@@ -26,8 +26,6 @@ const DialogFormNewChecklist = (props) => {
         isEdit
     } = props;
 
-    debugger;
-
     return(
         <div>
             <ValidatorForm
@@ -92,7 +90,7 @@ const DialogFormNewChecklist = (props) => {
                             <DateTimePickerCustom
                                 disabled={false}
                                 title="qms.checklist.effectiveDate"
-                                value={checklist.effectiveDate}
+                                value={checklist.effective}
                                 onDateTimeChange={onDateTimeChange}
                                 name="effective"
                             />

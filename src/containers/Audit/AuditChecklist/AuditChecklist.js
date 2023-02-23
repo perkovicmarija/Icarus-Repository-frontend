@@ -102,7 +102,6 @@ const AuditChecklist = (props) => {
     const [affectedParents, setAffectedParents] = useState([]);
 
     useEffect(() => {
-        debugger;
         const viewModel = {
             id: props.match.params.id
         }
@@ -206,16 +205,20 @@ const AuditChecklist = (props) => {
         setDialogSubAreaOpen(false);
     }
 
-    const handleInputSubAreaChange = name => event => {
-        let viewModel = cloneDeep(selectedSubArea);
-        viewModel[name] = event.target.value;
-        setSelectedSubArea(viewModel);
+    const handleInputSubAreaChange = event => {
+        const { name, value } = event.target;
+        setSelectedSubArea({
+            ...selectedSubArea,
+            [name]: value
+        });
     }
 
-    const handleInputChange = name => event => {
-        let viewModel = cloneDeep(selectedItem);
-        viewModel[name] = event.target.value;
-        setSelectedItem(viewModel);
+    const handleInputChange = (event) => {
+        const { name, value } = event.target;
+        setSelectedItem({
+            ...selectedItem,
+            [name]: value
+        });
     }
 
     const handleChecklistItemSave = event => {

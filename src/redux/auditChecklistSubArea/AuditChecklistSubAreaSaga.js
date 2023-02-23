@@ -99,7 +99,7 @@ export function* auditChecklistSubAreaDeleteRequest() {
     yield takeLatest(auditChecklistSubAreaActions.deleteAuditChecklistSubAreaRequest.type, function*(action) {
         try {
             const response = yield call(AuditChecklistSubAreaApi.delete, action.payload.auditChecklistSubArea);
-            if(response.status === 200) {
+            if(response.code === "200") {
                 yield put({
                     type: auditChecklistActions.getAuditDndChecklistRequest.type,
                     payload: {id: action.payload.checklistId}

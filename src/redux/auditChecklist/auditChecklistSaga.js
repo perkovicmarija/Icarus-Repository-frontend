@@ -36,9 +36,7 @@ export function* auditChecklistCreateRequest() {
 export function* auditChecklistDeleteRequest() {
     yield takeLatest(auditChecklistActions.deleteAuditChecklistRequest.type, function*(action) {
         try {
-            debugger;
             const response = yield call(AuditChecklistApi.delete, action.payload);
-            debugger;
             if(response.code === "200") {
                 yield put({
                     type: auditChecklistActions.setAuditChecklistsAfterDelete.type,
@@ -70,9 +68,10 @@ export function* auditChecklistUpdateRequest() {
         try {
             const response = yield call(AuditChecklistApi.put, action.payload.checklist);
             if(response.code === "200") {
+                debugger;
                 yield put({
                     type: auditChecklistActions.setChecklistAfterUpdate.type,
-                    auditChecklist: response.data
+                    auditChecklist: response.data.auditChecklist
                 });
                 yield put({
                     type: types.AJAX_SUCCESS,
@@ -232,7 +231,7 @@ export function* auditChecklistTypesRequest() {
 }
 
 export function* createNewVersionRequest() {
-    yield takeLatest(auditChecklistActions.createNewVersion.type, function*(action) {
+    yield takeLatest(auditChecklistActions.createNewVersionRequest.type, function*(action) {
         try {
             const response = yield call(AuditChecklistApi.createNewVersion, action.payload.checklist);
             if (response.code === "200") {
@@ -241,7 +240,7 @@ export function* createNewVersionRequest() {
                     message: response.message
                 });
                 yield put({
-                    type: auditChecklistActions.getAllActive.type,
+                    type: auditChecklistActions.getAllActiveRequest.type,
                     payload: action.payload.pagination
                 });
             } else {

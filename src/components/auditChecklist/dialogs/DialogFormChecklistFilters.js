@@ -24,8 +24,6 @@ const DialogFormChecklistFilters = (props) => {
         onEndDateChange
     } = props;
 
-    debugger;
-
     return(
         <div>
             <ValidatorForm

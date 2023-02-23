@@ -199,6 +199,10 @@
   "general.number": "Number",
   "general.search.idTitle2": "Search by ID or title",
   "general.newRevision": "New revision",
+  "general.import": "Import",
+
+  "format.excel": "Excel",
+  "format.pdf": "PDF",
 
   "action.add": "Add",
   "action.close": "Close",
@@ -227,12 +231,36 @@
   "language.english": "English",
   "language.croatian": "Croatian",
 
+  "qms.item": "Item",
   "qms.audits.checklists": "Checklists",
+  "qms.checklist": "Checklist",
   "qms.checklist.domain": "Domain",
   "qms.checklist.version": "Version",
   "qms.checklist.effectiveDate": "Effective date",
   "qms.newChecklist": "Create new checklist",
   "qms.checklist.objectives": "Objectives",
   "qms.checklist.newVersion": "New version",
-  "qms.checklist.newAbbreviation": "New abbrevation"
+  "qms.checklist.newAbbreviation": "New abbrevation",
+  "qms.checklist.addItem": "Add item",
+  "qms.checklist.updateOrder": "Update order",
+  "qms.checklist.addSubArea": "Add subarea",
+  "qms.checklist.noItemSelected": "No item selected",
+  "qms.checklist.question": "Question",
+  "qms.checklist.guidance": "Guidance",
+  "qms.checklist.regReference": "Regulatory reference",
+  "qms.checklist.createdBy": "Created by",
+  "qms.checklist.subArea": "Subarea",
+  "qms.editChecklist": "Edit checklist",
+
+  "qms.audit.deleteItem": "Do you really want to delete this item?",
+  "qms.checklist.deleteSubarea": "Do you really want to delete this subarea?",
+
+  "qms.audit.checklist.auditorAction.1": "Auditor action 1",
+  "qms.audit.checklist.auditorAction.2": "Auditor action 2",
+  "qms.audit.checklist.auditorAction.3": "Auditor action 3",
+  "qms.audit.checklist.auditorAction.4": "Auditor action 4",
+  "qms.audit.checklist.auditorAction.5": "Auditor action 5",
+  "qms.audit.checklist.auditorAction.6": "Auditor action 6",
+  "qms.audit.checklist.auditorAction.7": "Auditor action 7"
+
 }

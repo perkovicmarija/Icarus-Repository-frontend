@@ -1,5 +1,5 @@
 import React from 'react';
-//import { Tree } from "@minoru/react-dnd-treeview";
+import { Tree } from "@minoru/react-dnd-treeview";
 import CustomDnDTreeNode from "./CustomDnDTreeNode";
 import Placeholder from "./Placeholder";
 
@@ -15,7 +15,7 @@ const ChecklistDnDTree = (props) => {
 
     return (
         <div>
-            {/*<Tree
+            <Tree
             tree={checklist}
             rootId={rootElement}
             insertDroppableFirst={false}
@@ -43,7 +43,7 @@ const ChecklistDnDTree = (props) => {
             placeholderRender={(node, { depth }) => (
                 <Placeholder node={node} depth={depth} />
             )}
-        />*/}
+        />
         </div>
     );
 }

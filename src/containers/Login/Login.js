@@ -35,7 +35,6 @@ function Login(props) {
     const [pageClassSignUp, setPageClassSignUp] = useState("PageSwitcher__Item");
 
     const  handleChangeUserData = (event) => {
-        debugger;
         const {name, value} = event.target;
         let userDataClone = Object.assign({}, userData);
         userDataClone[name] = value;
@@ -54,11 +53,11 @@ function Login(props) {
         setForgotPasswordData(forgotPasswordDataClone);
     }
 
-    function handleLogin(event) {
+    function handleLogin() {
         props.authAction.login(userData);
     }
 
-    function handleSignUp(event) {
+    function handleSignUp() {
         props.authAction.signUp(signUpData);
     }
 
@@ -142,12 +141,8 @@ function Login(props) {
                         onSubmit={handleSubmitForgotPwd}
                     />
                 } />
-
-
         </div>
-
     );
-
 }
 
 function mapStateToProps(state, ownProps) {

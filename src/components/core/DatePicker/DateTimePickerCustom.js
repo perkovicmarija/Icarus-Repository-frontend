@@ -8,7 +8,7 @@ import PropTypes from 'prop-types';
 import DateTimePickerValidation from './DateTimePickerValidation';
 import IntlMessages from '../IntlMessages';
 
-const useStyles = makeStyles(theme => ({
+const useStyles = makeStyles(() => ({
     root: {
         display: 'flex',
         flexDirection: 'column'
@@ -29,7 +29,7 @@ function DateTimePickerCustom(props) {
                 disabled={disabled}
                 value={value ? value : null}
                 name={name}
-                onChange={onDateTimeChange(name)}
+                onChange={(event) => onDateTimeChange(name, event)}
                 label={<IntlMessages id="general.dateTime.label"/>}
                 leftArrowIcon={<NavigateBefore/>}
                 rightArrowIcon={<NavigateNext/>}

@@ -5,13 +5,13 @@ import RestApiDelete from "../methods/RestApiDelete";
 
 const AuditChecklistItemApi = {
     get(viewModel) {
-        return RestApiGet.getData(viewModel, '/audit-checklists/items/');
+        return RestApiGet.getData('/audit-checklists/items/' + viewModel.id);
     },
     update(viewModel) {
-        return RestApiPut.putData(viewModel.selectedItem, '/audit-checklists/' + viewModel.auditChecklist.auditChecklistId + '/items');
+        return RestApiPut.putData('/audit-checklists/' + viewModel.auditChecklist.auditChecklistId + '/items', viewModel.selectedItem);
     },
     create(viewModel) {
-        return RestApiPost.postData(viewModel.selectedItem, '/audit-checklists/' + viewModel.auditChecklist.auditChecklistId + '/items');
+        return RestApiPost.postData('/audit-checklists/' + viewModel.auditChecklist.auditChecklistId + '/items', viewModel.selectedItem);
     },
     delete(viewModel) {
         return RestApiDelete.deleteData({}, '/audit-checklists/' + viewModel.auditChecklist.auditChecklistId + '/items/' + viewModel.auditItemId);

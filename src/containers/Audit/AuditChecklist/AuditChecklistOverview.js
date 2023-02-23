@@ -9,8 +9,6 @@ import DialogDeleteWarning from "../../../components/core/Dialog/DialogDeleteWar
 import DialogFormChecklistFilters from "../../../components/auditChecklist/dialogs/DialogFormChecklistFilters";
 import {cloneDeep} from "lodash";
 import { auditChecklistActions } from "../../../redux/auditChecklist/auditChecklistReducer";
-import IntlMessages from "../../../components/core/IntlMessages";
-import {Dialog, DialogTitle, DialogContent} from "@mui/material";
 
 
 const AuditChecklistOverview = (props) => {
@@ -45,7 +43,6 @@ const AuditChecklistOverview = (props) => {
     const [dialogRevisionsOpen, setDialogRevisionsOpen] = useState(false);
 
     //Edit
-    const [editDisabled, setEditDisabled] = useState(false);
     const [isEditChecklist, setIsEditChecklist] = useState(false);
     const [newEditChecklistLabel, setNewEditChecklistLabel] = useState('qms.newChecklist');
 
@@ -151,7 +148,6 @@ const AuditChecklistOverview = (props) => {
                 checklist: viewModelChecklist
             };
             dispatch(auditChecklistActions.updateAuditChecklistRequest(viewModel));
-            setEditDisabled(true);
         } else {
             dispatch(auditChecklistActions.createAuditChecklistRequest(viewModelChecklist));
         }
@@ -162,8 +158,8 @@ const AuditChecklistOverview = (props) => {
         setIsEditChecklist(true);
         setNewEditChecklistLabel('qms.editChecklist');
         setDialogNewChecklistOpen(true);
-        let checklistEdit = item;
-        setChecklist(checklistEdit);
+        //let checklistEdit = item;
+        setChecklist(item);
     };
 
     const handleChecklistDelete = (event, item) => {
@@ -210,8 +206,7 @@ const AuditChecklistOverview = (props) => {
                 },
                 checklist: viewModelChecklist
             }
-            dispatch(auditChecklistActions.createNewVersion(viewModel));
-            setEditDisabled(true);
+            dispatch(auditChecklistActions.createNewVersionRequest(viewModel));
         }
 
         setDialogNewVersionOpen(false);
@@ -247,10 +242,11 @@ const AuditChecklistOverview = (props) => {
         setChecklist(viewModel);
     };
 
-    const handleDateTimeChange = name => dateTime => {
-        let viewModel = cloneDeep(checklist);
-        viewModel[name] = dateTime;
-        setChecklist(viewModel);
+    const handleDateTimeChange = (name, event) => {
+        setChecklist({
+            ...checklist,
+            [name]: event
+        });
     };
 
     const handleInputSearchChange = (event) => {
@@ -292,12 +288,12 @@ const AuditChecklistOverview = (props) => {
         dispatch(auditChecklistActions.clearFilters());
     };
 
-    const handleStartDateChange = name => dateTime => {
-        dispatch(auditChecklistActions.setFilterStartDate(dateTime));
+    const handleStartDateChange = (name, event) => {
+        dispatch(auditChecklistActions.setFilterStartDate(event));
     };
 
-    const handleEndDateChange = name => dateTime => {
-        dispatch(auditChecklistActions.setFilterEndDate(dateTime));
+    const handleEndDateChange = (name, event) => {
+        dispatch(auditChecklistActions.setFilterEndDate(event));
     };
 
     const handleMultiSelectChangeChecklistType = (event) => {
@@ -308,6 +304,10 @@ const AuditChecklistOverview = (props) => {
             selectedChecklistTypes.push(typeObject);
         }
         dispatch(auditChecklistActions.setFilterType(selectedChecklistTypes));
+    };
+
+    const onChecklistRevisionView = (item) => {
+        props.history.push('/admin/audit-checklists/' + item.auditChecklistId);
     };
 
     return (
@@ -374,6 +374,7 @@ const AuditChecklistOverview = (props) => {
             >
                 <DialogFormRevisions
                     onClose={handleDialogRevisionsClose}
+                    handleViewChecklist={onChecklistRevisionView}
                     revisions={checklist.checklistRevisions}
                 />
             </DialogFormFrame>

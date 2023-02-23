@@ -1,10 +1,10 @@
-import { Settings, SupportAgent, Group, Dashboard, MenuBook } from '@mui/icons-material';
+import { SupportAgent, Group, Dashboard, MenuBook } from '@mui/icons-material';
 
 import {
     dashboard,
     supportLogs,
     getUsersPath,
-    auditChecklist
+    auditChecklistOverview
 } from '../../consts/routePaths';
 
 const sidebarRoutes = [
@@ -16,10 +16,10 @@ const sidebarRoutes = [
         sidebar: true
     },
     {
-        path: auditChecklist,
+        path: auditChecklistOverview,
         name: "Audit checklists",
         icon: MenuBook,
-        key: "auditChecklist",
+        key: "auditChecklistOverview",
         sidebar: true
     },
     {
