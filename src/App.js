@@ -2,7 +2,7 @@ import React from 'react';
 
 import { Provider } from 'react-redux';
 import { createTheme, ThemeProvider, StyledEngineProvider  } from '@mui/material/styles';
-import { red, brown, blueGrey } from '@mui/material/colors';
+import { red, brown, grey } from '@mui/material/colors';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { IntlProvider } from 'react-intl';
 import moment from 'moment-timezone';
@@ -26,9 +26,9 @@ const theme = createTheme({
     },
     palette: {
         primary: {
-            light: blueGrey[400],
-            main: blueGrey[600],
-            dark: blueGrey[800],
+            light:  grey[300],
+            main: grey[800],
+            dark: grey[900],
             contrastText: '#FFFFFF',
         },
         secondary: {

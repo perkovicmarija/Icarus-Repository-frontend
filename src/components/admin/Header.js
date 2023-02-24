@@ -12,14 +12,13 @@ import {
     Menu
 } from '@mui/material';
 import { AccountCircle, Menu as MenuIcon } from "@mui/icons-material";
-import { makeStyles, useTheme } from '@mui/styles';
+import { makeStyles } from '@mui/styles';
 import clsx from 'clsx';
 
 import * as languageSwitcherActions from '../../redux/languageSwitcher/languageSwitcherActions';
 import IntlMessages from '../../components/core/IntlMessages';
 import config from '../../helpers/LanguageProvider/config';
 
-const drawerWidth = 240;
 
 const useStyles = makeStyles(theme => ({
     appBar: {
@@ -60,7 +59,6 @@ function Header(props) {
     const [anchorElLanguage, setAnchorElLanguage] = useState(null);
     const openUserMenu = Boolean(anchorElUser);
     const openBooleanMenu = Boolean(anchorElLanguage);
-    const theme = useTheme();
 
     const handleMenuUser = event => {
         setAnchorElUser(event.currentTarget);
@@ -111,7 +109,6 @@ function Header(props) {
                     <MenuIcon />
                 </IconButton>
                 <Typography variant="h6" className={classes.title}>
-                    Q-Touch
                 </Typography>
                 <div>
                     <IconButton
@@ -142,7 +139,7 @@ function Header(props) {
                             const { languageId, icon, intlId } = option;
 
                             return (
-                                <MenuItem key={languageId} onClick={event => handleClickLanguage(languageId)}>
+                                <MenuItem key={languageId} onClick={() => handleClickLanguage(languageId)}>
                                     <ListItemIcon>
                                         <img className="languageIcon" src={process.env.PUBLIC_URL + icon} alt="flag" />
                                     </ListItemIcon>

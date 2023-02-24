@@ -1,20 +1,12 @@
-import { SupportAgent, Group, Dashboard, MenuBook } from '@mui/icons-material';
+import { SupportAgent, Group, MenuBook } from '@mui/icons-material';
 
 import {
-    dashboard,
     supportLogs,
     getUsersPath,
     auditChecklistOverview
 } from '../../consts/routePaths';
 
 const sidebarRoutes = [
-    {
-        path: dashboard,
-        name: "Dashboard",
-        icon: Dashboard,
-        key: "dashboard",
-        sidebar: true
-    },
     {
         path: auditChecklistOverview,
         name: "Audit checklists",
