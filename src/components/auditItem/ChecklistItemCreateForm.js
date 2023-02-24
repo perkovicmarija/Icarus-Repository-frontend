@@ -12,6 +12,7 @@ import ChecklistSubAreasCheckbox from "../auditSubArea/ChecklistSubAreasCheckbox
 import TypographyReportField from "../core/Typography/FormFieldTitle";
 
 import FormEditBarSubtitle from "../core/Form/FormEditBarSubtitle";
+import FormSubmit from "../core/Form/FormSubmit";
 
 
 const useStyles = makeStyles((theme) => ({
@@ -43,7 +44,6 @@ const ChecklistItemCreateForm = (props) => {
         selectedItem,
         checklist,
         checklistType,
-        clientName,
         onInputChange,
         handleChecklistSave,
         onSelectCheckboxChange,
@@ -56,6 +56,7 @@ const ChecklistItemCreateForm = (props) => {
     return (
         <div>
             <ValidatorForm
+                onSubmit={handleChecklistSave}
                 onError={handleError}
                 noValidate
             >
@@ -63,10 +64,11 @@ const ChecklistItemCreateForm = (props) => {
                     title="qms.item"
                     subtitle={selectedItem.title}
                     editDisabled={editDisabled}
-                    showDelete
+                    showOptions={selectedItem.auditItemId !== null}
+                    showDelete={selectedItem.auditItemId !== null}
                     onDeleteSelect={handleDelete}
                     authPermissions={['PERM_AUDIT_CRUD', 'PERM_AUDIT_ENTRY']}
-                    showEdit
+                    showEdit={selectedItem.auditItemId !== null}
                     onEditSelect={onEditSelect}
                     onSaveSelect={handleChecklistSave}
                     onCancelSelect={handleCancel}
@@ -143,40 +145,6 @@ const ChecklistItemCreateForm = (props) => {
                                 placeholder="qms.checklist.regReference"
                                 type="text"/>
                         </Grid>
-                        {
-                            /*clientName === clientNameELF ?
-                                <Grid item xl={6} lg={6} md={6} sm={12} xs={12}>
-                                    <TextFieldValidation
-                                        disabled={editDisabled}
-                                        id="noteAdditional"
-                                        label="qms.checklist.operatorReference"
-                                        name="noteAdditional"
-                                        value={selectedItem.noteAdditional}
-                                        onInputChange={onInputChange}
-                                        placeholder="qms.checklist.operatorReference"
-                                        type="text"
-                                    />
-                                </Grid>
-                                :
-                                null*/
-                        }
-                        {
-                            /*clientName === clientNameELF ?
-                                <Grid item xl={6} lg={6} md={6} sm={12} xs={12}>
-                                    <TextFieldValidation
-                                        disabled={editDisabled}
-                                        id="noteAdditional2"
-                                        label="qms.checklist.iosaReference"
-                                        name="noteAdditional2"
-                                        value={selectedItem.noteAdditional2}
-                                        onInputChange={onInputChange}
-                                        placeholder="qms.checklist.iosaReference"
-                                        type="text"
-                                    />
-                                </Grid>
-                                :
-                                null*/
-                        }
                     </Grid>
                     {
                         checklistType === "IOSA" ?
@@ -189,6 +157,10 @@ const ChecklistItemCreateForm = (props) => {
                             null
                     }
                 </Grid>
+                {
+                    !selectedItem.auditItemId &&
+                    <FormSubmit handleCancel={handleCancel}/>
+                }
             </ValidatorForm>
         </div>
     );

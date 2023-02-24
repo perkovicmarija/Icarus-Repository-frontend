@@ -98,7 +98,6 @@ export function* auditChecklistItemDeleteRequest() {
     yield takeLatest(auditChecklistItemActions.deleteAuditChecklistItemRequest.type, function*(action) {
         try {
             const response = yield call(AuditChecklistItemApi.delete, action.payload);
-            debugger;
             if(response.code === "200") {
                 yield put({
                     type: auditChecklistActions.getAuditDndChecklistRequest.type,

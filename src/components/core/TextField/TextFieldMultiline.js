@@ -32,6 +32,7 @@ function TextFieldMultiline(props) {
         <TextField
             disabled={disabled}
             multiline
+            variant={"standard"}
             rows={rows}
             name={name}
             rowsmax={'Infinity'}

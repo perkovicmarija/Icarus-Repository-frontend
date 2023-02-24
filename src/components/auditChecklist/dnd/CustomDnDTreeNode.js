@@ -57,10 +57,10 @@ const CustomDnDTreeNode = (props) => {
                     </div>
                 )}
             </div>
-            <div onClick={
-                () => props.onClick(props.node.data)
-            }
-                 className={classes.elementLabel}>
+            <div
+                onClick={() => props.onClick(props.node.data)}
+                className={classes.elementLabel}
+            >
                 <div>
                     <TypeIcon droppable={droppable || false}/>
                 </div>

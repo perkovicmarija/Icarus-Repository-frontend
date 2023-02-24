@@ -7,7 +7,7 @@ import { injectIntl, defineMessages  } from 'react-intl';
 
 import IntlMessages from '../IntlMessages';
 
-const useStyles = makeStyles(theme => ({
+const useStyles = makeStyles(() => ({
     textField: {
         height: 'unset'
     }
@@ -28,6 +28,7 @@ function TextFieldValidation(props) {
         <TextValidator
             disabled={disabled}
             id={id}
+            variant={"standard"}
             label={label && label !== "" ? <IntlMessages id={label}/> : ""}
             name={name}
             value={value ? value : ""}

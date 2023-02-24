@@ -1,5 +1,5 @@
 import React from 'react';
-import Toolbar from '@mui/material/Toolbar';
+import { Toolbar, Grid, Box } from '@mui/material';
 import Tooltip from '@mui/material/Tooltip';
 import { makeStyles } from '@mui/styles';
 import IconButton from '@mui/material/IconButton';
@@ -28,10 +28,11 @@ const useStyles = makeStyles( (theme) => ({
         fontWeight: '300'
     },
     subtitleTextWidth: {
+        paddingLeft: theme.spacing(1),
         textOverflow: 'ellipsis',
         whiteSpace: 'nowrap',
         overflow: 'hidden',
-        width: '900px'
+        width: '800px'
     },
     title: {
         flex: '0 0 auto',
@@ -60,6 +61,7 @@ const FormEditBarSubtitle = (props) => {
         onEditSelect,
         onCancelSelect,
         onSaveSelect,
+        showOptions,
         showDelete,
         showExport,
         showEdit,
@@ -70,53 +72,89 @@ const FormEditBarSubtitle = (props) => {
 
     return (
         <Toolbar className={classes.root}>
-            <div className={classes.title}>
-                {
-                    title &&
-                    <Typography classes={{h6: classes.titleText}} variant="h6"><IntlMessages id={title} />: </Typography>
-                }
-            </div>
-            <div className={classes.subtitle}>
-                <Typography className={classes.subtitleTextWidth} classes={{h6: classes.subtitleText}} variant="h6">{subtitle}</Typography>
-            </div>
-            <div className={classes.spacer}/>
-            <div className={classes.actions}>
-                {
-                    showExport &&
-                    <Tooltip title="Export">
-                        <IconButton className={classes.iconColor} aria-label="Print" onClick={onExportSelect}>
-                            <Print/>
-                        </IconButton>
-                    </Tooltip>
-                }
-                {editDisabled && showDelete && Protected.protectedAuth(authPermissions) &&
-                <Tooltip title="Delete">
-                    <IconButton className={classes.iconColor} aria-label="Delete" onClick={onDeleteSelect}>
-                        <Delete/>
-                    </IconButton>
-                </Tooltip>}
-
-                {!editDisabled && Protected.protectedAuth(authPermissions) &&
-                <Tooltip title="Save">
-                    <IconButton className={classes.iconColor} aria-label="Save" onClick={onSaveSelect}>
-                        <Done/>
-                    </IconButton>
-                </Tooltip>}
-
-                {!editDisabled && Protected.protectedAuth(authPermissions) &&
-                <Tooltip title="Cancel edit">
-                    <IconButton className={classes.iconColor} aria-label="Cancel" onClick={onCancelSelect}>
-                        <Close/>
-                    </IconButton>
-                </Tooltip>}
-
-                {editDisabled && showEdit && Protected.protectedAuth(authPermissions) &&
-                <Tooltip title="Edit">
-                    <IconButton className={classes.iconColor} aria-label="Edit form" onClick={onEditSelect}>
-                        <Edit/>
-                    </IconButton>
-                </Tooltip>}
-            </div>
+            <Grid
+                container
+            >
+                <Grid item xs={12} sm={12} md={12} xl={11}>
+                    <Box
+                        sx={{
+                            display: 'flex'
+                        }}
+                    >
+                        {
+                            title &&
+                            <Box>
+                                <Typography classes={{h6: classes.titleText}} variant="h6"><IntlMessages id={title} />: </Typography>
+                            </Box>
+                        }
+                        <Box>
+                            <Typography className={classes.subtitleTextWidth} classes={{h6: classes.subtitleText}} variant="h6">{subtitle}</Typography>
+                        </Box>
+                    </Box>
+                </Grid>
+                <Grid item xs={12} sm={12} md={12} xl={1}>
+                    {
+                        showOptions &&
+                            <Box
+                                sx={{
+                                    display: 'flex',
+                                    justifyContent: 'flex-end'
+                                }}
+                            >
+                                {
+                                    showExport &&
+                                        <Box>
+                                            <Tooltip title="Export">
+                                                <IconButton className={classes.iconColor} aria-label="Print" onClick={onExportSelect}>
+                                                    <Print/>
+                                                </IconButton>
+                                            </Tooltip>
+                                        </Box>
+                                }
+                                {
+                                    editDisabled && showDelete && Protected.protectedAuth(authPermissions) &&
+                                        <Box>
+                                            <Tooltip title="Delete">
+                                                <IconButton className={classes.iconColor} aria-label="Delete" onClick={onDeleteSelect}>
+                                                    <Delete/>
+                                                </IconButton>
+                                            </Tooltip>
+                                        </Box>
+                                }
+                                {
+                                    !editDisabled && Protected.protectedAuth(authPermissions) &&
+                                        <Box>
+                                            <Tooltip title="Save">
+                                                <IconButton className={classes.iconColor} aria-label="Save" onClick={onSaveSelect}>
+                                                    <Done/>
+                                                </IconButton>
+                                            </Tooltip>
+                                        </Box>
+                                }
+                                {
+                                    !editDisabled && Protected.protectedAuth(authPermissions) &&
+                                        <Box>
+                                            <Tooltip title="Cancel edit">
+                                                <IconButton className={classes.iconColor} aria-label="Cancel" onClick={onCancelSelect}>
+                                                    <Close/>
+                                                </IconButton>
+                                            </Tooltip>
+                                        </Box>
+                                }
+                                {
+                                    editDisabled && showEdit && Protected.protectedAuth(authPermissions) &&
+                                        <Box>
+                                            <Tooltip title="Edit">
+                                                <IconButton className={classes.iconColor} aria-label="Edit form" onClick={onEditSelect}>
+                                                    <Edit/>
+                                                </IconButton>
+                                            </Tooltip>
+                                        </Box>
+                                }
+                            </Box>
+                    }
+                </Grid>
+            </Grid>
         </Toolbar>
     );
 }
