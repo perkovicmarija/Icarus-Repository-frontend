@@ -2,21 +2,13 @@ import React, { useState } from 'react';
 
 import { InputAdornment, IconButton } from '@mui/material';
 import { Visibility, VisibilityOff } from '@mui/icons-material';
-import { makeStyles } from '@mui/styles';
 import { TextValidator } from 'react-material-ui-form-validator';
 import { injectIntl, defineMessages  } from 'react-intl';
 import PropTypes from 'prop-types';
 
 import IntlMessages from '../IntlMessages';
 
-const useStyles = makeStyles(theme => ({
-    textField: {
-        height: 'unset'
-    }
-}));
-
 function TextFieldValidationPassword(props) {
-    const classes = useStyles();
 
     const [showPassword, setShowPassword] = useState(false);
 
@@ -36,6 +28,7 @@ function TextFieldValidationPassword(props) {
         <TextValidator
             disabled={disabled}
             id={id}
+            variant={"standard"}
             label={label && label !== "" ? <IntlMessages id={label}/> : ""}
             name={name}
             value={value ? value : ""}
