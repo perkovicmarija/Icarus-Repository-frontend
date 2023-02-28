@@ -1,4 +1,4 @@
-import * as serverPath from '../../consts/ServerInfo';
+import {getServerPath} from '../../consts/ServerInfo';
 import * as ApiStatus from './RestApiStatus';
 import { getToken } from '../../helpers/utility';
 import axios from 'axios';
@@ -25,7 +25,7 @@ const RestApiPostMultipartArray = {
         return eventChannel(emitter  => {
             emitter({openDialog: true});
             axios({
-                url: serverPath.SERVER_PATH + resourcePath + '?access_token=' + token,
+                url: getServerPath() + resourcePath + '?access_token=' + token,
                 method: 'POST',
                 data: formData,
                 onUploadProgress: progressEvent => {

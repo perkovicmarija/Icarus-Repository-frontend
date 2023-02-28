@@ -1,4 +1,4 @@
-import * as serverPath from '../../../consts/ServerInfo';
+import {getServerPath} from '../../../consts/ServerInfo';
 import * as ApiStatus from '../RestApiStatus';
 import { getToken } from '../../../helpers/utility';
 
@@ -12,7 +12,7 @@ const RestApiPostMultipart = {
             formData.append(name, data[name]);
         }
 
-        return fetch(serverPath.SERVER_PATH + resourcePath + '?access_token=' + token, {
+        return fetch(getServerPath() + resourcePath + '?access_token=' + token, {
             method: 'POST',
             body: formData
         })

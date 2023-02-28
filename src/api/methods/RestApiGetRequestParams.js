@@ -1,4 +1,4 @@
-import * as serverPath from '../../consts/ServerInfo';
+import {getServerPath} from '../../consts/ServerInfo';
 import * as ApiStatus from './RestApiStatus';
 import { getToken } from '../../helpers/utility';
 
@@ -31,7 +31,7 @@ const RestApiGetRequestParams = {
             resourcePath = resourcePath + "access_token=" + token;
         }
 
-        return fetch(serverPath.SERVER_PATH + resourcePath, {
+        return fetch(getServerPath() + resourcePath, {
             method: 'GET',
             headers: {
                 'Accept': 'application/json',

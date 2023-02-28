@@ -1,11 +1,11 @@
-import * as serverPath from '../../consts/ServerInfo';
+import {getServerPath} from '../../consts/ServerInfo';
 import * as ApiStatus from './RestApiStatus';
 import { getToken } from '../../helpers/utility';
 
 const RestApiPost = {
     postData (resourcePath, data) {
         const token = getToken();
-        return fetch(serverPath.SERVER_PATH + resourcePath + "?access_token=" + token, {
+        return fetch(getServerPath() + resourcePath + "?access_token=" + token, {
             method: 'POST',
             headers: {
                 'Accept': 'application/json',

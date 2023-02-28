@@ -1,8 +1,8 @@
-import * as serverPath from '../../consts/ServerInfo';
+import {getServerPath} from '../../consts/ServerInfo';
 
 const RestApiAuth = {
     auth (data, resourcePath) {
-        return fetch(serverPath.SERVER_PATH + resourcePath, {
+        return fetch(getServerPath() + resourcePath, {
             method: 'POST',
             headers: new Headers({
                 'Authorization': 'Basic bXlhcHA6c2VjcmV0',

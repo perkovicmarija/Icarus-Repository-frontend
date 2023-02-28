@@ -1,4 +1,4 @@
-import * as serverPath from '../../../consts/ServerInfo';
+import {getServerPath} from '../../../consts/ServerInfo';
 import { getToken } from '../../../helpers/utility';
 import axios from 'axios';
 import { eventChannel, END } from 'redux-saga'
@@ -24,7 +24,7 @@ const RestApiGetDownloadBase64Axios = {
 
         return eventChannel(emitter  => {
             axios({
-                url: serverPath.SERVER_PATH + resourcePath + '?access_token=' + token,
+                url: getServerPath() + resourcePath + '?access_token=' + token,
                 method: 'GET',
                 headers: {
                     'Content-Type': 'application/json'
