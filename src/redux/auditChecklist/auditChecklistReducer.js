@@ -129,7 +129,11 @@ const auditChecklistSlice = createSlice({
         updateAuditChecklistOrderRequest() {},
         downloadPDFRequest() {},
         downloadExcelRequest() {},
-        uploadCSVChecklistRequest() {}
+        uploadCSVChecklistRequest() {},
+        publishChecklistRequest() {},
+        setChecklistPublished(state, action) {
+            state.auditDndChecklist.auditChecklist.published = action.payload;
+        }
     }
 });
 

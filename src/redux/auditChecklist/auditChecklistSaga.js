@@ -68,7 +68,6 @@ export function* auditChecklistUpdateRequest() {
         try {
             const response = yield call(AuditChecklistApi.put, action.payload.checklist);
             if(response.code === "200") {
-                debugger;
                 yield put({
                     type: auditChecklistActions.setChecklistAfterUpdate.type,
                     auditChecklist: response.data.auditChecklist
@@ -432,6 +431,36 @@ export function* uploadChecklistRequest() {
     });
 }
 
+export function* auditPublishChecklist() {
+    yield takeLatest(auditChecklistActions.publishChecklistRequest.type, function*(action) {
+        try {
+            const response = yield call(AuditChecklistApi.publish, action.payload);
+            if(response.code === "200") {
+                yield put({
+                    type: auditChecklistActions.setChecklistPublished.type,
+                    payload: action.payload.published
+                });
+                yield put({
+                    type: types.AJAX_SUCCESS,
+                    message: response.message
+                });
+            } else {
+                yield put({
+                    type: types.AJAX_FAILED,
+                    message: response.message
+                });
+            }
+        } catch (e) {
+            yield put({
+                type: types.AJAX_FAILED,
+                message: "Unable to publish checklist"
+            });
+        } finally {
+            yield put({type: types.AJAX_FINISHED});
+        }
+    });
+}
+
 export default function* rootSaga() {
     yield all([
         fork(auditChecklistDeleteRequest),
@@ -447,6 +476,7 @@ export default function* rootSaga() {
         fork(auditDndChecklistUpdateOrderRequest),
         fork(downloadPDFAuditChecklist),
         fork(downloadExcelAuditChecklist),
-        fork(uploadChecklistRequest)
+        fork(uploadChecklistRequest),
+        fork(auditPublishChecklist)
     ]);
 }

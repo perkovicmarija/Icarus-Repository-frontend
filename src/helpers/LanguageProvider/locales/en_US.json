@@ -200,6 +200,7 @@
   "general.search.idTitle2": "Search by ID or title",
   "general.newRevision": "New revision",
   "general.import": "Import",
+  "general.publish": "Publish",
 
   "format.excel": "Excel",
   "format.pdf": "PDF",
@@ -236,6 +237,7 @@
   "qms.checklist": "Checklist",
   "qms.checklist.domain": "Domain",
   "qms.checklist.version": "Version",
+  "qms.checklist.publish": "Do you really want to publish this checklist? After you publish checklist ICARUS users will be able to download it.",
   "qms.checklist.effectiveDate": "Effective date",
   "qms.newChecklist": "Create new checklist",
   "qms.checklist.objectives": "Objectives",

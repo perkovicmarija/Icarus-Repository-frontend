@@ -21,7 +21,6 @@ import { auditChecklistSubAreaActions } from "../../../redux/auditChecklistSubAr
 import DialogDeleteWarning from "../../../components/core/Dialog/DialogDeleteWarning";
 import DialogFormSubAreaNew from "../../../components/auditSubArea/dialogs/DialogFormSubAreaNew";
 import ChecklistDnDTree from "../../../components/auditChecklist/dnd/ChecklistDnDTree";
-
 import DialogFormExportData from "../../../components/core/Dialog/DialogFormExportData";
 import DialogFormUploadCSVFile from "../../../components/core/Dialog/DialogFormUploadCSVFile";
 
@@ -82,6 +81,7 @@ const AuditChecklist = (props) => {
     const [dialogDeleteItemOpen, setDialogDeleteItemOpen] = useState(false);
     const [dialogExportOpen, setDialogExportOpen] = useState(false);
     const [dialogUploadCsv, setDialogUploadCsv] = useState(false);
+    const [dialogPublish, setDialogPublish] = useState(false);
 
     //Export
     const [radioValue, setRadioValue] = useState("pdf");
@@ -520,6 +520,23 @@ const AuditChecklist = (props) => {
         setRadioValue(event.target.value);
     };
 
+    const onPublishSelect = () => {
+        setDialogPublish(true);
+    };
+
+    const handleDialogPublishClose = () => {
+        setDialogPublish(false);
+    };
+
+    const handlePublish = () => {
+        let viewModel = {
+            id: props.match.params.id,
+            published: !checklistDnd.auditChecklist.published
+        };
+        dispatch(auditChecklistActions.publishChecklistRequest(viewModel));
+        setDialogPublish(false);
+    };
+
     const {
         clientName
     } = props;
@@ -534,6 +551,8 @@ const AuditChecklist = (props) => {
                     onExportSelect={handleExportClick}
                     showImport={true}
                     onImportSelect={handleUploadCSV}
+                    showPublish={checklistDnd.auditChecklist.published}
+                    onPublishSelect={onPublishSelect}
                 />
                 <Grid container spacing={2}>
                     <Grid item sm={2} xs={12} >
@@ -549,14 +568,24 @@ const AuditChecklist = (props) => {
                         <label className={classes.labelCustom}><IntlMessages id="qms.checklist.version" />:</label>
                         <label className={classes.labelCustomValue}>{checklistDnd.auditChecklist.version}</label>
                     </Grid>
-                    <Grid item sm={3} xs={12} >
+                    <Grid item sm={2} xs={12} >
                         <label className={classes.labelCustom}><IntlMessages id="qms.checklist.effectiveDate" />:</label>
                         <label className={classes.labelCustomValue}>{checklistDnd.auditChecklist.effectiveDate}</label>
                     </Grid>
-                    <Grid item sm={3} xs={12} >
+                    <Grid item sm={2} xs={12} >
                         <label className={classes.labelCustom}><IntlMessages id="qms.checklist.createdBy" />:</label>
                         <label className={classes.labelCustomValue}>{checklistDnd.auditChecklist.userCreated !== null ? checklistDnd.auditChecklist.userCreated.surname
                             + " " + checklistDnd.auditChecklist.userCreated.name : "-"}</label>
+                    </Grid>
+                    <Grid item sm={2} xs={12} >
+                        <label className={classes.labelCustom}><IntlMessages id="general.status" />:</label>
+                        {
+                            checklistDnd.auditChecklist.published ?
+                                <label className={classes.labelCustomValue}>PUBLISHED</label>
+                            :
+                                <label className={classes.labelCustomValue}>DRAFT</label>
+                        }
+
                     </Grid>
                 </Grid>
             </Paper>
@@ -682,6 +711,12 @@ const AuditChecklist = (props) => {
                     handleError={handleError}
                 />
             </DialogFormFrame>
+            <DialogDeleteWarning
+                onDelete={handlePublish}
+                text="qms.checklist.publish"
+                onClose={handleDialogPublishClose}
+                open={dialogPublish}
+            />
             <DialogDeleteWarning
                 onClose={handleDeleteSubareaClose}
                 onDelete={handleDeleteSubArea}

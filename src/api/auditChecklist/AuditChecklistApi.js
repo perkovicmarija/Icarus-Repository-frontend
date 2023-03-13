@@ -47,6 +47,9 @@ const AuditChecklistApi = {
     },
     uploadCSV(viewModel) {
         return RestApiPostMultipartAxios.postData(viewModel, '/audit-checklists/upload');
+    },
+    publish(viewModel) {
+        return RestApiPost.postData('/audit-checklists/' + viewModel.id + '/publish', null);
     }
 }
 
