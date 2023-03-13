@@ -36,6 +36,15 @@ const useStyles = makeStyles((theme) => ({
     labelCustomValue:{
         paddingLeft: '10px',
     },
+    labelCustomValuePublished: {
+        paddingLeft: '10px',
+        fontWeight: 'bold',
+        color: 'green'
+    },
+    labelCustomValueDraft: {
+        paddingLeft: '10px',
+        fontWeight: 'bold'
+    },
     rightIcon: {
         marginLeft: theme.spacing(1),
     },
@@ -581,9 +590,9 @@ const AuditChecklist = (props) => {
                         <label className={classes.labelCustom}><IntlMessages id="general.status" />:</label>
                         {
                             checklistDnd.auditChecklist.published ?
-                                <label className={classes.labelCustomValue}>PUBLISHED</label>
+                                <label className={classes.labelCustomValuePublished}>PUBLISHED</label>
                             :
-                                <label className={classes.labelCustomValue}>DRAFT</label>
+                                <label className={classes.labelCustomValueDraft}>DRAFT</label>
                         }
 
                     </Grid>
