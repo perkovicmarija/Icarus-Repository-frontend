@@ -40,6 +40,7 @@ const AuditChecklistApi = {
         return RestApiPut.putData('/audit-checklists/' + viewModel.auditChecklistId + '/dnd-tree-view', viewModel.data);
     },
     createPDF(viewModel) {
+        debugger;
         return RestApiPostDownloadAxios.postData(viewModel, '/audit-checklists/create-pdf');
     },
     createExcel(viewModel) {

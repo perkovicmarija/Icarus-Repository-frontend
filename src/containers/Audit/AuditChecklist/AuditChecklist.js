@@ -115,7 +115,7 @@ const AuditChecklist = (props) => {
             id: props.match.params.id
         }
         dispatch(auditChecklistActions.getAuditDndChecklistRequest(viewModel));
-    }, [dispatch]);
+    }, [dispatch, props.match.params.id]);
 
     useEffect(() => {
         setSelectedItem(checklistItem);
@@ -143,6 +143,8 @@ const AuditChecklist = (props) => {
         let dataViewModel = {
             auditChecklistId: props.match.params.id,
         }
+
+        debugger;
 
         const viewModel = {
             checklistData: {
@@ -512,6 +514,7 @@ const AuditChecklist = (props) => {
         let viewModel = cloneDeep(checklistDnd);
 
         if (radioValue === "pdf") {
+            debugger;
             dispatch(auditChecklistActions.downloadPDFRequest(viewModel));
         }
         else

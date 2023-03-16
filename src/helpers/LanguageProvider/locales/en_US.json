@@ -201,6 +201,8 @@
   "general.newRevision": "New revision",
   "general.import": "Import",
   "general.publish": "Publish",
+  "general.dragAndDropFile": "Drag 'n' drop file here, or click to select file.",
+  "general.dragAndDropFileMaxSize": "Max size: {maxSizeMb}",
 
   "format.excel": "Excel",
   "format.pdf": "PDF",
@@ -208,6 +210,7 @@
   "action.add": "Add",
   "action.close": "Close",
   "action.filter": "Filter",
+  "action.download": "Download",
 
 
   "support.title": "Support center",
@@ -263,6 +266,13 @@
   "qms.audit.checklist.auditorAction.4": "Auditor action 4",
   "qms.audit.checklist.auditorAction.5": "Auditor action 5",
   "qms.audit.checklist.auditorAction.6": "Auditor action 6",
-  "qms.audit.checklist.auditorAction.7": "Auditor action 7"
+  "qms.audit.checklist.auditorAction.7": "Auditor action 7",
 
+
+  "training.exam.questionBank.importQuestion.typeOfFileQuestion": "WHAT TYPE OF FILE TO UPLOAD",
+  "training.exam.questionBank.importQuestion.typeOfFile": "Excel file .xslx",
+  "training.exam.questionBank.importQuestion.fileContent": "CONTENT OF THE FILE",
+  "training.exam.questionBank.importQuestion.example": "EXAMPLE",
+  "qms.audits.checklist.import.fileContentExplanation": "The file needs to be have first row following columns: Section; Item; Guidance; Reg Ref;",
+  "training.exam.questionBank.importQuestion.exampleExplanation": "Check the example file in Support Center -> Icarus Docs"
 }
