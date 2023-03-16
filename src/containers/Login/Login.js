@@ -1,9 +1,7 @@
 import React, { useState, useEffect } from 'react';
-
 import { Redirect } from "react-router-dom";
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-
 import SnackbarSuccess from '../../components/core/Snackbar/SnackbarSuccess';
 import SnackbarFailed from '../../components/core/Snackbar/SnackbarFailed';
 import LoginForm from "./LoginForm";
@@ -12,10 +10,20 @@ import ForgotPwdDialogForm from './ForgotPwdDialogForm';
 import DialogFormFrame from '../../components/core/Dialog/DialogFormFrame';
 import authAction from '../../redux/auth/authActions';
 import { dashboard } from '../../consts/routePaths';
-import Image from '../../assets/img/datenn-c-white.png';
 import '../../assets/css/App.css';
+import {makeStyles} from "@mui/styles";
+import bgImage from "../../images/icarus_bg.jpg";
+
+const useStyles = makeStyles(() => ({
+    background: {
+        flex: 1,
+        background: `url(${bgImage}) repeat center center`,
+    },
+}));
 
 function Login(props) {
+
+    const classes = useStyles();
 
     const [showLogin, setShowLogin] = useState(true);
 
@@ -23,16 +31,15 @@ function Login(props) {
 
     const [userData, setUserData] = useState({});
 
-    const [forgotPasswordData, setForgotPasswordData] = useState({})
+    const [forgotPasswordData, setForgotPasswordData] = useState({});
 
-    const [signUpData, setSignUpData] = useState({})
+    const [signUpData, setSignUpData] = useState({});
+
+    const [showPassword, setShowPassword] = useState(false);
 
     useEffect(() => {
     }, []);
 
-    const [pageClassLogin, setPageClassLogin] = useState("PageSwitcher__Item PageSwitcher__Item--Active");
-
-    const [pageClassSignUp, setPageClassSignUp] = useState("PageSwitcher__Item");
 
     const  handleChangeUserData = (event) => {
         const {name, value} = event.target;
@@ -61,23 +68,6 @@ function Login(props) {
         props.authAction.signUp(signUpData);
     }
 
-    function handleSwitch(e) {
-        let name = e.target.name;
-        let value = true;
-        if (name === "signUp") {
-            value = false;
-            setPageClassLogin("PageSwitcher__Item");
-            setPageClassSignUp("PageSwitcher__Item PageSwitcher__Item--Active");
-
-        }
-        else {
-            setPageClassLogin("PageSwitcher__Item PageSwitcher__Item--Active");
-            setPageClassSignUp("PageSwitcher__Item");
-        }
-        setShowLogin(value);
-
-    }
-
     function handleForgotPasswordClick() {
         setOpenDialogForgotPwd(true);
     }
@@ -88,8 +78,11 @@ function Login(props) {
 
     function handleSubmitForgotPwd() {
         setOpenDialogForgotPwd(false);
-
         props.authAction.forgotUserPassword(forgotPasswordData);
+    }
+
+    function handleClickShowPassword() {
+        setShowPassword(!showPassword);
     }
 
     if (props.isLoggedIn) {
@@ -99,26 +92,16 @@ function Login(props) {
         <div className="App">
             <SnackbarSuccess/>
             <SnackbarFailed />
-            <div className="App__Aside verticalContainer">
-
-                <img alt="#" className="verticalItem" src={Image}/>
-
-            </div>
-            <div className="App__Form">
-
-                <div className="PageSwitcher">
-                    <a name="login" className={pageClassLogin} onClick={handleSwitch}>Login</a>
-                    <a name="signUp" className={pageClassSignUp}
-                       onClick={handleSwitch}>Sign up</a>
-                </div>
-
-
-                {showLogin ?
+            <div className={classes.background}>
+                {
+                    showLogin ?
                     <LoginForm
                         user={userData}
                         onInputChange={handleChangeUserData}
                         onSubmit={handleLogin}
                         onForgotPasswordClick={handleForgotPasswordClick}
+                        onClickShowPassword={handleClickShowPassword}
+                        showPassword={showPassword}
                     />
                     :
                     <SignUpForm
@@ -128,7 +111,6 @@ function Login(props) {
                     />
                 }
             </div>
-
             <DialogFormFrame
                 onClose={handleCloseDialogForgotPwd}
                 title="Forgot your password?"
@@ -140,7 +122,8 @@ function Login(props) {
                         onInputChange={handleChangeForgotPwdData}
                         onSubmit={handleSubmitForgotPwd}
                     />
-                } />
+                }
+            />
         </div>
     );
 }
