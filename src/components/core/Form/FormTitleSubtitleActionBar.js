@@ -70,23 +70,27 @@ const FormTitleSubtitleActionBar = (props) => {
 
                             {showEdit ?
                                 <Tooltip title="Edit">
+                                  <>
                                     <IconButton
-                                        className={classes.iconColor}
-                                        aria-label="Edit"
-                                        onClick={onEditSelect}
-                                        size="large">
-                                        <Edit/>
+                                      className={classes.iconColor}
+                                      aria-label="Edit"
+                                      onClick={onEditSelect}
+                                      size="large">
+                                      <Edit/>
                                     </IconButton>
+                                  </>
                                 </Tooltip> : null}
 
                             <Tooltip title="Delete">
+                              <>
                                 <IconButton
-                                    className={classes.iconColor}
-                                    aria-label="Delete"
-                                    onClick={onDeleteSelect}
-                                    size="large">
-                                    <Delete/>
+                                  className={classes.iconColor}
+                                  aria-label="Delete"
+                                  onClick={onDeleteSelect}
+                                  size="large">
+                                  <Delete/>
                                 </IconButton>
+                              </>
                             </Tooltip>
                         </div>
                     :

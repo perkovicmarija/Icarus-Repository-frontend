@@ -27,7 +27,7 @@ export default function ({open}) {
             {open
                 ?
                 <Link to={dashboard}>
-                    <img className={classes.imgFull} src={banner}/>
+                    <img alt="" className={classes.imgFull} src={banner}/>
                 </Link>
                 :
                 <div>

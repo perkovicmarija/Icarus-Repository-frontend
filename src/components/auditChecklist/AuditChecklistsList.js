@@ -133,36 +133,44 @@ const AuditChecklistsList = (props) => {
                                 {Protected.protectedAuth(['PERM_AUDIT_CRUD']) ?
                                     <TableCell className="nostretch">
                                         <Tooltip title={<IntlMessages id="general.edit"/>}>
-                                            <div className="d-inline">
-                                                <IconButton aria-label="Edit"
-                                                            onClick={(event) => handleChecklistEdit(event, item)}>
-                                                    <Edit/>
-                                                </IconButton>
-                                            </div>
+                                            <>
+                                                <div className="d-inline">
+                                                    <IconButton aria-label="Edit"
+                                                                onClick={(event) => handleChecklistEdit(event, item)}>
+                                                        <Edit/>
+                                                    </IconButton>
+                                                </div>
+                                            </>
                                         </Tooltip>
                                         <Tooltip title={<IntlMessages id="general.newRevision"/>}>
-                                            <div className="d-inline">
-                                                <IconButton aria-label="New version"
-                                                            onClick={(event) => handleChecklistNewVersion(event, item)}>
-                                                    <Add/>
-                                                </IconButton>
-                                            </div>
+                                            <>
+                                                <div className="d-inline">
+                                                    <IconButton aria-label="New version"
+                                                                onClick={(event) => handleChecklistNewVersion(event, item)}>
+                                                        <Add/>
+                                                    </IconButton>
+                                                </div>
+                                            </>
                                         </Tooltip>
                                         <Tooltip title={<IntlMessages id="general.revisions"/>}>
-                                            <div className="d-inline">
-                                                <IconButton aria-label="Revisions"
-                                                            onClick={(event) => handleChecklistRevisions(event, item)}>
-                                                    <List/>
-                                                </IconButton>
-                                            </div>
+                                            <>
+                                                <div className="d-inline">
+                                                    <IconButton aria-label="Revisions"
+                                                                onClick={(event) => handleChecklistRevisions(event, item)}>
+                                                        <List/>
+                                                    </IconButton>
+                                                </div>
+                                            </>
                                         </Tooltip>
                                         <Tooltip title={<IntlMessages id="general.delete"/>}>
-                                            <div className="d-inline">
-                                                <IconButton aria-label="Delete"
-                                                            onClick={(event) => handleChecklistDelete(event, item)}>
-                                                    <Delete/>
-                                                </IconButton>
-                                            </div>
+                                            <>
+                                                <div className="d-inline">
+                                                    <IconButton aria-label="Delete"
+                                                                onClick={(event) => handleChecklistDelete(event, item)}>
+                                                        <Delete/>
+                                                    </IconButton>
+                                                </div>
+                                            </>
                                         </Tooltip>
                                     </TableCell> : null}
                             </TableRow>

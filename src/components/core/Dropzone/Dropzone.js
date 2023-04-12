@@ -93,19 +93,23 @@ function Dropzone(props) {
                                 <ListItemSecondaryAction>
                                     {showDownload &&
                                     <Tooltip title={<IntlMessages id="general.download"/>}>
+                                        <>
                                         <span>
                                             <IconButton edge="end" aria-label="download" disabled={!disabled} onClick={event => onDownload(file, index)}>
                                                 <VerticalAlignBottom />
                                             </IconButton>
                                         </span>
+                                        </>
                                     </Tooltip>
                                     }
                                     <Tooltip title={<IntlMessages id="general.delete"/>}>
+                                        <>
                                         <span>
                                             <IconButton edge="end" aria-label="delete" disabled={disabled} onClick={event => onDelete(file, index)}>
                                                 <Delete />
                                             </IconButton>
                                         </span>
+                                        </>
                                     </Tooltip>
                                 </ListItemSecondaryAction>
                             </ListItem>

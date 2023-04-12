@@ -48,7 +48,7 @@ class DialogFormAttachFile extends Component {
 
     render() {
         const {onClose, classes, onValidationError} = this.props;
-        const {file, attachment} = this.state;
+        const { attachment} = this.state;
         return (
             <div>
                 <ValidatorForm

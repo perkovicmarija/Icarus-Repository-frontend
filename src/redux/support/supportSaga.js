@@ -1,5 +1,4 @@
 import { all, take, takeLatest, put, call, fork } from 'redux-saga/effects';
-import { push } from 'connected-react-router';
 import * as types from '../actionTypes';
 import SupportCenterApi from '../../api/SupportCenterApi';
 
@@ -104,7 +103,6 @@ export function* getAllModulesRequest() {
             const response = yield call(SupportCenterApi.getAllModules, action.viewModel);
             if (response.code === "200") {
                 const data = response.data;
-                const meta = response.meta;
                 yield put({
                     type: types.LOAD_SUPPORT_CENTER_MODULES_SUCCESS,
                     modules: data,
@@ -127,7 +125,6 @@ export function* getAllLevelsRequest() {
             const response = yield call(SupportCenterApi.getAllLevels, action.viewModel);
             if (response.code === "200") {
                 const data = response.data;
-                const meta = response.meta;
                 yield put({
                     type: types.LOAD_SUPPORT_CENTER_LEVELS_SUCCESS,
                     levels: data,
@@ -150,7 +147,6 @@ export function* getAllStatusesRequest() {
             const response = yield call(SupportCenterApi.getAllStatuses, action.viewModel);
             if (response.code === "200") {
                 const data = response.data;
-                const meta = response.meta;
                 yield put({
                     type: types.LOAD_SUPPORT_CENTER_STATUSES_SUCCESS,
                     statuses: data,

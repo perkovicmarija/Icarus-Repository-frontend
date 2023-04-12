@@ -105,20 +105,24 @@ function DropzoneCustom(props) {
                                 <ListItemSecondaryAction>
                                     {showDownload &&
                                     <Tooltip title={<IntlMessages id="general.download"/>}>
+                                        <>
                                         <span>
                                             <IconButton edge="end" aria-label="download" disabled={!disabled} onClick={() => onDownload(file, index)}>
                                                 <VerticalAlignBottom />
                                             </IconButton>
                                         </span>
+                                        </>
                                     </Tooltip>
                                     }
                                     {showDelete &&
                                     <Tooltip title={<IntlMessages id="general.delete"/>}>
+                                        <>
                                         <span>
                                             <IconButton edge="end" aria-label="delete" disabled={disabled} onClick={() => onDelete(file, index)}>
                                                 <DeleteIcon />
                                             </IconButton>
                                         </span>
+                                        </>
                                     </Tooltip>
                                     }
                                 </ListItemSecondaryAction>

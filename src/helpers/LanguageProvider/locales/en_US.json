@@ -17,6 +17,7 @@
   "general.address": "Address",
   "general.customized": "Customized",
   "general.module": "Module",
+  "general.level": "Level",
   "general.overdue": "Overdue",
   "general.onTime": "On time",
   "general.none": "None",
@@ -203,9 +204,26 @@
   "general.publish": "Publish",
   "general.dragAndDropFile": "Drag 'n' drop file here, or click to select file.",
   "general.dragAndDropFileMaxSize": "Max size: {maxSizeMb}",
+  "general.userManagement": "User management",
 
-  "user.username": "Username",
-  "user.password": "Password",
+  "form.user": "User",
+  "form.users": "Users",
+  "form.username": "Username",
+  "form.password": "Password",
+  "form.name": "Name",
+  "form.surname": "Surname",
+  "form.newPassword": "New password",
+  "form.generatePassword": "Generate password",
+  "form.email": "Email",
+  "form.phone1": "Phone 1",
+  "form.phone2": "Phone 2",
+  "form.userGroups": "User groups",
+  "form.roles": "Roles",
+  "form.userRoles": "User roles",
+  "form.writeDescription": "Write a description",
+
+
+  "search.byEmail": "Search by email",
 
   "page.signInButton": "Sign in",
 
@@ -226,6 +244,7 @@
   "support.module": "Module",
   "support.severity": "Severity",
   "support.item": "Request",
+  "support.bug": "Bug",
 
   "user.showDeactivated": "Show deactivated",
 

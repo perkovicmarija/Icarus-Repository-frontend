@@ -1,4 +1,3 @@
-import {createStore, applyMiddleware, compose} from 'redux';
 import { createHashHistory } from 'history/';
 import { routerMiddleware} from 'connected-react-router';
 import createSagaMiddleware from 'redux-saga';

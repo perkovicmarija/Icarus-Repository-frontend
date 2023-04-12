@@ -31,11 +31,11 @@ function DialogFormComment(props) {
                             <TextFieldValidation
                                 disabled={false}
                                 id="title"
-                                label=""
+                                label="general.title"
                                 name="title"
                                 value={item.title}
                                 onInputChange={onInputChange}
-                                placeholder="Title"
+                                placeholder="general.title"
                                 type="text"/>
                         </Grid>
 
@@ -46,12 +46,12 @@ function DialogFormComment(props) {
                             <TextFieldValidation
                                 disabled={false}
                                 id="description"
-                                label="Description"
+                                label="general.description"
                                 name="description"
                                 value={item.description}
                                 onInputChange={onInputChange}
                                 rows="5"
-                                placeholder="Write a description..."
+                                placeholder="form.writeDescription"
                                 type="text"/>
                         </Grid>
                     </Grid>

@@ -142,11 +142,13 @@ function SupportCenterList(props) {
                 title="support.bug.list">
                 {Protected.protectedAuth(['PERM_SUPPORT_BASIC', 'PERM_SUPPORT_CRUD', 'PERM_SUPPORT_ADMIN']) &&
                     <Tooltip title={<IntlMessages id="general.addNew" />}>
-                        <IconButton aria-label="Add new"
-                                    aria-haspopup="true"
-                                    onClick={onSupportItemNewClick}>
-                            <NoteAdd />
-                        </IconButton>
+                        <>
+                            <IconButton aria-label="Add new"
+                                        aria-haspopup="true"
+                                        onClick={onSupportItemNewClick}>
+                                <NoteAdd />
+                            </IconButton>
+                        </>
                     </Tooltip>
                 }
                 <FilterIconCustom onFilterClick={onSupportFilterClick} filtersActive={filtersActive} />
@@ -186,8 +188,8 @@ function SupportCenterList(props) {
                             count={totalCount}
                             rowsPerPage={rowsPerPage}
                             page={page}
-                            onChangePage={onChangePage}
-                            onChangeRowsPerPage={onChangeRowsPerPage}
+                            onPageChange={onChangePage}
+                            onRowsPerPageChange={onChangeRowsPerPage}
                             ActionsComponent={TablePaginationAction}
                         />
                     </TableRow>

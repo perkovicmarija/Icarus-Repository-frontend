@@ -8,6 +8,7 @@ import TabContainer from '../../components/core/TabContainer';
 import UserRouter from './UserRouter';
 import FormTitleBarRich from '../../components/core/Form/FormTitleBarRich';
 import { getUsersPath, getUserGroupsPath, getUserRolesPath } from "../../consts/routePaths";
+import IntlMessages from "../../components/core/IntlMessages";
 
 const useStyles = makeStyles(theme => ({
     root: {
@@ -33,7 +34,7 @@ function UserRoleFrame(props) {
     return (
         <div className={classes.root}>
             <Paper>
-                <FormTitleBarRich title="User management" />
+                <FormTitleBarRich title="general.userManagement" />
                 <AppBar position="static" color="default">
                     <Tabs
                         value={tabSelected}
@@ -41,11 +42,11 @@ function UserRoleFrame(props) {
                         variant="fullWidth"
                         indicatorColor="secondary">
 
-                        <Tab label="Users" className={classes.tabLink} component={Link}
+                        <Tab label={<IntlMessages id="form.users" />} className={classes.tabLink} component={Link}
                              to={getUsersPath(0, 25)}/>
-                        <Tab label="User groups" className={classes.tabLink} component={Link}
+                        <Tab label={<IntlMessages id="form.userGroups" />} className={classes.tabLink} component={Link}
                              to={getUserGroupsPath(0, 25)}/>
-                        <Tab label="Roles" className={classes.tabLink} component={Link}
+                        <Tab label={<IntlMessages id="form.roles" />} className={classes.tabLink} component={Link}
                              to={getUserRolesPath(0, 25)}/>
                     </Tabs>
                 </AppBar>

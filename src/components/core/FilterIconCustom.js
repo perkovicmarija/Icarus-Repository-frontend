@@ -14,9 +14,11 @@ function FilterIconCustom(props) {
     return (
         <ThemeProvider theme={theme}>
             <Tooltip title="Filters">
+              <>
                 <IconButton aria-label="filter-list" onClick={onFilterClick}>
-                    <FilterList color={filtersActive ? "primary" : undefined}/>
+                  <FilterList color={filtersActive ? "primary" : undefined}/>
                 </IconButton>
+              </>
             </Tooltip>
         </ThemeProvider>
     );

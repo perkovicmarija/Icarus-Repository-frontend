@@ -32,10 +32,8 @@ const ChecklistItemCreateForm = (props) => {
     const {
         editDisabled,
         item,
-        clientName,
         onInputChange,
         handleItemSave,
-        handleCancel,
         handleDelete,
         handleEdit,
         handleError

@@ -70,32 +70,40 @@ const FormTitleSubtitleBar = (props) => {
                 {
                     showPublish ?
                         <Tooltip title={<IntlMessages id="general.publish"/>}>
-                            <IconButton className={classes.iconColor} aria-label="Publish form" onClick={onPublishSelect}>
-                                <UnpublishedIcon />
-                            </IconButton>
+                            <>
+                                <IconButton className={classes.iconColor} aria-label="Publish form" onClick={onPublishSelect}>
+                                    <UnpublishedIcon />
+                                </IconButton>
+                            </>
                         </Tooltip>
                     :
                         <Tooltip title={<IntlMessages id="general.publish"/>}>
-                            <IconButton className={classes.iconColor} aria-label="Publish form" onClick={onPublishSelect}>
-                                <PublishedWithChangesIcon />
-                            </IconButton>
+                            <>
+                                <IconButton className={classes.iconColor} aria-label="Publish form" onClick={onPublishSelect}>
+                                    <PublishedWithChangesIcon />
+                                </IconButton>
+                            </>
                         </Tooltip>
 
                 }
                 {
                     showImport &&
                     <Tooltip title={<IntlMessages id="general.import" />}>
-                        <IconButton className={classes.iconColor} aria-label="Import form" onClick={onImportSelect}>
-                            <CloudUpload/>
-                        </IconButton>
+                        <>
+                            <IconButton className={classes.iconColor} aria-label="Import form" onClick={onImportSelect}>
+                                <CloudUpload/>
+                            </IconButton>
+                        </>
                     </Tooltip>
                 }
                 {
                     showExport &&
                     <Tooltip title={<IntlMessages id="general.export" />}>
-                        <IconButton className={classes.iconColor} aria-label="Edit form" onClick={onExportSelect}>
-                            <Print/>
-                        </IconButton>
+                        <>
+                            <IconButton className={classes.iconColor} aria-label="Edit form" onClick={onExportSelect}>
+                                <Print/>
+                            </IconButton>
+                        </>
                     </Tooltip>
                 }
             </div>

@@ -36,7 +36,7 @@ function EnhancedTableHeaderActions(props) {
                         <TableCell
                             key={column.id}
                             align={column.numeric ? 'right' : 'left'}
-                            padding={column.disablePadding ? 'none' : 'default'}
+                            padding={column.disablePadding ? 'none' : 'normal'}
                             sortDirection={sortBy === column.id ? sortDirection : false}
                         >
                             {column.sortable ?
@@ -45,13 +45,15 @@ function EnhancedTableHeaderActions(props) {
                                     placement={column.numeric ? 'bottom-end' : 'bottom-start'}
                                     enterDelay={300}
                                 >
-                                    <TableSortLabel
-                                        active={sortBy === column.id}
-                                        direction={sortDirection}
-                                        onClick={createSortHandler(column.id)}
-                                    >
-                                        <IntlMessages id={column.label} />
-                                    </TableSortLabel>
+                                    <>
+                                        <TableSortLabel
+                                          active={sortBy === column.id}
+                                          direction={sortDirection}
+                                          onClick={createSortHandler(column.id)}
+                                        >
+                                            <IntlMessages id={column.label} />
+                                        </TableSortLabel>
+                                    </>
                                 </Tooltip> :
                                 <IntlMessages id={column.label} />
                             }
@@ -61,7 +63,7 @@ function EnhancedTableHeaderActions(props) {
                 <TableCell
                     classes={{root: classes.thActions}}
                     key="Actions"
-                    padding="default"
+                    padding="normal"
                 >
                     <IntlMessages id="general.actions"/>
                 </TableCell>

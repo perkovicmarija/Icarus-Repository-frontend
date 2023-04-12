@@ -1,4 +1,4 @@
-import { all, takeEvery, takeLatest, put, call, fork } from 'redux-saga/effects';
+import { all, takeLatest, put, call, fork } from 'redux-saga/effects';
 import * as types from '../actionTypes';
 import AuthorityApi from '../../api/AuthorityApi';
 

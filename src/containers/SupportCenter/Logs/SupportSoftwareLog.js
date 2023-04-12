@@ -34,9 +34,10 @@ function SupportSoftwareLog(props) {
         setDialogNewLog(false);
     };
 
-    const handleInputChange = (name, event) => {
+    const handleInputChange = (event) => {
+        const { name, value } = event.target
         let itemClone = cloneDeep(item);
-        itemClone[name] = event.target.value;
+        itemClone[name] = value;
         setItem(itemClone);
     };
 
@@ -54,9 +55,11 @@ function SupportSoftwareLog(props) {
             <EnhancedTableToolbarRich title="support.bug.list">
             {Protected.protectedAuth(['PERM_SUPPORT_ADMIN']) ?
                 <Tooltip title="Settings">
-                    <IconButton className={classes.iconColor} aria-label="Add" onClick={handleDialogLogOpen}>
-                        <AddComment/>
-                    </IconButton>
+                    <>
+                        <IconButton className={classes.iconColor} aria-label="Add" onClick={handleDialogLogOpen}>
+                            <AddComment/>
+                        </IconButton>
+                    </>
                 </Tooltip>
                 : null}
             </EnhancedTableToolbarRich>

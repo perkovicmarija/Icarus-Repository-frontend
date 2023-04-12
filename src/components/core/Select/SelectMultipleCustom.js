@@ -33,7 +33,7 @@ const MenuProps = {
 };
 
 function SelectMultipleCustom(props) {
-    const classes = useStyles();
+    // const classes = useStyles();
 
     const checkInArray = id => {
         for (let i = 0, l = props.selectArray.length; i < l; i++) {

@@ -10,7 +10,7 @@ export function* usersRequest() {
             const response = yield call(UserApi.getAll, action.viewModel);
             if (response.code === "200") {
                 const data = response.data;
-                const meta = response.meta;
+                // const meta = response.meta;
                 yield put({
                     type: types.LOAD_USERS_SUCCESS,
                     users: data
@@ -32,7 +32,7 @@ export function* usersSimpleRequest() {
             const response = yield call(UserApi.getAllSimple, action.viewModel);
             if (response.code === "200") {
                 const data = response.data;
-                const meta = response.meta;
+                // const meta = response.meta;
                 yield put({
                     type: types.LOAD_USERS_SIMPLE_SUCCESS,
                     usersSimple: data
@@ -180,7 +180,7 @@ export function* deleteRequest() {
         try {
             const response = yield call(UserApi.delete, action.viewModel);
             if (response.code === "200") {
-                const data = response.data;
+                // const data = response.data;
                 yield put(push(getUsersPath(0, 25)));
                 yield put({
                     type: types.DELETE_USER_SUCCESS,

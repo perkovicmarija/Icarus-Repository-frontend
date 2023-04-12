@@ -29,7 +29,7 @@ const useStyles = makeStyles(theme => ({
 
 function Dashboard(props) {
     const classes = useStyles();
-    const theme = useTheme();
+    // const theme = useTheme();
     const [open, setOpen] = useState(true);
     const [drawerWidth, setDrawerWidth] = useState(240);
     const size = useWindowSize();

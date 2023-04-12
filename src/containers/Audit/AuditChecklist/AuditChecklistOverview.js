@@ -375,7 +375,7 @@ const AuditChecklistOverview = (props) => {
                 <DialogFormRevisions
                     onClose={handleDialogRevisionsClose}
                     handleViewChecklist={onChecklistRevisionView}
-                    revisions={checklist.checklistRevisions}
+                    revisions={checklist.checklistRevisions ? checklist.checklistRevisions : []}
                 />
             </DialogFormFrame>
             <DialogDeleteWarning
