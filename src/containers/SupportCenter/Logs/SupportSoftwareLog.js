@@ -23,22 +23,39 @@ function SupportSoftwareLog(props) {
     const classes = useStyles();
 
     const [dialogNewLog, setDialogNewLog] = useState(false);
-    const [item, setItem] = useState({});
+    const [softwareLog, setSoftwareLog] = useState({
+        title: "",
+        description: "",
+        selectedClients: []
+    });
 
+    const clients = [{name: "IQ", companyId: 1}, {name: "Elite Jet", companyId: 2}, {name: "Trade Air", companyId: 3}]
+
+    // After API call fetches the clients list.
     useEffect(() => {
         props.supportActions.loadAllSoftwareLogs();
     }, []);
 
     const handleAddLog = () => {
-        props.supportActions.createSoftwareLog(item);
+        props.supportActions.createSoftwareLog(softwareLog);
         setDialogNewLog(false);
     };
 
     const handleInputChange = (event) => {
         const { name, value } = event.target
-        let itemClone = cloneDeep(item);
-        itemClone[name] = value;
-        setItem(itemClone);
+        let softwareLogClone = cloneDeep(softwareLog);
+        softwareLogClone[name] = value;
+        setSoftwareLog(x => ({
+            ...x, title: softwareLogClone.title, description: softwareLogClone.description
+        }));
+    };
+
+    const handleMultipleSelectChange = (event) => {
+        const selectedIds = event.target.value;
+        const selectedClients = clients.filter(client => selectedIds.includes(client.companyId));
+        setSoftwareLog(x => ({
+            ...x, selectedClients
+        }))
     };
 
     const handleDialogLogOpen = () => {
@@ -76,7 +93,11 @@ function SupportSoftwareLog(props) {
                     onClose={handleDialogLogClose}
                     onSubmit={handleAddLog}
                     onInputChange={handleInputChange}
-                    item={item}/>
+                    onMultiSelectChange={handleMultipleSelectChange}
+                    selectedClients={softwareLog.selectedClients}
+                    softwareLog={softwareLog}
+                    clients={clients}
+                />
             </DialogFormFrame>
         </Paper>
     );
