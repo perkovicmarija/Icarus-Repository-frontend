@@ -3,7 +3,7 @@ import {Route, Redirect} from 'react-router-dom';
 import {ConnectedRouter} from 'connected-react-router';
 import {connect} from 'react-redux';
 
-import Admin from './containers/Admin/Admin';
+import Dashboard from './containers/Admin/Admin';
 import FourZeroFour from './containers/404/404';
 import Login from './containers/Login/Login';
 import ConfirmationSignUp from './containers/Login/ConfirmSignUp';
@@ -48,7 +48,7 @@ const PublicRoutes = ({history, isLoggedIn}) => {
                 />
                 <RestrictedRoute
                     path={adminRoot}
-                    component={Admin}
+                    component={Dashboard}
                     isLoggedIn={isLoggedIn}
                 />
             </div>

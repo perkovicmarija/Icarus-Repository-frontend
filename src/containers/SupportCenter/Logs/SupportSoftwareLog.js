@@ -71,7 +71,7 @@ function SupportSoftwareLog(props) {
         <Paper>
             <EnhancedTableToolbarRich title="support.bug.list">
             {Protected.protectedAuth(['PERM_SUPPORT_ADMIN']) ?
-                <Tooltip title="Settings">
+                <Tooltip title="ClientList">
                     <>
                         <IconButton className={classes.iconColor} aria-label="Add" onClick={handleDialogLogOpen}>
                             <AddComment/>

@@ -65,6 +65,7 @@ function Dashboard(props) {
     const currentAppLocale = AppLocale[props.locale];
 
     const {...rest} = props;
+
     return (
         <IntlProvider
             locale={currentAppLocale.locale}

@@ -10,17 +10,19 @@ import SubmenuComp1 from '../SubmenuComp/SubmenuComp1';
 import SubmenuComp2 from '../SubmenuComp/SubmenuComp2';
 import UserRoleFrame from '../Users/UserRoleFrame';
 import SupportCenterFrame from '../SupportCenter/SupportCenterFrame';
+import Clients from "../Setting/ClientsList"
 import {
-    root,
-    dashboard,
-    supportCenter,
-    userModule,
-    user,
-    supportBug,
-    submenu1,
-    submenu2,
-    auditChecklistOverview,
-    auditChecklist
+  root,
+  dashboard,
+  supportCenter,
+  userModule,
+  user,
+  supportBug,
+  submenu1,
+  submenu2,
+  auditChecklistOverview,
+  auditChecklist,
+  clientsListPath
 } from '../../consts/routePaths';
 import AuditChecklistOverview from "../Audit/AuditChecklist/AuditChecklistOverview";
 import AuditChecklist from "../Audit/AuditChecklist/AuditChecklist";
@@ -71,6 +73,12 @@ const AdminRouter = () => {
             path={user}
             component={User}
             key="user-module"
+        />
+        <ProtectedRoute
+            protectedAuthorities={['PERM_SUPPORT_BASIC', 'PERM_SUPPORT_CRUD', 'PERM_SUPPORT_ADMIN']}
+            path={clientsListPath}
+            component={Clients}
+            key="clients-list"
         />
         {
             /**

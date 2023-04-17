@@ -51,3 +51,6 @@ export const supportLogs = supportCenter + "/logs";
 export const auditChecklistOverview = adminRoot + "/audit-checklists";
 
 export const auditChecklist = adminRoot + "/audit-checklists/:id"
+
+// SETTINGS
+export const clientsListPath = adminRoot + "/setting/clients"

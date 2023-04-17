@@ -1,9 +1,11 @@
 import { SupportAgent, Group, MenuBook } from '@mui/icons-material';
+import SettingsIcon from '@mui/icons-material/Settings';
 
 import {
     supportLogs,
     getUsersPath,
-    auditChecklistOverview
+    auditChecklistOverview,
+    clientsListPath
 } from '../../consts/routePaths';
 
 const sidebarRoutes = [
@@ -29,6 +31,20 @@ const sidebarRoutes = [
         key: "support-center",
         sidebar: true,
         permissions: ['PERM_SUPPORT_BASIC', 'PERM_SUPPORT_CRUD', 'PERM_SUPPORT_ADMIN'],
+    },
+    {
+        name: "Settings",
+        icon: SettingsIcon,
+        key: "setting-module",
+        sidebar: true,
+        permissions: ['PERM_SUPPORT_BASIC', 'PERM_SUPPORT_CRUD', 'PERM_SUPPORT_ADMIN'],
+        children: [{
+            path: clientsListPath,
+            name: "Clients",
+            key: "clients-list",
+            sidebar: true,
+            permissions: ['PERM_SUPPORT_BASIC', 'PERM_SUPPORT_CRUD', 'PERM_SUPPORT_ADMIN'],
+        }]
     },
 ];
 

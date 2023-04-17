@@ -221,9 +221,11 @@
   "form.roles": "Roles",
   "form.userRoles": "User roles",
   "form.writeDescription": "Write a description",
+  "form.clients": "Clients",
 
 
   "search.byEmail": "Search by email",
+  "search.byName": "Search by name",
 
   "page.signInButton": "Sign in",
 

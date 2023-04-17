@@ -8,6 +8,7 @@ import authoritySagas from './authority/authoritySaga';
 import auditChecklistSaga from './auditChecklist/auditChecklistSaga';
 import auditChecklistItemSaga from "./auditChecklistItem/auditChecklistItemSaga";
 import auditChecklistSubAreaSaga from "./auditChecklistSubArea/AuditChecklistSubAreaSaga";
+import settingSagas from "./setting/settingSaga"
 
 export default function* rootSaga(getState) {
     yield all([
@@ -19,6 +20,7 @@ export default function* rootSaga(getState) {
         authoritySagas(),
         auditChecklistSaga(),
         auditChecklistItemSaga(),
-        auditChecklistSubAreaSaga()
+        auditChecklistSubAreaSaga(),
+        settingSagas()
     ]);
 }
