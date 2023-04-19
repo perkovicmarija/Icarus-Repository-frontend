@@ -5,7 +5,7 @@ import {
     supportLogs,
     getUsersPath,
     auditChecklistOverview,
-    clientsListPath
+    settingModule, clients, getClientsPath
 } from '../../consts/routePaths';
 
 const sidebarRoutes = [
@@ -39,7 +39,7 @@ const sidebarRoutes = [
         sidebar: true,
         permissions: ['PERM_SUPPORT_BASIC', 'PERM_SUPPORT_CRUD', 'PERM_SUPPORT_ADMIN'],
         children: [{
-            path: clientsListPath,
+            path: getClientsPath(0, 25),
             name: "Clients",
             key: "clients-list",
             sidebar: true,

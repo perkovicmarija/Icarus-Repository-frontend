@@ -1,11 +1,12 @@
 import React from 'react';
 
-import {IconButton, Table, TableBody, TableCell, TableRow, Tooltip} from "@mui/material";
+import {IconButton, Table, TableBody, TableCell, TableFooter, TablePagination, TableRow, Tooltip} from "@mui/material";
 import IntlMessages from "../../../components/core/IntlMessages";
 import {Delete, Edit, NoteAdd} from "@mui/icons-material";
 import EnhancedTableToolbarRich from "../../../components/core/Table/EnhancedTableToolbarRich";
 import {makeStyles} from "@mui/styles";
 import EnhancedTableHeaderActions from "../../../components/core/Table/EnhancedTableHeaderActions";
+import TablePaginationAction from "../../../components/core/Table/TablePaginationAction";
 
 const useStyles = makeStyles(theme => ({
   tableRow: {
@@ -20,7 +21,7 @@ const columnData = [
 const ClientList = (props) => {
   const classes = useStyles();
 
-  const { clients, searchValue, onInputSearchChange, onSearchSubmit, onNewClientClick, onClientEdit, onClientDelete } = props
+  const { clients, searchValue, onInputSearchChange, onSearchSubmit, onNewClientClick, onClientEdit, onClientDelete, page, rowsPerPage, totalCount, onChangePage, onChangeRowsPerPage } = props
 
   return (
     <div>
@@ -84,6 +85,19 @@ const ClientList = (props) => {
             );
           })}
         </TableBody>
+        <TableFooter>
+          <TableRow>
+            <TablePagination
+              colSpan={columnData.length + 1}
+              count={totalCount}
+              rowsPerPage={rowsPerPage}
+              page={page}
+              onPageChange={onChangePage}
+              onRowsPerPageChange={onChangeRowsPerPage}
+              ActionsComponent={TablePaginationAction}
+            />
+          </TableRow>
+        </TableFooter>
       </Table>
     </div>
   );

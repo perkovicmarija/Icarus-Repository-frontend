@@ -53,4 +53,8 @@ export const auditChecklistOverview = adminRoot + "/audit-checklists";
 export const auditChecklist = adminRoot + "/audit-checklists/:id"
 
 // SETTINGS
-export const clientsListPath = adminRoot + "/setting/clients"
+export const settingModule = adminRoot + "/settings";
+export const clients = settingModule + "/clients/:page?/:rowsPerPage?";
+export const getClientsPath = (page, rowsPerPage) => {
+    return clients.replace(":page?", page).replace(":rowsPerPage?", rowsPerPage);
+}

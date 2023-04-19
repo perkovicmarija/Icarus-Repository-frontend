@@ -8,6 +8,7 @@ import DialogFormFrame from "../../../components/core/Dialog/DialogFormFrame";
 import DialogFormClient from "../../../components/setting/DialogFormClient";
 import {cloneDeep} from "lodash";
 import DialogDeleteWarning from "../../../components/core/Dialog/DialogDeleteWarning";
+import {getClientsPath, getUserRolesPath} from "../../../consts/routePaths";
 
 function Clients(props) {
 
@@ -113,6 +114,14 @@ function Clients(props) {
     props.clientActions.loadAllClientsPagination(viewModel);
   }
 
+  const handleChangePage = (event, page) => {
+    props.history.push(getClientsPath(page, props.rowsPerPage));
+  };
+
+  const handleChangeRowsPerPage = event => {
+    props.history.push(getClientsPath(props.page, event.target.value));
+  };
+
   const {
     clients,
     totalCount,
@@ -136,6 +145,8 @@ function Clients(props) {
         filtersActive={filtersActive}
         page={page}
         rowsPerPage={rowsPerPage}
+        onChangePage={handleChangePage}
+        onChangeRowsPerPage={handleChangeRowsPerPage}
       />
       <DialogFormFrame
         onClose={handleClientDialogDetailsClose}
