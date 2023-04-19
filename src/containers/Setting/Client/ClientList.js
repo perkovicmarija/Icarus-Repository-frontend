@@ -1,18 +1,11 @@
-import React, {useEffect} from 'react';
+import React from 'react';
 
-// import ClientList from "../../components/setting/ClientList"
-import {bindActionCreators} from "redux";
-import * as settingActions from "../../redux/setting/settingActions";
-import {connect} from "react-redux";
-import {withRouter} from "react-router-dom";
-import {IconButton, Table, TableBody, TableCell, TableFooter, TablePagination, TableRow, Tooltip} from "@mui/material";
-import IntlMessages from "../../components/core/IntlMessages";
+import {IconButton, Table, TableBody, TableCell, TableRow, Tooltip} from "@mui/material";
+import IntlMessages from "../../../components/core/IntlMessages";
 import {Delete, Edit, NoteAdd} from "@mui/icons-material";
-import EnhancedTableToolbarRich from "../../components/core/Table/EnhancedTableToolbarRich";
-import FilterIconCustom from "../../components/core/FilterIconCustom";
+import EnhancedTableToolbarRich from "../../../components/core/Table/EnhancedTableToolbarRich";
 import {makeStyles} from "@mui/styles";
-import EnhancedTableHeaderActions from "../../components/core/Table/EnhancedTableHeaderActions";
-import TablePaginationAction from "../../components/core/Table/TablePaginationAction";
+import EnhancedTableHeaderActions from "../../../components/core/Table/EnhancedTableHeaderActions";
 
 const useStyles = makeStyles(theme => ({
   tableRow: {
@@ -24,26 +17,26 @@ const columnData = [
   { id: 'name', numeric: false, disablePadding: false, label: 'general.name' },
 ];
 
-const ClientsList = (props) => {
+const ClientList = (props) => {
   const classes = useStyles();
 
-  const { clients } = props
-
-  useEffect(() => {
-    props.settingActions.loadAllClients()
-  },[])
+  const { clients, searchValue, onInputSearchChange, onSearchSubmit, onNewClientClick } = props
 
   return (
     <div>
       <EnhancedTableToolbarRich
         title="form.clients"
         showSearch
+        searchValue={searchValue}
+        onInputSearchChange={onInputSearchChange}
+        onSearchSubmit={onSearchSubmit}
         searchPlaceholder="search.byName"
       >
         <Tooltip title={<IntlMessages id="general.addNew" />}>
           <>
             <IconButton aria-label="Add new"
-                        aria-haspopup="true">
+                        aria-haspopup="true"
+                        onClick={onNewClientClick}>
               <NoteAdd />
             </IconButton>
           </>
@@ -88,34 +81,13 @@ const ClientsList = (props) => {
             );
           })}
         </TableBody>
-        <TableFooter>
-          <TableRow>
-            <TablePagination
-              colSpan={columnData.length + 1}
-              ActionsComponent={TablePaginationAction}
-            />
-          </TableRow>
-        </TableFooter>
       </Table>
     </div>
   );
 };
 
-ClientsList.propTypes = {
+ClientList.propTypes = {
   //myProp: PropTypes.string.isRequired
 }
 
-function mapStateToProps(state, ownProps) {
-  return {
-    clients: state.Client.clients,
-    test: state.Client.test
-  }
-}
-
-function mapDispatchToProps(dispatch) {
-  return {
-    settingActions: bindActionCreators(settingActions, dispatch)
-  };
-}
-
-export default (connect(mapStateToProps, mapDispatchToProps)(withRouter(ClientsList)));
+export default ClientList

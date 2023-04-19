@@ -10,7 +10,7 @@ import SubmenuComp1 from '../SubmenuComp/SubmenuComp1';
 import SubmenuComp2 from '../SubmenuComp/SubmenuComp2';
 import UserRoleFrame from '../Users/UserRoleFrame';
 import SupportCenterFrame from '../SupportCenter/SupportCenterFrame';
-import Clients from "../Setting/ClientsList"
+import Clients from "../Setting/Client/Clients"
 import {
   root,
   dashboard,

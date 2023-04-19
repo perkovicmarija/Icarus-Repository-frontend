@@ -125,7 +125,7 @@ const LoginForm = (props) => {
                                     }}
                                     htmlFor="password-css-input"
                                 >
-                                    <IntlMessages id="user.password"/>
+                                    <IntlMessages id="form.password"/>
                                 </InputLabel>
                                 <Input
                                     classes={{

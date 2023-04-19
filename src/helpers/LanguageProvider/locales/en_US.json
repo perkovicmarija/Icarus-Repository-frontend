@@ -223,6 +223,10 @@
   "form.writeDescription": "Write a description",
   "form.clients": "Clients",
 
+  "client.clientName": "Client name",
+  "client.abbreviation": "Abbreviation",
+  "client.deactivated": "Deactivated",
+
 
   "search.byEmail": "Search by email",
   "search.byName": "Search by name",

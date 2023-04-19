@@ -62,7 +62,7 @@ function Users(props) {
                 rowsPerPage: props.rowsPerPage
             }
         }
-        this.props.userActions.loadAllPagination(viewModel);
+        props.userActions.loadAllPagination(viewModel);
     }
 
     const handleUserFilterClick = () => {
