@@ -1,6 +1,7 @@
 import {all, call, fork, put, takeLatest} from 'redux-saga/effects';
 import * as types from '../../actionTypes';
 import ClientApi from '../../../api/ClientApi';
+import UserRoleApi from "../../../api/UserRoleApi";
 
 export function* loadAllClientsRequest() {
   yield takeLatest(types.LOAD_ALL_CLIENTS_REQUEST, function*(action) {
@@ -81,10 +82,68 @@ export function* createClientRequest() {
   });
 }
 
+export function* updateClientRequest() {
+  yield takeLatest(types.UPDATE_CLIENT_REQUEST, function*(action) {
+    try {
+      const response = yield call(ClientApi.updateClient, action.viewModel.requestBody);
+      if (response.code === "200") {
+        yield put({
+          type: types.UPDATE_CLIENT_SUCCESS,
+          client: response.data
+        });
+        yield put({
+          type: types.AJAX_SUCCESS,
+          message: response.message
+        });
+      } else {
+        yield put({type: types.UPDATE_CLIENT_FAILED})
+        yield put({
+          type: types.AJAX_FAILED,
+          message: "Failed to update client"
+        });
+      }
+    } catch (e) {
+      yield put({type: types.UPDATE_CLIENT_FAILED});
+      yield put({
+        type: types.AJAX_FAILED,
+        message: "Failed to update client"
+      });
+    } finally {
+      yield put({type: types.AJAX_FINISHED})
+    }
+  });
+}
+
+export function* deleteClientRequest() {
+  yield takeLatest(types.DELETE_CLIENT_REQUEST, function*(action) {
+    try {
+      const response = yield call(ClientApi.deleteClient, action.viewModel);
+      if (response.code === "200") {
+        yield put({
+          type: types.DELETE_CLIENT_SUCCESS,
+          client: {}
+        });
+        yield put({
+          type: types.AJAX_SUCCESS,
+          message: response.message
+        });
+      } else {
+        yield put({type: types.DELETE_CLIENT_FAILED})
+      }
+    } catch (e) {
+      yield put({type: types.DELETE_CLIENT_FAILED})
+    } finally {
+      yield put({type: types.AJAX_FINISHED})
+    }
+  });
+}
+
 export default function* rootSaga() {
   yield all([
     fork(loadAllClientsRequest),
     fork(clientsPaginationRequest),
     fork(createClientRequest),
+    fork(updateClientRequest),
+    fork(deleteClientRequest),
   ]);
 }

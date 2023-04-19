@@ -16,6 +16,20 @@ export function create(viewModel) {
   }
 }
 
+export function update(viewModel) {
+  return {
+    type: types.UPDATE_CLIENT_REQUEST,
+    viewModel
+  }
+}
+
+export function deleteAction(viewModel) {
+  return {
+    type: types.DELETE_CLIENT_REQUEST,
+    viewModel
+  }
+}
+
 // Pagination
 
 export function loadAllClientsPagination(viewModel) {

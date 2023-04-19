@@ -20,7 +20,7 @@ const columnData = [
 const ClientList = (props) => {
   const classes = useStyles();
 
-  const { clients, searchValue, onInputSearchChange, onSearchSubmit, onNewClientClick } = props
+  const { clients, searchValue, onInputSearchChange, onSearchSubmit, onNewClientClick, onClientEdit, onClientDelete } = props
 
   return (
     <div>
@@ -48,7 +48,9 @@ const ClientList = (props) => {
           columnData={columnData}
         />
         <TableBody>
-          {clients.map(client => {
+          {clients
+            .filter(client => !client.deactivated)
+            .map(client => {
             return (
               <TableRow
                 className={classes.tableRow}
@@ -61,7 +63,7 @@ const ClientList = (props) => {
                     <>
                       <div className="d-inline">
                         <IconButton aria-label="Edit"
-                                    >
+                                    onClick={(event) => onClientEdit(event, client)}>
                           <Edit/>
                         </IconButton>
                       </div>
@@ -70,7 +72,8 @@ const ClientList = (props) => {
                   <Tooltip title="Delete">
                     <>
                       <div className="d-inline">
-                        <IconButton aria-label="Delete">
+                        <IconButton aria-label="Delete"
+                                    onClick={(event) => onClientDelete(event, client)}>
                           <Delete/>
                         </IconButton>
                       </div>

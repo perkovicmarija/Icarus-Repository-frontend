@@ -41,6 +41,16 @@ export default function clientReducer(state = initState, action) {
       ...state,
       client: action.client
     };
+    case types.UPDATE_CLIENT_SUCCESS:
+    return {
+        ...state,
+        client: action.client
+    };
+    case types.DELETE_CLIENT_REQUEST:
+      return {
+        ...state,
+        client: {}
+      };
 
     default:
       return state;

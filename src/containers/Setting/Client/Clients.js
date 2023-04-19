@@ -7,6 +7,7 @@ import ClientList from "./ClientList";
 import DialogFormFrame from "../../../components/core/Dialog/DialogFormFrame";
 import DialogFormClient from "../../../components/setting/DialogFormClient";
 import {cloneDeep} from "lodash";
+import DialogDeleteWarning from "../../../components/core/Dialog/DialogDeleteWarning";
 
 function Clients(props) {
 
@@ -16,12 +17,19 @@ function Clients(props) {
     deactivated: false
   });
   const [dialogClientDetailsOpen, setDialogClientDetailsOpen] = useState(false);
+  const [dialogWarningOpen, setDialogWarningOpen] = useState(false);
+  const [clientIdForDelete, setClientIdForDelete] = useState(undefined);
 
   useEffect(() => {
-    props.clientActions.loadAllClients(client)
+    const viewModel = {
+      filters: props.filters,
+      pagination: {
+        page: props.page,
+        rowsPerPage: props.rowsPerPage
+      }
+    }
+    props.clientActions.loadAllClientsPagination(viewModel);
   },[])
-
-  /////////// Dialog ///////////
 
   const handleClientDialogDetailsClose = () => {
     setDialogClientDetailsOpen(false);
@@ -43,18 +51,35 @@ function Clients(props) {
   const handleClientDialogDetailsSubmit = () => {
     setDialogClientDetailsOpen(false);
     if (client.clientId) {
-      // let viewModel = {
-      //   requestBody: client,
-      //   params: {
-      //     page: props.page,
-      //     rowsPerPage: props.rowsPerPage
-      //   }
-      // }
-      // props.userRoleActions.update(viewModel);
+      let viewModel = {
+        requestBody: client,
+      }
+      props.clientActions.update(viewModel);
     }
     else {
       props.clientActions.create(client)
     }
+  }
+
+  const handleDeleteClientConfirmed = () => {
+    if (clientIdForDelete) {
+      let viewModel = {
+        clientId: clientIdForDelete,
+      }
+      props.clientActions.deleteAction(viewModel);
+      setDialogWarningOpen(false);
+      props.clientActions.loadAllClients()
+    }
+  }
+
+  const handleClientDelete = (event, client) => {
+    setClientIdForDelete(client.clientId);
+    setDialogWarningOpen(true);
+  }
+
+  const handleDeleteClientClose = () => {
+    setDialogWarningOpen(false);
+    setClientIdForDelete(undefined);
   }
 
   const handleNewClientClick = (event) => {
@@ -68,7 +93,10 @@ function Clients(props) {
     setDialogClientDetailsOpen(true);
   }
 
-  /////////// Search ///////////
+  const handleClientEdit = (event, client) => {
+    setClient(client);
+    setDialogClientDetailsOpen(true);
+  }
 
   const handleInputSearchChange = (event) => {
     props.clientActions.changeFilterClientSearch(event.target.value);
@@ -103,6 +131,8 @@ function Clients(props) {
         onInputSearchChange={handleInputSearchChange}
         onSearchSubmit={handleSearchSubmit}
         onNewClientClick={handleNewClientClick}
+        onClientEdit={handleClientEdit}
+        onClientDelete={handleClientDelete}
         filtersActive={filtersActive}
         page={page}
         rowsPerPage={rowsPerPage}
@@ -119,6 +149,11 @@ function Clients(props) {
           client={client}
         />
       </DialogFormFrame>
+      <DialogDeleteWarning
+        open={dialogWarningOpen}
+        text="Are you sure you want to delete this client?"
+        onDelete={handleDeleteClientConfirmed}
+        onClose={handleDeleteClientClose}/>
     </div>
   );
 }

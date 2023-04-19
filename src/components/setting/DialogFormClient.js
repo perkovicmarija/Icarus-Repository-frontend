@@ -66,6 +66,7 @@ const DialogFormClient = ({
             </Grid>
           </Grid>
 
+          {!client.clientId &&
           <Grid container>
             <Grid item xl={12} lg={12} md={12} sm={12} xs={12}>
               <TypographyFieldTitle title="client.deactivated"/>
@@ -76,7 +77,8 @@ const DialogFormClient = ({
                 name="showDeactivated"
               />
             </Grid>
-          </Grid>
+          </Grid>}
+
 
         </DialogContent>
         <DialogActions>
@@ -84,7 +86,7 @@ const DialogFormClient = ({
             Cancel
           </Button>
           <Button onClick={onSubmit} className="uppercase">
-            Add
+            {!client.clientId ? "Add" : "Update"}
           </Button>
         </DialogActions>
       </ValidatorForm>
