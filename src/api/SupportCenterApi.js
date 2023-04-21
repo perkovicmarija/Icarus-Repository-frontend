@@ -2,6 +2,7 @@ import RestApiPost from './methods/RestApiPost';
 import RestApiGetPathParams from './methods/RestApiGetPathParams';
 import RestApiPostMultipartArrayAxios from './methods/Multipart/RestApiPostMultipartArrayAxios';
 import RestApiPostDownloadAxios from './methods/Download/RestApiPostDownloadAxios';
+import RestApiGet from "./methods/RestApiGet";
 
 const SupportCenterApi = {
     getAll (viewModel) {
@@ -38,12 +39,15 @@ const SupportCenterApi = {
     download(viewModel) {
         return RestApiPostDownloadAxios.postData(viewModel, '/supportBug/downloadAttachment')
     },
-    getAllSoftwareLogs (viewModel) {
-        return RestApiGetPathParams.getData('/supportBug/softwareLog/getAll', viewModel);
+
+    ///////////////////////////   NEW ENDPOINTS   ///////////////////////////////////////////////
+
+    getAllSoftwareLogClients(viewModel) {
+        return RestApiGet.getData('/support/getAllSoftwareLogClient', viewModel);
     },
-    createSoftwareLog(viewModel) {
-        return RestApiPost.postData('/supportBug/softwareLog/create', viewModel);
-    },
+    createSoftwareLogClient(viewModel) {
+        return RestApiPost.postData('/support/softwareLogClient/create', viewModel);
+    }
 }
 
 export default SupportCenterApi;

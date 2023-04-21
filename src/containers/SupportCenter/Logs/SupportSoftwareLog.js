@@ -1,122 +1,185 @@
-import React, { useState, useEffect } from 'react';
+import React, {useEffect, useState} from 'react';
 
-import { withRouter } from 'react-router-dom';
-import { connect } from 'react-redux';
-import { bindActionCreators } from 'redux';
-import { Tooltip, IconButton, Paper, } from '@mui/material';
-import { AddComment } from '@mui/icons-material';
-import { makeStyles } from '@mui/styles';
-import { cloneDeep } from 'lodash';
-
-import SupportLogTrails from '../../../components/support/SupportLogTrails';
+import {withRouter} from 'react-router-dom';
+import {connect} from 'react-redux';
+import {bindActionCreators} from 'redux';
+import {Paper,} from '@mui/material';
+import {makeStyles} from '@mui/styles';
+import {cloneDeep} from 'lodash';
 import DialogFormFrame from '../../../components/core/Dialog/DialogFormFrame';
-import EnhancedTableToolbarRich from '../../../components/core/Table/EnhancedTableToolbarRich';
 import DialogFormSoftwareLog from '../../../components/support/DialogFormSoftwareLog';
-import * as Protected from "../../../protectedAuth";
 import * as supportActions from '../../../redux/support/supportActions';
+import * as clientActions from '../../../redux/setting/client/clientActions';
+import SupportSoftwareLogList from "./SupportSoftwareLogList";
+import {getClientsPath} from "../../../consts/routePaths";
 
-const useStyles = makeStyles(theme => ({
-}));
+const useStyles = makeStyles(theme => ({}));
 
 function SupportSoftwareLog(props) {
 
-    const classes = useStyles();
+  const classes = useStyles();
 
-    const [dialogNewLog, setDialogNewLog] = useState(false);
-    const [softwareLog, setSoftwareLog] = useState({
-        title: "",
-        description: "",
-        selectedClients: []
-    });
+  const [dialogNewLog, setDialogNewLog] = useState(false);
+  const [softwareLog, setSoftwareLog] = useState({
+    title: "",
+    description: "",
+    selectedClients: []
+  });
 
-    const clients = [{name: "IQ", companyId: 1}, {name: "Elite Jet", companyId: 2}, {name: "Trade Air", companyId: 3}]
+  // After API call fetches the clients list.
+  useEffect(() => {
+    props.supportActions.loadAllSoftwareLogs();
+    if (props.clients.length === 0) {
+      props.clientActions.loadAllClients()
+    }
+  }, []);
 
-    // After API call fetches the clients list.
-    useEffect(() => {
-        props.supportActions.loadAllSoftwareLogs();
-    }, []);
+  const handleCreateSoftwareLog = () => {
+    props.supportActions.createSoftwareLogClient(softwareLog);
+    setDialogNewLog(false);
+  };
 
-    const handleAddLog = () => {
-        props.supportActions.createSoftwareLog(softwareLog);
-        setDialogNewLog(false);
-    };
+  const handleInputChange = (event) => {
+    const {name, value} = event.target
+    let softwareLogClone = cloneDeep(softwareLog);
+    softwareLogClone[name] = value;
+    setSoftwareLog(x => ({
+      ...x, title: softwareLogClone.title, description: softwareLogClone.description
+    }));
+  };
 
-    const handleInputChange = (event) => {
-        const { name, value } = event.target
-        let softwareLogClone = cloneDeep(softwareLog);
-        softwareLogClone[name] = value;
-        setSoftwareLog(x => ({
-            ...x, title: softwareLogClone.title, description: softwareLogClone.description
-        }));
-    };
+  const handleMultipleSelectChange = (event) => {
+    const selectedIds = event.target.value;
+    const selectedClients = props.clients.filter(client => selectedIds.includes(client.clientId));
+    setSoftwareLog(x => ({
+      ...x, selectedClients
+    }))
+  };
 
-    const handleMultipleSelectChange = (event) => {
-        const selectedIds = event.target.value;
-        const selectedClients = clients.filter(client => selectedIds.includes(client.companyId));
-        setSoftwareLog(x => ({
-            ...x, selectedClients
-        }))
-    };
+  const handleDialogLogClose = () => {
+    setDialogNewLog(false);
+  };
 
-    const handleDialogLogOpen = () => {
-        setDialogNewLog(true);
-    };
+  const handleInputSearchChange = (event) => {
+    console.log("handleInputSearchChange", event.target.value)
+    // props.clientActions.changeFilterClientSearch(event.target.value);
+  }
 
-    const handleDialogLogClose = () => {
-        setDialogNewLog(false);
-    };
+  const handleSearchSubmit = () => {
+    const viewModel = {
+      filters: props.filters,
+      pagination: {
+        page: props.page,
+        rowsPerPage: props.rowsPerPage
+      }
+    }
+    console.log("handleSearchSubmit", viewModel)
+    // props.clientActions.loadAllClientsPagination(viewModel);
+  }
 
-    const { softwareLogs } = props;
-    return (
-        <Paper>
-            <EnhancedTableToolbarRich title="support.bug.list">
-            {Protected.protectedAuth(['PERM_SUPPORT_ADMIN']) ?
-                <Tooltip title="DialogFormClient">
-                    <>
-                        <IconButton className={classes.iconColor} aria-label="Add" onClick={handleDialogLogOpen}>
-                            <AddComment/>
-                        </IconButton>
-                    </>
-                </Tooltip>
-                : null}
-            </EnhancedTableToolbarRich>
+  const handleNewSoftwareLogClick = (event) => {
+    setDialogNewLog(true);
+    // let client = {
+    //     clientId: undefined,
+    //     name: undefined,
+    //     abbreviation: undefined,
+    //     deactivated: false
+    // }
+    // setClient(client);
+  }
 
-            <SupportLogTrails
-                logTrails={softwareLogs}
-            />
+  const handleSoftwareLogEdit = (event, softwareLog) => {
+    // setSoftwareLog(softwareLog);
+    setDialogNewLog(true);
+  }
 
-            <DialogFormFrame
-                onClose={handleDialogLogClose}
-                title="support.logs.new"
-                open={dialogNewLog}>
-                <DialogFormSoftwareLog
-                    onClose={handleDialogLogClose}
-                    onSubmit={handleAddLog}
-                    onInputChange={handleInputChange}
-                    onMultiSelectChange={handleMultipleSelectChange}
-                    selectedClients={softwareLog.selectedClients}
-                    softwareLog={softwareLog}
-                    clients={clients}
-                />
-            </DialogFormFrame>
-        </Paper>
-    );
+  const handleSoftwareLogDelete = (event, client) => {
+    // setClientIdForDelete(client.clientId);
+    // setDialogWarningOpen(true);
+    console.log("handleClientDelete")
+  }
+
+  const handleChangePage = (event, page) => {
+    props.history.push(getClientsPath(page, props.rowsPerPage));
+  };
+
+  const handleChangeRowsPerPage = event => {
+    props.history.push(getClientsPath(props.page, event.target.value));
+  };
+
+  const {
+    softwareLogs,
+    totalCount,
+    filters,
+    filtersActive,
+    page,
+    rowsPerPage
+  } = props;
+
+  return (
+    <Paper>
+      <SupportSoftwareLogList
+        softwareLogs={softwareLogs}
+        totalCount={totalCount}
+        searchValue={filters.clientSearch}
+        onInputSearchChange={handleInputSearchChange}
+        onSearchSubmit={handleSearchSubmit}
+        onNewSoftwareLogClick={handleNewSoftwareLogClick}
+        onSoftwareLogEdit={handleSoftwareLogEdit}
+        onSoftwareLogDelete={handleSoftwareLogDelete}
+        filtersActive={filtersActive}
+        page={page}
+        rowsPerPage={rowsPerPage}
+        onChangePage={handleChangePage}
+        onChangeRowsPerPage={handleChangeRowsPerPage}/>
+
+      <DialogFormFrame
+        onClose={handleDialogLogClose}
+        title="support.logs.new"
+        open={dialogNewLog}>
+        <DialogFormSoftwareLog
+          onClose={handleDialogLogClose}
+          onSubmit={handleCreateSoftwareLog}
+          onInputChange={handleInputChange}
+          onMultiSelectChange={handleMultipleSelectChange}
+          selectedClients={softwareLog.selectedClients}
+          softwareLog={softwareLog}
+          clients={props.clients}
+        />
+      </DialogFormFrame>
+    </Paper>
+  );
 }
 
 SupportSoftwareLog.propTypes = {
-    //myProp: PropTypes.string.isRequired
+  //myProp: PropTypes.string.isRequired
 }
 
 function mapStateToProps(state, ownProps) {
-    return {
-        softwareLogs: state.SupportCenter.softwareLogs
-    }
+  let page = 0;
+  let rowsPerPage = 25;
+  if (ownProps.match.params.page) {
+    page = parseInt(ownProps.match.params.page);
+  }
+  if (ownProps.match.params.rowsPerPage) {
+    rowsPerPage = parseInt(ownProps.match.params.rowsPerPage);
+  }
+  return {
+    softwareLogs: state.SupportCenter.softwareLogs,
+    clients: state.Client.clients,
+    totalCount: state.SupportCenter.totalCount,
+    filters: state.SupportCenter.filters,
+    filtersActive: true,
+    page: page,
+    rowsPerPage: rowsPerPage
+  }
 }
 
 function mapDispatchToProps(dispatch) {
-    return {
-        supportActions: bindActionCreators(supportActions, dispatch)
-    };
+  return {
+    supportActions: bindActionCreators(supportActions, dispatch),
+    clientActions: bindActionCreators(clientActions, dispatch)
+  };
 }
 
 export default (connect(mapStateToProps, mapDispatchToProps)(withRouter(SupportSoftwareLog)));

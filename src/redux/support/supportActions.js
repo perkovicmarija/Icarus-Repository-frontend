@@ -110,7 +110,7 @@ export function loadAllSoftwareLogs(viewModel) {
 }
 
 
-export function createSoftwareLog(viewModel) {
+export function createSoftwareLogClient(viewModel) {
     return {
         type: types.CREATE_SOFTWARE_LOG_REQUEST,
         viewModel

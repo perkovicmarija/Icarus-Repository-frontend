@@ -3,7 +3,8 @@ import * as types from '../actionTypes';
 const initFilters = {
     startDate: null,
     endDate: null,
-    statuses: []
+    statuses: [],
+    softwareLogDescription: ""
 }
 
 const initState = {
@@ -104,7 +105,7 @@ export default function supportReducer(state = initState, action) {
         case types.CREATE_SOFTWARE_LOG_SUCCESS:
             return {
                 ...state,
-                softwareLogs: [action.softwareLog, ...state.softwareLogs]
+                softwareLogs: action.softwareLog
             };
         default:
             return state;

@@ -1,7 +1,6 @@
 import {all, call, fork, put, takeLatest} from 'redux-saga/effects';
 import * as types from '../../actionTypes';
 import ClientApi from '../../../api/ClientApi';
-import UserRoleApi from "../../../api/UserRoleApi";
 
 export function* loadAllClientsRequest() {
   yield takeLatest(types.LOAD_ALL_CLIENTS_REQUEST, function*(action) {
@@ -11,10 +10,6 @@ export function* loadAllClientsRequest() {
         yield put({
           type: types.LOAD_ALL_CLIENTS_SUCCESS,
           clients: response.data
-        });
-        yield put({
-          type: types.AJAX_SUCCESS,
-          message: response.message
         });
       } else {
         yield put({type: types.LOAD_ALL_CLIENTS_FAILED})

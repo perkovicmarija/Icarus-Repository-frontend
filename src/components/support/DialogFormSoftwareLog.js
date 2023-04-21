@@ -75,10 +75,10 @@ function DialogFormComment(props) {
                               title="general.companies"
                               objectArray={clients}
                               selectArray={selectedClients}
-                              firstLvlValueProp="companyId"
+                              firstLvlValueProp="clientId"
                               onMultiSelectChange={onMultiSelectChange}
                               optionProp="name"
-                              optionKey="companyId"/>
+                              optionKey="clientId"/>
                         </Grid>
                     </Grid>
 

@@ -247,6 +247,8 @@
   "support.logs.new": "New software log",
   "support.bugs": "Requests",
   "support.bug.list": "Request list",
+  "support.softwareLogs": "Software logs",
+  "support.softwareLog.list": "Software logs list",
   "support.module": "Module",
   "support.severity": "Severity",
   "support.item": "Request",

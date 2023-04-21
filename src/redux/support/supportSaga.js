@@ -334,7 +334,7 @@ export function* downloadRequest() {
 export function* icarusSoftwareLogsRequest() {
     yield takeLatest(types.LOAD_SOFTWARE_LOGS_REQUEST, function*(action) {
         try {
-            const response = yield call(SupportCenterApi.getAllSoftwareLogs, action.viewModel);
+            const response = yield call(SupportCenterApi.getAllSoftwareLogClients, action.viewModel);
             if (response.code === "200") {
                 const data = response.data;
                 //const meta = response.meta;
@@ -358,9 +358,10 @@ export function* icarusSoftwareLogsRequest() {
 export function* createSoftwareLogRequest() {
     yield takeLatest(types.CREATE_SOFTWARE_LOG_REQUEST, function*(action) {
         try {
-            const response = yield call(SupportCenterApi.createSoftwareLog, action.viewModel);
+            const response = yield call(SupportCenterApi.createSoftwareLogClient, action.viewModel);
             if (response.code === "200") {
                 const data = response.data;
+                debugger
                 yield put({
                     type: types.CREATE_SOFTWARE_LOG_SUCCESS,
                     softwareLog: data
