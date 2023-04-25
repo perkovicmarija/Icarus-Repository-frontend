@@ -89,7 +89,7 @@ function DialogFormComment(props) {
                         Cancel
                     </Button>
                     <Button onClick={onSubmit} className="uppercase">
-                        Add
+                        {!softwareLog.supportSoftwareLog.supportSoftwareLogId ? "Add" : "Update"}
                     </Button>
                 </DialogActions>
             </ValidatorForm>

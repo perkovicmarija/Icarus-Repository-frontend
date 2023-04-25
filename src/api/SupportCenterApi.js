@@ -3,6 +3,8 @@ import RestApiGetPathParams from './methods/RestApiGetPathParams';
 import RestApiPostMultipartArrayAxios from './methods/Multipart/RestApiPostMultipartArrayAxios';
 import RestApiPostDownloadAxios from './methods/Download/RestApiPostDownloadAxios';
 import RestApiGet from "./methods/RestApiGet";
+import RestApiPutWithPathParams from "./methods/RestApiPutWithPathParams";
+import RestApiDelete from "./methods/RestApiDelete";
 
 const SupportCenterApi = {
     getAll (viewModel) {
@@ -46,7 +48,13 @@ const SupportCenterApi = {
         return RestApiGet.getData('/support/getAllSoftwareLogClient', viewModel);
     },
     createSoftwareLogClient(viewModel) {
-        return RestApiPost.postData('/support/softwareLogClient/create', viewModel);
+        return RestApiPost.postData('/support/softwareLogClient', viewModel);
+    },
+    updateSoftwareLogClient(viewModel) {
+        return RestApiPutWithPathParams.putData('/support/softwareLogClient', viewModel);
+    },
+    deleteSoftwareLogClient(viewModel) {
+        return RestApiDelete.deleteData(viewModel,'/support/softwareLogClient/:softwareLogId');
     }
 }
 

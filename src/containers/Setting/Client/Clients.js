@@ -162,7 +162,7 @@ function Clients(props) {
       </DialogFormFrame>
       <DialogDeleteWarning
         open={dialogWarningOpen}
-        text="Are you sure you want to delete this client?"
+        text="general.deleteWarning"
         onDelete={handleDeleteClientConfirmed}
         onClose={handleDeleteClientClose}/>
     </div>

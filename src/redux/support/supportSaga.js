@@ -1,6 +1,13 @@
 import { all, take, takeLatest, put, call, fork } from 'redux-saga/effects';
 import * as types from '../actionTypes';
 import SupportCenterApi from '../../api/SupportCenterApi';
+import ClientApi from "../../api/ClientApi";
+import {
+    DELETE_SOFTWARE_LOG_FAILED,
+    DELETE_SOFTWARE_LOG_SUCCESS,
+    UPDATE_SOFTWARE_LOG_FAILED,
+    UPDATE_SOFTWARE_LOG_SUCCESS
+} from "../actionTypes";
 
 export function* supportCentersRequest() {
     yield takeLatest(types.LOAD_SUPPORT_CENTER_ALL_REQUEST, function*(action) {
@@ -336,7 +343,7 @@ export function* icarusSoftwareLogsRequest() {
         try {
             const response = yield call(SupportCenterApi.getAllSoftwareLogClients, action.viewModel);
             if (response.code === "200") {
-                const data = response.data;
+                const data = response.data
                 //const meta = response.meta;
                 yield put({
                     type: types.LOAD_SOFTWARE_LOGS_SUCCESS,
@@ -360,11 +367,9 @@ export function* createSoftwareLogRequest() {
         try {
             const response = yield call(SupportCenterApi.createSoftwareLogClient, action.viewModel);
             if (response.code === "200") {
-                const data = response.data;
-                debugger
                 yield put({
                     type: types.CREATE_SOFTWARE_LOG_SUCCESS,
-                    softwareLog: data
+                    softwareLog: response.data
                 });
                 yield put({
                     type: types.AJAX_SUCCESS,
@@ -375,6 +380,62 @@ export function* createSoftwareLogRequest() {
             }
         } catch (e) {
             yield put({type: types.CREATE_SOFTWARE_LOG_FAILED})
+        } finally {
+            yield put({type: types.AJAX_FINISHED})
+        }
+    });
+}
+
+export function* updateSoftwareLogRequest() {
+    yield takeLatest(types.UPDATE_SOFTWARE_LOG_REQUEST, function*(action) {
+        try {
+            const response = yield call(SupportCenterApi.updateSoftwareLogClient, action.viewModel.requestBody);
+            if (response.code === "200") {
+                yield put({
+                    type: types.UPDATE_SOFTWARE_LOG_SUCCESS,
+                    softwareLog: response.data
+                });
+                yield put({
+                    type: types.AJAX_SUCCESS,
+                    message: response.message
+                });
+            } else {
+                yield put({type: types.UPDATE_SOFTWARE_LOG_FAILED})
+                yield put({
+                    type: types.AJAX_FAILED,
+                    message: "Failed to update software log"
+                });
+            }
+        } catch (e) {
+            yield put({type: types.UPDATE_SOFTWARE_LOG_FAILED});
+            yield put({
+                type: types.AJAX_FAILED,
+                message: "Failed to update software log"
+            });
+        } finally {
+            yield put({type: types.AJAX_FINISHED})
+        }
+    });
+}
+
+export function* deleteSoftwareLogRequest() {
+    yield takeLatest(types.DELETE_SOFTWARE_LOG_REQUEST, function*(action) {
+        try {
+            const response = yield call(SupportCenterApi.deleteSoftwareLogClient, action.viewModel);
+            if (response.code === "200") {
+                yield put({
+                    type: types.DELETE_SOFTWARE_LOG_SUCCESS,
+                    softwareLog: {}
+                });
+                yield put({
+                    type: types.AJAX_SUCCESS,
+                    message: response.message
+                });
+            } else {
+                yield put({type: types.DELETE_SOFTWARE_LOG_FAILED})
+            }
+        } catch (e) {
+            yield put({type: types.DELETE_SOFTWARE_LOG_FAILED})
         } finally {
             yield put({type: types.AJAX_FINISHED})
         }
@@ -395,6 +456,8 @@ export default function* rootSaga() {
         fork(updateWithAttachmentsRequest),
         fork(downloadRequest),
         fork(icarusSoftwareLogsRequest),
-        fork(createSoftwareLogRequest)
+        fork(createSoftwareLogRequest),
+        fork(updateSoftwareLogRequest),
+        fork(deleteSoftwareLogRequest),
     ]);
 }

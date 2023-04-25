@@ -1,4 +1,5 @@
 import * as types from '../actionTypes';
+import {UPDATE_SOFTWARE_LOG_REQUEST} from "../actionTypes";
 
 const initFilters = {
     startDate: null,
@@ -15,7 +16,8 @@ const initState = {
     levels:[],
     statuses:[],
     filters: initFilters,
-    softwareLogs:[]
+    softwareLogs:[],
+    softwareLog: {}
 }
 export default function supportReducer(state = initState, action) {
     switch(action.type) {
@@ -105,7 +107,17 @@ export default function supportReducer(state = initState, action) {
         case types.CREATE_SOFTWARE_LOG_SUCCESS:
             return {
                 ...state,
-                softwareLogs: action.softwareLog
+                softwareLog: action.softwareLog
+            };
+        case types.UPDATE_SOFTWARE_LOG_SUCCESS:
+            return {
+                ...state,
+                softwareLog: action.softwareLog
+            };
+        case types.DELETE_SOFTWARE_LOG_REQUEST:
+            return {
+                ...state,
+                softwareLog: {}
             };
         default:
             return state;

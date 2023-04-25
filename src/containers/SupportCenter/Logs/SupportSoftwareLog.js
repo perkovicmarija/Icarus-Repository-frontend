@@ -12,6 +12,7 @@ import * as supportActions from '../../../redux/support/supportActions';
 import * as clientActions from '../../../redux/setting/client/clientActions';
 import SupportSoftwareLogList from "./SupportSoftwareLogList";
 import {getClientsPath} from "../../../consts/routePaths";
+import DialogDeleteWarning from "../../../components/core/Dialog/DialogDeleteWarning";
 
 const useStyles = makeStyles(theme => ({}));
 
@@ -23,10 +24,12 @@ function SupportSoftwareLog(props) {
   const [softwareLog, setSoftwareLog] = useState({
     title: "",
     description: "",
-    selectedClients: []
+    selectedClients: [],
+    supportSoftwareLog: {}
   });
+  const [dialogWarningOpen, setDialogWarningOpen] = useState(false);
+  const [softwareLogIdForDelete, setSoftwareLogIdForDelete] = useState(undefined)
 
-  // After API call fetches the clients list.
   useEffect(() => {
     props.supportActions.loadAllSoftwareLogs();
     if (props.clients.length === 0) {
@@ -34,9 +37,31 @@ function SupportSoftwareLog(props) {
     }
   }, []);
 
-  const handleCreateSoftwareLog = () => {
-    props.supportActions.createSoftwareLogClient(softwareLog);
+  const handleNewSoftwareLogClick = (event) => {
+    setDialogNewLog(true);
+    setSoftwareLog(x => ({...x, supportSoftwareLog: {}}))
+  }
+
+  const handleSoftwareLogEdit = (event, softwareLog) => {
+    setSoftwareLog({
+      title: softwareLog.supportSoftwareLog.title,
+      description: softwareLog.supportSoftwareLog.description,
+      selectedClients: softwareLog.clients,
+      supportSoftwareLog: softwareLog.supportSoftwareLog
+    });
+    setDialogNewLog(true);
+  }
+
+  const handleDialogFormSoftwareLogSubmit = () => {
     setDialogNewLog(false);
+    if (softwareLog.supportSoftwareLog.supportSoftwareLogId) {
+      let viewModel = {
+        requestBody: softwareLog
+      }
+      props.supportActions.updateSoftwareLogClient(viewModel);
+    } else {
+      props.supportActions.createSoftwareLogClient(softwareLog);
+    }
   };
 
   const handleInputChange = (event) => {
@@ -44,7 +69,10 @@ function SupportSoftwareLog(props) {
     let softwareLogClone = cloneDeep(softwareLog);
     softwareLogClone[name] = value;
     setSoftwareLog(x => ({
-      ...x, title: softwareLogClone.title, description: softwareLogClone.description
+      ...x,
+      title: softwareLogClone.title,
+      description: softwareLogClone.description,
+      supportSoftwareLog: softwareLogClone.supportSoftwareLog
     }));
   };
 
@@ -58,6 +86,12 @@ function SupportSoftwareLog(props) {
 
   const handleDialogLogClose = () => {
     setDialogNewLog(false);
+    setSoftwareLog({
+      title: "",
+      description: "",
+      selectedClients: [],
+      supportSoftwareLog: {}
+    })
   };
 
   const handleInputSearchChange = (event) => {
@@ -77,26 +111,23 @@ function SupportSoftwareLog(props) {
     // props.clientActions.loadAllClientsPagination(viewModel);
   }
 
-  const handleNewSoftwareLogClick = (event) => {
-    setDialogNewLog(true);
-    // let client = {
-    //     clientId: undefined,
-    //     name: undefined,
-    //     abbreviation: undefined,
-    //     deactivated: false
-    // }
-    // setClient(client);
+  const handleSoftwareLogDelete = (event, softwareLog) => {
+    setSoftwareLogIdForDelete(softwareLog.supportSoftwareLog.supportSoftwareLogId);
+    setDialogWarningOpen(true);
   }
 
-  const handleSoftwareLogEdit = (event, softwareLog) => {
-    // setSoftwareLog(softwareLog);
-    setDialogNewLog(true);
+  const handleDeleteSoftwareLogClose = () => {
+    setDialogWarningOpen(false);
+    setSoftwareLogIdForDelete(undefined);
   }
-
-  const handleSoftwareLogDelete = (event, client) => {
-    // setClientIdForDelete(client.clientId);
-    // setDialogWarningOpen(true);
-    console.log("handleClientDelete")
+  
+  const handleDeleteSoftwareLogConfirmed = () => {
+      let viewModel = {
+        softwareLogId: softwareLogIdForDelete,
+      }
+      props.supportActions.deleteSoftwareLogClient(viewModel);
+      setDialogWarningOpen(false);
+      props.supportActions.loadAllSoftwareLogs()
   }
 
   const handleChangePage = (event, page) => {
@@ -113,7 +144,7 @@ function SupportSoftwareLog(props) {
     filters,
     filtersActive,
     page,
-    rowsPerPage
+    rowsPerPage,
   } = props;
 
   return (
@@ -139,7 +170,7 @@ function SupportSoftwareLog(props) {
         open={dialogNewLog}>
         <DialogFormSoftwareLog
           onClose={handleDialogLogClose}
-          onSubmit={handleCreateSoftwareLog}
+          onSubmit={handleDialogFormSoftwareLogSubmit}
           onInputChange={handleInputChange}
           onMultiSelectChange={handleMultipleSelectChange}
           selectedClients={softwareLog.selectedClients}
@@ -147,6 +178,11 @@ function SupportSoftwareLog(props) {
           clients={props.clients}
         />
       </DialogFormFrame>
+      <DialogDeleteWarning
+        open={dialogWarningOpen}
+        text="general.deleteWarning"
+        onDelete={handleDeleteSoftwareLogConfirmed}
+        onClose={handleDeleteSoftwareLogClose}/>
     </Paper>
   );
 }
@@ -166,6 +202,7 @@ function mapStateToProps(state, ownProps) {
   }
   return {
     softwareLogs: state.SupportCenter.softwareLogs,
+    softwareLog: state.SupportCenter.softwareLog,
     clients: state.Client.clients,
     totalCount: state.SupportCenter.totalCount,
     filters: state.SupportCenter.filters,

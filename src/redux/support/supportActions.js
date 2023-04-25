@@ -116,3 +116,17 @@ export function createSoftwareLogClient(viewModel) {
         viewModel
     }
 }
+
+export function updateSoftwareLogClient(viewModel) {
+    return {
+        type: types.UPDATE_SOFTWARE_LOG_REQUEST,
+        viewModel
+    }
+}
+
+export function deleteSoftwareLogClient(viewModel) {
+    return {
+        type: types.DELETE_SOFTWARE_LOG_REQUEST,
+        viewModel
+    }
+}

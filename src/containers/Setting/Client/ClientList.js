@@ -16,6 +16,7 @@ const useStyles = makeStyles(theme => ({
 
 const columnData = [
   { id: 'name', numeric: false, disablePadding: false, label: 'general.name' },
+  { id: 'name', numeric: false, disablePadding: false, label: 'general.abbreviation' },
 ];
 
 const ClientList = (props) => {
@@ -59,6 +60,7 @@ const ClientList = (props) => {
                 hover={true}>
 
                 <TableCell>{client.name}</TableCell>
+                <TableCell>{client.abbreviation}</TableCell>
                 <TableCell className="nostretch">
                   <Tooltip title="Edit">
                     <>

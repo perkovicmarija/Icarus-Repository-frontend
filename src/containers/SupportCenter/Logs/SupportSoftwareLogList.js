@@ -69,12 +69,12 @@ const SupportSoftwareLogList = (props) => {
               return (
                 <TableRow
                   className={classes.tableRow}
-                  key={softwareLog.supportSoftwareLogClientJoinedId}
+                  key={softwareLog.supportSoftwareLog.supportSoftwareLogId}
                   hover={true}>
 
                   <TableCell>{softwareLog.supportSoftwareLog.title}</TableCell>
                   <TableCell>{softwareLog.supportSoftwareLog.description}</TableCell>
-                  <TableCell>{softwareLog.client.name}</TableCell>
+                  <TableCell>{softwareLog.clients.map(client => client.name).join(', ')}</TableCell>
                   <TableCell className="nostretch">
                     <Tooltip title="Edit">
                       <>
