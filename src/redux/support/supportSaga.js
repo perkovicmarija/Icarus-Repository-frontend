@@ -390,7 +390,6 @@ export function* updateSoftwareLogRequest() {
     yield takeLatest(types.UPDATE_SOFTWARE_LOG_REQUEST, function*(action) {
         try {
             const response = yield call(SupportCenterApi.updateSoftwareLogClient, action.viewModel);
-            debugger
             if (response.code === "200") {
                 yield put({
                     type: types.UPDATE_SOFTWARE_LOG_SUCCESS,
