@@ -39,7 +39,7 @@ const sidebarRoutes = [
         sidebar: true,
         permissions: ['PERM_SUPPORT_BASIC', 'PERM_SUPPORT_CRUD', 'PERM_SUPPORT_ADMIN'],
         children: [{
-            path: getClientsPath(0, 25),
+            path: getClientsPath(0, 10),
             name: "Clients",
             key: "clients-list",
             sidebar: true,

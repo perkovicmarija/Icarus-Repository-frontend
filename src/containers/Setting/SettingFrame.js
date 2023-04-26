@@ -43,7 +43,7 @@ function SettingFrame(props) {
             indicatorColor="secondary">
 
             <Tab label={<IntlMessages id="form.clients" />} className={classes.tabLink} component={Link}
-                 to={getClientsPath(0, 25)}/>
+                 to={getClientsPath(0, 10)}/>
           </Tabs>
         </AppBar>
         <TabContainer dir={theme.direction}>

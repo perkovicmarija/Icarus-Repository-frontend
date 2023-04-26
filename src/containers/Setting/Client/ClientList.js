@@ -15,14 +15,27 @@ const useStyles = makeStyles(theme => ({
 }));
 
 const columnData = [
-  { id: 'name', numeric: false, disablePadding: false, label: 'general.name' },
-  { id: 'abbreviation', numeric: false, disablePadding: false, label: 'general.abbreviation' },
+  {id: 'name', numeric: false, disablePadding: false, label: 'general.name'},
+  {id: 'abbreviation', numeric: false, disablePadding: false, label: 'general.abbreviation'},
 ];
 
 const ClientList = (props) => {
   const classes = useStyles();
 
-  const { clients, searchValue, onInputSearchChange, onSearchSubmit, onNewClientClick, onClientEdit, onClientDelete, page, rowsPerPage, totalCount, onChangePage, onChangeRowsPerPage } = props
+  const {
+    clients,
+    searchValue,
+    onInputSearchChange,
+    onSearchSubmit,
+    onNewClientClick,
+    onClientEdit,
+    onClientDelete,
+    page,
+    rowsPerPage,
+    totalCount,
+    onChangePage,
+    onChangeRowsPerPage
+  } = props
 
   return (
     <div>
@@ -34,12 +47,12 @@ const ClientList = (props) => {
         onSearchSubmit={onSearchSubmit}
         searchPlaceholder="search.byName"
       >
-        <Tooltip title={<IntlMessages id="general.addNew" />}>
+        <Tooltip title={<IntlMessages id="general.addNew"/>}>
           <>
             <IconButton aria-label="Add new"
                         aria-haspopup="true"
                         onClick={onNewClientClick}>
-              <NoteAdd />
+              <NoteAdd/>
             </IconButton>
           </>
         </Tooltip>
@@ -53,39 +66,39 @@ const ClientList = (props) => {
           {clients
             .filter(client => !client.deactivated)
             .map(client => {
-            return (
-              <TableRow
-                className={classes.tableRow}
-                key={client.clientId}
-                hover={true}>
+              return (
+                <TableRow
+                  className={classes.tableRow}
+                  key={client.clientId}
+                  hover={true}>
 
-                <TableCell>{client.name}</TableCell>
-                <TableCell>{client.abbreviation}</TableCell>
-                <TableCell className="nostretch">
-                  <Tooltip title="Edit">
-                    <>
-                      <div className="d-inline">
-                        <IconButton aria-label="Edit"
-                                    onClick={(event) => onClientEdit(event, client)}>
-                          <Edit/>
-                        </IconButton>
-                      </div>
-                    </>
-                  </Tooltip>
-                  <Tooltip title="Delete">
-                    <>
-                      <div className="d-inline">
-                        <IconButton aria-label="Delete"
-                                    onClick={(event) => onClientDelete(event, client)}>
-                          <Delete/>
-                        </IconButton>
-                      </div>
-                    </>
-                  </Tooltip>
-                </TableCell>
-              </TableRow>
-            );
-          })}
+                  <TableCell>{client.name}</TableCell>
+                  <TableCell>{client.abbreviation}</TableCell>
+                  <TableCell className="nostretch">
+                    <Tooltip title="Edit">
+                      <>
+                        <div className="d-inline">
+                          <IconButton aria-label="Edit"
+                                      onClick={(event) => onClientEdit(event, client)}>
+                            <Edit/>
+                          </IconButton>
+                        </div>
+                      </>
+                    </Tooltip>
+                    <Tooltip title="Delete">
+                      <>
+                        <div className="d-inline">
+                          <IconButton aria-label="Delete"
+                                      onClick={(event) => onClientDelete(event, client)}>
+                            <Delete/>
+                          </IconButton>
+                        </div>
+                      </>
+                    </Tooltip>
+                  </TableCell>
+                </TableRow>
+              );
+            })}
         </TableBody>
         <TableFooter>
           <TableRow>

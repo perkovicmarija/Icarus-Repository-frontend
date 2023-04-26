@@ -49,7 +49,6 @@ export function* createClientRequest() {
   yield takeLatest(types.CREATE_CLIENT_REQUEST, function*(action) {
     try {
       const response = yield call(ClientApi.createClient, action.viewModel);
-      debugger
       if (response.code === "200") {
         yield put({
           type: types.CREATE_CLIENT_SUCCESS,

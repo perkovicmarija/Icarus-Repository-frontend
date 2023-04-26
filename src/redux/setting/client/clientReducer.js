@@ -9,12 +9,13 @@ const initState = {
   clients: [],
   client: {},
   totalCount: 0,
-  rowsPerPage: 25,
+  rowsPerPage: 10,
   filters: initFilters
 }
 
 
 export default function clientReducer(state = initState, action) {
+
   switch (action.type) {
     case types.LOAD_ALL_CLIENTS_SUCCESS:
       return {

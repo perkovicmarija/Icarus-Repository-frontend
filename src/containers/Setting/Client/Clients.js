@@ -112,10 +112,27 @@ function Clients(props) {
   }
 
   const handleChangePage = (event, page) => {
+    const viewModel = {
+      filters: props.filters,
+      pagination: {
+        page: page,
+        rowsPerPage: props.rowsPerPage
+      }
+    };
+    props.clientActions.loadAllClientsPagination(viewModel);
     props.history.push(getClientsPath(page, props.rowsPerPage));
+
   };
 
   const handleChangeRowsPerPage = event => {
+    const viewModel = {
+      filters: props.filters,
+      pagination: {
+        page: props.page,
+        rowsPerPage: event.target.value
+      }
+    };
+    props.clientActions.loadAllClientsPagination(viewModel);
     props.history.push(getClientsPath(props.page, event.target.value));
   };
 
@@ -168,7 +185,7 @@ function Clients(props) {
 
 function mapStateToProps(state, ownProps) {
   let page = 0;
-  let rowsPerPage = 25;
+  let rowsPerPage = 10;
   if (ownProps.match.params.page) {
     page = parseInt(ownProps.match.params.page);
   }
