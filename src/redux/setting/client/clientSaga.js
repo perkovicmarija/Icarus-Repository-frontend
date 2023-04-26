@@ -49,6 +49,7 @@ export function* createClientRequest() {
   yield takeLatest(types.CREATE_CLIENT_REQUEST, function*(action) {
     try {
       const response = yield call(ClientApi.createClient, action.viewModel);
+      debugger
       if (response.code === "200") {
         yield put({
           type: types.CREATE_CLIENT_SUCCESS,
@@ -80,11 +81,11 @@ export function* createClientRequest() {
 export function* updateClientRequest() {
   yield takeLatest(types.UPDATE_CLIENT_REQUEST, function*(action) {
     try {
-      const response = yield call(ClientApi.updateClient, action.viewModel.requestBody);
+      const response = yield call(ClientApi.updateClient, action.viewModel);
       if (response.code === "200") {
         yield put({
           type: types.UPDATE_CLIENT_SUCCESS,
-          client: response.data
+          updatedClient: response.data
         });
         yield put({
           type: types.AJAX_SUCCESS,
@@ -116,7 +117,7 @@ export function* deleteClientRequest() {
       if (response.code === "200") {
         yield put({
           type: types.DELETE_CLIENT_SUCCESS,
-          client: {}
+          deletedClientId: response.data
         });
         yield put({
           type: types.AJAX_SUCCESS,

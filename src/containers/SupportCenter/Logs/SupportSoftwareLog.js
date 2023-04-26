@@ -55,13 +55,16 @@ function SupportSoftwareLog(props) {
   const handleDialogFormSoftwareLogSubmit = () => {
     setDialogNewLog(false);
     if (softwareLog.supportSoftwareLog.supportSoftwareLogId) {
-      let viewModel = {
-        requestBody: softwareLog
-      }
-      props.supportActions.updateSoftwareLogClient(viewModel);
+      props.supportActions.updateSoftwareLogClient(softwareLog);
     } else {
       props.supportActions.createSoftwareLogClient(softwareLog);
     }
+    setSoftwareLog({
+      title: "",
+      description: "",
+      selectedClients: [],
+      supportSoftwareLog: {}
+    })
   };
 
   const handleInputChange = (event) => {
@@ -127,7 +130,6 @@ function SupportSoftwareLog(props) {
       }
       props.supportActions.deleteSoftwareLogClient(viewModel);
       setDialogWarningOpen(false);
-      props.supportActions.loadAllSoftwareLogs()
   }
 
   const handleChangePage = (event, page) => {

@@ -16,7 +16,7 @@ const useStyles = makeStyles(theme => ({
 
 const columnData = [
   { id: 'name', numeric: false, disablePadding: false, label: 'general.name' },
-  { id: 'name', numeric: false, disablePadding: false, label: 'general.abbreviation' },
+  { id: 'abbreviation', numeric: false, disablePadding: false, label: 'general.abbreviation' },
 ];
 
 const ClientList = (props) => {

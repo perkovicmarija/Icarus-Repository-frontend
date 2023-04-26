@@ -369,7 +369,7 @@ export function* createSoftwareLogRequest() {
             if (response.code === "200") {
                 yield put({
                     type: types.CREATE_SOFTWARE_LOG_SUCCESS,
-                    softwareLog: response.data
+                    softwareLogs: response.data
                 });
                 yield put({
                     type: types.AJAX_SUCCESS,
@@ -389,12 +389,20 @@ export function* createSoftwareLogRequest() {
 export function* updateSoftwareLogRequest() {
     yield takeLatest(types.UPDATE_SOFTWARE_LOG_REQUEST, function*(action) {
         try {
-            const response = yield call(SupportCenterApi.updateSoftwareLogClient, action.viewModel.requestBody);
+            const response = yield call(SupportCenterApi.updateSoftwareLogClient, action.viewModel);
+            debugger
             if (response.code === "200") {
                 yield put({
                     type: types.UPDATE_SOFTWARE_LOG_SUCCESS,
-                    softwareLog: response.data
+                    updatedSoftwareLog: {
+                        supportSoftwareLogId: action.viewModel.supportSoftwareLog.supportSoftwareLogId,
+                        created: action.viewModel.supportSoftwareLog.created,
+                        title: action.viewModel.title,
+                        description: action.viewModel.description,
+                    },
+                    updatedClients: response.data.selectedClients
                 });
+
                 yield put({
                     type: types.AJAX_SUCCESS,
                     message: response.message
@@ -425,7 +433,7 @@ export function* deleteSoftwareLogRequest() {
             if (response.code === "200") {
                 yield put({
                     type: types.DELETE_SOFTWARE_LOG_SUCCESS,
-                    softwareLog: {}
+                    softwareLogId: action.viewModel.softwareLogId
                 });
                 yield put({
                     type: types.AJAX_SUCCESS,

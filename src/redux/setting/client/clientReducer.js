@@ -15,7 +15,7 @@ const initState = {
 
 
 export default function clientReducer(state = initState, action) {
-  switch(action.type) {
+  switch (action.type) {
     case types.LOAD_ALL_CLIENTS_SUCCESS:
       return {
         ...state,
@@ -28,6 +28,19 @@ export default function clientReducer(state = initState, action) {
         totalCount: action.totalCount,
         client: {}
       };
+    case types.UPDATE_CLIENT_SUCCESS:
+      const index = state.clientsPagination.findIndex(client => client.clientId === action.updatedClient.clientId)
+      const updatedClient = {
+        ...state.clientsPagination[index],
+        name: action.updatedClient.name,
+        abbreviation: action.updatedClient.abbreviation,
+        deactivated: action.updatedClient.deactivated
+      }
+      return {
+        ...state,
+        client: action.updatedClient,
+        clientsPagination: [...state.clientsPagination.slice(0, index), updatedClient, ...state.clientsPagination.slice(index + 1)]
+      };
     case types.FILTER_CLIENT_SEARCH_UPDATE:
       return {
         ...state,
@@ -36,20 +49,17 @@ export default function clientReducer(state = initState, action) {
           clientSearch: action.clientSearch
         }
       };
-    case types.CREATE_CLIENT_REQUEST:
-    return {
-      ...state,
-      client: action.client
-    };
-    case types.UPDATE_CLIENT_SUCCESS:
-    return {
-        ...state,
-        client: action.client
-    };
-    case types.DELETE_CLIENT_REQUEST:
+    case types.CREATE_CLIENT_SUCCESS:
       return {
         ...state,
-        client: {}
+        client: action.client,
+        clientsPagination: [...state.clientsPagination, action.client]
+      };
+    case types.DELETE_CLIENT_SUCCESS:
+      return {
+        ...state,
+        client: {},
+        clientsPagination: state.clientsPagination.filter(client => client.clientId !== action.deletedClientId)
       };
 
     default:

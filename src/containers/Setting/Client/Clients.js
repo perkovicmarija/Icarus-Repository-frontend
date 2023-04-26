@@ -52,10 +52,7 @@ function Clients(props) {
   const handleClientDialogDetailsSubmit = () => {
     setDialogClientDetailsOpen(false);
     if (client.clientId) {
-      let viewModel = {
-        requestBody: client,
-      }
-      props.clientActions.update(viewModel);
+      props.clientActions.update(client);
     }
     else {
       props.clientActions.create(client)
