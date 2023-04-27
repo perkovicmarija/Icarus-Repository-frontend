@@ -54,13 +54,15 @@ export default function clientReducer(state = initState, action) {
       return {
         ...state,
         client: action.client,
-        clientsPagination: [...state.clientsPagination, action.client]
+        clientsPagination: [...state.clientsPagination, action.client],
+        totalCount: state.totalCount + 1
       };
     case types.DELETE_CLIENT_SUCCESS:
       return {
         ...state,
         client: {},
-        clientsPagination: state.clientsPagination.filter(client => client.clientId !== action.deletedClientId)
+        clientsPagination: state.clientsPagination.filter(client => client.clientId !== action.deletedClientId),
+        totalCount: state.totalCount - 1
       };
 
     default:

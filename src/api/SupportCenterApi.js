@@ -47,6 +47,9 @@ const SupportCenterApi = {
     getAllSoftwareLogClients(viewModel) {
         return RestApiGet.getData('/support/getAllSoftwareLogClient', viewModel);
     },
+    getAllSoftwareLogClientsPagination(viewModel) {
+        return RestApiPost.postData('/support/getAllSoftwareLogClientsPagination', viewModel);
+    },
     createSoftwareLogClient(viewModel) {
         return RestApiPost.postData('/support/softwareLogClient', viewModel);
     },

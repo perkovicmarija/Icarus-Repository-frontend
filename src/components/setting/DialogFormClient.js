@@ -42,12 +42,15 @@ const DialogFormClient = ({
               <TextFieldValidation
                 disabled={false}
                 id="name"
-                label=""
+                label="client.clientName"
                 name="name"
                 value={client.name}
                 onInputChange={onInputChange}
-                placeholder="client.clientName"
-                type="text"/>
+                placeholder="general.name"
+                type="text"
+                validators={['required']}
+                errorMessages={['This field is required']}
+                required/>
             </Grid>
           </Grid>
 
@@ -57,12 +60,15 @@ const DialogFormClient = ({
               <TextFieldValidation
                 disabled={false}
                 id="abbreviation"
-                label=""
+                label="client.abbreviation"
                 name="abbreviation"
                 value={client.abbreviation}
                 onInputChange={onInputChange}
                 placeholder="client.abbreviation"
-                type="text"/>
+                type="text"
+                validators={['required']}
+                errorMessages={['This field is required']}
+                required/>
             </Grid>
           </Grid>
 
@@ -85,7 +91,7 @@ const DialogFormClient = ({
           <Button onClick={onClose}>
             Cancel
           </Button>
-          <Button onClick={onSubmit} className="uppercase">
+          <Button type="submit" className="uppercase">
             {!client.clientId ? "Add" : "Update"}
           </Button>
         </DialogActions>

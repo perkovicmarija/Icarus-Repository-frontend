@@ -5,7 +5,7 @@ import {
     supportLogs,
     getUsersPath,
     auditChecklistOverview,
-    settingModule, clients, getClientsPath
+    settingModule, clients, getClientsPath, supportCenter, getSupportLogsPath
 } from '../../consts/routePaths';
 
 const sidebarRoutes = [
@@ -25,7 +25,7 @@ const sidebarRoutes = [
         permissions: ['PERM_USER_CRUD'],
     },
     {
-        path: supportLogs,
+        path: getSupportLogsPath(0, 10),
         name: "Support center",
         icon: SupportAgent,
         key: "support-center",

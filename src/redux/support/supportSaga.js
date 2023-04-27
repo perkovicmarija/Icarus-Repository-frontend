@@ -1,13 +1,6 @@
-import { all, take, takeLatest, put, call, fork } from 'redux-saga/effects';
+import {all, call, fork, put, take, takeLatest} from 'redux-saga/effects';
 import * as types from '../actionTypes';
 import SupportCenterApi from '../../api/SupportCenterApi';
-import ClientApi from "../../api/ClientApi";
-import {
-    DELETE_SOFTWARE_LOG_FAILED,
-    DELETE_SOFTWARE_LOG_SUCCESS,
-    UPDATE_SOFTWARE_LOG_FAILED,
-    UPDATE_SOFTWARE_LOG_SUCCESS
-} from "../actionTypes";
 
 export function* supportCentersRequest() {
     yield takeLatest(types.LOAD_SUPPORT_CENTER_ALL_REQUEST, function*(action) {
@@ -362,6 +355,29 @@ export function* icarusSoftwareLogsRequest() {
     });
 }
 
+export function* loadSoftwareLogsPaginationRequest() {
+    yield takeLatest(types.LOAD_SOFTWARE_LOGS_PAGINATION_REQUEST, function*(action) {
+        try {
+            const response = yield call(SupportCenterApi.getAllSoftwareLogClientsPagination, action.viewModel);
+            if (response.code === "200") {
+                const data = response.data.data
+                const meta = response.data.meta;
+                yield put({
+                    type: types.LOAD_SOFTWARE_LOGS_PAGINATION_SUCCESS,
+                    softwareLogs: data,
+                    totalCount: meta.totalCount
+                });
+            } else {
+                yield put({type: types.LOAD_SOFTWARE_LOGS_PAGINATION_FAILED})
+            }
+        } catch (e) {
+            yield put({type: types.LOAD_SOFTWARE_LOGS_PAGINATION_FAILED})
+        } finally {
+            yield put({type: types.AJAX_FINISHED})
+        }
+    });
+}
+
 export function* createSoftwareLogRequest() {
     yield takeLatest(types.CREATE_SOFTWARE_LOG_REQUEST, function*(action) {
         try {
@@ -463,6 +479,7 @@ export default function* rootSaga() {
         fork(updateWithAttachmentsRequest),
         fork(downloadRequest),
         fork(icarusSoftwareLogsRequest),
+        fork(loadSoftwareLogsPaginationRequest),
         fork(createSoftwareLogRequest),
         fork(updateSoftwareLogRequest),
         fork(deleteSoftwareLogRequest),

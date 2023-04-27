@@ -109,6 +109,20 @@ export function loadAllSoftwareLogs(viewModel) {
     }
 }
 
+export function loadAllSoftwareLogsPagination(viewModel) {
+    return {
+        type: types.LOAD_SOFTWARE_LOGS_PAGINATION_REQUEST,
+        viewModel
+    }
+}
+
+export function changeFilterSoftwareLogSearch(softwareLogSearch) {
+    return {
+        type: types.FILTER_SOFTWARE_LOG_SEARCH_UPDATE,
+        softwareLogSearch
+    }
+}
+
 
 export function createSoftwareLogClient(viewModel) {
     return {

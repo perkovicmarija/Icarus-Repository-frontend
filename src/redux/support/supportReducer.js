@@ -4,7 +4,7 @@ const initFilters = {
   startDate: null,
   endDate: null,
   statuses: [],
-  softwareLogDescription: ""
+  softwareLogSearch: ""
 }
 
 const initState = {
@@ -15,7 +15,7 @@ const initState = {
   levels: [],
   statuses: [],
   filters: initFilters,
-  softwareLogs: [],
+  softwareLogsPagination: [],
   softwareLog: {}
 }
 export default function supportReducer(state = initState, action) {
@@ -97,36 +97,51 @@ export default function supportReducer(state = initState, action) {
         ...state,
         filters: initFilters
       };
-
     case types.LOAD_SOFTWARE_LOGS_SUCCESS:
       return {
         ...state,
-        softwareLogs: action.softwareLogs,
+        softwareLogsPagination: action.softwareLogs,
       };
+    case types.LOAD_SOFTWARE_LOGS_PAGINATION_SUCCESS:
+      return {
+        ...state,
+        softwareLogsPagination: action.softwareLogs,
+        totalCount: action.totalCount
+      };
+    case types.FILTER_SOFTWARE_LOG_SEARCH_UPDATE:
+    return {
+      ...state,
+      filters: {
+        ...state.filters,
+        softwareLogSearch: action.softwareLogSearch
+      }
+    };
     case types.CREATE_SOFTWARE_LOG_SUCCESS:
       return {
         ...state,
-        softwareLogs: action.softwareLogs,
-        softwareLog: {}
+        softwareLogsPagination: action.softwareLogs,
+        softwareLog: {},
+        totalCount: state.totalCount + 1
 
       };
     case types.UPDATE_SOFTWARE_LOG_SUCCESS:
-      const index = state.softwareLogs.findIndex(log => log.supportSoftwareLog.supportSoftwareLogId === action.updatedSoftwareLog.supportSoftwareLogId)
+      const index = state.softwareLogsPagination.findIndex(log => log.supportSoftwareLog.supportSoftwareLogId === action.updatedSoftwareLog.supportSoftwareLogId)
       const updatedSoftwareLog = {
-        ...state.softwareLogs[index],
+        ...state.softwareLogsPagination[index],
         supportSoftwareLog: action.updatedSoftwareLog,
         clients: action.updatedClients
       }
       return {
         ...state,
         softwareLog: action.updatedSoftwareLog,
-        softwareLogs: [...state.softwareLogs.slice(0, index), updatedSoftwareLog, ...state.softwareLogs.slice(index + 1)]
+        softwareLogsPagination: [...state.softwareLogsPagination.slice(0, index), updatedSoftwareLog, ...state.softwareLogsPagination.slice(index + 1)]
       };
     case types.DELETE_SOFTWARE_LOG_SUCCESS:
       return {
         ...state,
         softwareLog: {},
-        softwareLogs: state.softwareLogs.filter(log => log.supportSoftwareLog.supportSoftwareLogId !== action.softwareLogId)
+        softwareLogsPagination: state.softwareLogsPagination.filter(log => log.supportSoftwareLog.supportSoftwareLogId !== action.softwareLogId),
+        totalCount: state.totalCount - 1
       };
     default:
       return state;

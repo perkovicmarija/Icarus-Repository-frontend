@@ -47,13 +47,17 @@ function DialogFormComment(props) {
                                 value={softwareLog.title}
                                 onInputChange={onInputChange}
                                 placeholder="general.title"
-                                type="text"/>
+                                type="text"
+                                validators={['required']}
+                                errorMessages={['This field is required']}
+                                required/>
                         </Grid>
 
                     </Grid>
 
                     <Grid container>
                         <Grid item xl={12} lg={12} md={12} sm={12} xs={12}>
+                            <TypographyFieldTitle title="general.description"/>
                             <TextFieldValidation
                                 disabled={false}
                                 id="description"
@@ -63,7 +67,10 @@ function DialogFormComment(props) {
                                 onInputChange={onInputChange}
                                 rows="5"
                                 placeholder="form.writeDescription"
-                                type="text"/>
+                                type="text"
+                                validators={['required']}
+                                errorMessages={['This field is required']}
+                                required/>
                         </Grid>
                     </Grid>
 
@@ -88,7 +95,7 @@ function DialogFormComment(props) {
                     <Button onClick={onClose}>
                         Cancel
                     </Button>
-                    <Button onClick={onSubmit} className="uppercase">
+                    <Button type="submit" className="uppercase">
                         {!softwareLog.supportSoftwareLog.supportSoftwareLogId ? "Add" : "Update"}
                     </Button>
                 </DialogActions>

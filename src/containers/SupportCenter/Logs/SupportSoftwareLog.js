@@ -11,7 +11,7 @@ import DialogFormSoftwareLog from '../../../components/support/DialogFormSoftwar
 import * as supportActions from '../../../redux/support/supportActions';
 import * as clientActions from '../../../redux/setting/client/clientActions';
 import SupportSoftwareLogList from "./SupportSoftwareLogList";
-import {getClientsPath} from "../../../consts/routePaths";
+import {getSupportLogsPath} from "../../../consts/routePaths";
 import DialogDeleteWarning from "../../../components/core/Dialog/DialogDeleteWarning";
 
 const useStyles = makeStyles(theme => ({}));
@@ -31,7 +31,15 @@ function SupportSoftwareLog(props) {
   const [softwareLogIdForDelete, setSoftwareLogIdForDelete] = useState(undefined)
 
   useEffect(() => {
-    props.supportActions.loadAllSoftwareLogs();
+    const viewModel = {
+      filters: {},
+      pagination: {
+        page: props.page,
+        rowsPerPage: props.rowsPerPage
+      }
+    }
+    // props.supportActions.loadAllSoftwareLogs();
+    props.supportActions.loadAllSoftwareLogsPagination(viewModel);
     if (props.clients.length === 0) {
       props.clientActions.loadAllClients()
     }
@@ -98,20 +106,18 @@ function SupportSoftwareLog(props) {
   };
 
   const handleInputSearchChange = (event) => {
-    console.log("handleInputSearchChange", event.target.value)
-    // props.clientActions.changeFilterClientSearch(event.target.value);
+    props.supportActions.changeFilterSoftwareLogSearch(event.target.value);
   }
 
   const handleSearchSubmit = () => {
     const viewModel = {
-      filters: props.filters,
+      filters: { softwareLogSearch: props.filters.softwareLogSearch },
       pagination: {
         page: props.page,
         rowsPerPage: props.rowsPerPage
       }
     }
-    console.log("handleSearchSubmit", viewModel)
-    // props.clientActions.loadAllClientsPagination(viewModel);
+    props.supportActions.loadAllSoftwareLogsPagination(viewModel);
   }
 
   const handleSoftwareLogDelete = (event, softwareLog) => {
@@ -133,15 +139,31 @@ function SupportSoftwareLog(props) {
   }
 
   const handleChangePage = (event, page) => {
-    props.history.push(getClientsPath(page, props.rowsPerPage));
+    const viewModel = {
+      filters: props.filters,
+      pagination: {
+        page: page,
+        rowsPerPage: props.rowsPerPage
+      }
+    };
+    props.supportActions.loadAllSoftwareLogsPagination(viewModel);
+    props.history.push(getSupportLogsPath(page, props.rowsPerPage));
   };
 
   const handleChangeRowsPerPage = event => {
-    props.history.push(getClientsPath(props.page, event.target.value));
+    const viewModel = {
+      filters: props.filters,
+      pagination: {
+        page: props.page,
+        rowsPerPage: event.target.value
+      }
+    };
+    props.supportActions.loadAllSoftwareLogsPagination(viewModel);
+    props.history.push(getSupportLogsPath(props.page, event.target.value));
   };
 
   const {
-    softwareLogs,
+    softwareLogsPagination,
     totalCount,
     filters,
     filtersActive,
@@ -152,9 +174,9 @@ function SupportSoftwareLog(props) {
   return (
     <Paper>
       <SupportSoftwareLogList
-        softwareLogs={softwareLogs}
+        softwareLogs={softwareLogsPagination}
         totalCount={totalCount}
-        searchValue={filters.clientSearch}
+        searchValue={filters.softwareLogSearch}
         onInputSearchChange={handleInputSearchChange}
         onSearchSubmit={handleSearchSubmit}
         onNewSoftwareLogClick={handleNewSoftwareLogClick}
@@ -195,7 +217,7 @@ SupportSoftwareLog.propTypes = {
 
 function mapStateToProps(state, ownProps) {
   let page = 0;
-  let rowsPerPage = 25;
+  let rowsPerPage = 10;
   if (ownProps.match.params.page) {
     page = parseInt(ownProps.match.params.page);
   }
@@ -203,7 +225,7 @@ function mapStateToProps(state, ownProps) {
     rowsPerPage = parseInt(ownProps.match.params.rowsPerPage);
   }
   return {
-    softwareLogs: state.SupportCenter.softwareLogs,
+    softwareLogsPagination: state.SupportCenter.softwareLogsPagination,
     softwareLog: state.SupportCenter.softwareLog,
     clients: state.Client.clients,
     totalCount: state.SupportCenter.totalCount,
