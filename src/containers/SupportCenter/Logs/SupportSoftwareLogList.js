@@ -7,6 +7,7 @@ import EnhancedTableToolbarRich from "../../../components/core/Table/EnhancedTab
 import {makeStyles} from "@mui/styles";
 import EnhancedTableHeaderActions from "../../../components/core/Table/EnhancedTableHeaderActions";
 import TablePaginationAction from "../../../components/core/Table/TablePaginationAction";
+import FilterIconCustom from "../../../components/core/FilterIconCustom";
 
 const useStyles = makeStyles(theme => ({
   tableRow: {
@@ -35,7 +36,9 @@ const SupportSoftwareLogList = (props) => {
     rowsPerPage,
     totalCount,
     onChangePage,
-    onChangeRowsPerPage
+    onChangeRowsPerPage,
+    onUserFilterClick,
+    filtersActive
   } = props
 
   return (
@@ -57,7 +60,7 @@ const SupportSoftwareLogList = (props) => {
             </IconButton>
           </>
         </Tooltip>
-        {/*<FilterIconCustom onFilterClick={onUserFilterClick} filtersActive={filtersActive} />*/}
+        <FilterIconCustom onFilterClick={onUserFilterClick} filtersActive={filtersActive} />
       </EnhancedTableToolbarRich>
       <Table>
         <EnhancedTableHeaderActions

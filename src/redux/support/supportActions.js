@@ -123,6 +123,19 @@ export function changeFilterSoftwareLogSearch(softwareLogSearch) {
     }
 }
 
+export function changeFilterSoftwareLogClients(selectedClients) {
+    return {
+        type: types.FILTER_CLIENTS_UPDATE,
+        selectedClients
+    }
+}
+
+export function clearSoftwareLogFilters() {
+    return {
+        type: types.CLEAR_SOFTWARE_LOG_FILTERS
+    }
+}
+
 
 export function createSoftwareLogClient(viewModel) {
     return {

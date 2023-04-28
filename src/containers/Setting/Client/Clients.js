@@ -8,7 +8,7 @@ import DialogFormFrame from "../../../components/core/Dialog/DialogFormFrame";
 import DialogFormClient from "../../../components/setting/DialogFormClient";
 import {cloneDeep} from "lodash";
 import DialogDeleteWarning from "../../../components/core/Dialog/DialogDeleteWarning";
-import {getClientsPath} from "../../../consts/routePaths";
+import {getClientsPath, getSupportLogsPath} from "../../../consts/routePaths";
 
 function Clients(props) {
 
@@ -104,11 +104,12 @@ function Clients(props) {
     const viewModel = {
       filters: props.filters,
       pagination: {
-        page: props.page,
+        page: 0,
         rowsPerPage: props.rowsPerPage
       }
     }
     props.clientActions.loadAllClientsPagination(viewModel);
+    props.history.push(getClientsPath( 0 , props.rowsPerPage))
   }
 
   const handleChangePage = (event, page) => {

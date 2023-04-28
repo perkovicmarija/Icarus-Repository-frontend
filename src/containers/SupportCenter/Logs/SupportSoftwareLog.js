@@ -13,6 +13,8 @@ import * as clientActions from '../../../redux/setting/client/clientActions';
 import SupportSoftwareLogList from "./SupportSoftwareLogList";
 import {getSupportLogsPath} from "../../../consts/routePaths";
 import DialogDeleteWarning from "../../../components/core/Dialog/DialogDeleteWarning";
+import DialogFormSoftwareLogFilter from "../../../components/support/DialogFormSoftwareLogFilter";
+import {changeFilterSoftwareLogClients} from "../../../redux/support/supportActions";
 
 const useStyles = makeStyles(theme => ({}));
 
@@ -29,10 +31,14 @@ function SupportSoftwareLog(props) {
   });
   const [dialogWarningOpen, setDialogWarningOpen] = useState(false);
   const [softwareLogIdForDelete, setSoftwareLogIdForDelete] = useState(undefined)
+  const [dialogFilterOpen, setDialogFilterOpen] = useState(false)
 
   useEffect(() => {
     const viewModel = {
-      filters: {},
+      filters: {
+        softwareLogSearch: props.filters.softwareLogSearch,
+        selectedClients: props.filters.selectedClients
+      },
       pagination: {
         page: props.page,
         rowsPerPage: props.rowsPerPage
@@ -111,13 +117,17 @@ function SupportSoftwareLog(props) {
 
   const handleSearchSubmit = () => {
     const viewModel = {
-      filters: { softwareLogSearch: props.filters.softwareLogSearch },
+      filters: {
+        softwareLogSearch: props.filters.softwareLogSearch,
+        selectedClients: props.filters.selectedClients
+      },
       pagination: {
-        page: props.page,
+        page: 0,
         rowsPerPage: props.rowsPerPage
       }
     }
     props.supportActions.loadAllSoftwareLogsPagination(viewModel);
+    props.history.push(getSupportLogsPath( 0 , props.rowsPerPage))
   }
 
   const handleSoftwareLogDelete = (event, softwareLog) => {
@@ -129,18 +139,23 @@ function SupportSoftwareLog(props) {
     setDialogWarningOpen(false);
     setSoftwareLogIdForDelete(undefined);
   }
-  
+
   const handleDeleteSoftwareLogConfirmed = () => {
-      let viewModel = {
-        softwareLogId: softwareLogIdForDelete,
-      }
-      props.supportActions.deleteSoftwareLogClient(viewModel);
-      setDialogWarningOpen(false);
+    let viewModel = {
+      softwareLogId: softwareLogIdForDelete,
+    }
+    props.supportActions.deleteSoftwareLogClient(viewModel);
+    setDialogWarningOpen(false);
   }
+
+  // PAGINATION
 
   const handleChangePage = (event, page) => {
     const viewModel = {
-      filters: props.filters,
+      filters: {
+        softwareLogSearch: props.filters.softwareLogSearch,
+        selectedClients: props.filters.selectedClients
+      },
       pagination: {
         page: page,
         rowsPerPage: props.rowsPerPage
@@ -152,7 +167,10 @@ function SupportSoftwareLog(props) {
 
   const handleChangeRowsPerPage = event => {
     const viewModel = {
-      filters: props.filters,
+      filters: {
+        softwareLogSearch: props.filters.softwareLogSearch,
+        selectedClients: props.filters.selectedClients
+      },
       pagination: {
         page: props.page,
         rowsPerPage: event.target.value
@@ -161,6 +179,47 @@ function SupportSoftwareLog(props) {
     props.supportActions.loadAllSoftwareLogsPagination(viewModel);
     props.history.push(getSupportLogsPath(props.page, event.target.value));
   };
+
+  // FILTERS
+
+  const handleUserFilterClick = () => {
+    setDialogFilterOpen(true);
+  }
+
+  const handleFilterDialogClose = () => {
+    setDialogFilterOpen(false);
+  }
+
+  const handleClearAllFilters = () => {
+    props.supportActions.clearSoftwareLogFilters();
+  }
+
+  const handleFilterSubmit = () => {
+    setDialogFilterOpen(false);
+    const viewModel = {
+      filters: {
+        softwareLogSearch: props.filters.softwareLogSearch,
+        selectedClients: props.filters.selectedClients
+      },
+      pagination: {
+        page: props.page,
+        rowsPerPage: props.rowsPerPage
+      }
+    }
+    props.supportActions.loadAllSoftwareLogsPagination(viewModel);
+
+    console.log("handleFilterSubmit")
+  }
+
+  const handleMultiSelectChangeClients = (event) => {
+    const selectedIds = event.target.value
+    let selectedClients = [];
+    for (let i = 0, l = selectedIds.length; i < l; i++) {
+      const client = props.clients.find(type => type.clientId === selectedIds[i]);
+      selectedClients.push(client);
+    }
+    props.supportActions.changeFilterSoftwareLogClients(selectedClients);
+  }
 
   const {
     softwareLogsPagination,
@@ -186,7 +245,9 @@ function SupportSoftwareLog(props) {
         page={page}
         rowsPerPage={rowsPerPage}
         onChangePage={handleChangePage}
-        onChangeRowsPerPage={handleChangeRowsPerPage}/>
+        onChangeRowsPerPage={handleChangeRowsPerPage}
+        onUserFilterClick={handleUserFilterClick}
+      />
 
       <DialogFormFrame
         onClose={handleDialogLogClose}
@@ -200,6 +261,19 @@ function SupportSoftwareLog(props) {
           selectedClients={softwareLog.selectedClients}
           softwareLog={softwareLog}
           clients={props.clients}
+        />
+      </DialogFormFrame>
+      <DialogFormFrame
+        onClose={handleFilterDialogClose}
+        title="general.selectFilters"
+        open={dialogFilterOpen}>
+        <DialogFormSoftwareLogFilter
+          onClearAll={handleClearAllFilters}
+          onClose={handleFilterDialogClose}
+          onSubmit={handleFilterSubmit}
+          onMultiSelectChangeClients={handleMultiSelectChangeClients}
+          clients={props.clients}
+          selectedClients={props.filters.selectedClients}
         />
       </DialogFormFrame>
       <DialogDeleteWarning

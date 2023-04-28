@@ -4,7 +4,8 @@ const initFilters = {
   startDate: null,
   endDate: null,
   statuses: [],
-  softwareLogSearch: ""
+  softwareLogSearch: "",
+  selectedClients: []
 }
 
 const initState = {
@@ -114,6 +115,22 @@ export default function supportReducer(state = initState, action) {
       filters: {
         ...state.filters,
         softwareLogSearch: action.softwareLogSearch
+      }
+    };
+    case types.FILTER_CLIENTS_UPDATE:
+    return {
+      ...state,
+      filters: {
+        ...state.filters,
+        selectedClients: action.selectedClients
+      }
+    };
+    case types.CLEAR_SOFTWARE_LOG_FILTERS:
+    return {
+      ...state,
+      filters: {
+        ...state.filters,
+        selectedClients: []
       }
     };
     case types.CREATE_SOFTWARE_LOG_SUCCESS:
