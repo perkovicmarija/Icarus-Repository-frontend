@@ -330,31 +330,6 @@ export function* downloadRequest() {
     });
 }
 
-
-export function* icarusSoftwareLogsRequest() {
-    yield takeLatest(types.LOAD_SOFTWARE_LOGS_REQUEST, function*(action) {
-        try {
-            const response = yield call(SupportCenterApi.getAllSoftwareLogClients, action.viewModel);
-            if (response.code === "200") {
-                const data = response.data
-                //const meta = response.meta;
-                yield put({
-                    type: types.LOAD_SOFTWARE_LOGS_SUCCESS,
-                    softwareLogs: data,
-                    //totalCount: meta.totalCount
-                });
-            } else {
-                yield put({type: types.LOAD_SOFTWARE_LOGS_FAILED})
-            }
-        } catch (e) {
-            console.log("error");
-            yield put({type: types.LOAD_SOFTWARE_LOGS_FAILED})
-        } finally {
-            yield put({type: types.AJAX_FINISHED})
-        }
-    });
-}
-
 export function* loadSoftwareLogsPaginationRequest() {
     yield takeLatest(types.LOAD_SOFTWARE_LOGS_PAGINATION_REQUEST, function*(action) {
         try {
@@ -478,7 +453,6 @@ export default function* rootSaga() {
         fork(createWithAttachmentsRequest),
         fork(updateWithAttachmentsRequest),
         fork(downloadRequest),
-        fork(icarusSoftwareLogsRequest),
         fork(loadSoftwareLogsPaginationRequest),
         fork(createSoftwareLogRequest),
         fork(updateSoftwareLogRequest),

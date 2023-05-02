@@ -98,11 +98,6 @@ export default function supportReducer(state = initState, action) {
         ...state,
         filters: initFilters
       };
-    case types.LOAD_SOFTWARE_LOGS_SUCCESS:
-      return {
-        ...state,
-        softwareLogsPagination: action.softwareLogs,
-      };
     case types.LOAD_SOFTWARE_LOGS_PAGINATION_SUCCESS:
       return {
         ...state,

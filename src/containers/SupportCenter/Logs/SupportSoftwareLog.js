@@ -14,7 +14,6 @@ import SupportSoftwareLogList from "./SupportSoftwareLogList";
 import {getSupportLogsPath} from "../../../consts/routePaths";
 import DialogDeleteWarning from "../../../components/core/Dialog/DialogDeleteWarning";
 import DialogFormSoftwareLogFilter from "../../../components/support/DialogFormSoftwareLogFilter";
-import {changeFilterSoftwareLogClients} from "../../../redux/support/supportActions";
 
 const useStyles = makeStyles(theme => ({}));
 
@@ -37,18 +36,18 @@ function SupportSoftwareLog(props) {
     const viewModel = {
       filters: {
         softwareLogSearch: props.filters.softwareLogSearch,
-        selectedClients: props.filters.selectedClients
+        selectedClients: []
       },
       pagination: {
         page: props.page,
         rowsPerPage: props.rowsPerPage
       }
     }
-    // props.supportActions.loadAllSoftwareLogs();
     props.supportActions.loadAllSoftwareLogsPagination(viewModel);
     if (props.clients.length === 0) {
       props.clientActions.loadAllClients()
     }
+    handleClearAllFilters();
   }, []);
 
   const handleNewSoftwareLogClick = (event) => {
@@ -207,8 +206,6 @@ function SupportSoftwareLog(props) {
       }
     }
     props.supportActions.loadAllSoftwareLogsPagination(viewModel);
-
-    console.log("handleFilterSubmit")
   }
 
   const handleMultiSelectChangeClients = (event) => {

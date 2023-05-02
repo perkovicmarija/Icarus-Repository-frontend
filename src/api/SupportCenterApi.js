@@ -44,9 +44,6 @@ const SupportCenterApi = {
 
     ///////////////////////////   NEW ENDPOINTS   ///////////////////////////////////////////////
 
-    getAllSoftwareLogClients(viewModel) {
-        return RestApiGet.getData('/support/getAllSoftwareLogClient', viewModel);
-    },
     getAllSoftwareLogClientsPagination(viewModel) {
         return RestApiPost.postData('/support/getAllSoftwareLogClientsPagination', viewModel);
     },

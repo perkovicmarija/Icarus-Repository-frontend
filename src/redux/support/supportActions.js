@@ -102,13 +102,6 @@ export function clearFilters(empty) {
     }
 }
 
-export function loadAllSoftwareLogs(viewModel) {
-    return {
-        type: types.LOAD_SOFTWARE_LOGS_REQUEST,
-        viewModel
-    }
-}
-
 export function loadAllSoftwareLogsPagination(viewModel) {
     return {
         type: types.LOAD_SOFTWARE_LOGS_PAGINATION_REQUEST,
