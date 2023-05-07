@@ -44,6 +44,7 @@ function SupportSoftwareLog(props) {
       }
     }
     props.supportActions.loadAllSoftwareLogsPagination(viewModel);
+    // props.supportActions.loadAllSoftwareLogs(viewModel);
     if (props.clients.length === 0) {
       props.clientActions.loadAllClients()
     }
@@ -57,10 +58,10 @@ function SupportSoftwareLog(props) {
 
   const handleSoftwareLogEdit = (event, softwareLog) => {
     setSoftwareLog({
-      title: softwareLog.supportSoftwareLog.title,
-      description: softwareLog.supportSoftwareLog.description,
-      selectedClients: softwareLog.clients,
-      supportSoftwareLog: softwareLog.supportSoftwareLog
+      title: softwareLog.title,
+      description: softwareLog.description,
+      selectedClients: softwareLog.supportSoftwareLogClientJoinedList.map(x => x.client),
+      supportSoftwareLog: softwareLog
     });
     setDialogNewLog(true);
   }
@@ -78,6 +79,18 @@ function SupportSoftwareLog(props) {
       selectedClients: [],
       supportSoftwareLog: {}
     })
+    const viewModel = {
+      filters: {
+        softwareLogSearch: props.filters.softwareLogSearch,
+        selectedClients: []
+      },
+      pagination: {
+        page: props.page,
+        rowsPerPage: props.rowsPerPage
+      }
+    }
+    // props.supportActions.loadAllSoftwareLogs(viewModel);
+    props.supportActions.loadAllSoftwareLogsPagination(viewModel);
   };
 
   const handleInputChange = (event) => {
@@ -130,7 +143,7 @@ function SupportSoftwareLog(props) {
   }
 
   const handleSoftwareLogDelete = (event, softwareLog) => {
-    setSoftwareLogIdForDelete(softwareLog.supportSoftwareLog.supportSoftwareLogId);
+    setSoftwareLogIdForDelete(softwareLog.supportSoftwareLogId);
     setDialogWarningOpen(true);
   }
 

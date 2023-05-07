@@ -96,7 +96,7 @@ function DialogFormComment(props) {
                         Cancel
                     </Button>
                     <Button type="submit" className="uppercase">
-                        {!softwareLog.supportSoftwareLog.supportSoftwareLogId ? "Add" : "Update"}
+                        {!softwareLog.supportSoftwareLogId ? "Add" : "Update"}
                     </Button>
                 </DialogActions>
             </ValidatorForm>

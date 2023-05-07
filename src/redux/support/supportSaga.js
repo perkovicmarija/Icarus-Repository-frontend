@@ -330,6 +330,31 @@ export function* downloadRequest() {
     });
 }
 
+
+export function* icarusSoftwareLogsRequest() {
+    yield takeLatest(types.LOAD_SOFTWARE_LOGS_REQUEST, function*(action) {
+        try {
+            const response = yield call(SupportCenterApi.getAllSoftwareLogClients, action.viewModel);
+            if (response.code === "200") {
+                const data = response.data
+                //const meta = response.meta;
+                yield put({
+                    type: types.LOAD_SOFTWARE_LOGS_SUCCESS,
+                    softwareLogs: data,
+                    //totalCount: meta.totalCount
+                });
+            } else {
+                yield put({type: types.LOAD_SOFTWARE_LOGS_FAILED})
+            }
+        } catch (e) {
+            console.log("error");
+            yield put({type: types.LOAD_SOFTWARE_LOGS_FAILED})
+        } finally {
+            yield put({type: types.AJAX_FINISHED})
+        }
+    });
+}
+
 export function* loadSoftwareLogsPaginationRequest() {
     yield takeLatest(types.LOAD_SOFTWARE_LOGS_PAGINATION_REQUEST, function*(action) {
         try {
@@ -359,10 +384,6 @@ export function* createSoftwareLogRequest() {
             const response = yield call(SupportCenterApi.createSoftwareLogClient, action.viewModel);
             if (response.code === "200") {
                 yield put({
-                    type: types.CREATE_SOFTWARE_LOG_SUCCESS,
-                    softwareLogs: response.data
-                });
-                yield put({
                     type: types.AJAX_SUCCESS,
                     message: response.message
                 });
@@ -382,17 +403,6 @@ export function* updateSoftwareLogRequest() {
         try {
             const response = yield call(SupportCenterApi.updateSoftwareLogClient, action.viewModel);
             if (response.code === "200") {
-                yield put({
-                    type: types.UPDATE_SOFTWARE_LOG_SUCCESS,
-                    updatedSoftwareLog: {
-                        supportSoftwareLogId: action.viewModel.supportSoftwareLog.supportSoftwareLogId,
-                        created: action.viewModel.supportSoftwareLog.created,
-                        title: action.viewModel.title,
-                        description: action.viewModel.description,
-                    },
-                    updatedClients: response.data.selectedClients
-                });
-
                 yield put({
                     type: types.AJAX_SUCCESS,
                     message: response.message
@@ -453,6 +463,7 @@ export default function* rootSaga() {
         fork(createWithAttachmentsRequest),
         fork(updateWithAttachmentsRequest),
         fork(downloadRequest),
+        fork(icarusSoftwareLogsRequest),
         fork(loadSoftwareLogsPaginationRequest),
         fork(createSoftwareLogRequest),
         fork(updateSoftwareLogRequest),

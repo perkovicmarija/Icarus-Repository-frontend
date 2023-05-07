@@ -98,6 +98,11 @@ export default function supportReducer(state = initState, action) {
         ...state,
         filters: initFilters
       };
+    case types.LOAD_SOFTWARE_LOGS_SUCCESS:
+      return {
+        ...state,
+        softwareLogsPagination: action.softwareLogs,
+      };
     case types.LOAD_SOFTWARE_LOGS_PAGINATION_SUCCESS:
       return {
         ...state,
@@ -128,31 +133,11 @@ export default function supportReducer(state = initState, action) {
         selectedClients: []
       }
     };
-    case types.CREATE_SOFTWARE_LOG_SUCCESS:
-      return {
-        ...state,
-        softwareLogsPagination: action.softwareLogs,
-        softwareLog: {},
-        totalCount: state.totalCount + 1
-
-      };
-    case types.UPDATE_SOFTWARE_LOG_SUCCESS:
-      const index = state.softwareLogsPagination.findIndex(log => log.supportSoftwareLog.supportSoftwareLogId === action.updatedSoftwareLog.supportSoftwareLogId)
-      const updatedSoftwareLog = {
-        ...state.softwareLogsPagination[index],
-        supportSoftwareLog: action.updatedSoftwareLog,
-        clients: action.updatedClients
-      }
-      return {
-        ...state,
-        softwareLog: action.updatedSoftwareLog,
-        softwareLogsPagination: [...state.softwareLogsPagination.slice(0, index), updatedSoftwareLog, ...state.softwareLogsPagination.slice(index + 1)]
-      };
     case types.DELETE_SOFTWARE_LOG_SUCCESS:
       return {
         ...state,
         softwareLog: {},
-        softwareLogsPagination: state.softwareLogsPagination.filter(log => log.supportSoftwareLog.supportSoftwareLogId !== action.softwareLogId),
+        softwareLogsPagination: state.softwareLogsPagination.filter(log => log.supportSoftwareLogId !== action.softwareLogId),
         totalCount: state.totalCount - 1
       };
     default:

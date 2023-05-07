@@ -68,16 +68,16 @@ const SupportSoftwareLogList = (props) => {
         />
         <TableBody>
           {softwareLogs
-            .map(softwareLog => {
+            .map((softwareLog, i) => {
               return (
                 <TableRow
                   className={classes.tableRow}
-                  key={softwareLog.supportSoftwareLog.supportSoftwareLogId}
+                  key={i}
                   hover={true}>
 
-                  <TableCell>{softwareLog.supportSoftwareLog.title}</TableCell>
-                  <TableCell>{softwareLog.supportSoftwareLog.description}</TableCell>
-                  <TableCell>{softwareLog.clients.map(client => client.name).join(', ')}</TableCell>
+                  <TableCell>{softwareLog.title}</TableCell>
+                  <TableCell>{softwareLog.description}</TableCell>
+                  <TableCell>{softwareLog.supportSoftwareLogClientJoinedList.map(x => x.client.name).join(', ')}</TableCell>
                   <TableCell className="nostretch">
                     <Tooltip title="Edit">
                       <>
