@@ -337,11 +337,9 @@ export function* icarusSoftwareLogsRequest() {
             const response = yield call(SupportCenterApi.getAllSoftwareLogClients, action.viewModel);
             if (response.code === "200") {
                 const data = response.data
-                //const meta = response.meta;
                 yield put({
                     type: types.LOAD_SOFTWARE_LOGS_SUCCESS,
                     softwareLogs: data,
-                    //totalCount: meta.totalCount
                 });
             } else {
                 yield put({type: types.LOAD_SOFTWARE_LOGS_FAILED})

@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, {useEffect, useMemo, useState} from 'react';
 
 import {withRouter} from 'react-router-dom';
 import {connect} from 'react-redux';
@@ -32,17 +32,19 @@ function SupportSoftwareLog(props) {
   const [softwareLogIdForDelete, setSoftwareLogIdForDelete] = useState(undefined)
   const [dialogFilterOpen, setDialogFilterOpen] = useState(false)
 
-  useEffect(() => {
-    const viewModel = {
-      filters: {
-        softwareLogSearch: props.filters.softwareLogSearch,
-        selectedClients: []
-      },
-      pagination: {
-        page: props.page,
-        rowsPerPage: props.rowsPerPage
-      }
+  const viewModel = useMemo(() => ({
+    filters: {
+      softwareLogSearch: props.filters.softwareLogSearch,
+      selectedClients: props.filters.selectedClients
+    },
+    pagination: {
+      page: props.page,
+      rowsPerPage: props.rowsPerPage
     }
+  }), [props.filters.softwareLogSearch, props.filters.selectedClients, props.page, props.rowsPerPage]);
+
+
+  useEffect(() => {
     props.supportActions.loadAllSoftwareLogsPagination(viewModel);
     // props.supportActions.loadAllSoftwareLogs(viewModel);
     if (props.clients.length === 0) {
@@ -79,16 +81,6 @@ function SupportSoftwareLog(props) {
       selectedClients: [],
       supportSoftwareLog: {}
     })
-    const viewModel = {
-      filters: {
-        softwareLogSearch: props.filters.softwareLogSearch,
-        selectedClients: []
-      },
-      pagination: {
-        page: props.page,
-        rowsPerPage: props.rowsPerPage
-      }
-    }
     // props.supportActions.loadAllSoftwareLogs(viewModel);
     props.supportActions.loadAllSoftwareLogsPagination(viewModel);
   };
@@ -128,17 +120,14 @@ function SupportSoftwareLog(props) {
   }
 
   const handleSearchSubmit = () => {
-    const viewModel = {
-      filters: {
-        softwareLogSearch: props.filters.softwareLogSearch,
-        selectedClients: props.filters.selectedClients
-      },
+    const viewModelWithPageReset = {
+      ...viewModel,
       pagination: {
-        page: 0,
-        rowsPerPage: props.rowsPerPage
+        ...viewModel.pagination,
+        page: 0
       }
-    }
-    props.supportActions.loadAllSoftwareLogsPagination(viewModel);
+    };
+    props.supportActions.loadAllSoftwareLogsPagination(viewModelWithPageReset);
     props.history.push(getSupportLogsPath( 0 , props.rowsPerPage))
   }
 
@@ -163,32 +152,26 @@ function SupportSoftwareLog(props) {
   // PAGINATION
 
   const handleChangePage = (event, page) => {
-    const viewModel = {
-      filters: {
-        softwareLogSearch: props.filters.softwareLogSearch,
-        selectedClients: props.filters.selectedClients
-      },
+    const viewModelWithNewPage = {
+      ...viewModel,
       pagination: {
-        page: page,
-        rowsPerPage: props.rowsPerPage
+        ...viewModel.pagination,
+        page: page
       }
     };
-    props.supportActions.loadAllSoftwareLogsPagination(viewModel);
+    props.supportActions.loadAllSoftwareLogsPagination(viewModelWithNewPage);
     props.history.push(getSupportLogsPath(page, props.rowsPerPage));
   };
 
   const handleChangeRowsPerPage = event => {
-    const viewModel = {
-      filters: {
-        softwareLogSearch: props.filters.softwareLogSearch,
-        selectedClients: props.filters.selectedClients
-      },
+    const viewModelWithNewRowsPerPage = {
+      ...viewModel,
       pagination: {
-        page: props.page,
+        ...viewModel.pagination,
         rowsPerPage: event.target.value
       }
     };
-    props.supportActions.loadAllSoftwareLogsPagination(viewModel);
+    props.supportActions.loadAllSoftwareLogsPagination(viewModelWithNewRowsPerPage);
     props.history.push(getSupportLogsPath(props.page, event.target.value));
   };
 
@@ -208,16 +191,6 @@ function SupportSoftwareLog(props) {
 
   const handleFilterSubmit = () => {
     setDialogFilterOpen(false);
-    const viewModel = {
-      filters: {
-        softwareLogSearch: props.filters.softwareLogSearch,
-        selectedClients: props.filters.selectedClients
-      },
-      pagination: {
-        page: props.page,
-        rowsPerPage: props.rowsPerPage
-      }
-    }
     props.supportActions.loadAllSoftwareLogsPagination(viewModel);
   }
 

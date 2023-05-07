@@ -42,7 +42,7 @@ const SupportCenterApi = {
         return RestApiPostDownloadAxios.postData(viewModel, '/supportBug/downloadAttachment')
     },
 
-    ///////////////////////////   NEW ENDPOINTS   ///////////////////////////////////////////////
+    ///////////////////////////   SUPPORT SOFTWARE LOGS   ///////////////////////////////////////////////
 
     getAllSoftwareLogClients(viewModel) {
         return RestApiGet.getData('/support/getAllSoftwareLogClient', viewModel);
