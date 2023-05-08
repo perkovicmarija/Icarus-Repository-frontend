@@ -3,7 +3,7 @@
 export function getServerPath() {
     let fullUrl = window.location.href;
     if(fullUrl.includes("localhost")) {
-        return 'http://localhost:8080'
+        return 'http://localhost:8081'
     } else {
         const subdomain = fullUrl.split('.')[0];
         return subdomain + '.inxelo.aero/icarussms';
