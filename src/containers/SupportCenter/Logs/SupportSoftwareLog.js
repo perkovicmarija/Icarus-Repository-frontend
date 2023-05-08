@@ -230,6 +230,7 @@ function SupportSoftwareLog(props) {
         onChangePage={handleChangePage}
         onChangeRowsPerPage={handleChangeRowsPerPage}
         onUserFilterClick={handleUserFilterClick}
+        selectedClients={props.filters.selectedClients}
       />
 
       <DialogFormFrame
@@ -274,7 +275,7 @@ SupportSoftwareLog.propTypes = {
 
 function mapStateToProps(state, ownProps) {
   let page = 0;
-  let rowsPerPage = 10;
+  let rowsPerPage = 25;
   if (ownProps.match.params.page) {
     page = parseInt(ownProps.match.params.page);
   }

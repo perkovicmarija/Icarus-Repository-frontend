@@ -25,7 +25,7 @@ const sidebarRoutes = [
         permissions: ['PERM_USER_CRUD'],
     },
     {
-        path: getSupportLogsPath(0, 10),
+        path: getSupportLogsPath(0, 25),
         name: "Support center",
         icon: SupportAgent,
         key: "support-center",
@@ -39,7 +39,7 @@ const sidebarRoutes = [
         sidebar: true,
         permissions: ['PERM_SUPPORT_BASIC', 'PERM_SUPPORT_CRUD', 'PERM_SUPPORT_ADMIN'],
         children: [{
-            path: getClientsPath(0, 10),
+            path: getClientsPath(0, 25),
             name: "Clients",
             key: "clients-list",
             sidebar: true,

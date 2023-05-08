@@ -38,7 +38,8 @@ const SupportSoftwareLogList = (props) => {
     onChangePage,
     onChangeRowsPerPage,
     onUserFilterClick,
-    filtersActive
+    filtersActive,
+    selectedClients
   } = props
 
   return (
@@ -60,7 +61,7 @@ const SupportSoftwareLogList = (props) => {
             </IconButton>
           </>
         </Tooltip>
-        <FilterIconCustom onFilterClick={onUserFilterClick} filtersActive={filtersActive} />
+        <FilterIconCustom onFilterClick={onUserFilterClick} selectedClients={selectedClients}/>
       </EnhancedTableToolbarRich>
       <Table>
         <EnhancedTableHeaderActions

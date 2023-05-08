@@ -10,13 +10,13 @@ const theme = createTheme({palette: {primary: blue}})
 
 function FilterIconCustom(props) {
 
-    const {onFilterClick, filtersActive} = props;
+    const {onFilterClick, selectedClients} = props;
     return (
         <ThemeProvider theme={theme}>
             <Tooltip title="Filters">
               <>
                 <IconButton aria-label="filter-list" onClick={onFilterClick}>
-                  <FilterList color={filtersActive ? "primary" : undefined}/>
+                  <FilterList sx={{ color: selectedClients?.length > 0 ? 'blue' : "grey" }}/>
                 </IconButton>
               </>
             </Tooltip>
