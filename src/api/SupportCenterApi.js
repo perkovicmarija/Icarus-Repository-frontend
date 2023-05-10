@@ -45,19 +45,19 @@ const SupportCenterApi = {
     ///////////////////////////   SUPPORT SOFTWARE LOGS   ///////////////////////////////////////////////
 
     getAllSoftwareLogClients(viewModel) {
-        return RestApiGet.getData('/support/getAllSoftwareLogClient', viewModel);
+        return RestApiGet.getData('/support/software-log-clients-joined', viewModel);
     },
     getAllSoftwareLogClientsPagination(viewModel) {
-        return RestApiPost.postData('/support/getAllSoftwareLogClientsPagination', viewModel);
+        return RestApiPost.postData('/support/software-log-clients-joined/paginate', viewModel);
     },
     createSoftwareLogClient(viewModel) {
-        return RestApiPost.postData('/support/softwareLogClient', viewModel);
+        return RestApiPost.postData('/support/software-log-clients-joined', viewModel);
     },
     updateSoftwareLogClient(viewModel) {
-        return RestApiPutWithPathParams.putData('/support/softwareLogClient', viewModel);
+        return RestApiPutWithPathParams.putData('/support/software-log-clients-joined', viewModel);
     },
     deleteSoftwareLogClient(viewModel) {
-        return RestApiDelete.deleteData(viewModel,'/support/softwareLogClient/:softwareLogId');
+        return RestApiDelete.deleteData(viewModel,'/support/software-log-clients/:softwareLogId');
     }
 }
 
