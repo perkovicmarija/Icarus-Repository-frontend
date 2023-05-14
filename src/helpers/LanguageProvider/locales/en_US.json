@@ -245,6 +245,7 @@
   "support.title": "Support center",
   "support.logs": "Logs",
   "support.logs.new": "New software log",
+  "support.logs.update": "Update software log",
   "support.bugs": "Requests",
   "support.bug.list": "Request list",
   "support.softwareLogs": "Software logs",

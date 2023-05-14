@@ -26,7 +26,8 @@ function SupportSoftwareLog(props) {
     title: "",
     description: "",
     selectedClients: [],
-    supportSoftwareLog: {}
+    supportSoftwareLog: {},
+    notifyClientByEmail: true
   });
   const [dialogWarningOpen, setDialogWarningOpen] = useState(false);
   const [softwareLogIdForDelete, setSoftwareLogIdForDelete] = useState(undefined)
@@ -79,7 +80,8 @@ function SupportSoftwareLog(props) {
       title: "",
       description: "",
       selectedClients: [],
-      supportSoftwareLog: {}
+      supportSoftwareLog: {},
+      notifyClientByEmail: true
     })
     // props.supportActions.loadAllSoftwareLogs(viewModel);
     props.supportActions.loadAllSoftwareLogsPagination(viewModel);
@@ -111,7 +113,8 @@ function SupportSoftwareLog(props) {
       title: "",
       description: "",
       selectedClients: [],
-      supportSoftwareLog: {}
+      supportSoftwareLog: {},
+      notifyClientByEmail: true
     })
   };
 
@@ -204,6 +207,14 @@ function SupportSoftwareLog(props) {
     props.supportActions.changeFilterSoftwareLogClients(selectedClients);
   }
 
+  const handleNotifyByEmail = () => {
+    setSoftwareLog(x => ({
+      ...x,
+      notifyClientByEmail: !x.notifyClientByEmail
+    }));
+  };
+
+
   const {
     softwareLogsPagination,
     totalCount,
@@ -235,7 +246,7 @@ function SupportSoftwareLog(props) {
 
       <DialogFormFrame
         onClose={handleDialogLogClose}
-        title="support.logs.new"
+        title={Object.keys(softwareLog.supportSoftwareLog).length === 0 ? "support.logs.new" : "support.logs.update"}
         open={dialogNewLog}>
         <DialogFormSoftwareLog
           onClose={handleDialogLogClose}
@@ -244,6 +255,7 @@ function SupportSoftwareLog(props) {
           onMultiSelectChange={handleMultipleSelectChange}
           selectedClients={softwareLog.selectedClients}
           softwareLog={softwareLog}
+          handleNotifyByEmail={handleNotifyByEmail}
           clients={props.clients}
         />
       </DialogFormFrame>

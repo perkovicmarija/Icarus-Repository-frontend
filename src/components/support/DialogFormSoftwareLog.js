@@ -4,7 +4,7 @@ import {
     DialogActions,
     DialogContent,
     Button,
-    Grid
+    Grid, Checkbox, FormGroup, FormControlLabel
 } from '@mui/material';
 import PropTypes from 'prop-types';
 import { ValidatorForm } from 'react-material-ui-form-validator';
@@ -26,7 +26,8 @@ function DialogFormComment(props) {
         selectedClients,
         onInputChange,
         onMultiSelectChange,
-        onValidationError
+        onValidationError,
+        handleNotifyByEmail
     } = props;
 
     return (
@@ -89,6 +90,15 @@ function DialogFormComment(props) {
                         </Grid>
                     </Grid>
 
+                    {Object.keys(softwareLog.supportSoftwareLog).length === 0 &&
+                    <Grid container>
+                        <Grid item xl={12} lg={12} md={12} sm={12} xs={12}>
+                            <FormGroup>
+                                <FormControlLabel control={<Checkbox defaultChecked checked={softwareLog.notifyClientByEmail}/>} label="Send email notification" onChange={handleNotifyByEmail}/>
+                            </FormGroup>
+                        </Grid>
+                    </Grid>}
+
 
                 </DialogContent>
                 <DialogActions>
@@ -96,7 +106,7 @@ function DialogFormComment(props) {
                         Cancel
                     </Button>
                     <Button type="submit" className="uppercase">
-                        {!softwareLog.supportSoftwareLogId ? "Add" : "Update"}
+                        {Object.keys(softwareLog.supportSoftwareLog).length === 0 ? "Add" : "Update"}
                     </Button>
                 </DialogActions>
             </ValidatorForm>
