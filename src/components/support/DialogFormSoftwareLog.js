@@ -27,7 +27,8 @@ function DialogFormComment(props) {
         onInputChange,
         onMultiSelectChange,
         onValidationError,
-        handleNotifyByEmail
+        handleNotifyByEmail,
+        notifyByEmail
     } = props;
 
     return (
@@ -90,15 +91,18 @@ function DialogFormComment(props) {
                         </Grid>
                     </Grid>
 
-                    {Object.keys(softwareLog.supportSoftwareLog).length === 0 &&
                     <Grid container>
                         <Grid item xl={12} lg={12} md={12} sm={12} xs={12}>
                             <FormGroup>
-                                <FormControlLabel control={<Checkbox defaultChecked checked={softwareLog.notifyClientByEmail}/>} label="Send email notification" onChange={handleNotifyByEmail}/>
+
+                                <FormControlLabel control={<Checkbox checked={notifyByEmail.notifyAll}/>} label="Notify all clients by email" name="notifyAll" onChange={handleNotifyByEmail}/>
+
+                                {Object.keys(softwareLog.supportSoftwareLog).length !== 0 &&
+                                <FormControlLabel control={<Checkbox checked={notifyByEmail.notifyUpdated}/>} label="Notify updated clients by email" name="notifyUpdated" onChange={handleNotifyByEmail}/>}
+
                             </FormGroup>
                         </Grid>
-                    </Grid>}
-
+                    </Grid>
 
                 </DialogContent>
                 <DialogActions>

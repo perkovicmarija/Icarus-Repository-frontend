@@ -21,14 +21,21 @@ function SupportSoftwareLog(props) {
 
   const classes = useStyles();
 
-  const [dialogNewLog, setDialogNewLog] = useState(false);
-  const [softwareLog, setSoftwareLog] = useState({
+  const initialState = {
     title: "",
     description: "",
     selectedClients: [],
     supportSoftwareLog: {},
-    notifyClientByEmail: true
+    notifyAllClientsByEmail: false,
+    notifyUpdatedClientsByEmail: false
+  };
+
+  const [dialogNewLog, setDialogNewLog] = useState(false);
+  const [notifyByEmail, setNotifyByEmail] = useState({
+    notifyAll: false,
+    notifyUpdated: false
   });
+  const [softwareLog, setSoftwareLog] = useState(initialState);
   const [dialogWarningOpen, setDialogWarningOpen] = useState(false);
   const [softwareLogIdForDelete, setSoftwareLogIdForDelete] = useState(undefined)
   const [dialogFilterOpen, setDialogFilterOpen] = useState(false)
@@ -76,27 +83,13 @@ function SupportSoftwareLog(props) {
     } else {
       props.supportActions.createSoftwareLogClient(softwareLog);
     }
-    setSoftwareLog({
-      title: "",
-      description: "",
-      selectedClients: [],
-      supportSoftwareLog: {},
-      notifyClientByEmail: true
-    })
+    setSoftwareLog(initialState)
     // props.supportActions.loadAllSoftwareLogs(viewModel);
     props.supportActions.loadAllSoftwareLogsPagination(viewModel);
   };
 
-  const handleInputChange = (event) => {
-    const {name, value} = event.target
-    let softwareLogClone = cloneDeep(softwareLog);
-    softwareLogClone[name] = value;
-    setSoftwareLog(x => ({
-      ...x,
-      title: softwareLogClone.title,
-      description: softwareLogClone.description,
-      supportSoftwareLog: softwareLogClone.supportSoftwareLog
-    }));
+  const handleInputChange = ({ target: { name, value } }) => {
+    setSoftwareLog(prevState => ({ ...prevState, [name]: value }));
   };
 
   const handleMultipleSelectChange = (event) => {
@@ -109,13 +102,7 @@ function SupportSoftwareLog(props) {
 
   const handleDialogLogClose = () => {
     setDialogNewLog(false);
-    setSoftwareLog({
-      title: "",
-      description: "",
-      selectedClients: [],
-      supportSoftwareLog: {},
-      notifyClientByEmail: true
-    })
+    setSoftwareLog(initialState)
   };
 
   const handleInputSearchChange = (event) => {
@@ -131,7 +118,7 @@ function SupportSoftwareLog(props) {
       }
     };
     props.supportActions.loadAllSoftwareLogsPagination(viewModelWithPageReset);
-    props.history.push(getSupportLogsPath( 0 , props.rowsPerPage))
+    props.history.push(getSupportLogsPath(0, props.rowsPerPage))
   }
 
   const handleSoftwareLogDelete = (event, softwareLog) => {
@@ -207,10 +194,20 @@ function SupportSoftwareLog(props) {
     props.supportActions.changeFilterSoftwareLogClients(selectedClients);
   }
 
-  const handleNotifyByEmail = () => {
-    setSoftwareLog(x => ({
-      ...x,
-      notifyClientByEmail: !x.notifyClientByEmail
+  const handleNotifyByEmail = (event) => {
+    const { name, checked } = event.target;
+
+    const newNotifyByEmailState = {
+      notifyAll: false,
+      notifyUpdated: false,
+      [name]: checked
+    };
+
+    setNotifyByEmail(newNotifyByEmailState);
+    setSoftwareLog((prevState) => ({
+      ...prevState,
+      notifyAllClientsByEmail: newNotifyByEmailState.notifyAll,
+      notifyUpdatedClientsByEmail: newNotifyByEmailState.notifyUpdated
     }));
   };
 
@@ -255,6 +252,7 @@ function SupportSoftwareLog(props) {
           onMultiSelectChange={handleMultipleSelectChange}
           selectedClients={softwareLog.selectedClients}
           softwareLog={softwareLog}
+          notifyByEmail={notifyByEmail}
           handleNotifyByEmail={handleNotifyByEmail}
           clients={props.clients}
         />
