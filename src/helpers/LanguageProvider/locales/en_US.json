@@ -254,6 +254,8 @@
   "support.severity": "Severity",
   "support.item": "Request",
   "support.bug": "Bug",
+  "support.notification.notifyAll": "Notify all clients by email",
+  "support.notification.notifyUpdated": "Notify updated clients by email",
 
   "user.showDeactivated": "Show deactivated",
 

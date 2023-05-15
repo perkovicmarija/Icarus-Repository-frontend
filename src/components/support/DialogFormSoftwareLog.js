@@ -13,6 +13,7 @@ import TextFieldValidation from '../core/TextField/TextFieldValidation';
 import TypographyFieldTitle from '../core/TypographyFieldTitle';
 import withValidation from '../../containers/HOC/withValidation';
 import SelectMultipleCustom from '../core/Select/SelectMultipleCustom';
+import IntlMessages from '../../components/core/IntlMessages';
 
 function DialogFormComment(props) {
 
@@ -95,10 +96,16 @@ function DialogFormComment(props) {
                         <Grid item xl={12} lg={12} md={12} sm={12} xs={12}>
                             <FormGroup>
 
-                                <FormControlLabel control={<Checkbox checked={notifyByEmail.notifyAll}/>} label="Notify all clients by email" name="notifyAll" onChange={handleNotifyByEmail}/>
+                                <FormControlLabel control={<Checkbox checked={notifyByEmail.notifyAll}/>}
+                                                  label={<IntlMessages id="support.notification.notifyAll"/>}
+                                                  name="notifyAll"
+                                                  onChange={handleNotifyByEmail}/>
 
                                 {Object.keys(softwareLog.supportSoftwareLog).length !== 0 &&
-                                <FormControlLabel control={<Checkbox checked={notifyByEmail.notifyUpdated}/>} label="Notify updated clients by email" name="notifyUpdated" onChange={handleNotifyByEmail}/>}
+                                <FormControlLabel control={<Checkbox checked={notifyByEmail.notifyUpdated}/>}
+                                                  label={<IntlMessages id="support.notification.notifyUpdated"/>}
+                                                  name="notifyUpdated"
+                                                  onChange={handleNotifyByEmail}/>}
 
                             </FormGroup>
                         </Grid>

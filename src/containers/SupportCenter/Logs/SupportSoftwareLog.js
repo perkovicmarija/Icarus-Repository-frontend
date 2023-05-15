@@ -221,7 +221,6 @@ function SupportSoftwareLog(props) {
     softwareLogsPagination,
     totalCount,
     filters,
-    filtersActive,
     page,
     rowsPerPage,
   } = props;
@@ -237,7 +236,6 @@ function SupportSoftwareLog(props) {
         onNewSoftwareLogClick={handleNewSoftwareLogClick}
         onSoftwareLogEdit={handleSoftwareLogEdit}
         onSoftwareLogDelete={handleSoftwareLogDelete}
-        filtersActive={filtersActive}
         page={page}
         rowsPerPage={rowsPerPage}
         onChangePage={handleChangePage}
@@ -303,7 +301,6 @@ function mapStateToProps(state, ownProps) {
     clients: state.Client.clients,
     totalCount: state.SupportCenter.totalCount,
     filters: state.SupportCenter.filters,
-    filtersActive: true,
     page: page,
     rowsPerPage: rowsPerPage
   }
