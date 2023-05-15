@@ -21,21 +21,21 @@ function SupportSoftwareLog(props) {
 
   const classes = useStyles();
 
-  const initialState = {
+  const createInitialState = () => ({
     title: "",
     description: "",
     selectedClients: [],
     supportSoftwareLog: {},
     notifyAllClientsByEmail: false,
     notifyUpdatedClientsByEmail: false
-  };
+  });
 
   const [dialogNewLog, setDialogNewLog] = useState(false);
   const [notifyByEmail, setNotifyByEmail] = useState({
     notifyAll: false,
     notifyUpdated: false
   });
-  const [softwareLog, setSoftwareLog] = useState(initialState);
+  const [softwareLog, setSoftwareLog] = useState(createInitialState);
   const [dialogWarningOpen, setDialogWarningOpen] = useState(false);
   const [softwareLogIdForDelete, setSoftwareLogIdForDelete] = useState(undefined)
   const [dialogFilterOpen, setDialogFilterOpen] = useState(false)
@@ -71,8 +71,14 @@ function SupportSoftwareLog(props) {
       title: softwareLog.title,
       description: softwareLog.description,
       selectedClients: softwareLog.supportSoftwareLogClientJoinedList.map(x => x.client),
-      supportSoftwareLog: softwareLog
+      supportSoftwareLog: softwareLog,
+      notifyAllClientsByEmail: false,
+      notifyUpdatedClientsByEmail: false
     });
+    setNotifyByEmail({
+      notifyAll: false,
+      notifyUpdated: false
+    })
     setDialogNewLog(true);
   }
 
@@ -83,7 +89,7 @@ function SupportSoftwareLog(props) {
     } else {
       props.supportActions.createSoftwareLogClient(softwareLog);
     }
-    setSoftwareLog(initialState)
+    setSoftwareLog(createInitialState)
     // props.supportActions.loadAllSoftwareLogs(viewModel);
     props.supportActions.loadAllSoftwareLogsPagination(viewModel);
   };
@@ -102,7 +108,7 @@ function SupportSoftwareLog(props) {
 
   const handleDialogLogClose = () => {
     setDialogNewLog(false);
-    setSoftwareLog(initialState)
+    setSoftwareLog(createInitialState)
   };
 
   const handleInputSearchChange = (event) => {
@@ -210,7 +216,6 @@ function SupportSoftwareLog(props) {
       notifyUpdatedClientsByEmail: newNotifyByEmailState.notifyUpdated
     }));
   };
-
 
   const {
     softwareLogsPagination,

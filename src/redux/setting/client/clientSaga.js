@@ -12,10 +12,16 @@ export function* loadAllClientsRequest() {
           clients: response.data
         });
       } else {
-        yield put({type: types.LOAD_ALL_CLIENTS_FAILED})
+          yield put({
+            type: types.AJAX_FAILED,
+            message: response.message
+          });
       }
     } catch (e) {
-      yield put({type: types.AJAX_FAILED})
+        yield put({
+          type: types.AJAX_FAILED,
+          message: e
+        });
     } finally {
       yield put({type: types.AJAX_FINISHED})
     }
@@ -35,10 +41,16 @@ export function* clientsPaginationRequest() {
           totalCount: meta.totalCount
         });
       } else {
-        yield put({type: types.LOAD_CLIENTS_PAGINATION_FAILED})
+          yield put({
+            type: types.AJAX_FAILED,
+            message: response.message
+          });
       }
     } catch (e) {
-      yield put({type: types.AJAX_FAILED})
+      yield put({
+        type: types.AJAX_FAILED,
+        message: e
+      });
     } finally {
       yield put({type: types.AJAX_FINISHED})
     }
@@ -59,17 +71,15 @@ export function* createClientRequest() {
           message: response.message
         });
       } else {
-        yield put({type: types.CREATE_CLIENT_FAILED});
         yield put({
           type: types.AJAX_FAILED,
-          message: "Failed to create client"
+          message: response.message
         });
       }
     } catch (e) {
-      yield put({type: types.CREATE_CLIENT_FAILED});
       yield put({
         type: types.AJAX_FAILED,
-        message: "Failed to create client"
+        message: e
       });
     } finally {
       yield put({type: types.AJAX_FINISHED})
@@ -91,14 +101,16 @@ export function* updateClientRequest() {
           message: response.message
         });
       } else {
-        yield put({type: types.UPDATE_CLIENT_FAILED})
         yield put({
           type: types.AJAX_FAILED,
-          message: "Failed to update client"
+          message: response.message
         });
       }
     } catch (e) {
-      yield put({type: types.UPDATE_CLIENT_FAILED});
+      yield put({
+        type: types.AJAX_FAILED,
+        message: e
+      });
       yield put({
         type: types.AJAX_FAILED,
         message: "Failed to update client"
@@ -123,10 +135,16 @@ export function* deleteClientRequest() {
           message: response.message
         });
       } else {
-        yield put({type: types.DELETE_CLIENT_FAILED})
+        yield put({
+          type: types.AJAX_FAILED,
+          message: response.message
+        });
       }
     } catch (e) {
-      yield put({type: types.DELETE_CLIENT_FAILED})
+      yield put({
+        type: types.AJAX_FAILED,
+        message: e
+      });
     } finally {
       yield put({type: types.AJAX_FINISHED})
     }

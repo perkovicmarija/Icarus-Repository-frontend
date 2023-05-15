@@ -342,11 +342,16 @@ export function* icarusSoftwareLogsRequest() {
                     softwareLogs: data,
                 });
             } else {
-                yield put({type: types.LOAD_SOFTWARE_LOGS_FAILED})
+                yield put({
+                    type: types.AJAX_FAILED,
+                    message: response.message
+                });
             }
         } catch (e) {
-            console.log("error");
-            yield put({type: types.LOAD_SOFTWARE_LOGS_FAILED})
+            yield put({
+                type: types.AJAX_FAILED,
+                message: e
+            });
         } finally {
             yield put({type: types.AJAX_FINISHED})
         }
@@ -366,10 +371,16 @@ export function* loadSoftwareLogsPaginationRequest() {
                     totalCount: meta.totalCount
                 });
             } else {
-                yield put({type: types.LOAD_SOFTWARE_LOGS_PAGINATION_FAILED})
+                yield put({
+                    type: types.AJAX_FAILED,
+                    message: response.message
+                });
             }
         } catch (e) {
-            yield put({type: types.LOAD_SOFTWARE_LOGS_PAGINATION_FAILED})
+            yield put({
+                type: types.AJAX_FAILED,
+                message: e
+            });
         } finally {
             yield put({type: types.AJAX_FINISHED})
         }
@@ -386,10 +397,16 @@ export function* createSoftwareLogRequest() {
                     message: response.message
                 });
             } else {
-                yield put({type: types.CREATE_SOFTWARE_LOG_FAILED})
+                yield put({
+                    type: types.AJAX_FAILED,
+                    message: response.message
+                });
             }
         } catch (e) {
-            yield put({type: types.CREATE_SOFTWARE_LOG_FAILED})
+            yield put({
+                type: types.AJAX_FAILED,
+                message: e
+            });
         } finally {
             yield put({type: types.AJAX_FINISHED})
         }
@@ -406,17 +423,15 @@ export function* updateSoftwareLogRequest() {
                     message: response.message
                 });
             } else {
-                yield put({type: types.UPDATE_SOFTWARE_LOG_FAILED})
                 yield put({
                     type: types.AJAX_FAILED,
-                    message: "Failed to update software log"
+                    message: response.message
                 });
             }
         } catch (e) {
-            yield put({type: types.UPDATE_SOFTWARE_LOG_FAILED});
             yield put({
                 type: types.AJAX_FAILED,
-                message: "Failed to update software log"
+                message: e
             });
         } finally {
             yield put({type: types.AJAX_FINISHED})
@@ -438,10 +453,16 @@ export function* deleteSoftwareLogRequest() {
                     message: response.message
                 });
             } else {
-                yield put({type: types.DELETE_SOFTWARE_LOG_FAILED})
+                yield put({
+                    type: types.AJAX_FAILED,
+                    message: response.message
+                });
             }
         } catch (e) {
-            yield put({type: types.DELETE_SOFTWARE_LOG_FAILED})
+            yield put({
+                type: types.AJAX_FAILED,
+                message: e
+            });
         } finally {
             yield put({type: types.AJAX_FINISHED})
         }
