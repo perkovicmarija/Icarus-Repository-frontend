@@ -147,7 +147,7 @@ function Clients(props) {
   } = props;
 
   return (
-    <div>
+    <>
       <ClientList
         clients={clients}
         totalCount={totalCount}
@@ -180,7 +180,7 @@ function Clients(props) {
         text="general.deleteWarning"
         onDelete={handleDeleteClientConfirmed}
         onClose={handleDeleteClientClose}/>
-    </div>
+    </>
   );
 }
 

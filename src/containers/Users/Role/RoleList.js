@@ -75,14 +75,12 @@ function RoleList(props) {
                                 <TableCell>{role.name}</TableCell>
                                 <TableCell className="nostretch">
                                     <Tooltip title="Edit">
-                                        <>
-                                            <div className="d-inline">
-                                                <IconButton aria-label="Edit"
-                                                            onClick={(event) => onRoleEdit(event, role)}>
-                                                    <Edit/>
-                                                </IconButton>
-                                            </div>
-                                        </>
+                                        <div className="d-inline">
+                                            <IconButton aria-label="Edit"
+                                                        onClick={(event) => onRoleEdit(event, role)}>
+                                                <Edit/>
+                                            </IconButton>
+                                        </div>
                                     </Tooltip>
                                     <Tooltip title="Delete">
                                         <>

@@ -66,8 +66,7 @@ function User(props) {
     }
 
     const handleGeneratePasswordSwitchChange = () => event => {
-        let generatePasswordClone;
-        generatePasswordClone = event.target.checked;
+        let generatePasswordClone = event.target.checked;
         setGeneratePassword(generatePasswordClone);
     }
 

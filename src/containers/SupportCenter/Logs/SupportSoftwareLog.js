@@ -5,7 +5,7 @@ import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 import {Paper,} from '@mui/material';
 import {makeStyles} from '@mui/styles';
-import {cloneDeep} from 'lodash';
+import _, {cloneDeep} from 'lodash';
 import DialogFormFrame from '../../../components/core/Dialog/DialogFormFrame';
 import DialogFormSoftwareLog from '../../../components/support/DialogFormSoftwareLog';
 import * as supportActions from '../../../redux/support/supportActions';
@@ -15,11 +15,7 @@ import {getSupportLogsPath} from "../../../consts/routePaths";
 import DialogDeleteWarning from "../../../components/core/Dialog/DialogDeleteWarning";
 import DialogFormSoftwareLogFilter from "../../../components/support/DialogFormSoftwareLogFilter";
 
-const useStyles = makeStyles(theme => ({}));
-
-function SupportSoftwareLog(props) {
-
-  const classes = useStyles();
+const SupportSoftwareLog = (props) => {
 
   const createInitialState = () => ({
     title: "",
@@ -54,7 +50,6 @@ function SupportSoftwareLog(props) {
 
   useEffect(() => {
     props.supportActions.loadAllSoftwareLogsPagination(viewModel);
-    // props.supportActions.loadAllSoftwareLogs(viewModel);
     if (props.clients.length === 0) {
       props.clientActions.loadAllClients()
     }
@@ -244,9 +239,14 @@ function SupportSoftwareLog(props) {
         selectedClients={props.filters.selectedClients}
       />
 
+      {/*
+          title prop:
+          If the supportSoftwareLog is empty, display the "New software log" label to indicate adding new functionality.
+          If the supportSoftwareLog has properties, display the "Update software log" label to indicate update functionality.
+      */}
       <DialogFormFrame
         onClose={handleDialogLogClose}
-        title={Object.keys(softwareLog.supportSoftwareLog).length === 0 ? "support.logs.new" : "support.logs.update"}
+        title={_.isEmpty(softwareLog.supportSoftwareLog) ? "support.logs.new" : "support.logs.update"}
         open={dialogNewLog}>
         <DialogFormSoftwareLog
           onClose={handleDialogLogClose}

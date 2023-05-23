@@ -14,10 +14,9 @@ import TypographyFieldTitle from '../core/TypographyFieldTitle';
 import withValidation from '../../containers/HOC/withValidation';
 import SelectMultipleCustom from '../core/Select/SelectMultipleCustom';
 import IntlMessages from '../../components/core/IntlMessages';
+import _ from "lodash";
 
 function DialogFormComment(props) {
-
-
 
     const {
         onClose,
@@ -101,7 +100,11 @@ function DialogFormComment(props) {
                                                   name="notifyAll"
                                                   onChange={handleNotifyByEmail}/>
 
-                                {Object.keys(softwareLog.supportSoftwareLog).length !== 0 &&
+                                {/*
+                                  If the supportSoftwareLog is not empty, it indicates update functionality.
+                                  Therefore, show the checkbox only when updating.
+                                */}
+                                {!(_.isEmpty(softwareLog.supportSoftwareLog)) &&
                                 <FormControlLabel control={<Checkbox checked={notifyByEmail.notifyUpdated}/>}
                                                   label={<IntlMessages id="support.notification.notifyUpdated"/>}
                                                   name="notifyUpdated"
@@ -117,7 +120,11 @@ function DialogFormComment(props) {
                         Cancel
                     </Button>
                     <Button type="submit" className="uppercase">
-                        {Object.keys(softwareLog.supportSoftwareLog).length === 0 ? "Add" : "Update"}
+                        {/*
+                          If the supportSoftwareLog is empty, display the "Add" label to indicate adding new functionality.
+                          If the supportSoftwareLog has properties, display the "Update" label to indicate update functionality.
+                        */}
+                        {_.isEmpty(softwareLog.supportSoftwareLog) ? "Add" : "Update"}
                     </Button>
                 </DialogActions>
             </ValidatorForm>

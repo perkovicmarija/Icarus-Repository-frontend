@@ -38,7 +38,7 @@ const ClientList = (props) => {
   } = props
 
   return (
-    <div>
+    <>
       <EnhancedTableToolbarRich
         title="form.clients"
         showSearch
@@ -114,7 +114,7 @@ const ClientList = (props) => {
           </TableRow>
         </TableFooter>
       </Table>
-    </div>
+    </>
   );
 };
 
