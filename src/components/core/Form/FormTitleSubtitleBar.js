@@ -1,4 +1,4 @@
-import React, {PureComponent} from 'react';
+import React from 'react';
 import Toolbar from '@mui/material/Toolbar';
 import { makeStyles } from '@mui/styles';
 import IntlMessages from '../IntlMessages';
@@ -7,6 +7,8 @@ import Tooltip from '@mui/material/Tooltip';
 import IconButton from '@mui/material/IconButton';
 import Print from '@mui/icons-material/Print';
 import CloudUpload from '@mui/icons-material/CloudUpload';
+import PublishedWithChangesIcon from '@mui/icons-material/PublishedWithChanges';
+import UnpublishedIcon from '@mui/icons-material/Unpublished';
 
 const useStyles = makeStyles((theme) => ({
     spacer: {
@@ -49,8 +51,10 @@ const FormTitleSubtitleBar = (props) => {
         subtitle,
         onExportSelect,
         onImportSelect,
+        onPublishSelect,
         showExport,
-        showImport
+        showImport,
+        showPublish
     } = props;
 
     return (
@@ -63,6 +67,21 @@ const FormTitleSubtitleBar = (props) => {
             </div>
             <div className={classes.spacer}/>
             <div className={classes.actions}>
+                {
+                    showPublish ?
+                        <Tooltip title={<IntlMessages id="general.publish"/>}>
+                            <IconButton className={classes.iconColor} aria-label="Publish form" onClick={onPublishSelect}>
+                                <UnpublishedIcon />
+                            </IconButton>
+                        </Tooltip>
+                    :
+                        <Tooltip title={<IntlMessages id="general.publish"/>}>
+                            <IconButton className={classes.iconColor} aria-label="Publish form" onClick={onPublishSelect}>
+                                <PublishedWithChangesIcon />
+                            </IconButton>
+                        </Tooltip>
+
+                }
                 {
                     showImport &&
                     <Tooltip title={<IntlMessages id="general.import" />}>

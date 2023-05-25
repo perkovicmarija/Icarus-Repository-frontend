@@ -38,6 +38,13 @@ const useStyles = makeStyles(theme => ({
         color:'#000000',
         fontWeight:'bold'
     },
+    labelCustomValuePublished: {
+        fontWeight: 'bold',
+        color: 'green'
+    },
+    labelCustomValueDraft: {
+        fontWeight: 'bold'
+    }
 }));
 
 const AuditChecklistsList = (props) => {
@@ -51,6 +58,7 @@ const AuditChecklistsList = (props) => {
         { id: 'version', numeric: false, disablePadding: false, label: 'qms.checklist.version' },
         { id: 'type', numeric: false, disablePadding: false, label: 'general.type' },
         { id: 'effective', numeric: false, disablePadding: false, label: 'qms.checklist.effectiveDate' },
+        { id: 'status', numeric: false, disablePadding: false, label: 'general.status'},
         { id: 'action', numeric: false, disablePadding: false, label: 'general.actions' },
     ];
 
@@ -114,6 +122,14 @@ const AuditChecklistsList = (props) => {
                                 <TableCell onClick={event => handleAuditChecklistClick(event, item.auditChecklistId)}>{item.version}</TableCell>
                                 <TableCell onClick={event => handleAuditChecklistClick(event, item.auditChecklistId)}>{item.auditChecklistType ? item.auditChecklistType.name : ""}</TableCell>
                                 <TableCell onClick={event => handleAuditChecklistClick(event, item.auditChecklistId)}>{item.effectiveDate}</TableCell>
+                                <TableCell onClick={event => handleAuditChecklistClick(event, item.auditChecklistId)}>
+                                    {
+                                        item.published ?
+                                            <label className={classes.labelCustomValuePublished}>PUBLISHED</label>
+                                        :
+                                            <label className={classes.labelCustomValueDraft}>DRAFT</label>
+                                    }
+                                </TableCell>
                                 {Protected.protectedAuth(['PERM_AUDIT_CRUD']) ?
                                     <TableCell className="nostretch">
                                         <Tooltip title={<IntlMessages id="general.edit"/>}>

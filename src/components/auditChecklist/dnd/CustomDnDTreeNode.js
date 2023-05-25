@@ -24,6 +24,9 @@ const useStyles = makeStyles(() => ({
         display: 'grid',
         gridTemplateColumns: 'auto auto 1fr auto',
         paddingInlineEnd: '8px',
+    },
+    labelText: {
+        overflowWrap: 'anywhere'
     }
 }));
 
@@ -65,7 +68,7 @@ const CustomDnDTreeNode = (props) => {
                     <TypeIcon droppable={droppable || false}/>
                 </div>
                 <div className={classes.labelGridItem}>
-                    <Typography variant="body2">{text}</Typography>
+                    <Typography className={classes.labelText} variant="body2">{text}</Typography>
                 </div>
             </div>
         </div>

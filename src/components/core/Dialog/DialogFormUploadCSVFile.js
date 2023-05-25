@@ -5,9 +5,9 @@ import Button from '@mui/material/Button';
 import {DialogActions, DialogContent} from '@mui/material';
 import IntlMessages from '../../../components/core/IntlMessages';
 import Grid from '@mui/material/Grid';
-import Dropzone from '../Dropzone/Dropzone';
-import TypographyReportField from '../Typography/FormFieldTitle';
-import TextFiledReport from '../TextField/TextFiledReport';
+import DropzoneCustom from "../Dropzone/DropzoneCustom";
+import TextFiledReport from "../TextField/TextFiledReport";
+import TypographyFieldTitle from "../TypographyFieldTitle";
 
 const styles = theme => ({
     container: {
@@ -47,7 +47,7 @@ class DialogFormUploadCSVFile extends Component {
     }
     render() {
         const {onClose, classes} = this.props;
-        const {file, attachment} = this.state;
+        const {attachment} = this.state;
         return (
             <div>
                 <DialogContent>
@@ -69,14 +69,7 @@ class DialogFormUploadCSVFile extends Component {
                     </Grid>
                     <Grid container className={classes.container}>
                         <Grid item xl={12} lg={12} md={12} sm={12} xs={12}>
-                            {/*                            <Dropzone
-                                onDrop={this.onFileDrop}
-                                className="file-dropzone"
-                                multiple={false}
-                            >
-                                <p><IntlMessages id="attachments.dropzone" /></p>
-                            </Dropzone>*/}
-                            <Dropzone
+                            <DropzoneCustom
                                 onFileDrop={this.onFileDrop}
                                 disabled={false}
                                 title="attachments.dropzone"
@@ -88,7 +81,7 @@ class DialogFormUploadCSVFile extends Component {
                     </Grid>
                     <Grid container className={classes.container}>
                         <Grid item xl={12} lg={12} md={12} sm={12} xs={12}>
-                            <TypographyReportField title="attachments.filename"/>
+                            <TypographyFieldTitle title="attachments.filename"/>
                             <TextFiledReport
                                 disabled={true}
                                 id="filename"
