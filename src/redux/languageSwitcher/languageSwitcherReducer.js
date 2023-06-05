@@ -13,6 +13,8 @@ export default function(state = initState, action) {
             isActivated: !state.isActivated,
         };
     case types.CHANGE_LANGUAGE:
+        let htmlTag = document.getElementsByTagName('html')[0];
+        htmlTag.dir = action.language.direction;
         return {
             ...state,
             language: action.language,
