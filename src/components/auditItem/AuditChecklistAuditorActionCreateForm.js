@@ -111,6 +111,94 @@ const AuditChecklistAuditorActionCreateForm = (props) => {
                     placeholder="qms.audit.checklist.auditorAction.7"
                     type="text"/>
             </Grid>
+            <Grid item xl={12} lg={12} md={12} sm={12} xs={12}>
+                <TextFieldValidation
+                    disabled={editDisabled}
+                    id="aa8"
+                    label="qms.audit.checklist.auditorAction.8"
+                    name="aa8"
+                    value={selectedItem.aa8}
+                    onInputChange={onInputChange}
+                    placeholder="qms.audit.checklist.auditorAction.8"
+                    type="text"/>
+            </Grid>
+            <Grid item xl={12} lg={12} md={12} sm={12} xs={12}>
+                <TextFieldValidation
+                    disabled={editDisabled}
+                    id="aa9"
+                    label="qms.audit.checklist.auditorAction.9"
+                    name="aa9"
+                    value={selectedItem.aa9}
+                    onInputChange={onInputChange}
+                    placeholder="qms.audit.checklist.auditorAction.9"
+                    type="text"/>
+            </Grid>
+            <Grid item xl={12} lg={12} md={12} sm={12} xs={12}>
+                <TextFieldValidation
+                    disabled={editDisabled}
+                    id="aa10"
+                    label="qms.audit.checklist.auditorAction.10"
+                    name="aa10"
+                    value={selectedItem.aa10}
+                    onInputChange={onInputChange}
+                    placeholder="qms.audit.checklist.auditorAction.10"
+                    type="text"/>
+            </Grid>
+            <Grid item xl={12} lg={12} md={12} sm={12} xs={12}>
+                <TextFieldValidation
+                    disabled={editDisabled}
+                    id="aa11"
+                    label="qms.audit.checklist.auditorAction.11"
+                    name="aa11"
+                    value={selectedItem.aa11}
+                    onInputChange={onInputChange}
+                    placeholder="qms.audit.checklist.auditorAction.11"
+                    type="text"/>
+            </Grid>
+            <Grid item xl={12} lg={12} md={12} sm={12} xs={12}>
+                <TextFieldValidation
+                    disabled={editDisabled}
+                    id="aa12"
+                    label="qms.audit.checklist.auditorAction.12"
+                    name="aa12"
+                    value={selectedItem.aa12}
+                    onInputChange={onInputChange}
+                    placeholder="qms.audit.checklist.auditorAction.12"
+                    type="text"/>
+            </Grid>
+            <Grid item xl={12} lg={12} md={12} sm={12} xs={12}>
+                <TextFieldValidation
+                    disabled={editDisabled}
+                    id="aa13"
+                    label="qms.audit.checklist.auditorAction.13"
+                    name="aa13"
+                    value={selectedItem.aa13}
+                    onInputChange={onInputChange}
+                    placeholder="qms.audit.checklist.auditorAction.13"
+                    type="text"/>
+            </Grid>
+            <Grid item xl={12} lg={12} md={12} sm={12} xs={12}>
+                <TextFieldValidation
+                    disabled={editDisabled}
+                    id="aa14"
+                    label="qms.audit.checklist.auditorAction.14"
+                    name="aa14"
+                    value={selectedItem.aa14}
+                    onInputChange={onInputChange}
+                    placeholder="qms.audit.checklist.auditorAction.14"
+                    type="text"/>
+            </Grid>
+            <Grid item xl={12} lg={12} md={12} sm={12} xs={12}>
+                <TextFieldValidation
+                    disabled={editDisabled}
+                    id="aa15"
+                    label="qms.audit.checklist.auditorAction.15"
+                    name="aa15"
+                    value={selectedItem.aa15}
+                    onInputChange={onInputChange}
+                    placeholder="qms.audit.checklist.auditorAction.15"
+                    type="text"/>
+            </Grid>
         </Grid>
     );
 
