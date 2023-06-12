@@ -22,6 +22,9 @@ const useStyles = makeStyles((theme) => ({
     secondaryHeading: {
         fontSize: theme.typography.pxToRem(15),
         color: "#FF0000",
+    },
+    aaButton: {
+        marginTop: "10px"
     }
 }));
 
@@ -85,7 +88,13 @@ const AuditChecklistAuditorActionISAGOCreateForm = (props) => {
                     )
                 })
             }
-            <Button onClick={onAddAuditorActions}>Add auditor actions</Button>
+            <Button
+                className={classes.aaButton}
+                variant="contained"
+                onClick={onAddAuditorActions}
+            >
+                Add auditor actions
+            </Button>
         </Grid>
     );
 
