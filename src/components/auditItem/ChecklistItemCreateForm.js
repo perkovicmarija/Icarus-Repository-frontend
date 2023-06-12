@@ -13,6 +13,7 @@ import TypographyReportField from "../core/Typography/FormFieldTitle";
 
 import FormEditBarSubtitle from "../core/Form/FormEditBarSubtitle";
 import FormSubmit from "../core/Form/FormSubmit";
+import AuditChecklistAuditorActionISAGOCreateForm from "./AuditChecklistAuditorActionISAGOCreateForm";
 
 
 const useStyles = makeStyles((theme) => ({
@@ -43,14 +44,20 @@ const ChecklistItemCreateForm = (props) => {
         editDisabled,
         selectedItem,
         checklist,
+        locationTypes,
         checklistType,
         onInputChange,
+
         handleChecklistSave,
         onSelectCheckboxChange,
         handleCancel,
         handleDelete,
         handleError,
-        onEditSelect
+        onEditSelect,
+        onInputAuditorActionChange,
+        onSelectLocationType,
+        onAddAuditorActions,
+        onDeleteAuditorAction
     } = props;
 
     return (
@@ -133,29 +140,39 @@ const ChecklistItemCreateForm = (props) => {
                             placeholder="qms.checklist.guidance"
                             type="text"/>
                     </Grid>
-                    <Grid container spacing={2} className={classes.root}>
-                        <Grid item xl={6} lg={6} md={6} sm={12} xs={12}>
-                            <TextFieldValidation
-                                disabled={editDisabled}
-                                id="regReference"
-                                label="qms.checklist.regReference"
-                                name="regReference"
-                                value={selectedItem.regReference}
-                                onInputChange={onInputChange}
-                                placeholder="qms.checklist.regReference"
-                                type="text"/>
-                        </Grid>
+                    <Grid item xl={6} lg={6} md={6} sm={12} xs={12}>
+                        <TextFieldValidation
+                            disabled={editDisabled}
+                            id="regReference"
+                            label="qms.checklist.regReference"
+                            name="regReference"
+                            value={selectedItem.regReference}
+                            onInputChange={onInputChange}
+                            placeholder="qms.checklist.regReference"
+                            type="text"/>
                     </Grid>
-                    {
-                        checklistType === "IOSA" ?
+                    <Grid item sm={12} xs={12}>
+                        {
+                            checklistType === "IOSA" &&
                             <AuditChecklistAuditorActionCreateForm
                                 editDisabled={editDisabled}
                                 selectedItem={selectedItem}
                                 onInputChange={onInputChange}
                             />
-                            :
-                            null
-                    }
+                        }
+                        {
+                            checklistType === "ISAGO" &&
+                            <AuditChecklistAuditorActionISAGOCreateForm
+                                editDisabled={editDisabled}
+                                selectedItem={selectedItem}
+                                onInputAuditorActionChange={onInputAuditorActionChange}
+                                onSelectLocationType={onSelectLocationType}
+                                locationTypes={locationTypes}
+                                onAddAuditorActions={onAddAuditorActions}
+                                onDeleteAuditorAction={onDeleteAuditorAction}
+                            />
+                        }
+                    </Grid>
                 </Grid>
                 {
                     !selectedItem.auditItemId &&

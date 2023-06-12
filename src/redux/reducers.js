@@ -13,6 +13,7 @@ import LanguageSwitcher from './languageSwitcher/languageSwitcherReducer';
 import AuditChecklist from './auditChecklist/auditChecklistReducer';
 import AuditChecklistItem from './auditChecklistItem/auditChecklistItemReducer';
 import AuditChecklistSubArea from './auditChecklistSubArea/AuditChecklistSubAreaReducer';
+import AuditorActionLocationType from './auditorActionLocationType/AuditorActionLocationTypeReducer';
 
 export default (history) => combineReducers({
     router: connectRouter(history),
@@ -28,5 +29,6 @@ export default (history) => combineReducers({
     LanguageSwitcher,
     AuditChecklist,
     AuditChecklistItem,
-    AuditChecklistSubArea
+    AuditChecklistSubArea,
+    AuditorActionLocationType
 })
