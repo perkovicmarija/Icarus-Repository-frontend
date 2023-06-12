@@ -16,13 +16,15 @@ import DialogFormFrame from "../../../components/core/Dialog/DialogFormFrame";
 import { cloneDeep } from "lodash";
 import ChecklistItemCreateForm from "../../../components/auditItem/ChecklistItemCreateForm";
 import ChecklistSubAreaCreateForm from "../../../components/auditSubArea/ChecklistSubAreaCreateForm";
-import { auditChecklistItemActions} from "../../../redux/auditChecklistItem/auditChecklistItemReducer";
-import { auditChecklistSubAreaActions } from "../../../redux/auditChecklistSubArea/AuditChecklistSubAreaReducer";
 import DialogDeleteWarning from "../../../components/core/Dialog/DialogDeleteWarning";
 import DialogFormSubAreaNew from "../../../components/auditSubArea/dialogs/DialogFormSubAreaNew";
 import ChecklistDnDTree from "../../../components/auditChecklist/dnd/ChecklistDnDTree";
 import DialogFormExportData from "../../../components/core/Dialog/DialogFormExportData";
 import DialogFormUploadCSVFile from "../../../components/core/Dialog/DialogFormUploadCSVFile";
+
+import { auditChecklistSubAreaActions } from "../../../redux/auditChecklistSubArea/AuditChecklistSubAreaReducer";
+import { auditChecklistItemActions } from "../../../redux/auditChecklistItem/auditChecklistItemReducer";
+import { auditorActionLocationType } from "../../../redux/auditorActionLocationType/AuditorActionLocationTypeReducer";
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -78,6 +80,7 @@ const AuditChecklist = (props) => {
     const checklistDnd = useSelector((state) => state.AuditChecklist.auditDndChecklist);
     const checklistItem = useSelector((state) => state.AuditChecklistItem.auditItem);
     const checklistSubArea = useSelector((state) => state.AuditChecklistSubArea.auditChecklistSubArea);
+    const locationTypes = useSelector((state) => state.AuditorActionLocationType.locationTypes);
 
     //Visibility
     const [editDisabled, setEditDisabled] = useState(false);
@@ -115,6 +118,7 @@ const AuditChecklist = (props) => {
             id: props.match.params.id
         }
         dispatch(auditChecklistActions.getAuditDndChecklistRequest(viewModel));
+        dispatch(auditorActionLocationType.getLocationTypes());
     }, [dispatch, props.match.params.id]);
 
     useEffect(() => {
@@ -144,8 +148,6 @@ const AuditChecklist = (props) => {
             auditChecklistId: props.match.params.id,
         }
 
-        debugger;
-
         const viewModel = {
             checklistData: {
                 file: file,
@@ -167,7 +169,11 @@ const AuditChecklist = (props) => {
             guidance:"",
             showAuditorAction:false,
             title:"",
-            auditChecklistSubArea: null
+            auditChecklistSubArea: null,
+            auditorActions: [{
+                title: "",
+                locationType: {}
+            }]
         };
         setSelectedItem(viewModel);
         setItemVisible(true);
@@ -251,6 +257,7 @@ const AuditChecklist = (props) => {
         if(viewModel.selectedItem.auditItemId) {
             dispatch(auditChecklistItemActions.updateAuditChecklistItemRequest(viewModel));
         } else {
+            debugger;
             dispatch(auditChecklistItemActions.createAuditChecklistItemRequest(viewModel));
         }
     }
@@ -261,7 +268,8 @@ const AuditChecklist = (props) => {
             question:"",
             guidance:"",
             showAuditorAction:false,
-            title:""
+            title:"",
+            auditorActionsISAGO: []
         };
         setSelectedItem(viewModel);
         setItemVisible(false);
@@ -329,7 +337,8 @@ const AuditChecklist = (props) => {
                 auditChecklistSubArea: {
                     auditChecklistSubAreaId: "",
                     title: null
-                }
+                },
+                auditorActions: []
             };
             setSelectedItem(viewModelSelectedItem);
             setItemVisible(true);
@@ -514,11 +523,8 @@ const AuditChecklist = (props) => {
         let viewModel = cloneDeep(checklistDnd);
 
         if (radioValue === "pdf") {
-            debugger;
             dispatch(auditChecklistActions.downloadPDFRequest(viewModel));
-        }
-        else
-        {
+        } else {
             dispatch(auditChecklistActions.downloadExcelRequest(viewModel));
         }
         setDialogExportOpen(false);
@@ -548,6 +554,38 @@ const AuditChecklist = (props) => {
         dispatch(auditChecklistActions.publishChecklistRequest(viewModel));
         setDialogPublish(false);
     };
+
+    //ISAGO
+    const handleSelectLocationType = (event, index) => {
+        const selectedItemCopy = cloneDeep(selectedItem);
+        selectedItemCopy.auditorActions[index].locationType = locationTypes.find(locationType => {
+            return locationType.locationTypeId === event.target.value;
+        });
+        setSelectedItem(selectedItemCopy);
+    }
+
+    const handleAddAuditorActions = () => {
+        const selectedItemCopy = cloneDeep(selectedItem);
+        selectedItemCopy.auditorActions.push({
+            title: '',
+            locationType: {}
+        });
+        setSelectedItem(selectedItemCopy);
+    }
+
+    const handleInputAuditorActionChange = (event, index) => {
+        const selectedItemCopy = cloneDeep(selectedItem);
+        selectedItemCopy.auditorActions[index].title = event.target.value;
+        setSelectedItem(selectedItemCopy);
+    }
+
+    const handleDeleteAuditorAction = (index) => {
+        const selectedItemCopy = cloneDeep(selectedItem);
+        selectedItemCopy.auditorActions = selectedItemCopy.auditorActions.filter((auditorAction, aaIndex) => {
+            return aaIndex !== index;
+        });
+        setSelectedItem(selectedItemCopy);
+    }
 
     const {
         clientName
@@ -667,6 +705,7 @@ const AuditChecklist = (props) => {
                                     <ChecklistItemCreateForm
                                         editDisabled={editDisabled}
                                         checklist={checklistDnd.auditChecklist}
+                                        locationTypes={locationTypes}
                                         onSelectCheckboxChange={handleSelectCheckboxChangeItem}
                                         checklistType={checklistDnd.auditChecklist.auditChecklistType ? checklistDnd.auditChecklist.auditChecklistType.name : ""}
                                         selectedItem={selectedItem}
@@ -677,6 +716,11 @@ const AuditChecklist = (props) => {
                                         onSwitchChange={handleSwitchChange}
                                         clientName={clientName}
                                         onEditSelect={handleEdit}
+
+                                        onInputAuditorActionChange={handleInputAuditorActionChange}
+                                        onSelectLocationType={handleSelectLocationType}
+                                        onAddAuditorActions={handleAddAuditorActions}
+                                        onDeleteAuditorAction={handleDeleteAuditorAction}
                                     />
                                     :
                                     null

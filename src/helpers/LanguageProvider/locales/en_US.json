@@ -282,6 +282,11 @@
   "qms.audit.checklist.auditorAction.14": "Auditor action 14",
   "qms.audit.checklist.auditorAction.15": "Auditor action 15",
 
+  "qms.audit.checklist.auditorAction.isago.type": "Auditor action type",
+
+  "qms.audit.checklist.auditorAction.isago.headquarters": "Headquarters",
+  "qms.audit.checklist.auditorAction.isago.station": "Station",
+
 
   "training.exam.questionBank.importQuestion.typeOfFileQuestion": "WHAT TYPE OF FILE TO UPLOAD",
   "training.exam.questionBank.importQuestion.typeOfFile": "Excel file .xslx",
