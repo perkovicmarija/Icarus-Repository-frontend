@@ -4,17 +4,11 @@ import { ValidatorForm } from 'react-material-ui-form-validator';
 import TextFieldValidation from '../core/TextField/TextFieldValidation';
 import { makeStyles } from '@mui/styles';
 import IntlMessages from '../core/IntlMessages';
-
-import AuditChecklistAuditorActionCreateForm from './AuditChecklistAuditorActionCreateForm';
-
 import ChecklistSubAreasCheckbox from "../auditSubArea/ChecklistSubAreasCheckbox";
-
 import TypographyReportField from "../core/Typography/FormFieldTitle";
-
 import FormEditBarSubtitle from "../core/Form/FormEditBarSubtitle";
 import FormSubmit from "../core/Form/FormSubmit";
-import AuditChecklistAuditorActionISAGOCreateForm from "./AuditChecklistAuditorActionISAGOCreateForm";
-
+import AuditorActions from "../auditChecklist/AuditorActions";
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -35,7 +29,6 @@ const useStyles = makeStyles((theme) => ({
     }
 }));
 
-
 const ChecklistItemCreateForm = (props) => {
 
     const classes = useStyles();
@@ -47,7 +40,6 @@ const ChecklistItemCreateForm = (props) => {
         locationTypes,
         checklistType,
         onInputChange,
-
         handleChecklistSave,
         onSelectCheckboxChange,
         handleCancel,
@@ -153,18 +145,11 @@ const ChecklistItemCreateForm = (props) => {
                     </Grid>
                     <Grid item sm={12} xs={12}>
                         {
-                            checklistType === "IOSA" &&
-                            <AuditChecklistAuditorActionCreateForm
+                            (checklistType === "IOSA" || checklistType === "ISAGO") &&
+                            <AuditorActions
                                 editDisabled={editDisabled}
                                 selectedItem={selectedItem}
-                                onInputChange={onInputChange}
-                            />
-                        }
-                        {
-                            checklistType === "ISAGO" &&
-                            <AuditChecklistAuditorActionISAGOCreateForm
-                                editDisabled={editDisabled}
-                                selectedItem={selectedItem}
+                                checklistType={checklistType}
                                 onInputAuditorActionChange={onInputAuditorActionChange}
                                 onSelectLocationType={onSelectLocationType}
                                 locationTypes={locationTypes}

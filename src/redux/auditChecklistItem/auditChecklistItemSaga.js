@@ -37,9 +37,7 @@ export function* auditChecklistItemRequest() {
 export function* auditChecklistItemCreateRequest() {
     yield takeLatest(auditChecklistItemActions.createAuditChecklistItemRequest.type, function*(action) {
         try {
-            debugger;
             const response = yield call(AuditChecklistItemApi.create, action.payload);
-            debugger;
             if(response.code === "200") {
                 yield put({
                     type: auditChecklistActions.getAuditDndChecklistRequest.type,

@@ -257,7 +257,6 @@ const AuditChecklist = (props) => {
         if(viewModel.selectedItem.auditItemId) {
             dispatch(auditChecklistItemActions.updateAuditChecklistItemRequest(viewModel));
         } else {
-            debugger;
             dispatch(auditChecklistItemActions.createAuditChecklistItemRequest(viewModel));
         }
     }
@@ -438,9 +437,7 @@ const AuditChecklist = (props) => {
         const newChecklistDndCopy = cloneDeep(newChecklistDnd);
         setDndElementParents(newChecklistDndCopy);
         setDndElementSequence(newChecklistDndCopy);
-
         affectedParentsSetter(newChecklistDndCopy);
-
         setSelectedChecklistDnd(newChecklistDndCopy);
     };
 
@@ -556,7 +553,7 @@ const AuditChecklist = (props) => {
     };
 
     //ISAGO
-    const handleSelectLocationType = (event, index) => {
+    const handleSelectLocationType = index => event => {
         const selectedItemCopy = cloneDeep(selectedItem);
         selectedItemCopy.auditorActions[index].locationType = locationTypes.find(locationType => {
             return locationType.locationTypeId === event.target.value;
@@ -566,20 +563,17 @@ const AuditChecklist = (props) => {
 
     const handleAddAuditorActions = () => {
         const selectedItemCopy = cloneDeep(selectedItem);
-        selectedItemCopy.auditorActions.push({
-            title: '',
-            locationType: {}
-        });
+        selectedItemCopy.auditorActions.push({});
         setSelectedItem(selectedItemCopy);
     }
 
-    const handleInputAuditorActionChange = (event, index) => {
+    const handleInputAuditorActionChange = index => event => {
         const selectedItemCopy = cloneDeep(selectedItem);
         selectedItemCopy.auditorActions[index].title = event.target.value;
         setSelectedItem(selectedItemCopy);
     }
 
-    const handleDeleteAuditorAction = (index) => {
+    const handleDeleteAuditorAction = index => {
         const selectedItemCopy = cloneDeep(selectedItem);
         selectedItemCopy.auditorActions = selectedItemCopy.auditorActions.filter((auditorAction, aaIndex) => {
             return aaIndex !== index;
@@ -716,7 +710,6 @@ const AuditChecklist = (props) => {
                                         onSwitchChange={handleSwitchChange}
                                         clientName={clientName}
                                         onEditSelect={handleEdit}
-
                                         onInputAuditorActionChange={handleInputAuditorActionChange}
                                         onSelectLocationType={handleSelectLocationType}
                                         onAddAuditorActions={handleAddAuditorActions}
