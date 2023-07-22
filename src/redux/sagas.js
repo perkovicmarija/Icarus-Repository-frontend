@@ -9,6 +9,7 @@ import auditChecklistSaga from './auditChecklist/auditChecklistSaga';
 import auditChecklistItemSaga from "./auditChecklistItem/auditChecklistItemSaga";
 import auditChecklistSubAreaSaga from "./auditChecklistSubArea/AuditChecklistSubAreaSaga";
 import settingSagas from "./setting/client/clientSaga"
+import auditorActionLocationType from "./auditorActionLocationType/AuditorActionLocationTypeSaga";
 
 export default function* rootSaga(getState) {
     yield all([
@@ -22,5 +23,7 @@ export default function* rootSaga(getState) {
         auditChecklistItemSaga(),
         auditChecklistSubAreaSaga(),
         settingSagas()
+        auditChecklistSubAreaSaga(),
+        auditorActionLocationType()
     ]);
 }

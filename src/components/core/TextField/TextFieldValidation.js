@@ -1,5 +1,4 @@
 import React from 'react';
-
 import PropTypes from 'prop-types';
 import { makeStyles } from '@mui/styles';
 import { TextValidator } from 'react-material-ui-form-validator';

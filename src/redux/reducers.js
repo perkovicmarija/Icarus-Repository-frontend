@@ -14,6 +14,7 @@ import AuditChecklist from './auditChecklist/auditChecklistReducer';
 import AuditChecklistItem from './auditChecklistItem/auditChecklistItemReducer';
 import AuditChecklistSubArea from './auditChecklistSubArea/AuditChecklistSubAreaReducer';
 import Client from './setting/client/clientReducer';
+import AuditorActionLocationType from './auditorActionLocationType/AuditorActionLocationTypeReducer';
 
 export default (history) => combineReducers({
     router: connectRouter(history),
@@ -30,5 +31,6 @@ export default (history) => combineReducers({
     AuditChecklist,
     AuditChecklistItem,
     AuditChecklistSubArea,
-    Client
+    Client,
+    AuditorActionLocationType
 })

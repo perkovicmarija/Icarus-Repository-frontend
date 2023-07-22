@@ -1,5 +1,6 @@
 import englishLang from '../../assets/img/flag/united_kingdom.svg';
 import croatiaLang from '../../assets/img/flag/croatia.svg';
+import hebrewLang from '../../assets/img/flag/israel.svg';
 
 const config = {
     defaultLanguage: "english",
@@ -19,6 +20,14 @@ const config = {
             intlId: 'language.croatian',
             icon: croatiaLang,
             direction: 'ltr'
+        },
+        {
+            languageId: 'hebrew',
+            locale: 'he',
+            text: 'Hebrew',
+            intlId: 'language.israel',
+            icon: hebrewLang,
+            direction: 'rtl'
         },
     ],
 };
