@@ -22,7 +22,7 @@ export default function* rootSaga(getState) {
         auditChecklistSaga(),
         auditChecklistItemSaga(),
         auditChecklistSubAreaSaga(),
-        settingSagas()
+        settingSagas(),
         auditChecklistSubAreaSaga(),
         auditorActionLocationType()
     ]);
