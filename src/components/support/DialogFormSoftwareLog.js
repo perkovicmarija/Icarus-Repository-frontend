@@ -1,21 +1,34 @@
 import React from 'react';
 
-import { DialogActions, DialogContent, Button, Grid } from '@mui/material';
+import {
+    DialogActions,
+    DialogContent,
+    Button,
+    Grid, Checkbox, FormGroup, FormControlLabel
+} from '@mui/material';
 import PropTypes from 'prop-types';
 import { ValidatorForm } from 'react-material-ui-form-validator';
 
 import TextFieldValidation from '../core/TextField/TextFieldValidation';
 import TypographyFieldTitle from '../core/TypographyFieldTitle';
 import withValidation from '../../containers/HOC/withValidation';
+import SelectMultipleCustom from '../core/Select/SelectMultipleCustom';
+import IntlMessages from '../../components/core/IntlMessages';
+import _ from "lodash";
 
 function DialogFormComment(props) {
 
     const {
         onClose,
         onSubmit,
-        item,
+        softwareLog,
+        clients,
+        selectedClients,
         onInputChange,
-        onValidationError
+        onMultiSelectChange,
+        onValidationError,
+        handleNotifyByEmail,
+        notifyByEmail
     } = props;
 
     return (
@@ -31,39 +44,87 @@ function DialogFormComment(props) {
                             <TextFieldValidation
                                 disabled={false}
                                 id="title"
-                                label=""
+                                label="general.title"
                                 name="title"
-                                value={item.title}
+                                value={softwareLog.title}
                                 onInputChange={onInputChange}
-                                placeholder="Title"
-                                type="text"/>
+                                placeholder="general.title"
+                                type="text"
+                                validators={['required']}
+                                errorMessages={['This field is required']}
+                                required/>
                         </Grid>
 
                     </Grid>
 
                     <Grid container>
                         <Grid item xl={12} lg={12} md={12} sm={12} xs={12}>
+                            <TypographyFieldTitle title="general.description"/>
                             <TextFieldValidation
                                 disabled={false}
                                 id="description"
-                                label="Description"
+                                label="general.description"
                                 name="description"
-                                value={item.description}
+                                value={softwareLog.description}
                                 onInputChange={onInputChange}
                                 rows="5"
-                                placeholder="Write a description..."
-                                type="text"/>
+                                placeholder="form.writeDescription"
+                                type="text"
+                                validators={['required']}
+                                errorMessages={['This field is required']}
+                                required/>
                         </Grid>
                     </Grid>
 
+                    <Grid container>
+                        <Grid item xl={12} lg={12} md={12} sm={12} xs={12}>
+                            <TypographyFieldTitle title="general.companies"/>
+                            <SelectMultipleCustom
+                              disabled={false}
+                              title="general.companies"
+                              objectArray={clients}
+                              selectArray={selectedClients}
+                              firstLvlValueProp="clientId"
+                              onMultiSelectChange={onMultiSelectChange}
+                              optionProp="name"
+                              optionKey="clientId"/>
+                        </Grid>
+                    </Grid>
+
+                    <Grid container>
+                        <Grid item xl={12} lg={12} md={12} sm={12} xs={12}>
+                            <FormGroup>
+
+                                <FormControlLabel control={<Checkbox checked={notifyByEmail.notifyAll}/>}
+                                                  label={<IntlMessages id="support.notification.notifyAll"/>}
+                                                  name="notifyAll"
+                                                  onChange={handleNotifyByEmail}/>
+
+                                {/*
+                                  If the supportSoftwareLog is not empty, it indicates update functionality.
+                                  Therefore, show the checkbox only when updating.
+                                */}
+                                {!(_.isEmpty(softwareLog.supportSoftwareLog)) &&
+                                <FormControlLabel control={<Checkbox checked={notifyByEmail.notifyUpdated}/>}
+                                                  label={<IntlMessages id="support.notification.notifyUpdated"/>}
+                                                  name="notifyUpdated"
+                                                  onChange={handleNotifyByEmail}/>}
+
+                            </FormGroup>
+                        </Grid>
+                    </Grid>
 
                 </DialogContent>
                 <DialogActions>
                     <Button onClick={onClose}>
                         Cancel
                     </Button>
-                    <Button onClick={onSubmit} className="uppercase">
-                        Add
+                    <Button type="submit" className="uppercase">
+                        {/*
+                          If the supportSoftwareLog is empty, display the "Add" label to indicate adding new functionality.
+                          If the supportSoftwareLog has properties, display the "Update" label to indicate update functionality.
+                        */}
+                        {_.isEmpty(softwareLog.supportSoftwareLog) ? "Add" : "Update"}
                     </Button>
                 </DialogActions>
             </ValidatorForm>

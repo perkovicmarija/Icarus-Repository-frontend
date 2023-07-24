@@ -48,14 +48,16 @@ function UserGroupList(props) {
     return (
         <div>
             <EnhancedTableToolbarRich
-                title="User groups"
+                title="form.userGroups"
             >
                 <Tooltip title={<IntlMessages id="general.addNew" />}>
-                    <IconButton aria-label="add new"
-                                aria-haspopup="true"
-                                onClick={onGroupNewClick}>
-                        <NoteAdd />
-                    </IconButton>
+                    <>
+                        <IconButton aria-label="add new"
+                                    aria-haspopup="true"
+                                    onClick={onGroupNewClick}>
+                            <NoteAdd />
+                        </IconButton>
+                    </>
                 </Tooltip>
             </EnhancedTableToolbarRich>
 
@@ -75,20 +77,24 @@ function UserGroupList(props) {
                                 <TableCell>{item.numberOfParticipants}</TableCell>
                                 <TableCell className="nostretch">
                                     <Tooltip title="Edit">
-                                        <div className="d-inline">
-                                            <IconButton aria-label="Edit"
-                                                        onClick={(event) => onGroupEdit(event, item)}>
-                                                <Edit/>
-                                            </IconButton>
-                                        </div>
+                                        <>
+                                            <div className="d-inline">
+                                                <IconButton aria-label="Edit"
+                                                            onClick={(event) => onGroupEdit(event, item)}>
+                                                    <Edit/>
+                                                </IconButton>
+                                            </div>
+                                        </>
                                     </Tooltip>
                                     <Tooltip title="Delete">
-                                        <div className="d-inline">
-                                            <IconButton aria-label="Delete"
-                                                        onClick={(event) => onGroupDelete(event, item)}>
-                                                <Delete/>
-                                            </IconButton>
-                                        </div>
+                                        <>
+                                            <div className="d-inline">
+                                                <IconButton aria-label="Delete"
+                                                            onClick={(event) => onGroupDelete(event, item)}>
+                                                    <Delete/>
+                                                </IconButton>
+                                            </div>
+                                        </>
                                     </Tooltip>
                                 </TableCell>
                             </TableRow>
@@ -102,8 +108,8 @@ function UserGroupList(props) {
                             count={totalCount}
                             rowsPerPage={rowsPerPage}
                             page={page}
-                            onChangePage={onChangePage}
-                            onChangeRowsPerPage={onChangeRowsPerPage}
+                            onPageChange={onChangePage}
+                            onRowsPerPageChange={onChangeRowsPerPage}
                             ActionsComponent={TablePaginationAction}
                         />
                     </TableRow>

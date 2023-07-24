@@ -40,7 +40,7 @@ const RestApiGetPathParams = {
                 if(data.status && data.status !== 200) {
                     throw new Error(data.message);
                 }
-                console.log(data); // The data does log!
+                // console.log(data); // The data does log!
                 return data
             })
     }

@@ -29,7 +29,14 @@ export const getUserRolesPath = (page, rowsPerPage) => {
     return roles.replace(":page?", page).replace(":rowsPerPage?", rowsPerPage);
 }
 
+// SUPPORT CENTER
+
 export const supportCenter = adminRoot + "/support-center";
+export const supportLogs = supportCenter + "/logs/:page?/:rowsPerPage?";
+export const getSupportLogsPath = (page, rowsPerPage) => {
+    return supportLogs.replace(":page?", page).replace(":rowsPerPage?", rowsPerPage);
+}
+
 export const supportBugs = supportCenter + "/bugs/:page?/:rowsPerPage?";
 export const getSupportBugsPath = (page, rowsPerPage) => {
     return supportBugs.replace(":page?", page).replace(":rowsPerPage?", rowsPerPage);
@@ -46,8 +53,14 @@ export const supportBugAttachments = supportBug + "/attachments";
 export const getSupportBugAttachmentsPath = (id) => {
     return supportBugAttachments.replace(":id", id);
 }
-export const supportLogs = supportCenter + "/logs";
 
 export const auditChecklistOverview = adminRoot + "/audit-checklists";
 
 export const auditChecklist = adminRoot + "/audit-checklists/:id"
+
+// SETTINGS
+export const settingModule = adminRoot + "/settings";
+export const clients = settingModule + "/clients/:page?/:rowsPerPage?";
+export const getClientsPath = (page, rowsPerPage) => {
+    return clients.replace(":page?", page).replace(":rowsPerPage?", rowsPerPage);
+}

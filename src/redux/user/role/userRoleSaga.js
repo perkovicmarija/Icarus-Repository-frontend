@@ -1,5 +1,4 @@
 import { all, takeLatest, put, call, fork } from 'redux-saga/effects';
-import { push } from 'connected-react-router';
 import * as types from '../../actionTypes';
 import UserRoleApi from '../../../api/UserRoleApi';
 
@@ -9,7 +8,6 @@ export function* userRolesRequest() {
             const response = yield call(UserRoleApi.getAll, action.viewModel);
             if (response.code === "200") {
                 const data = response.data;
-                const meta = response.meta;
                 yield put({
                     type: types.LOAD_USER_ROLES_SUCCESS,
                     userRoles: data,

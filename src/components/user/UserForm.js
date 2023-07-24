@@ -83,57 +83,57 @@ const UserForm = ({
                 }
 
                 <Grid item xl={4} lg={4} md={4} sm={6} xs={12}>
-                    <TypographyFieldTitle title="Name"/>
+                    <TypographyFieldTitle title="form.name"/>
                     <TextFieldValidation
                         disabled={editDisabled}
                         validators={['required']}
                         errorMessages={['This is required field.']}
                         required
                         id="name"
-                        label="Name"
+                        label="form.name"
                         name="name"
                         value={user.name}
                         onInputChange={onInputChange}
-                        placeholder="Name"
+                        placeholder="form.name"
                         type="text"/>
                 </Grid>
                 <Grid item xl={4} lg={4} md={4} sm={6} xs={12}>
-                    <TypographyFieldTitle title="Surname"/>
+                    <TypographyFieldTitle title="form.surname"/>
                     <TextFieldValidation
                         disabled={editDisabled}
                         validators={['required']}
                         errorMessages={['This is required field.']}
                         required
-                        id="surname"
-                        label="Surname"
+                        id="form.surname"
+                        label="form.surname"
                         name="surname"
                         value={user.surname}
                         onInputChange={onInputChange}
-                        placeholder="Surname"
+                        placeholder="form.surname"
                         type="text"/>
                 </Grid>
             </Grid>
 
             <Grid container spacing={gridSpacing} className={classes.container}>
                 <Grid item xl={4} lg={4} md={4} sm={12} xs={12}>
-                    <TypographyFieldTitle title="Username"/>
+                    <TypographyFieldTitle title="form.username"/>
                     <TextFieldValidation
                         disabled={editDisabled}
                         validators={['required']}
                         errorMessages={['This is required field.']}
                         required
-                        id="username"
-                        label="Username"
+                        id="form.username"
+                        label="form.username"
                         name="username"
                         value={user.username}
                         onInputChange={onInputChange}
-                        placeholder="Username"
+                        placeholder="form.username"
                         type="text"/>
                 </Grid>
                 {
                     user.userId ?
                         <Grid item xl={2} lg={2} md={2} sm={6} xs={12}>
-                            <TypographyFieldTitle title="New password"/>
+                            <TypographyFieldTitle title="form.newPassword"/>
                             <SwitchCustom
                                 disabled={editDisabled}
                                 value={newPassword}
@@ -146,7 +146,7 @@ const UserForm = ({
                 {
                     (user.userId && newPassword) || !user.userId ?
                         <Grid item xl={2} lg={2} md={2} sm={6} xs={12}>
-                            <TypographyFieldTitle title="Generate password"/>
+                            <TypographyFieldTitle title="form.generatePassword"/>
                             <SwitchCustom
                                 disabled={editDisabled}
                                 value={generatePassword}
@@ -158,15 +158,15 @@ const UserForm = ({
                 {
                     !generatePassword &&
                     <Grid item xl={4} lg={4} md={4} sm={12} xs={12}>
-                        <TypographyFieldTitle title="Password"/>
+                        <TypographyFieldTitle title="form.password"/>
                         <TextFieldValidation
                             disabled={editDisabled}
-                            id="password"
-                            label="Password"
+                            id="form.password"
+                            label="form.password"
                             name="password"
                             value={user.password}
                             onInputChange={onInputChange}
-                            placeholder="Password"
+                            placeholder="form.password"
                             type="password"/>
                     </Grid>
                 }
@@ -175,41 +175,41 @@ const UserForm = ({
 
             <Grid container spacing={gridSpacing} className={classes.container}>
                 <Grid item xl={4} lg={4} md={4} sm={12} xs={12}>
-                    <TypographyFieldTitle title="Email"/>
+                    <TypographyFieldTitle title="form.email"/>
                     <TextFieldValidation
                         disabled={editDisabled}
                         validators={['required']}
                         required
-                        id="email"
-                        label=""
+                        id="form.email"
+                        label="form.email"
                         name="email"
                         value={user.email}
                         onInputChange={onInputChange}
-                        placeholder="Email"
+                        placeholder="form.email"
                         type="email"/>
                 </Grid>
                 <Grid item xl={4} lg={4} md={4} sm={12} xs={12}>
-                    <TypographyFieldTitle title="Phone 1"/>
+                    <TypographyFieldTitle title="form.phone1"/>
                     <TextFieldValidation
                         disabled={editDisabled}
-                        id="phone1"
-                        label=""
+                        id="form.phone1"
+                        label="form.phone1"
                         name="phone1"
                         value={user.phone1}
                         onInputChange={onInputChange}
-                        placeholder="Phone 1"
+                        placeholder="form.phone1"
                         type="text"/>
                 </Grid>
                 <Grid item xl={4} lg={4} md={4} sm={12} xs={12}>
-                    <TypographyFieldTitle title="Phone 2"/>
+                    <TypographyFieldTitle title="form.phone2"/>
                     <TextFieldValidation
                         disabled={editDisabled}
-                        id="phone2"
-                        label=""
+                        id="form.phone2"
+                        label="form.phone2"
                         name="phone2"
                         value={user.phone2}
                         onInputChange={onInputChange}
-                        placeholder="Phone 2"
+                        placeholder="form.phone2"
                         type="text"/>
                 </Grid>
             </Grid>
@@ -217,17 +217,18 @@ const UserForm = ({
             {Protected.protectedAuth(['PERM_USER_CRUD']) ?
                 <Grid container spacing={gridSpacing} className={classes.container}>
                     <Grid item xl={4} lg={4} md={4} sm={12} xs={12}>
-                        <TypographyFieldTitle title="Roles"/>
+                        <TypographyFieldTitle title="form.roles"/>
                         <SelectMultipleCustomAdvanced
                             disabled={editDisabled}
-                            title="Roles"
+                            title="form.roles"
                             selectArray={user.userRoleJoined}
                             objectArray={userRoles}
                             firstLvlValueProp="userRole"
                             secondLvlValueProp="userRoleId"
                             onMultiSelectChange={onMultiSelectChange}
                             optionProp="name"
-                            optionKey="userRoleId"/>
+                            optionKey="userRoleId"
+                            placeholder="form.roles"/>
                     </Grid>
                 </Grid> : null
             }

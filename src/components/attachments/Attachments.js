@@ -81,18 +81,22 @@ class Attachments extends Component {
                                     <TableCell>{attachment.description}</TableCell>
                                     <TableCell className="nostretch">
                                         <Tooltip title={<IntlMessages id="general.download" />}>
-                                            <div className="d-inline">
-                                                <IconButton disabled={!editDisabled} aria-label="Edit" onClick={(event) => onAttachDownload(event, attachment)}>
-                                                    <VerticalAlignBottom />
-                                                </IconButton>
-                                            </div>
+                                            <>
+                                                <div className="d-inline">
+                                                    <IconButton disabled={!editDisabled} aria-label="Edit" onClick={(event) => onAttachDownload(event, attachment)}>
+                                                        <VerticalAlignBottom />
+                                                    </IconButton>
+                                                </div>
+                                            </>
                                         </Tooltip>
                                         <Tooltip title={<IntlMessages id="general.delete" />}>
-                                            <div className="d-inline">
-                                                <IconButton disabled={editDisabled} aria-label="Delete" onClick={(event) => onAttachDelete(event, attachment)}>
-                                                    <Delete />
-                                                </IconButton>
-                                            </div>
+                                            <>
+                                                <div className="d-inline">
+                                                    <IconButton disabled={editDisabled} aria-label="Delete" onClick={(event) => onAttachDelete(event, attachment)}>
+                                                        <Delete />
+                                                    </IconButton>
+                                                </div>
+                                            </>
                                         </Tooltip>
                                     </TableCell>
                                 </TableRow>

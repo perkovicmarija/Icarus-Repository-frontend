@@ -47,14 +47,16 @@ function RoleList(props) {
     return (
         <div>
             <EnhancedTableToolbarRich
-                title="User roles"
+                title="form.userRoles"
             >
                 <Tooltip title={<IntlMessages id="general.addNew" />}>
-                    <IconButton aria-label="add new"
-                                aria-haspopup="true"
-                                onClick={onRoleNewClick}>
-                        <NoteAdd />
-                    </IconButton>
+                    <>
+                        <IconButton aria-label="add new"
+                                    aria-haspopup="true"
+                                    onClick={onRoleNewClick}>
+                            <NoteAdd />
+                        </IconButton>
+                    </>
                 </Tooltip>
             </EnhancedTableToolbarRich>
 
@@ -81,12 +83,14 @@ function RoleList(props) {
                                         </div>
                                     </Tooltip>
                                     <Tooltip title="Delete">
-                                        <div className="d-inline">
-                                            <IconButton aria-label="Delete"
-                                                        onClick={(event) => onRoleDelete(event, role)}>
-                                                <Delete/>
-                                            </IconButton>
-                                        </div>
+                                        <>
+                                            <div className="d-inline">
+                                                <IconButton aria-label="Delete"
+                                                            onClick={(event) => onRoleDelete(event, role)}>
+                                                    <Delete/>
+                                                </IconButton>
+                                            </div>
+                                        </>
                                     </Tooltip>
                                 </TableCell>
                             </TableRow>
@@ -100,8 +104,8 @@ function RoleList(props) {
                             count={totalCount}
                             rowsPerPage={rowsPerPage}
                             page={page}
-                            onChangePage={onChangePage}
-                            onChangeRowsPerPage={onChangeRowsPerPage}
+                            onPageChange={onChangePage}
+                            onRowsPerPageChange={onChangeRowsPerPage}
                             ActionsComponent={TablePaginationAction}
                         />
                     </TableRow>

@@ -1,5 +1,4 @@
-import { all, take, takeLatest, put, call, fork } from 'redux-saga/effects';
-import { push } from 'connected-react-router';
+import {all, call, fork, put, take, takeLatest} from 'redux-saga/effects';
 import * as types from '../actionTypes';
 import SupportCenterApi from '../../api/SupportCenterApi';
 
@@ -104,7 +103,6 @@ export function* getAllModulesRequest() {
             const response = yield call(SupportCenterApi.getAllModules, action.viewModel);
             if (response.code === "200") {
                 const data = response.data;
-                const meta = response.meta;
                 yield put({
                     type: types.LOAD_SUPPORT_CENTER_MODULES_SUCCESS,
                     modules: data,
@@ -127,7 +125,6 @@ export function* getAllLevelsRequest() {
             const response = yield call(SupportCenterApi.getAllLevels, action.viewModel);
             if (response.code === "200") {
                 const data = response.data;
-                const meta = response.meta;
                 yield put({
                     type: types.LOAD_SUPPORT_CENTER_LEVELS_SUCCESS,
                     levels: data,
@@ -150,7 +147,6 @@ export function* getAllStatusesRequest() {
             const response = yield call(SupportCenterApi.getAllStatuses, action.viewModel);
             if (response.code === "200") {
                 const data = response.data;
-                const meta = response.meta;
                 yield put({
                     type: types.LOAD_SUPPORT_CENTER_STATUSES_SUCCESS,
                     statuses: data,
@@ -338,21 +334,53 @@ export function* downloadRequest() {
 export function* icarusSoftwareLogsRequest() {
     yield takeLatest(types.LOAD_SOFTWARE_LOGS_REQUEST, function*(action) {
         try {
-            const response = yield call(SupportCenterApi.getAllSoftwareLogs, action.viewModel);
+            const response = yield call(SupportCenterApi.getAllSoftwareLogClients, action.viewModel);
             if (response.code === "200") {
-                const data = response.data;
-                //const meta = response.meta;
+                const data = response.data
                 yield put({
                     type: types.LOAD_SOFTWARE_LOGS_SUCCESS,
                     softwareLogs: data,
-                    //totalCount: meta.totalCount
                 });
             } else {
-                yield put({type: types.LOAD_SOFTWARE_LOGS_FAILED})
+                yield put({
+                    type: types.AJAX_FAILED,
+                    message: response.message
+                });
             }
         } catch (e) {
-            console.log("error");
-            yield put({type: types.LOAD_SOFTWARE_LOGS_FAILED})
+            yield put({
+                type: types.AJAX_FAILED,
+                message: e
+            });
+        } finally {
+            yield put({type: types.AJAX_FINISHED})
+        }
+    });
+}
+
+export function* loadSoftwareLogsPaginationRequest() {
+    yield takeLatest(types.LOAD_SOFTWARE_LOGS_PAGINATION_REQUEST, function*(action) {
+        try {
+            const response = yield call(SupportCenterApi.getAllSoftwareLogClientsPagination, action.viewModel);
+            if (response.code === "200") {
+                const data = response.data.data
+                const meta = response.data.meta;
+                yield put({
+                    type: types.LOAD_SOFTWARE_LOGS_PAGINATION_SUCCESS,
+                    softwareLogs: data,
+                    totalCount: meta.totalCount
+                });
+            } else {
+                yield put({
+                    type: types.AJAX_FAILED,
+                    message: response.message
+                });
+            }
+        } catch (e) {
+            yield put({
+                type: types.AJAX_FAILED,
+                message: e
+            });
         } finally {
             yield put({type: types.AJAX_FINISHED})
         }
@@ -362,22 +390,79 @@ export function* icarusSoftwareLogsRequest() {
 export function* createSoftwareLogRequest() {
     yield takeLatest(types.CREATE_SOFTWARE_LOG_REQUEST, function*(action) {
         try {
-            const response = yield call(SupportCenterApi.createSoftwareLog, action.viewModel);
+            const response = yield call(SupportCenterApi.createSoftwareLogClient, action.viewModel);
             if (response.code === "200") {
-                const data = response.data;
                 yield put({
-                    type: types.CREATE_SOFTWARE_LOG_SUCCESS,
-                    softwareLog: data
+                    type: types.AJAX_SUCCESS,
+                    message: response.message
+                });
+            } else {
+                yield put({
+                    type: types.AJAX_FAILED,
+                    message: response.message
+                });
+            }
+        } catch (e) {
+            yield put({
+                type: types.AJAX_FAILED,
+                message: e
+            });
+        } finally {
+            yield put({type: types.AJAX_FINISHED})
+        }
+    });
+}
+
+export function* updateSoftwareLogRequest() {
+    yield takeLatest(types.UPDATE_SOFTWARE_LOG_REQUEST, function*(action) {
+        try {
+            const response = yield call(SupportCenterApi.updateSoftwareLogClient, action.viewModel);
+            if (response.code === "200") {
+                yield put({
+                    type: types.AJAX_SUCCESS,
+                    message: response.message
+                });
+            } else {
+                yield put({
+                    type: types.AJAX_FAILED,
+                    message: response.message
+                });
+            }
+        } catch (e) {
+            yield put({
+                type: types.AJAX_FAILED,
+                message: e
+            });
+        } finally {
+            yield put({type: types.AJAX_FINISHED})
+        }
+    });
+}
+
+export function* deleteSoftwareLogRequest() {
+    yield takeLatest(types.DELETE_SOFTWARE_LOG_REQUEST, function*(action) {
+        try {
+            const response = yield call(SupportCenterApi.deleteSoftwareLogClient, action.viewModel);
+            if (response.code === "200") {
+                yield put({
+                    type: types.DELETE_SOFTWARE_LOG_SUCCESS,
+                    softwareLogId: action.viewModel.softwareLogId
                 });
                 yield put({
                     type: types.AJAX_SUCCESS,
                     message: response.message
                 });
             } else {
-                yield put({type: types.CREATE_SOFTWARE_LOG_FAILED})
+                yield put({
+                    type: types.AJAX_FAILED,
+                    message: response.message
+                });
             }
         } catch (e) {
-            yield put({type: types.CREATE_SOFTWARE_LOG_FAILED})
+            yield put({
+                type: types.AJAX_FAILED,
+                message: e
+            });
         } finally {
             yield put({type: types.AJAX_FINISHED})
         }
@@ -398,6 +483,9 @@ export default function* rootSaga() {
         fork(updateWithAttachmentsRequest),
         fork(downloadRequest),
         fork(icarusSoftwareLogsRequest),
-        fork(createSoftwareLogRequest)
+        fork(loadSoftwareLogsPaginationRequest),
+        fork(createSoftwareLogRequest),
+        fork(updateSoftwareLogRequest),
+        fork(deleteSoftwareLogRequest),
     ]);
 }

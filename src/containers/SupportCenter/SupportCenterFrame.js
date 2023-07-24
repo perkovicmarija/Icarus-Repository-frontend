@@ -1,14 +1,14 @@
-import React, { useState } from 'react';
+import React, {useState} from 'react';
 
-import { Link } from 'react-router-dom';
-import { makeStyles, useTheme } from '@mui/styles';
-import { Tabs, Tab, Paper, AppBar } from '@mui/material';
+import {Link} from 'react-router-dom';
+import {makeStyles, useTheme} from '@mui/styles';
+import {AppBar, Paper, Tab, Tabs} from '@mui/material';
 
 import IntlMessages from '../../components/core/IntlMessages';
 import TabContainer from '../../components/core/TabContainer';
 import SupportCenterRouter from './SupportCenterRouter';
 import FormTitleBarRich from '../../components/core/Form/FormTitleBarRich';
-import { supportLogs, getSupportBugsPath } from "../../consts/routePaths";
+import {getSupportBugsPath, getSupportLogsPath} from "../../consts/routePaths";
 
 const useStyles = makeStyles(theme => ({
     root: {
@@ -43,7 +43,7 @@ function SupportCenterFrame(props) {
                         indicatorColor="secondary">
 
                         <Tab label={<IntlMessages id="support.logs" />} className={classes.tabLink} component={Link}
-                             to={supportLogs}/>
+                             to={getSupportLogsPath(0, 25)}/>
                         <Tab label={<IntlMessages id="support.bugs" />} className={classes.tabLink} component={Link}
                              to={getSupportBugsPath(0, 25)}/>
                     </Tabs>

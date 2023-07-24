@@ -12,8 +12,7 @@ const DialogFormFrame = (props) => {
         formComponent,
         open,
         children,
-        customDialogTitle,
-        maxWidth = "sm"
+        customDialogTitle
     } = props;
 
     return(

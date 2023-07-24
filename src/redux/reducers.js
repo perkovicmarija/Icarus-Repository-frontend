@@ -13,6 +13,7 @@ import LanguageSwitcher from './languageSwitcher/languageSwitcherReducer';
 import AuditChecklist from './auditChecklist/auditChecklistReducer';
 import AuditChecklistItem from './auditChecklistItem/auditChecklistItemReducer';
 import AuditChecklistSubArea from './auditChecklistSubArea/AuditChecklistSubAreaReducer';
+import Client from './setting/client/clientReducer';
 import AuditorActionLocationType from './auditorActionLocationType/AuditorActionLocationTypeReducer';
 
 export default (history) => combineReducers({
@@ -30,5 +31,6 @@ export default (history) => combineReducers({
     AuditChecklist,
     AuditChecklistItem,
     AuditChecklistSubArea,
+    Client,
     AuditorActionLocationType
 })

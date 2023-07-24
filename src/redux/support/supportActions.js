@@ -109,10 +109,51 @@ export function loadAllSoftwareLogs(viewModel) {
     }
 }
 
+export function loadAllSoftwareLogsPagination(viewModel) {
+    return {
+        type: types.LOAD_SOFTWARE_LOGS_PAGINATION_REQUEST,
+        viewModel
+    }
+}
 
-export function createSoftwareLog(viewModel) {
+export function changeFilterSoftwareLogSearch(softwareLogSearch) {
+    return {
+        type: types.FILTER_SOFTWARE_LOG_SEARCH_UPDATE,
+        softwareLogSearch
+    }
+}
+
+export function changeFilterSoftwareLogClients(selectedClients) {
+    return {
+        type: types.FILTER_CLIENTS_UPDATE,
+        selectedClients
+    }
+}
+
+export function clearSoftwareLogFilters() {
+    return {
+        type: types.CLEAR_SOFTWARE_LOG_FILTERS
+    }
+}
+
+
+export function createSoftwareLogClient(viewModel) {
     return {
         type: types.CREATE_SOFTWARE_LOG_REQUEST,
+        viewModel
+    }
+}
+
+export function updateSoftwareLogClient(viewModel) {
+    return {
+        type: types.UPDATE_SOFTWARE_LOG_REQUEST,
+        viewModel
+    }
+}
+
+export function deleteSoftwareLogClient(viewModel) {
+    return {
+        type: types.DELETE_SOFTWARE_LOG_REQUEST,
         viewModel
     }
 }

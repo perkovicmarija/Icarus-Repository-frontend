@@ -87,7 +87,7 @@ const LoginForm = (props) => {
             autoComplete="off"
             onError={onValidationError}
             onSubmit={onSubmit}>
-            <img className={classes.logoCenter} width="250" height="330" src={bgImageLogo}/>
+            <img alt="" className={classes.logoCenter} width="250" height="330" src={bgImageLogo}/>
             <div className={classes.container}>
                 <Grid container alignContent="center" alignItems="center" justify="center" spacing={2}>
                     <Grid container justifyContent="center" spacing={2}>
@@ -100,7 +100,7 @@ const LoginForm = (props) => {
                                     }}
                                     htmlFor="username-css-input"
                                 >
-                                    <IntlMessages id="user.username"/>
+                                    <IntlMessages id="form.username"/>
                                 </InputLabel>
                                 <Input
                                     classes={{
@@ -125,7 +125,7 @@ const LoginForm = (props) => {
                                     }}
                                     htmlFor="password-css-input"
                                 >
-                                    <IntlMessages id="user.password"/>
+                                    <IntlMessages id="form.password"/>
                                 </InputLabel>
                                 <Input
                                     classes={{

@@ -60,7 +60,7 @@ function DialogFormSupportItem(props) {
                                 errorMessages={[<IntlMessages id="general.validation"/>]}
                                 required
                                 id="bug"
-                                label="Bug"
+                                label="support.bug"
                                 name="bug"
                                 value={supportItem.bug}
                                 onInputChange={onInputChange}
@@ -84,7 +84,7 @@ function DialogFormSupportItem(props) {
                                 onSelectChange={onSelectChange}
                                 optionProp="name"
                                 optionKey="supportBugModuleId"
-                                label="Module"
+                                label="general.module"
                                 validators={['required']}
                                 errorMessages={[<IntlMessages id="general.validation"/>]}
                                 required
@@ -101,7 +101,7 @@ function DialogFormSupportItem(props) {
                                 onSelectChange={onSelectChange}
                                 optionProp="level"
                                 optionKey="supportBugLevelId"
-                                label="Level"
+                                label="general.level"
                                 validators={['required']}
                                 errorMessages={[<IntlMessages id="general.validation"/>]}
                                 required

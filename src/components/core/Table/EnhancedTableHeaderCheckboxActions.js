@@ -48,13 +48,15 @@ function EnhancedTableHeaderCheckboxActions(props) {
                                     placement={column.numeric ? 'bottom-end' : 'bottom-start'}
                                     enterDelay={300}
                                 >
-                                    <TableSortLabel
-                                        active={orderBy === column.id}
-                                        direction={order}
-                                        onClick={event => onSortRequest(column.id)}
-                                    >
-                                        <IntlMessages id={column.label} />
-                                    </TableSortLabel>
+                                    <>
+                                        <TableSortLabel
+                                          active={orderBy === column.id}
+                                          direction={order}
+                                          onClick={event => onSortRequest(column.id)}
+                                        >
+                                            <IntlMessages id={column.label} />
+                                        </TableSortLabel>
+                                    </>
                                 </Tooltip> :
                                 <IntlMessages id={column.label} />
                             }

@@ -67,30 +67,38 @@ function FormReturnEditBar(props) {
             <div className={classes.actions}>
                 {editDisabled && showDelete &&
                 <Tooltip title="Delete">
-                    <IconButton className={classes.iconColor} aria-label="Delete" onClick={onDeleteSelect}>
-                        <Delete/>
-                    </IconButton>
+                    <>
+                        <IconButton className={classes.iconColor} aria-label="Delete" onClick={onDeleteSelect}>
+                            <Delete/>
+                        </IconButton>
+                    </>
                 </Tooltip>}
 
                 {!editDisabled &&
                 <Tooltip title="Save">
-                    <IconButton className={classes.iconColor} aria-label="Save" onClick={onSaveSelect}>
-                        <Done/>
-                    </IconButton>
+                    <>
+                        <IconButton className={classes.iconColor} aria-label="Save" onClick={onSaveSelect}>
+                            <Done/>
+                        </IconButton>
+                    </>
                 </Tooltip>}
 
                 {!editDisabled &&
                 <Tooltip title="Cancel edit">
-                    <IconButton className={classes.iconColor} aria-label="Cancel" onClick={onCancelSelect}>
-                        <Close/>
-                    </IconButton>
+                    <>
+                        <IconButton className={classes.iconColor} aria-label="Cancel" onClick={onCancelSelect}>
+                            <Close/>
+                        </IconButton>
+                    </>
                 </Tooltip>}
 
                 {editDisabled &&
                 <Tooltip title="Edit">
-                    <IconButton className={classes.iconColor} aria-label="Edit form" onClick={onEditSelect}>
-                        <Edit/>
-                    </IconButton>
+                    <>
+                        <IconButton className={classes.iconColor} aria-label="Edit form" onClick={onEditSelect}>
+                            <Edit/>
+                        </IconButton>
+                    </>
                 </Tooltip>}
             </div>
         </Toolbar>

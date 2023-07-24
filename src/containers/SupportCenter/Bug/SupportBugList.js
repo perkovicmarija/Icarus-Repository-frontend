@@ -186,8 +186,8 @@ function SupportCenterList(props) {
                             count={totalCount}
                             rowsPerPage={rowsPerPage}
                             page={page}
-                            onChangePage={onChangePage}
-                            onChangeRowsPerPage={onChangeRowsPerPage}
+                            onPageChange={onChangePage}
+                            onRowsPerPageChange={onChangeRowsPerPage}
                             ActionsComponent={TablePaginationAction}
                         />
                     </TableRow>

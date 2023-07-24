@@ -105,9 +105,11 @@ const FormEditBarSubtitle = (props) => {
                                     showExport &&
                                         <Box>
                                             <Tooltip title="Export">
-                                                <IconButton className={classes.iconColor} aria-label="Print" onClick={onExportSelect}>
-                                                    <Print/>
-                                                </IconButton>
+                                                <>
+                                                    <IconButton className={classes.iconColor} aria-label="Print" onClick={onExportSelect}>
+                                                        <Print/>
+                                                    </IconButton>
+                                                </>
                                             </Tooltip>
                                         </Box>
                                 }
@@ -115,9 +117,11 @@ const FormEditBarSubtitle = (props) => {
                                     editDisabled && showDelete && Protected.protectedAuth(authPermissions) &&
                                         <Box>
                                             <Tooltip title="Delete">
-                                                <IconButton className={classes.iconColor} aria-label="Delete" onClick={onDeleteSelect}>
-                                                    <Delete/>
-                                                </IconButton>
+                                                <>
+                                                    <IconButton className={classes.iconColor} aria-label="Delete" onClick={onDeleteSelect}>
+                                                        <Delete/>
+                                                    </IconButton>
+                                                </>
                                             </Tooltip>
                                         </Box>
                                 }
@@ -125,9 +129,11 @@ const FormEditBarSubtitle = (props) => {
                                     !editDisabled && Protected.protectedAuth(authPermissions) &&
                                         <Box>
                                             <Tooltip title="Save">
-                                                <IconButton className={classes.iconColor} aria-label="Save" onClick={onSaveSelect}>
-                                                    <Done/>
-                                                </IconButton>
+                                                <>
+                                                    <IconButton className={classes.iconColor} aria-label="Save" onClick={onSaveSelect}>
+                                                        <Done/>
+                                                    </IconButton>
+                                                </>
                                             </Tooltip>
                                         </Box>
                                 }
@@ -135,9 +141,11 @@ const FormEditBarSubtitle = (props) => {
                                     !editDisabled && Protected.protectedAuth(authPermissions) &&
                                         <Box>
                                             <Tooltip title="Cancel edit">
-                                                <IconButton className={classes.iconColor} aria-label="Cancel" onClick={onCancelSelect}>
-                                                    <Close/>
-                                                </IconButton>
+                                                <>
+                                                    <IconButton className={classes.iconColor} aria-label="Cancel" onClick={onCancelSelect}>
+                                                        <Close/>
+                                                    </IconButton>
+                                                </>
                                             </Tooltip>
                                         </Box>
                                 }
@@ -145,9 +153,11 @@ const FormEditBarSubtitle = (props) => {
                                     editDisabled && showEdit && Protected.protectedAuth(authPermissions) &&
                                         <Box>
                                             <Tooltip title="Edit">
-                                                <IconButton className={classes.iconColor} aria-label="Edit form" onClick={onEditSelect}>
-                                                    <Edit/>
-                                                </IconButton>
+                                                <>
+                                                    <IconButton className={classes.iconColor} aria-label="Edit form" onClick={onEditSelect}>
+                                                        <Edit/>
+                                                    </IconButton>
+                                                </>
                                             </Tooltip>
                                         </Box>
                                 }

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 
 import PropTypes from 'prop-types';
 import { makeStyles } from '@mui/styles';
@@ -34,8 +34,8 @@ const useStyles = makeStyles(theme => ({
 }));
 
 const columnData = [
-    {label: 'Name'},
-    {label: 'Email'},
+    {label: 'form.name'},
+    {label: 'form.email'},
 ];
 
 function UserList(props) {
@@ -60,19 +60,21 @@ function UserList(props) {
     return (
         <div className={classes.root}>
             <EnhancedTableToolbarRich
-                title="Users"
+                title="form.users"
                 showSearch
                 searchValue={searchValue}
                 onInputSearchChange={onInputSearchChange}
                 onSearchSubmit={onSearchSubmit}
-                searchPlaceholder="Search by email"
+                searchPlaceholder="search.byEmail"
             >
                 <Tooltip title={<IntlMessages id="general.addNew" />}>
-                    <IconButton aria-label="Add new"
-                                aria-haspopup="true"
-                                onClick={onUserNewClick}>
-                        <NoteAdd />
-                    </IconButton>
+                    <>
+                        <IconButton aria-label="Add new"
+                                    aria-haspopup="true"
+                                    onClick={onUserNewClick}>
+                            <NoteAdd />
+                        </IconButton>
+                    </>
                 </Tooltip>
                 <FilterIconCustom onFilterClick={onUserFilterClick} filtersActive={filtersActive} />
             </EnhancedTableToolbarRich>
@@ -102,10 +104,10 @@ function UserList(props) {
                             count={totalCount}
                             rowsPerPage={rowsPerPage}
                             page={page}
-                            onChangePage={handleChangePage}
-                            onChangeRowsPerPage={handleChangeRowsPerPage}
+                            onPageChange={handleChangePage}
+                            onRowsPerPageChange={handleChangeRowsPerPage}
                             ActionsComponent={TablePaginationAction}
-                        />
+                            />
                     </TableRow>
                 </TableFooter>
             </Table>

@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { Route, Redirect, Switch } from 'react-router-dom';
+import {Redirect, Route, Switch} from 'react-router-dom';
 
 import User from '../Users/User/User';
 import SupportBugDetailsFrame from '../SupportCenter/Bug/Details/SupportBugDetailsFrame';
@@ -10,17 +10,19 @@ import SubmenuComp1 from '../SubmenuComp/SubmenuComp1';
 import SubmenuComp2 from '../SubmenuComp/SubmenuComp2';
 import UserRoleFrame from '../Users/UserRoleFrame';
 import SupportCenterFrame from '../SupportCenter/SupportCenterFrame';
+import SettingFrame from '../Setting/SettingFrame';
 import {
-    root,
-    dashboard,
-    supportCenter,
-    userModule,
-    user,
-    supportBug,
-    submenu1,
-    submenu2,
-    auditChecklistOverview,
-    auditChecklist
+  auditChecklist,
+  auditChecklistOverview,
+  dashboard,
+  root,
+  settingModule,
+  submenu1,
+  submenu2,
+  supportBug,
+  supportCenter,
+  user,
+  userModule
 } from '../../consts/routePaths';
 import AuditChecklistOverview from "../Audit/AuditChecklist/AuditChecklistOverview";
 import AuditChecklist from "../Audit/AuditChecklist/AuditChecklist";
@@ -71,6 +73,12 @@ const AdminRouter = () => {
             path={user}
             component={User}
             key="user-module"
+        />
+        <ProtectedRoute
+            protectedAuthorities={['PERM_SUPPORT_BASIC', 'PERM_SUPPORT_CRUD', 'PERM_SUPPORT_ADMIN']}
+            path={settingModule}
+            component={SettingFrame}
+            key="setting-module"
         />
         {
             /**

@@ -147,6 +147,7 @@ function UserGroups(props) {
             <DialogFormFrame
                 onClose={handleUserGroupDialogDetailsClose}
                 title="User groups"
+
                 open={dialogUserGroupDetailsOpen}
             >
                 <DialogFormUserGroup

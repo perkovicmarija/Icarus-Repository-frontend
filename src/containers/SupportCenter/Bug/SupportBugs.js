@@ -62,9 +62,10 @@ function SupportBugs(props) {
         setDialogItemOpen(false);
     };
 
-    const handleInputChange = (name, event) => {
+    const handleInputChange = (event) => {
+        const { name, value } = event.target
         let supportItemClone = cloneDeep(supportItem);
-        supportItemClone[name] = event.target.value;
+        supportItemClone[name] = value;
         setSupportItem(supportItemClone);
     };
 

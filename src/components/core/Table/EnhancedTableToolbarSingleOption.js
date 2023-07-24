@@ -98,70 +98,86 @@ function EnhancedTableToolbarSingleOption(props) {
                     {
                         showImport &&
                         <Tooltip title={<IntlMessages id="general.import" />}>
-                            <IconButton className={classes.iconColor} aria-label="Import form" onClick={onImportSelect}>
-                                <CloudUpload/>
-                            </IconButton>
+                            <>
+                                <IconButton className={classes.iconColor} aria-label="Import form" onClick={onImportSelect}>
+                                    <CloudUpload/>
+                                </IconButton>
+                            </>
                         </Tooltip>
                     }
                     {showHelp &&
                     <Tooltip title={<IntlMessages id={tooltipHelp}/>}>
-                        <IconButton aria-label={tooltipHelp}
-                                    aria-haspopup="true"
-                                    onClick={onHelpClick}>
-                            <Help/>
-                        </IconButton>
+                        <>
+                            <IconButton aria-label={tooltipHelp}
+                                        aria-haspopup="true"
+                                        onClick={onHelpClick}>
+                                <Help/>
+                            </IconButton>
+                        </>
                     </Tooltip>
                     }
                     {showColumnEdit &&
                     <Tooltip title={<IntlMessages id={tooltipColumnEdit}/>}>
-                        <IconButton aria-label={tooltipColumnEdit}
-                                    aria-haspopup="true"
-                                    onClick={onColumnEditClick}>
-                            <ViewColumn/>
-                        </IconButton>
+                        <>
+                            <IconButton aria-label={tooltipColumnEdit}
+                                        aria-haspopup="true"
+                                        onClick={onColumnEditClick}>
+                                <ViewColumn/>
+                            </IconButton>
+                        </>
                     </Tooltip>
                     }
                     {showExport &&
                     <Tooltip title={<IntlMessages id={tooltipExport}/>}>
-                        <IconButton aria-label={tooltipExport}
-                                    aria-haspopup="true"
-                                    onClick={onExportClick}>
-                            <ExportIcon/>
-                        </IconButton>
+                        <>
+                            <IconButton aria-label={tooltipExport}
+                                        aria-haspopup="true"
+                                        onClick={onExportClick}>
+                                <ExportIcon/>
+                            </IconButton>
+                        </>
                     </Tooltip>
                     }
 
                     {showNotifyAll &&
                     <Tooltip title={<IntlMessages id={tooltipNotifyAll}/>}>
-                        <IconButton aria-label={tooltipNotifyAll}
-                                    aria-haspopup="true"
-                                    onClick={onNotifyAllClick}>
-                            <Notifications/>
-                        </IconButton>
+                        <>
+                            <IconButton aria-label={tooltipNotifyAll}
+                                        aria-haspopup="true"
+                                        onClick={onNotifyAllClick}>
+                                <Notifications/>
+                            </IconButton>
+                        </>
                     </Tooltip>
                     }
 
                     {!noAdd && Protected.protectedAuth(authPermissions) ?
                         <Tooltip title={<IntlMessages id={tooltipNew}/>}>
-                            <IconButton aria-label={tooltipNew}
-                                        aria-haspopup="true"
-                                        onClick={onNewClick}>
-                                <NoteAddIcon/>
-                            </IconButton>
+                            <>
+                                <IconButton aria-label={tooltipNew}
+                                            aria-haspopup="true"
+                                            onClick={onNewClick}>
+                                    <NoteAddIcon/>
+                                </IconButton>
+                            </>
                         </Tooltip>
                         : null}
                     {!noFilter &&
                         <Tooltip title={<IntlMessages id="action.filter"/>}>
+                            <>
                             <FilterIconCustom onFilterClick={onFilterClick} filtersActive={filtersActive}/>
+                            </>
                         </Tooltip>
                     }
                     {showMore && Protected.protectedAuth(authPermissions) ?
                         <Tooltip title={<IntlMessages id="action.more"/>}>
-                            <IconButton aria-label={tooltipMore}
-                                        aria-haspopup="true"
-                                        onClick={onMoreClick}>
-                                <More/>
-                            </IconButton>
+                            <>
+                                <IconButton aria-label={tooltipMore}
+                                            aria-haspopup="true"
+                                            onClick={onMoreClick}>
+                                    <More/>
+                                </IconButton>
+                            </>
                         </Tooltip> : null}
                 </div>
             </Toolbar>

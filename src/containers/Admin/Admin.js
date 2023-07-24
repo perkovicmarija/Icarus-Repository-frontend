@@ -29,7 +29,7 @@ const useStyles = makeStyles(theme => ({
 
 function Dashboard(props) {
     const classes = useStyles();
-    const theme = useTheme();
+    // const theme = useTheme();
     const [open, setOpen] = useState(true);
     const [drawerWidth, setDrawerWidth] = useState(240);
     const size = useWindowSize();
@@ -65,6 +65,7 @@ function Dashboard(props) {
     const currentAppLocale = AppLocale[props.locale];
 
     const {...rest} = props;
+
     return (
         <IntlProvider
             locale={currentAppLocale.locale}

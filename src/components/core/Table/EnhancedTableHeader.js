@@ -28,13 +28,15 @@ function EnhancedTableHeader(props) {
                                     placement={column.numeric ? 'bottom-end' : 'bottom-start'}
                                     enterDelay={300}
                                 >
-                                    <TableSortLabel
-                                        active={sortBy === column.id}
-                                        direction={sortBy === column.id ? sortDirection : 'asc'}
-                                        onClick={event => onRequestSort(event, column.id)}
-                                    >
-                                        <IntlMessages id={column.label} />
-                                    </TableSortLabel>
+                                    <>
+                                        <TableSortLabel
+                                          active={sortBy === column.id}
+                                          direction={sortBy === column.id ? sortDirection : 'asc'}
+                                          onClick={event => onRequestSort(event, column.id)}
+                                        >
+                                            <IntlMessages id={column.label} />
+                                        </TableSortLabel>
+                                    </>
                                 </Tooltip> :
                                 <IntlMessages id={column.label} />
                             }

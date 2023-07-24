@@ -60,10 +60,12 @@ function FormTitleSubtitleBar(props) {
 
             <div className={classes.actions}>
                 {Protected.protectedAuth(['PERM_SUPPORT_ADMIN']) ?
-                    <Tooltip title="Settings">
-                        <IconButton className={classes.iconColor} aria-label="Settings" onClick={onSettingsSelect}>
-                            <Settings/>
-                        </IconButton>
+                    <Tooltip title="DialogFormClient">
+                        <>
+                            <IconButton className={classes.iconColor} aria-label="DialogFormClient" onClick={onSettingsSelect}>
+                                <Settings/>
+                            </IconButton>
+                        </>
                     </Tooltip>
                     : null}
             </div>

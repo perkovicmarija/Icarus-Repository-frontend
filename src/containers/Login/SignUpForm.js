@@ -21,8 +21,7 @@ function SignUpForm(props) {
         onValidationError,
         onSubmit,
         signUpData,
-        onInputChange,
-        classes
+        onInputChange
     } = props;
 
     return (

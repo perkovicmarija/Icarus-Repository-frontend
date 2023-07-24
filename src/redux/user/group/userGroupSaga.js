@@ -1,5 +1,4 @@
 import { all, takeLatest, put, call, fork } from 'redux-saga/effects';
-import { push } from 'connected-react-router';
 import * as types from '../../actionTypes';
 import UserGroupApi from '../../../api/UserGroupApi';
 
@@ -9,7 +8,6 @@ export function* userGroupsRequest() {
             const response = yield call(UserGroupApi.getAll, action.viewModel);
             if (response.code === "200") {
                 const data = response.data;
-                const meta = response.meta;
                 yield put({
                     type: types.LOAD_USER_GROUPS_SUCCESS,
                     userGroups: data,

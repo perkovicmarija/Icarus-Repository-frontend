@@ -45,9 +45,9 @@ function User(props) {
         }
     }, [props.user.userId]);
 
-    const handleInputChange = (name, event) => {
+    const handleInputChange = (event) => {
         let userClone = cloneDeep(user);
-        userClone[name] = event.target.value;
+        userClone[event.target.name] = event.target.value;
         setUser(userClone);
     };
 
@@ -65,9 +65,8 @@ function User(props) {
         setUser(userClone);
     }
 
-    const handleGeneratePasswordSwitchChange = name => event => {
-        let generatePasswordClone = cloneDeep(generatePassword);
-        generatePasswordClone = event.target.checked;
+    const handleGeneratePasswordSwitchChange = () => event => {
+        let generatePasswordClone = event.target.checked;
         setGeneratePassword(generatePasswordClone);
     }
 
@@ -182,19 +181,19 @@ function User(props) {
                 (user.deactivated ?
                     <FormTitleBar title="user.title"/> :
                     (Protected.protectedAuth(['PERM_USER_CRUD']) ?
-                        <FormEditBar title="User"
+                        <FormEditBar title="form.user"
                                      editDisabled={editDisabled}
                                      onEditSelect={handleEditUser}
                                      onSaveSelect={handleUserSave}
                                      onCancelSelect={handleCancelEditUser}
                                      showDelete={true}
                                      onDeleteSelect={handleDeleteUser}/> :
-                        <FormEditBar title="User"
+                        <FormEditBar title="form.user"
                                      editDisabled={editDisabled}
                                      onEditSelect={handleEditUser}
                                      onSaveSelect={handleUserSave}
                                      onCancelSelect={handleCancelEditUser}/>)) :
-                <FormTitleBar title="User"/>}
+                <FormTitleBar title="form.user"/>}
 
             <UserForm
                 user={user}

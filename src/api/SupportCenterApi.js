@@ -2,6 +2,9 @@ import RestApiPost from './methods/RestApiPost';
 import RestApiGetPathParams from './methods/RestApiGetPathParams';
 import RestApiPostMultipartArrayAxios from './methods/Multipart/RestApiPostMultipartArrayAxios';
 import RestApiPostDownloadAxios from './methods/Download/RestApiPostDownloadAxios';
+import RestApiGet from "./methods/RestApiGet";
+import RestApiPutWithPathParams from "./methods/RestApiPutWithPathParams";
+import RestApiDelete from "./methods/RestApiDelete";
 
 const SupportCenterApi = {
     getAll (viewModel) {
@@ -38,12 +41,24 @@ const SupportCenterApi = {
     download(viewModel) {
         return RestApiPostDownloadAxios.postData(viewModel, '/supportBug/downloadAttachment')
     },
-    getAllSoftwareLogs (viewModel) {
-        return RestApiGetPathParams.getData('/supportBug/softwareLog/getAll', viewModel);
+
+    ///////////////////////////   SUPPORT SOFTWARE LOGS   ///////////////////////////////////////////////
+
+    getAllSoftwareLogClients(viewModel) {
+        return RestApiGet.getData('/support/software-log-clients-joined', viewModel);
     },
-    createSoftwareLog(viewModel) {
-        return RestApiPost.postData('/supportBug/softwareLog/create', viewModel);
+    getAllSoftwareLogClientsPagination(viewModel) {
+        return RestApiPost.postData('/support/software-log-clients-joined/paginate', viewModel);
     },
+    createSoftwareLogClient(viewModel) {
+        return RestApiPost.postData('/support/software-log-clients-joined', viewModel);
+    },
+    updateSoftwareLogClient(viewModel) {
+        return RestApiPutWithPathParams.putData('/support/software-log-clients-joined', viewModel);
+    },
+    deleteSoftwareLogClient(viewModel) {
+        return RestApiDelete.deleteData(viewModel,'/support/software-log-clients/:softwareLogId');
+    }
 }
 
 export default SupportCenterApi;
