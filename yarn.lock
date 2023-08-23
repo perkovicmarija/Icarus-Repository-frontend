@@ -9482,7 +9482,7 @@ react-lifecycles-compat@^3.0.2:
   resolved "https://registry.yarnpkg.com/react-lifecycles-compat/-/react-lifecycles-compat-3.0.4.tgz#4f1a273afdfc8f3488a8c516bfda78f872352362"
   integrity sha512-fBASbA6LnOU9dOU2eW7aQ8xmYBSXUIWr+UmF9b1efZBazGNO+rcXT/icdKnYm2pTwcRylVUYwW7H1PHfLekVzA==
 
-react-material-ui-form-validator@^3.0.0:
+react-material-ui-form-validator@3.0.0:
   version "3.0.0"
   resolved "https://registry.yarnpkg.com/react-material-ui-form-validator/-/react-material-ui-form-validator-3.0.0.tgz#9cc732147fab0062535d41a8b158537d6794e684"
   integrity sha512-WoQvsGCV6cxxGlTvoKOZoLvWtg5KWMRVD9EFfMfJBYYUAZBOR9yXg1OSlu/MgOP7sPiiIUAwPLYVWIds7oLXKQ==

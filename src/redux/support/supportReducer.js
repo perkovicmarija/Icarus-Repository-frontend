@@ -17,7 +17,9 @@ const initState = {
   statuses: [],
   filters: initFilters,
   softwareLogsPagination: [],
-  softwareLog: {}
+  softwareLog: {},
+  roadmaps:[],
+  roadmap:{},
 }
 export default function supportReducer(state = initState, action) {
   switch (action.type) {
@@ -139,6 +141,26 @@ export default function supportReducer(state = initState, action) {
         softwareLog: {},
         softwareLogsPagination: state.softwareLogsPagination.filter(log => log.supportSoftwareLogId !== action.softwareLogId),
         totalCount: state.totalCount - 1
+      };
+    case types.LOAD_ROADMAP_LOGS_SUCCESS:
+      return {
+        ...state,
+        roadmaps: action.roadmaps,
+      };
+    case types.CREATE_ROADMAP_LOG_SUCCESS:
+      return {
+        ...state,
+      };
+    case types.UPDATE_ROADMAP_LOG_SUCCESS:
+      return {
+        ...state,
+        roadmap: action.roadmap
+      };
+    case types.DELETE_ROADMAP_LOG_SUCCESS:
+      return {
+        ...state,
+        roadmap: {},
+        roadmaps: state.roadmaps.filter(log => log.icarusRoadmapLogId !== action.icarusRoadmapLogId)
       };
     default:
       return state;

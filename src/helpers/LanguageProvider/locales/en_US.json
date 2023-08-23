@@ -205,6 +205,7 @@
   "general.dragAndDropFile": "Drag 'n' drop file here, or click to select file.",
   "general.dragAndDropFileMaxSize": "Max size: {maxSizeMb}",
   "general.userManagement": "User management",
+  "general.planned": "Planned",
 
   "form.user": "User",
   "form.users": "Users",
@@ -244,6 +245,8 @@
 
   "support.title": "Support center",
   "support.logs": "Logs",
+  "support.roadmap": "Roadmap",
+  "support.estimatedTime": "Estimated time",
   "support.logs.new": "New software log",
   "support.logs.update": "Update software log",
   "support.bugs": "Requests",
