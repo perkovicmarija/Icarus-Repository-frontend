@@ -157,3 +157,32 @@ export function deleteSoftwareLogClient(viewModel) {
         viewModel
     }
 }
+
+export function loadAllRoadmapLogs(viewModel) {
+    return {
+        type: types.LOAD_ROADMAP_LOGS_REQUEST,
+        viewModel
+    }
+}
+
+
+export function createRoadmapLog(viewModel) {
+    return {
+        type: types.CREATE_ROADMAP_LOG_REQUEST,
+        viewModel
+    }
+}
+
+export function updateRoadmapLog(viewModel) {
+    return {
+        type: types.UPDATE_ROADMAP_LOG_REQUEST,
+        viewModel
+    }
+}
+
+export function deleteRoadmapLog(viewModel) {
+    return {
+        type: types.DELETE_ROADMAP_LOG_REQUEST,
+        viewModel
+    }
+}

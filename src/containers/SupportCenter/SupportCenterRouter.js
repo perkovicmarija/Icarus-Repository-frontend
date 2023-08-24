@@ -4,7 +4,8 @@ import { Switch, Route } from 'react-router-dom';
 
 import SupportBugs from './Bug/SupportBugs';
 import SupportSoftwareLog from './Logs/SupportSoftwareLog'
-import { supportBugs, supportLogs } from "../../consts/routePaths";
+import { supportBugs, supportLogs, supportRoadmap } from "../../consts/routePaths";
+import Roadmap from "./Roadmap/Roadmap";
 
 function SupportCenter(props) {
     return (
@@ -18,6 +19,11 @@ function SupportCenter(props) {
                 exact
                 path={supportLogs}
                 component={SupportSoftwareLog}
+            />
+            <Route
+                exact
+                path={supportRoadmap}
+                component={Roadmap}
             />
         </Switch>
     );

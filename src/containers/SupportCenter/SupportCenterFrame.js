@@ -8,7 +8,7 @@ import IntlMessages from '../../components/core/IntlMessages';
 import TabContainer from '../../components/core/TabContainer';
 import SupportCenterRouter from './SupportCenterRouter';
 import FormTitleBarRich from '../../components/core/Form/FormTitleBarRich';
-import {getSupportBugsPath, getSupportLogsPath} from "../../consts/routePaths";
+import {getSupportBugsPath, getSupportLogsPath, supportRoadmap} from "../../consts/routePaths";
 
 const useStyles = makeStyles(theme => ({
     root: {
@@ -46,6 +46,8 @@ function SupportCenterFrame(props) {
                              to={getSupportLogsPath(0, 25)}/>
                         <Tab label={<IntlMessages id="support.bugs" />} className={classes.tabLink} component={Link}
                              to={getSupportBugsPath(0, 25)}/>
+                        <Tab label={<IntlMessages id="support.roadmap" />} className={classes.tabLink} component={Link}
+                             to={supportRoadmap}/>
                     </Tabs>
                 </AppBar>
                 <TabContainer dir={theme.direction}>

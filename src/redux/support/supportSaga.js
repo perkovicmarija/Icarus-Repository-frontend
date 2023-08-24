@@ -1,6 +1,8 @@
 import {all, call, fork, put, take, takeLatest} from 'redux-saga/effects';
 import * as types from '../actionTypes';
 import SupportCenterApi from '../../api/SupportCenterApi';
+import {push} from "connected-react-router";
+import {UPDATE_ROADMAP_LOG_FAILED, UPDATE_ROADMAP_LOG_SUCCESS} from "../actionTypes";
 
 export function* supportCentersRequest() {
     yield takeLatest(types.LOAD_SUPPORT_CENTER_ALL_REQUEST, function*(action) {
@@ -469,6 +471,112 @@ export function* deleteSoftwareLogRequest() {
     });
 }
 
+export function* loadRoadmapLogsRequest() {
+    yield takeLatest(types.LOAD_ROADMAP_LOGS_REQUEST, function*(action) {
+        try {
+            const response = yield call(SupportCenterApi.getAllRoadmapLogs, action.viewModel);
+            if (response.code === "200") {
+                const data = response.data;
+                yield put({
+                    type: types.LOAD_ROADMAP_LOGS_SUCCESS,
+                    roadmaps: data,
+                });
+            } else {
+                yield put({type: types.LOAD_ROADMAP_LOGS_FAILED})
+            }
+        } catch (e) {
+            console.log("error");
+            yield put({type: types.LOAD_ROADMAP_LOGS_FAILED})
+        } finally {
+            yield put({type: types.AJAX_FINISHED})
+        }
+    });
+}
+
+export function* createRoadmapLogRequest() {
+    yield takeLatest(types.CREATE_ROADMAP_LOG_REQUEST, function*(action) {
+        try {
+            const response = yield call(SupportCenterApi.createRoadmapLog, action.viewModel);
+            if (response.code === "200") {
+                yield put({
+                    type: types.CREATE_ROADMAP_LOG_SUCCESS
+                });
+                yield put({
+                    type: types.AJAX_SUCCESS,
+                    message: response.message
+                });
+            } else {
+                yield put({type: types.CREATE_ROADMAP_LOG_FAILED})
+            }
+        } catch (e) {
+            yield put({type: types.CREATE_ROADMAP_LOG_FAILED})
+        } finally {
+            yield put({type: types.AJAX_FINISHED})
+        }
+    });
+}
+
+export function* updateRoadmapLogRequest() {
+    yield takeLatest(types.UPDATE_ROADMAP_LOG_REQUEST, function*(action) {
+        try {
+            const response = yield call(SupportCenterApi.updateRoadmapLog, action.viewModel);
+            if (response.code === "200") {
+                yield put({
+                    type: types.UPDATE_ROADMAP_LOG_SUCCESS,
+                    data: response.data
+                });
+                yield put({
+                    type: types.AJAX_SUCCESS,
+                    message: response.message,
+                });
+            } else {
+                yield put({
+                    type: types.UPDATE_ROADMAP_LOG_FAILED,
+                    message: response.message
+                });
+            }
+        } catch (e) {
+            yield put({
+                type: types.AJAX_FAILED,
+                message: e
+            });
+        } finally {
+            yield put({type: types.AJAX_FINISHED})
+        }
+    });
+}
+
+export function* deleteRoadmapLogRequest() {
+    yield takeLatest(types.DELETE_ROADMAP_LOG_REQUEST, function*(action) {
+        try {
+            const response = yield call(SupportCenterApi.deleteRoadmapLog, action.viewModel);
+            debugger
+            if (response.code === "200") {
+                yield put({
+                    type: types.DELETE_ROADMAP_LOG_SUCCESS,
+                    icarusRoadmapLogId: action.viewModel.icarusRoadmapLogId
+                });
+                yield put({
+                    type: types.AJAX_SUCCESS,
+                    message: response.message
+                });
+            } else {
+                yield put({
+                    type: types.AJAX_FAILED,
+                    message: response.message
+                });
+            }
+        } catch (e) {
+            yield put({
+                type: types.AJAX_FAILED,
+                message: e
+            });
+        } finally {
+            yield put({type: types.AJAX_FINISHED})
+        }
+    });
+}
+
 export default function* rootSaga() {
     yield all([
         fork(supportCentersRequest),
@@ -487,5 +595,9 @@ export default function* rootSaga() {
         fork(createSoftwareLogRequest),
         fork(updateSoftwareLogRequest),
         fork(deleteSoftwareLogRequest),
+        fork(loadRoadmapLogsRequest),
+        fork(createRoadmapLogRequest),
+        fork(updateRoadmapLogRequest),
+        fork(deleteRoadmapLogRequest),
     ]);
 }

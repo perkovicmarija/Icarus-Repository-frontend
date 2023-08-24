@@ -58,7 +58,22 @@ const SupportCenterApi = {
     },
     deleteSoftwareLogClient(viewModel) {
         return RestApiDelete.deleteData(viewModel,'/support/software-log-clients/:softwareLogId');
-    }
+    },
+
+    ///////////////////////////   ROADMAP   ///////////////////////////////////////////////
+
+    getAllRoadmapLogs (viewModel) {
+        return RestApiGet.getData('/support/roadmap-log', viewModel);
+    },
+    createRoadmapLog(viewModel) {
+        return RestApiPost.postData('/support/roadmap-log', viewModel);
+    },
+    updateRoadmapLog(viewModel) {
+        return RestApiPutWithPathParams.putData('/support/roadmap-log', viewModel);
+    },
+    deleteRoadmapLog(viewModel) {
+        return RestApiDelete.deleteData(viewModel,'/support/roadmap-log/:icarusRoadmapLogId');
+    },
 }
 
 export default SupportCenterApi;

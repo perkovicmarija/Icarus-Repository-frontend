@@ -15,6 +15,7 @@ import withValidation from '../../containers/HOC/withValidation';
 import SelectMultipleCustom from '../core/Select/SelectMultipleCustom';
 import IntlMessages from '../../components/core/IntlMessages';
 import _ from "lodash";
+import TextFieldMultiline from "../core/TextField/TextFieldMultiline";
 
 function DialogFormComment(props) {
 
@@ -60,19 +61,16 @@ function DialogFormComment(props) {
                     <Grid container>
                         <Grid item xl={12} lg={12} md={12} sm={12} xs={12}>
                             <TypographyFieldTitle title="general.description"/>
-                            <TextFieldValidation
+                            <TextFieldMultiline
                                 disabled={false}
                                 id="description"
-                                label="general.description"
+                                label="Description"
                                 name="description"
                                 value={softwareLog.description}
                                 onInputChange={onInputChange}
                                 rows="5"
                                 placeholder="form.writeDescription"
-                                type="text"
-                                validators={['required']}
-                                errorMessages={['This field is required']}
-                                required/>
+                                type="text"/>
                         </Grid>
                     </Grid>
 
