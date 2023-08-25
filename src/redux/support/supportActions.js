@@ -158,6 +158,13 @@ export function deleteSoftwareLogClient(viewModel) {
     }
 }
 
+export function loadRoadmapLogsPaginateFilter(viewModel) {
+    return {
+        type: types.LOAD_ROADMAP_LOGS_PAGINATE_FILTER_REQUEST,
+        viewModel
+    }
+}
+
 export function loadAllRoadmapLogs(viewModel) {
     return {
         type: types.LOAD_ROADMAP_LOGS_REQUEST,
@@ -184,5 +191,18 @@ export function deleteRoadmapLog(viewModel) {
     return {
         type: types.DELETE_ROADMAP_LOG_REQUEST,
         viewModel
+    }
+}
+
+export function clearAllRoadmapLogFilters() {
+    return {
+        type: types.CLEAR_ROADMAP_LOG_FILTERS
+    }
+}
+
+export function changeRoadmapLogFilters(filters) {
+    return {
+        type: types.CHANGE_ROADMAP_LOG_FILTERS,
+        filters
     }
 }
