@@ -2,7 +2,7 @@ import {all, call, fork, put, take, takeLatest} from 'redux-saga/effects';
 import * as types from '../actionTypes';
 import SupportCenterApi from '../../api/SupportCenterApi';
 import {push} from "connected-react-router";
-import {UPDATE_ROADMAP_LOG_FAILED, UPDATE_ROADMAP_LOG_SUCCESS} from "../actionTypes";
+import {DELETE_ROADMAP_LOG_FAILED, UPDATE_ROADMAP_LOG_FAILED, UPDATE_ROADMAP_LOG_SUCCESS} from "../actionTypes";
 
 export function* supportCentersRequest() {
     yield takeLatest(types.LOAD_SUPPORT_CENTER_ALL_REQUEST, function*(action) {
@@ -471,6 +471,30 @@ export function* deleteSoftwareLogRequest() {
     });
 }
 
+export function* loadRoadmapLogsPaginateFilterRequest() {
+    yield takeLatest(types.LOAD_ROADMAP_LOGS_PAGINATE_FILTER_REQUEST, function*(action) {
+        try {
+            const response = yield call(SupportCenterApi.getRoadmapLogsPaginateFilter, action.viewModel);
+            if (response.code === "200") {
+                const data = response.data;
+                //const meta = response.meta;
+                yield put({
+                    type: types.LOAD_ROADMAP_LOGS_PAGINATE_FILTER_SUCCESS,
+                    roadmaps: data,
+                    //totalCount: meta.totalCount
+                });
+            } else {
+                yield put({type: types.LOAD_ROADMAP_LOGS_PAGINATE_FILTER_FAILED})
+            }
+        } catch (e) {
+            console.log("error");
+            yield put({type: types.LOAD_ROADMAP_LOGS_FAILED})
+        } finally {
+            yield put({type: types.AJAX_FINISHED})
+        }
+    });
+}
+
 export function* loadRoadmapLogsRequest() {
     yield takeLatest(types.LOAD_ROADMAP_LOGS_REQUEST, function*(action) {
         try {
@@ -562,7 +586,7 @@ export function* deleteRoadmapLogRequest() {
                 });
             } else {
                 yield put({
-                    type: types.AJAX_FAILED,
+                    type: types.DELETE_ROADMAP_LOG_FAILED,
                     message: response.message
                 });
             }
@@ -595,6 +619,7 @@ export default function* rootSaga() {
         fork(createSoftwareLogRequest),
         fork(updateSoftwareLogRequest),
         fork(deleteSoftwareLogRequest),
+        fork(loadRoadmapLogsPaginateFilterRequest),
         fork(loadRoadmapLogsRequest),
         fork(createRoadmapLogRequest),
         fork(updateRoadmapLogRequest),

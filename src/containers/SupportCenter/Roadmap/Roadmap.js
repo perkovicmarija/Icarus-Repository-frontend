@@ -24,8 +24,9 @@ import FlightIcon from '@mui/icons-material/Flight';
 import DialogFormRoadmap from "../../../components/support/DialogFormRoadmap";
 import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
-import {deleteRoadmapLog, updateRoadmapLog} from "../../../redux/support/supportActions";
 import DialogDeleteWarning from "../../../components/core/Dialog/DialogDeleteWarning";
+import DialogFormRoadmapLogFilter from "../../../components/support/DialogFormRoadmapLogFilter";
+import EnhancedTableToolbarSingleOption from "../../../components/core/Table/EnhancedTableToolbarSingleOption";
 
 const useStyles = makeStyles(theme => ({
     root: {
@@ -77,7 +78,10 @@ const useStyles = makeStyles(theme => ({
 
 function Roadmap(props) {
 
-    const {roadmaps} = props;
+    const {
+        roadmaps,
+        filters
+    } = props;
 
     const classes = useStyles();
 
@@ -95,19 +99,15 @@ function Roadmap(props) {
     const [roadmapLogIdForDelete, setRoadmapLogIdForDelete] = useState(undefined)
     const [dialogNewLog, setDialogNewLog] = useState(false);
     const [roadmapLog, setRoadmapLog] = useState(createInitialState);
+    const [dialogFilterOpen, setDialogFilterOpen] = useState(false)
 
     useEffect(() => {
         const viewModel = {
-            filters: props.filters,
-            pagination: {
-                page: page,
-                rowsPerPage: rowsPerPage
-            }
-        };
-
-        props.supportActions.loadAllRoadmapLogs();
-
-
+            page,
+            rows_per_page: rowsPerPage,
+        }
+        props.supportActions.loadRoadmapLogsPaginateFilter(viewModel);
+        // props.supportActions.loadAllRoadmapLogs();
     }, []);
 
     const handleRoadmapLogSubmit = () => {
@@ -190,8 +190,50 @@ function Roadmap(props) {
         setDialogWarningOpen(false);
     }
 
+    // Filters
+
+    const handleRoadmapFilterClick = () => {
+        setDialogFilterOpen(true);
+    }
+
+    const handleFilterDialogClose = () => {
+        setDialogFilterOpen(false);
+    }
+
+    const handleClearAllFilters = () => {
+        props.supportActions.clearAllRoadmapLogFilters()
+    }
+
+    const handleFilterSubmit = () => {
+        setDialogFilterOpen(false);
+        const viewModel = {
+            page,
+            rows_per_page: rowsPerPage,
+            title: filters.title,
+            description: filters.description,
+            status: filters.status
+        }
+        props.supportActions.loadRoadmapLogsPaginateFilter(viewModel)
+    }
+
+    const handleFilterSelectBasicChange = ({ target: {name, value} }) => {
+        props.supportActions.changeRoadmapLogFilters({ ...filters, [name]: value })
+    }
+
+    const handleFilterInputChange = ({ target: {name, value} }) => {
+        props.supportActions.changeRoadmapLogFilters({ ...filters, [name]: value })
+    }
+
         return (
             <div>
+                <EnhancedTableToolbarSingleOption
+                    title="support.roadmap"
+                    onFilterClick={handleRoadmapFilterClick}
+                    filtersActive={!Object.values(filters).every(value => !value)}
+                    onSearchSubmit={handleFilterSubmit}
+                    noAdd={true}
+                />
+
                 <Tooltip title="Roadmap">
                     <IconButton className={classes.iconColor} aria-label="Add" onClick={handleDialogLogOpen}>
                         <AddComment/>
@@ -237,6 +279,22 @@ function Roadmap(props) {
                 </Timeline>
 
                 <DialogFormFrame
+                    onClose={handleFilterDialogClose}
+                    title="general.selectFilters"
+                    open={dialogFilterOpen}>
+                    <DialogFormRoadmapLogFilter
+                        gridSpacing={2}
+                        filters={filters}
+                        onClearAll={handleClearAllFilters}
+                        onClose={handleFilterDialogClose}
+                        onSubmit={handleFilterSubmit}
+                        onFilterSelectBasicChange={handleFilterSelectBasicChange}
+                        onFilterInputChange={handleFilterInputChange}
+                        editDisabled={false}
+                    />
+                </DialogFormFrame>
+
+                <DialogFormFrame
                     onClose={handleDialogLogClose}
                     title="support.logs.new"
                     open={dialogNewLog}
@@ -265,6 +323,7 @@ function mapStateToProps(state, ownProps) {
     return {
         roadmaps: state.SupportCenter.roadmaps,
         totalCount: state.SupportCenter.totalCount,
+        filters: state.SupportCenter.roadmapFilters
     }
 }
 
