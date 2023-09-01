@@ -22,7 +22,7 @@ import ChecklistDnDTree from "../../../components/auditChecklist/dnd/ChecklistDn
 import DialogFormExportData from "../../../components/core/Dialog/DialogFormExportData";
 import DialogFormUploadCSVFile from "../../../components/core/Dialog/DialogFormUploadCSVFile";
 
-import { auditChecklistSubAreaActions } from "../../../redux/auditChecklistSubArea/AuditChecklistSubAreaReducer";
+import { auditChecklistSubAreaActions } from "../../../redux/auditChecklistSubArea/auditChecklistSubAreaReducer";
 import { auditChecklistItemActions } from "../../../redux/auditChecklistItem/auditChecklistItemReducer";
 import { auditorActionLocationType } from "../../../redux/auditorActionLocationType/AuditorActionLocationTypeReducer";
 
@@ -315,9 +315,9 @@ const AuditChecklist = (props) => {
                 auditItems: [],
                 auditCheckListSubAreas: []
             }
+            setSelectedSubArea(viewModelSelectedSubArea);
             setItemVisible(false);
             setSubAreaVisible(true);
-            setSelectedSubArea(viewModelSelectedSubArea);
             const viewModel = {
                 id: id
             }

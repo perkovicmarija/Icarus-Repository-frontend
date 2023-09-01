@@ -1,5 +1,5 @@
 import {call, put, takeLatest, all, fork } from "redux-saga/effects";
-import { auditChecklistSubAreaActions } from "./AuditChecklistSubAreaReducer";
+import { auditChecklistSubAreaActions } from "./auditChecklistSubAreaReducer";
 import * as types from "../actionTypes";
 import AuditChecklistSubAreaApi from "../../api/auditChecklist/AuditChecklistSubAreaApi";
 import { auditChecklistActions } from "../auditChecklist/auditChecklistReducer";
