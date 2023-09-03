@@ -12,20 +12,27 @@ import UserRoleFrame from '../Users/UserRoleFrame';
 import SupportCenterFrame from '../SupportCenter/SupportCenterFrame';
 import SettingFrame from '../Setting/SettingFrame';
 import {
-  auditChecklist,
-  auditChecklistOverview,
-  dashboard,
-  root,
-  settingModule,
-  submenu1,
-  submenu2,
-  supportBug,
-  supportCenter,
-  user,
-  userModule
+    auditChecklist,
+    auditChecklistOverview,
+    dashboard,
+    getSupportBugsPath,
+    getSupportLogsPath,
+    icarusDocs,
+    icarusDocsDetailsNew, icarusDocsViewFile,
+    root,
+    settingModule,
+    submenu1,
+    submenu2,
+    supportBug,
+    supportRoadmap,
+    user,
+    userModule
 } from '../../consts/routePaths';
 import AuditChecklistOverview from "../Audit/AuditChecklist/AuditChecklistOverview";
 import AuditChecklist from "../Audit/AuditChecklist/AuditChecklist";
+import IcarusDocs from "../SupportCenter/IcarusDocs/IcarusDocs";
+import FileDetailsWrapperNew from "../SupportCenter/IcarusDocs/FileDetailsWrapperNew";
+import IcarusDocsFileView from "../SupportCenter/IcarusDocs/IcarusDocsFileView";
 
 const AdminRouter = () => {
   return (
@@ -52,9 +59,42 @@ const AdminRouter = () => {
         />
         <ProtectedRoute
             protectedAuthorities={['PERM_SUPPORT_BASIC', 'PERM_SUPPORT_CRUD', 'PERM_SUPPORT_ADMIN']}
-            path={supportCenter}
+            path={getSupportLogsPath(0, 25)}
             component={SupportCenterFrame}
-            key="support-center"
+            key="software-logs-list"
+        />
+        <ProtectedRoute
+            protectedAuthorities={['PERM_SUPPORT_BASIC', 'PERM_SUPPORT_CRUD', 'PERM_SUPPORT_ADMIN']}
+            path={getSupportBugsPath(0, 25)}
+            component={SupportCenterFrame}
+            key="software-bugs-list"
+        />
+        <ProtectedRoute
+            protectedAuthorities={['PERM_SUPPORT_BASIC', 'PERM_SUPPORT_CRUD', 'PERM_SUPPORT_ADMIN']}
+            path={supportRoadmap}
+            component={SupportCenterFrame}
+            key="roadmap"
+        />
+        <ProtectedRoute
+            exact
+            protectedAuthorities={['PERM_SUPPORT_BASIC', 'PERM_SUPPORT_CRUD', 'PERM_SUPPORT_ADMIN']}
+            path={icarusDocs}
+            component={IcarusDocs}
+            key="icarus-docs"
+        />
+        <ProtectedRoute
+            exact
+            protectedAuthorities={['PERM_SUPPORT_BASIC', 'PERM_SUPPORT_CRUD', 'PERM_SUPPORT_ADMIN']}
+            path={icarusDocsDetailsNew}
+            component={FileDetailsWrapperNew}
+            key="icarus-docs-details-new"
+        />
+        <ProtectedRoute
+            exact
+            protectedAuthorities={['PERM_SUPPORT_BASIC', 'PERM_SUPPORT_CRUD', 'PERM_SUPPORT_ADMIN']}
+            path={icarusDocsViewFile + ':id'}
+            component={IcarusDocsFileView}
+            key="icarus-docs-view-file"
         />
         <ProtectedRoute
             protectedAuthorities={['PERM_SUPPORT_BASIC', 'PERM_SUPPORT_CRUD', 'PERM_SUPPORT_ADMIN']}

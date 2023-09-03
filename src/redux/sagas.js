@@ -10,6 +10,8 @@ import auditChecklistItemSaga from "./auditChecklistItem/auditChecklistItemSaga"
 import auditChecklistSubAreaSaga from "./auditChecklistSubArea/AuditChecklistSubAreaSaga";
 import settingSagas from "./setting/client/clientSaga"
 import auditorActionLocationType from "./auditorActionLocationType/AuditorActionLocationTypeSaga";
+import icarusDocumentationFileSagas from "./support/icarusDocs/file/icarusDocumentationFileSaga"
+import icarusDocumentationFolderSagas from "./support/icarusDocs/folder/icarusDocumentationFolderSaga"
 
 export default function* rootSaga(getState) {
     yield all([
@@ -24,6 +26,8 @@ export default function* rootSaga(getState) {
         auditChecklistSubAreaSaga(),
         settingSagas(),
         auditChecklistSubAreaSaga(),
-        auditorActionLocationType()
+        auditorActionLocationType(),
+        icarusDocumentationFileSagas(),
+        icarusDocumentationFolderSagas(),
     ]);
 }

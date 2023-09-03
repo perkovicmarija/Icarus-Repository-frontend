@@ -123,7 +123,7 @@ export function* signUp() {
 export function* confirmSignUp() {
     yield takeLatest(types.CONFIRM_SIGN_UP, function*(action) {
         try {
-            const response = yield call(AuthApi.confirmSignUp, action.viewModel);
+            yield call(AuthApi.confirmSignUp, action.viewModel);
             debugger;
             yield put({
                 type: types.CONFIRM_SIGN_UP_SUCCESS,

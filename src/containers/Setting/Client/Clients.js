@@ -8,7 +8,7 @@ import DialogFormFrame from "../../../components/core/Dialog/DialogFormFrame";
 import DialogFormClient from "../../../components/setting/DialogFormClient";
 import {cloneDeep} from "lodash";
 import DialogDeleteWarning from "../../../components/core/Dialog/DialogDeleteWarning";
-import {getClientsPath, getSupportLogsPath} from "../../../consts/routePaths";
+import {getClientsPath} from "../../../consts/routePaths";
 
 function Clients(props) {
 

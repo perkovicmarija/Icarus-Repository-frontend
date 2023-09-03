@@ -1,11 +1,11 @@
-import { SupportAgent, Group, MenuBook } from '@mui/icons-material';
+import {Group, MenuBook, SupportAgent} from '@mui/icons-material';
 import SettingsIcon from '@mui/icons-material/Settings';
-
 import {
-    supportLogs,
-    getUsersPath,
     auditChecklistOverview,
-    settingModule, clients, getClientsPath, supportCenter, getSupportLogsPath
+    getClientsPath,
+    getSupportLogsPath,
+    getUsersPath,
+    icarusDocs
 } from '../../consts/routePaths';
 
 const sidebarRoutes = [
@@ -25,12 +25,27 @@ const sidebarRoutes = [
         permissions: ['PERM_USER_CRUD'],
     },
     {
-        path: getSupportLogsPath(0, 25),
         name: "Support center",
         icon: SupportAgent,
         key: "support-center",
         sidebar: true,
         permissions: ['PERM_SUPPORT_BASIC', 'PERM_SUPPORT_CRUD', 'PERM_SUPPORT_ADMIN'],
+        children: [
+            {
+            path: getSupportLogsPath(0, 25),
+            name: "Software Logs",
+            key: "software-logs-list",
+            sidebar: true,
+            permissions: ['PERM_SUPPORT_BASIC', 'PERM_SUPPORT_CRUD', 'PERM_SUPPORT_ADMIN'],
+            },
+            {
+            path: icarusDocs,
+            name: "Icarus Docs",
+            key: "icarus-docs",
+            sidebar: true,
+            permissions: ['PERM_SUPPORT_BASIC', 'PERM_SUPPORT_CRUD', 'PERM_SUPPORT_ADMIN'],
+            },
+        ]
     },
     {
         name: "Settings",

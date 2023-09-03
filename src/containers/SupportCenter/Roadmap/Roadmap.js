@@ -243,7 +243,7 @@ function Roadmap(props) {
                 <Timeline position="alternate">
                     {roadmaps.map(item => {
                         return (
-                            <TimelineItem key={item.roadmapLogId}>
+                            <TimelineItem key={item.icarusRoadmapLogId}>
                                 <TimelineOppositeContent>
 
                                 </TimelineOppositeContent>
@@ -264,8 +264,8 @@ function Roadmap(props) {
                                             Estimated: {item.estimatedTimeFormatted}
                                         </Typography>
                                         <div className={classes.iconContainer}>
-                                            <IconButton size="small">
-                                                <EditIcon onClick={() => handleRoadmapLogUpdate(item)}/>
+                                            <IconButton size="small" onClick={() => handleRoadmapLogUpdate(item)}>
+                                                <EditIcon />
                                             </IconButton>
                                             <IconButton size="small" className={classes.deleteIcon} onClick={() => handleRoadmapLogDelete(item)}>
                                                 <DeleteIcon />
