@@ -141,7 +141,7 @@ const IcarusDocumentationTable = ({
                     {folders.map((folder, index) => {
                         return (
                             <TableRow
-                                key={folder.documentationFolderId}
+                                key={folder.icarusDocumentationFolderId}
                                 hover={true}
                                 onDoubleClick={event => onFolderDoubleClick(event, folder)}
                                 onTouchEnd={event => onFolderDoubleTap(event, folder)}
@@ -150,8 +150,6 @@ const IcarusDocumentationTable = ({
                                 <TableCell><Folder color="secondary"/></TableCell>
                                 <TableCell>{folder.folderName}</TableCell>
                                 <TableCell>{folder.userCreator.fullName}</TableCell>
-                                <TableCell/>
-                                <TableCell/>
                                 <TableCell/>
                                 <TableCell>
                                     {Protected.protectedAuth(['PERM_SUPPORT_ADMIN']) ?

@@ -25,19 +25,19 @@ class TreeNode extends Component {
     }
 
     render() {
-        const {classes, onFolderSelected, documentationFolderTree, documentationFolderDestinationMove} = this.props;
+        const {classes, onFolderSelected, icarusDocumentationFolderTree, icarusDocumentationFolderDestinationMove} = this.props;
         const {isOpen} = this.state;
 
-        let spanClasses = documentationFolderDestinationMove && documentationFolderDestinationMove.documentationFolderId === documentationFolderTree.documentationFolder.documentationFolderId ? 'tree-node-selected pointer' : 'pointer';
+        let spanClasses = icarusDocumentationFolderDestinationMove && icarusDocumentationFolderDestinationMove.icarusDocumentationFolderId === icarusDocumentationFolderTree.icarusDocumentationFolder.icarusDocumentationFolderId ? 'tree-node-selected pointer' : 'pointer';
 
         const style = {
-            marginLeft: this.props.documentationFolderTree.level * 20 + 'px',
+            marginLeft: this.props.icarusDocumentationFolderTree.level * 20 + 'px',
         }
 
         return(
             <div>
                 <div className="tree-node" style={style}>
-                    {documentationFolderTree.children.length > 0 ?
+                    {icarusDocumentationFolderTree.children.length > 0 ?
                         <IconButton classes={{root: classes.root}} aria-label="Delete" onClick={this.onExpandClick}>
                             {isOpen ? <ExpandMore/> : <ChevronRight/>}
                         </IconButton> :
@@ -46,11 +46,11 @@ class TreeNode extends Component {
                         </IconButton>
                     }
                     <span className={spanClasses}
-                          onClick={(event) => onFolderSelected(event, documentationFolderTree.documentationFolder)}>{documentationFolderTree.documentationFolder.folderName}</span>
+                          onClick={(event) => onFolderSelected(event, icarusDocumentationFolderTree.icarusDocumentationFolder)}>{icarusDocumentationFolderTree.icarusDocumentationFolder.folderName}</span>
                 </div>
 
-                { isOpen && documentationFolderTree.children.map(childNode => (
-                    <TreeNodeRecursive onFolderSelected={onFolderSelected} documentationFolderTree={childNode} documentationFolderDestinationMove={documentationFolderDestinationMove} />
+                { isOpen && icarusDocumentationFolderTree.children.map(childNode => (
+                    <TreeNodeRecursive onFolderSelected={onFolderSelected} icarusDocumentationFolderTree={childNode} icarusDocumentationFolderDestinationMove={icarusDocumentationFolderDestinationMove} />
                 ))}
             </div>
 
@@ -59,7 +59,7 @@ class TreeNode extends Component {
 }
 
 TreeNode.propTypes = {
-    onClose: PropTypes.func.isRequired,
+    // onClose: PropTypes.func.isRequired,
 }
 
 export default withStyles(styles)(TreeNode);

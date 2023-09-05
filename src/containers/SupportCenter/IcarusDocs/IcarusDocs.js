@@ -1,6 +1,5 @@
-import React, {useEffect} from 'react';
+import React, {useEffect, useState} from 'react';
 import {makeStyles} from "@mui/styles";
-import {useState} from "react";
 import {Paper} from "@mui/material";
 import DocumentationEnhancedTableToolbar
     from "../../../components/support/icarusDocs/DocumentationEnhancedTableToolbar";
@@ -18,7 +17,8 @@ import DialogFormFileMove from "../../../components/support/icarusDocs/DialogFor
 import DialogFormFileHistory from '../../../components/support/icarusDocs/DialogFormFileHistory';
 import * as userRoleActions from '../../../redux/user/role/userRoleActions';
 import * as icarusDocumentationFileActions from '../../../redux/support/icarusDocs/file/icarusDocumentationFileActions';
-import * as icarusDocumentationFolderActions from '../../../redux/support/icarusDocs/folder/icarusDocumentationFolderActions';
+import * as icarusDocumentationFolderActions
+    from '../../../redux/support/icarusDocs/folder/icarusDocumentationFolderActions';
 import * as userActions from '../../../redux/user/userActions';
 import {icarusDocsDetailsNew, icarusDocsEditFile, icarusDocsViewFile} from "../../../consts/routePaths"
 
@@ -177,34 +177,9 @@ function IcarusDocs(props) {
         setDialogFolderDeleteWarningOpen(false);
     }
 
-    const handlePermissionFolderSelectChange = (event) => {
-        let selectedUserRoles = [];
-        let lastSelected = event.target.value[event.target.value.length - 1];
-        if (lastSelected === "SelectAll") {
-            props.userRoles.forEach(userRole => {
-                selectedUserRoles.push({
-                    userRole
-                });
-            });
-        } else if (lastSelected === "DeselectAll") {
-            selectedUserRoles = [];
-        } else {
-            const selectedUserRoleIds = event.target.value;
-            for (let i = 0, l = selectedUserRoleIds.length; i < l; i++) {
-                const userRoleObject = props.userRoles.find(userRole => userRole.userRoleId === selectedUserRoleIds[i]);
-                selectedUserRoles.push({
-                    userRole: userRoleObject
-                });
-            }
-        }
+    const handleInputFolderChange = name => ({target: { value }}) => {
         let icarusDocumentationFolderClone = cloneDeep(icarusDocumentationFolder);
-        icarusDocumentationFolderClone.icarusDocumentationFolderUserRoleJoined = selectedUserRoles;
-        setIcarusDocumentationFolder(icarusDocumentationFolderClone);
-    }
-
-    const handleInputFolderChange = event => {
-        let icarusDocumentationFolderClone = cloneDeep(icarusDocumentationFolder);
-        icarusDocumentationFolderClone['folderName'] = event.target.value;
+        icarusDocumentationFolderClone[name] = value;
         setIcarusDocumentationFolder(icarusDocumentationFolderClone);
     };
 
@@ -316,15 +291,6 @@ function IcarusDocs(props) {
         props.icarusDocumentationFolderActions.goBackToRootFolder();
     }
 
-    const checkUserRoleInArray = (userRoleId) => {
-        for (let i = 0, l = icarusDocumentationFolder.icarusDocumentationFolderUserRoleJoined.length; i < l; i++) {
-            if (icarusDocumentationFolder.icarusDocumentationFolderUserRoleJoined[i].userRole.userRoleId === userRoleId) {
-                return true;
-            }
-        }
-        return false;
-    }
-
     const handleCancelClick = () => {
         props.icarusDocumentationFileActions.cancelDownload();
     }
@@ -353,93 +319,6 @@ function IcarusDocs(props) {
             updateFilesAndFoldersOPath(props.icarusDocumentationFolderPath);
         }
 
-    };
-
-    const handlePermissionRolesFolderSelectChange = (event) => {
-        let selectedUserRoles = [];
-        let lastSelected = event.target.value[event.target.value.length - 1];
-        if (lastSelected === "SelectAll") {
-            props.userRoles.forEach(userRole => {
-                selectedUserRoles.push({
-                    userRole
-                });
-            });
-        } else if (lastSelected === "DeselectAll") {
-            selectedUserRoles = [];
-        } else {
-            const selectedUserRoleIds = event.target.value;
-            for (let i = 0, l = selectedUserRoleIds.length; i < l; i++) {
-                const userRoleObject = props.userRoles.find(userRole => userRole.userRoleId === selectedUserRoleIds[i]);
-                selectedUserRoles.push({
-                    userRole: userRoleObject
-                });
-            }
-        }
-        let icarusDocumentationFolderClone = cloneDeep(icarusDocumentationFolder);
-        icarusDocumentationFolderClone.icarusDocumentationFolderUserRoleJoined = selectedUserRoles;
-        setIcarusDocumentationFolder(icarusDocumentationFolderClone);
-    }
-
-    const handlePermissionUserGroupsFolderSelectChange = (event) => {
-        let selectedUserGroups = [];
-        let lastSelected = event.target.value[event.target.value.length - 1];
-        if (lastSelected === "SelectAll") {
-            props.userGroups.forEach(userGroup => {
-                selectedUserGroups.push({
-                    userGroup
-                });
-            });
-        } else if (lastSelected === "DeselectAll") {
-            selectedUserGroups = [];
-        } else {
-            const selectedUserGroupIds = event.target.value;
-            for (let i = 0, l = selectedUserGroupIds.length; i < l; i++) {
-                const userGroupObject = props.userGroups.find(userGroup => userGroup.userGroupId === selectedUserGroupIds[i]);
-                selectedUserGroups.push({
-                    userGroup: userGroupObject
-                });
-            }
-        }
-        let icarusDocumentationFolderClone = cloneDeep(icarusDocumentationFolder);
-        icarusDocumentationFolderClone.icarusDocumentationFolderUserGroupJoined = selectedUserGroups;
-        setIcarusDocumentationFolder(icarusDocumentationFolderClone);
-    }
-
-    const handlePermissionDepartmentFolderSelectChange = (event) => {
-        let selectedDepartments = [];
-        let lastSelected = event.target.value[event.target.value.length - 1];
-        if (lastSelected === "SelectAll") {
-            props.departments.forEach(department => {
-                selectedDepartments.push({
-                    department
-                });
-            });
-        } else if (lastSelected === "DeselectAll") {
-            selectedDepartments = [];
-        } else {
-            const selectedDepartmentIds = event.target.value;
-            for (let i = 0, l = selectedDepartmentIds.length; i < l; i++) {
-                const userRoleObject = props.departments.find(department => department.departmentId === selectedDepartmentIds[i]);
-                selectedDepartments.push({
-                    department: userRoleObject
-                });
-            }
-        }
-        let icarusDocumentationFolderClone = cloneDeep(icarusDocumentationFolder);
-        icarusDocumentationFolderClone.icarusDocumentationFolderDepartmentJoined = selectedDepartments;
-        setIcarusDocumentationFolder(icarusDocumentationFolderClone);
-    };
-
-    const handleRadioButtonChange = (event, value) => {
-        let icarusDocumentationFolderClone = cloneDeep(icarusDocumentationFolder);
-        icarusDocumentationFolderClone[event.target.name] = value;
-        if(event.target.name === "permissionType"){
-            icarusDocumentationFolderClone.icarusDocumentationFolderUserRoleJoined = [];
-            icarusDocumentationFolderClone.icarusDocumentationFolderUserGroupJoined = [];
-            icarusDocumentationFolderClone.icarusDocumentationFolderDepartmentJoined = [];
-        }
-
-        setIcarusDocumentationFolder(icarusDocumentationFolderClone);
     };
 
     const handleExportClick = () => {
@@ -518,12 +397,6 @@ function IcarusDocs(props) {
                                 onClose={handleFolderDetailsClose}
                                 onSubmit={handleFolderSubmit}
                                 onInputChange={handleInputFolderChange}
-                                onRadioButtonChange={handleRadioButtonChange}
-                                onMultiSelectChange={handlePermissionFolderSelectChange}
-                                onMultiSelectUserRoleChange={handlePermissionRolesFolderSelectChange}
-                                onMultiSelectUserGroupChange={handlePermissionUserGroupsFolderSelectChange}
-                                onMultiSelectDepartmentChange={handlePermissionDepartmentFolderSelectChange}
-                                checkFolderDetailsRoleInArray={checkUserRoleInArray}
                                 icarusDocumentationFolder={icarusDocumentationFolder}
                                 userRoles={userRoles}/>
                         }/>

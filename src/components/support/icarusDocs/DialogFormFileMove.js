@@ -28,10 +28,10 @@ class DialogFormFileMove extends Component {
     }
 
     render() {
-        const {classes, onClose, onSubmit, onFolderSelected, documentationFolderTree, documentationFolderDestinationMove} = this.props;
+        const {classes, onClose, onSubmit, onFolderSelected, icarusDocumentationFolderTree, icarusDocumentationFolderDestinationMove} = this.props;
         const { isOpen } = this.state;
 
-        let spanClasses = documentationFolderDestinationMove ? 'pointer' : 'tree-node-selected pointer';
+        let spanClasses = icarusDocumentationFolderDestinationMove ? 'pointer' : 'tree-node-selected pointer';
 
         return(
             <div>
@@ -39,14 +39,14 @@ class DialogFormFileMove extends Component {
                     <Grid container className="p-b-10">
                         <Grid item xl={12} lg={12} md={12} sm={12} xs={12}>
                             <Typography variant="button">
-                                <IntlMessages id="documentation.folder.selected" />: {documentationFolderDestinationMove ? documentationFolderDestinationMove.folderName : "ROOT"}
+                                <IntlMessages id="documentation.folder.selected" />: {icarusDocumentationFolderDestinationMove ? icarusDocumentationFolderDestinationMove.folderName : "ROOT"}
                             </Typography>
                         </Grid>
                     </Grid>
                     <Grid container>
                         <Grid item xl={12} lg={12} md={12} sm={12} xs={12}>
                             <div className="tree-node">
-                                {documentationFolderTree.children.length > 0 ?
+                                {icarusDocumentationFolderTree.children.length > 0 ?
                                     <IconButton classes={{root: classes.root}} aria-label="Delete" onClick={this.onExpandClick}>
                                         {isOpen ? <ExpandMore/> : <ChevronRight/>}
                                     </IconButton> :
@@ -57,8 +57,11 @@ class DialogFormFileMove extends Component {
 
                                 <span className={spanClasses} onClick={(event) => onFolderSelected(event, undefined)}>ROOT</span>
                             </div>
-                            { isOpen && documentationFolderTree.children.map(childNode => (
-                                <TreeNode onFolderSelected={onFolderSelected} documentationFolderTree={childNode} documentationFolderDestinationMove={documentationFolderDestinationMove} />
+                            { isOpen && icarusDocumentationFolderTree.children.map(childNode => (
+                                <TreeNode
+                                    key={childNode.level}
+                                    onFolderSelected={onFolderSelected}
+                                    icarusDocumentationFolderTree={childNode} icarusDocumentationFolderDestinationMove={icarusDocumentationFolderDestinationMove} />
                             ))}
                         </Grid>
                     </Grid>

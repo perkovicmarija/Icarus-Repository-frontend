@@ -67,10 +67,10 @@ export function goBackToRootFolder() {
     }
 }
 
-export function enterFolder(documentationFolder) {
+export function enterFolder(icarusDocumentationFolder) {
     return {
         type: types.ENTER_FOLDER,
-        documentationFolder
+        icarusDocumentationFolder
     }
 }
 

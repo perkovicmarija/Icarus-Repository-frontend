@@ -1,16 +1,13 @@
 import React from 'react';
 import TextFieldValidation from "../../core/TextField/TextFieldValidation";
 import {ValidatorForm} from "react-material-ui-form-validator";
-import {DialogActions, DialogContent, FormGroup} from "@mui/material";
+import {DialogActions, DialogContent} from "@mui/material";
 import Grid from "@mui/material/Grid";
 import TypographyFieldTitle from "../../core/TypographyFieldTitle";
-import RadioGroupValidation from "../../core/RadioGroup/RadioGroupValidation";
-import SelectMultipleAdvancedValidation from "../../core/Select/SelectMultipleAdvancedValidation";
 import Button from "@mui/material/Button";
 import IntlMessages from "../../core/IntlMessages";
 import PropTypes from "prop-types";
 import withValidation from "../../core/HOC/withValidation";
-import AutocompleteMultiLargeDatasetValidation from '../../core/Autocomplete/AutocompleteMultiLargeDatasetValidation';
 
 
 function DialogFormNewFolder (props) {
@@ -20,12 +17,6 @@ function DialogFormNewFolder (props) {
         onClose,
         onSubmit,
         onInputChange,
-        onMultiSelectUserRoleChange,
-        onMultiSelectUserGroupChange,
-        onMultiSelectDepartmentChange,
-        onMultiSelectSubdivisionChange,
-        onMultiAutocompleteUserChange,
-        onRadioButtonChange,
         onValidationError
     } = props;
 
@@ -72,7 +63,6 @@ DialogFormNewFolder.propTypes = {
     onClose: PropTypes.func.isRequired,
     onSubmit: PropTypes.func.isRequired,
     onInputChange: PropTypes.func.isRequired,
-    onMultiSelectChange: PropTypes.func.isRequired,
     icarusDocumentationFolder: PropTypes.object.isRequired,
 }
 
