@@ -1,7 +1,7 @@
 import RestApiPost from './methods/RestApiPost';
 import RestApiGet from './methods/RestApiGet';
-import RestApiGetRequestParams from './methods/RestApiGetRequestParams';
 import RestApiPostWithPathParams from './methods/RestApiPostWithPathParams';
+import RestApiDelete from "./methods/RestApiDelete";
 
 const UserRoleApi = {
     getAll(viewModel) {
@@ -20,7 +20,7 @@ const UserRoleApi = {
         return RestApiPostWithPathParams.postData('/userRole/update/:page/:rowsPerPage', viewModel, params);
     },
     delete(viewModel) {
-        return RestApiGetRequestParams.getData('/userRole/delete', viewModel)
+        return RestApiDelete.deleteData(viewModel, '/userRole/:userRoleId')
     }
 }
 

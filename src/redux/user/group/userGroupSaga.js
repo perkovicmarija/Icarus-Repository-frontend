@@ -158,12 +158,9 @@ export function* deleteRequest() {
         try {
             const response = yield call(UserGroupApi.delete, action.viewModel);
             if (response.code === "200") {
-                const data = response.data;
-                const meta = response.meta;
                 yield put({
                     type: types.DELETE_USER_GROUP_SUCCESS,
-                    userGroups: data,
-                    totalCount: meta.totalCount
+                    userGroupId: action.viewModel.userGroupId
                 });
                 yield put({
                     type: types.AJAX_SUCCESS,

@@ -90,9 +90,7 @@ function UserGroups(props) {
     const handleDeleteUserGroupConfirmed = () => {
         if (userGroupIdForDelete) {
             let viewModel = {
-                userGroupId: userGroupIdForDelete,
-                page: props.page,
-                rowsPerPage: props.rowsPerPage
+                userGroupId: userGroupIdForDelete
             }
             props.userGroupActions.deleteAction(viewModel);
         }

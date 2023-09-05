@@ -1,8 +1,6 @@
 import {all, call, fork, put, take, takeLatest} from 'redux-saga/effects';
 import * as types from '../actionTypes';
 import SupportCenterApi from '../../api/SupportCenterApi';
-import {push} from "connected-react-router";
-import {DELETE_ROADMAP_LOG_FAILED, UPDATE_ROADMAP_LOG_FAILED, UPDATE_ROADMAP_LOG_SUCCESS} from "../actionTypes";
 
 export function* supportCentersRequest() {
     yield takeLatest(types.LOAD_SUPPORT_CENTER_ALL_REQUEST, function*(action) {

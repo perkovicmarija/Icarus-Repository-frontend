@@ -47,7 +47,7 @@ export default function userGroupReducer(state = initState, action) {
         case types.DELETE_USER_GROUP_SUCCESS:
             return {
                 ...state,
-                userGroupsPagination: action.userGroups,
+                userGroupsPagination: state.userGroupsPagination.filter(group => group.userGroupId !== action.userGroupId),
                 totalCount: action.totalCount,
                 userGroup: {}
             };
