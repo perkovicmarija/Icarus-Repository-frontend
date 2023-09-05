@@ -22,7 +22,7 @@ function DialogTitleWithExport(props) {
 
     const { children, onExportClick} = props;
     return (
-        <DialogTitle disableTypography className={classes.root}>
+        <DialogTitle className={classes.root}>
             <Typography variant="h6">{children}</Typography>
             <Tooltip title={<IntlMessages id="general.export"/>}>
                 <IconButton

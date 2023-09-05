@@ -61,8 +61,6 @@ const columnData = [
     { id: 'ext', numeric: false, disablePadding: false, label: 'general.type' },
     { id: 'name', numeric: false, disablePadding: false, label: 'general.name' },
     { id: 'userCreated', numeric: false, disablePadding: false, label: 'general.createdBy' },
-    { id: 'rev', numeric: false, disablePadding: false, label: 'documentation.revision.abbreviation' },
-    { id: 'revDate', numeric: false, disablePadding: false, label: 'documentation.revisionDate.abbreviation' },
     { id: 'size', numeric: false, disablePadding: false, label: 'documentation.size' }
 ];
 
@@ -74,7 +72,7 @@ const IcarusDocumentationTable = ({
                                      onRequestSort,
                                      files,
                                      folders,
-                                     documentationFolderPath,
+                                     icarusDocumentationFolderPath,
                                      onFolderDoubleClick,
                                      onFolderDoubleTap,
                                      onBackDoubleClick,
@@ -83,10 +81,8 @@ const IcarusDocumentationTable = ({
                                      onEditFolder,
                                      onDownloadFile,
                                      onViewFile,
-                                     onReviseFile,
                                      onEditFile,
                                      onDeleteFile,
-                                     onRevisionsFile,
                                      onHistoryFile,
                                      onMoveFile,
                                      onMoveFolder
@@ -126,7 +122,7 @@ const IcarusDocumentationTable = ({
                     onRequestSort={onRequestSort}
                 />
                 <TableBody>
-                    {documentationFolderPath.length > 0 &&
+                    {icarusDocumentationFolderPath?.length > 0 &&
                     <TableRow
                         className="pointer"
                         hover={true}
@@ -240,8 +236,6 @@ const IcarusDocumentationTable = ({
 
                                 </TableCell>
                                 <TableCell>{file.userCreator.fullName}</TableCell>
-                                <TableCell>{file.revision ? file.revision.revision : "-"}</TableCell>
-                                <TableCell>{file.revision ? file.revision.dateRevisionFormatted : "-"}</TableCell>
                                 <TableCell>{file.sizeFormatted}</TableCell>
                                 <TableCell>
 
@@ -293,15 +287,6 @@ const IcarusDocumentationTable = ({
                                                 </MenuItem>
                                                 <MenuItem onClick={(event) => {
                                                     handleFileActionClose();
-                                                    onReviseFile(event, file);
-                                                }}>
-                                                    <ListItemIcon>
-                                                        <FileCopy/>
-                                                    </ListItemIcon>
-                                                    <ListItemText primary={<IntlMessages id="general.revise" />}/>
-                                                </MenuItem>
-                                                <MenuItem onClick={(event) => {
-                                                    handleFileActionClose();
                                                     onMoveFile(event, file)
                                                 }}>
                                                     <ListItemIcon>
@@ -317,15 +302,6 @@ const IcarusDocumentationTable = ({
                                                         <Delete/>
                                                     </ListItemIcon>
                                                     <ListItemText primary={<IntlMessages id="general.delete" />}/>
-                                                </MenuItem>
-                                                <MenuItem onClick={(event) => {
-                                                    handleFileActionClose();
-                                                    onRevisionsFile(event, file)
-                                                }}>
-                                                    <ListItemIcon>
-                                                        <List/>
-                                                    </ListItemIcon>
-                                                    <ListItemText primary={<IntlMessages id="general.revisions" />}/>
                                                 </MenuItem>
                                                 <MenuItem onClick={(event) => {
                                                     handleFileActionClose();

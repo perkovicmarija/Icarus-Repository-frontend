@@ -4,7 +4,7 @@ import * as types from '../../../actionTypes';
 import { CancelToken } from 'axios'
 import IcarusDocumentationFileApi from "../../../../api/IcarusDocumentationFileApi";
 
-export function* documentationFilesRequest() {
+export function* icarusDocumentationFilesRequest() {
     yield takeLatest(types.LOAD_ICARUS_DOCUMENTATION_FILES_REQUEST, function*(action) {
         try {
             const response = yield call(IcarusDocumentationFileApi.getAll, action.viewModel);
@@ -14,20 +14,20 @@ export function* documentationFilesRequest() {
                 // const meta = response.meta;
                 yield put({
                     type: types.LOAD_ICARUS_DOCUMENTATION_FILES_SUCCESS,
-                    documentationFiles: data,
+                    icarusDocumentationFiles: data,
                 });
             } else {
                 yield put({type: types.LOAD_ICARUS_DOCUMENTATION_FILES_FAILED})
                 yield put({
                     type: types.AJAX_FAILED,
-                    message: "Failed to fetch all documentationFiles"
+                    message: "Failed to fetch all icarusDocumentationFiles"
                 });
             }
         } catch (e) {
             yield put({type: types.LOAD_ICARUS_DOCUMENTATION_FILES_FAILED});
             yield put({
                 type: types.AJAX_FAILED,
-                message: "Failed to fetch all documentationFiles"
+                message: "Failed to fetch all icarusDocumentationFiles"
             });
         } finally {
             yield put({type: types.AJAX_FINISHED})
@@ -35,7 +35,7 @@ export function* documentationFilesRequest() {
     });
 }
 
-export function* documentationFileRequest() {
+export function* icarusDocumentationFileRequest() {
     yield takeLatest(types.LOAD_ICARUS_DOCUMENTATION_FILE_REQUEST, function*(action) {
         try {
             const response = yield call(IcarusDocumentationFileApi.get, action.viewModel);
@@ -43,7 +43,7 @@ export function* documentationFileRequest() {
                 const data = response.data;
                 yield put({
                     type: types.LOAD_ICARUS_DOCUMENTATION_FILE_SUCCESS,
-                    documentationFile: data
+                    icarusDocumentationFile: data
                 });
             } else {
                 yield put({type: types.LOAD_ICARUS_DOCUMENTATION_FILE_FAILED});
@@ -56,34 +56,7 @@ export function* documentationFileRequest() {
             yield put({type: types.LOAD_ICARUS_DOCUMENTATION_FILE_FAILED});
             yield put({
                 type: types.AJAX_FAILED,
-                message: "Failed to fetch documentationFile"
-            });
-        } finally {
-            yield put({type: types.AJAX_FINISHED})
-        }
-    });
-}
-
-export function* loadRevisionsRequest() {
-    yield takeLatest(types.LOAD_ICARUS_DOCUMENTATION_FILE_REVISIONS_REQUEST, function*(action) {
-        try {
-            const response = yield call(IcarusDocumentationFileApi.getRevisions, action.viewModel);
-            if (response.code === "200") {
-                const data = response.data;
-                yield put({
-                    type: types.LOAD_ICARUS_DOCUMENTATION_FILE_REVISIONS_SUCCESS,
-                    documentationFileRevisions: data
-                });
-            } else {
-                yield put({
-                    type: types.AJAX_FAILED,
-                    message: "Failed to fetch file revisions"
-                });
-            }
-        } catch (e) {
-            yield put({
-                type: types.AJAX_FAILED,
-                message: "Failed to fetch file revisions"
+                message: "Failed to fetch icarusDocumentationFile"
             });
         } finally {
             yield put({type: types.AJAX_FINISHED})
@@ -99,7 +72,7 @@ export function* loadHistoryRequest() {
                 const data = response.data;
                 yield put({
                     type: types.LOAD_ICARUS_DOCUMENTATION_FILE_HISTORY_SUCCESS,
-                    documentationFileHistory: data
+                    icarusDocumentationFileHistory: data
                 });
             } else {
                 yield put({
@@ -118,6 +91,37 @@ export function* loadHistoryRequest() {
     });
 }
 
+export function* createDownloadExcelListRequest() {
+    yield takeLatest(types.CREATE_ICARUS_DOCUMENTATION_FILE_DOWNLOAD_LIST_EXCEL_REQUEST, function*(action) {
+        try {
+            const channel = yield call(IcarusDocumentationFileApi.createDownloadExcelList, action.viewModel);;
+            try {
+                while (true) {
+                    // take(END) will cause the saga to terminate by jumping to the finally block
+                    const action = yield take(channel);
+                    yield put(action);
+                }
+            } finally {
+                yield put({
+                    type: types.DOWNLOAD_FILE_PROGRESS_CLOSE,
+                    progressOpened: false
+                });
+                yield put({
+                    type: types.AJAX_SUCCESS,
+                    message: "Excel export created"
+                });
+            }
+        } catch (e) {
+            yield put({
+                type: types.AJAX_FAILED,
+                message: "Failed to create excel export"
+            });
+        } finally {
+            yield put({type: types.AJAX_FINISHED})
+        }
+    });
+}
+
 export function* moveRequest() {
     yield takeLatest(types.ICARUS_DOCUMENTATION_FILE_MOVE_REQUEST, function*(action) {
         try {
@@ -127,7 +131,7 @@ export function* moveRequest() {
                 const data = response.data;
                 yield put({
                     type: types.LOAD_ICARUS_DOCUMENTATION_FILES_SUCCESS,
-                    documentationFiles: data
+                    icarusDocumentationFiles: data
                 });
                 yield put({
                     type: types.AJAX_SUCCESS,
@@ -163,7 +167,7 @@ export function* loadInFolderRequest() {
                 const data = response.data;
                 yield put({
                     type: types.LOAD_ICARUS_DOCUMENTATION_FILES_SUCCESS,
-                    documentationFiles: data
+                    icarusDocumentationFiles: data
                 });
             } else {
                 yield put({type: types.LOAD_ICARUS_DOCUMENTATION_FILES_IN_FOLDER_FAILED});
@@ -176,7 +180,7 @@ export function* loadInFolderRequest() {
             yield put({type: types.LOAD_ICARUS_DOCUMENTATION_FILES_IN_FOLDER_FAILED});
             yield put({
                 type: types.AJAX_FAILED,
-                message: "Failed to fetch documentationFile"
+                message: "Failed to fetch icarusDocumentationFile"
             });
         } finally {
             yield put({type: types.AJAX_FINISHED})
@@ -192,7 +196,7 @@ export function* loadBySearchRequest() {
                 const data = response.data;
                 yield put({
                     type: types.LOAD_ICARUS_DOCUMENTATION_FILES_SUCCESS,
-                    documentationFiles: data
+                    icarusDocumentationFiles: data
                 });
             } else {
                 yield put({
@@ -219,25 +223,24 @@ export function* createRequest() {
                 const data = response.data;
                 yield put({
                     type: types.CREATE_ICARUS_DOCUMENTATION_FILE_SUCCESS,
-                    documentationFile: data
+                    icarusDocumentationFile: data
                 });
                 yield put({
                     type: types.AJAX_SUCCESS,
                     message: response.message
                 });
-                yield put(push('/dashboard/riskManagement/documentationFileRiskRegistry'));
             } else {
                 yield put({type: types.CREATE_ICARUS_DOCUMENTATION_FILE_FAILED});
                 yield put({
                     type: types.AJAX_FAILED,
-                    message: "Failed to create documentationFile"
+                    message: "Failed to create icarusDocumentationFile"
                 });
             }
         } catch (e) {
             yield put({type: types.CREATE_ICARUS_DOCUMENTATION_FILE_FAILED});
             yield put({
                 type: types.AJAX_FAILED,
-                message: "Failed to create documentationFile"
+                message: "Failed to create icarusDocumentationFile"
             });
         } finally {
             yield put({type: types.AJAX_FINISHED})
@@ -262,14 +265,14 @@ export function* updateRequest() {
                 yield put({type: types.UPDATE_ICARUS_DOCUMENTATION_FILE_FAILED})
                 yield put({
                     type: types.AJAX_FAILED,
-                    message: "Failed to update documentationFile"
+                    message: "Failed to update icarusDocumentationFile"
                 });
             }
         } catch (e) {
             yield put({type: types.UPDATE_ICARUS_DOCUMENTATION_FILE_FAILED});
             yield put({
                 type: types.AJAX_FAILED,
-                message: "Failed to update documentationFile"
+                message: "Failed to update icarusDocumentationFile"
             });
         } finally {
             yield put({type: types.AJAX_FINISHED})
@@ -511,7 +514,7 @@ export function* deleteRequest() {
                 const data = response.data;
                 yield put({
                     type: types.LOAD_ICARUS_DOCUMENTATION_FILES_SUCCESS,
-                    documentationFiles: data
+                    icarusDocumentationFiles: data
                 });
             } else {
                 yield put({type: types.AJAX_FAILED})
@@ -526,14 +529,13 @@ export function* deleteRequest() {
 
 export default function* rootSaga() {
     yield all([
-        fork(documentationFilesRequest),
-        fork(documentationFileRequest),
+        fork(icarusDocumentationFilesRequest),
+        fork(icarusDocumentationFileRequest),
         fork(loadInFolderRequest),
         fork(createRequest),
         fork(updateRequest),
         fork(uploadRequest),
         fork(deleteRequest),
-        //fork(downloadRequest),
         fork(loadBySearchRequest),
         fork(downloadFileByGetRequest),
         fork(cancelDownloadFile),
@@ -541,8 +543,8 @@ export default function* rootSaga() {
         fork(cancelViewFile),
         fork(reviseRequest),
         fork(editRequest),
-        fork(loadRevisionsRequest),
         fork(loadHistoryRequest),
+        fork(createDownloadExcelListRequest),
         fork(moveRequest)
     ]);
 }

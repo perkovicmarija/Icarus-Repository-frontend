@@ -42,6 +42,7 @@ export const icarusDocs = supportCenter + "/icarus-docs";
 
 export const icarusDocsDetailsNew = icarusDocs + "/details/new";
 export const icarusDocsViewFile = icarusDocs + "/view/";
+export const icarusDocsEditFile = icarusDocs + "/details/edit";
 
 export const supportBugs = supportCenter + "/bugs/:page?/:rowsPerPage?";
 export const getSupportBugsPath = (page, rowsPerPage) => {

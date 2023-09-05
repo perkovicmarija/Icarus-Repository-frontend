@@ -18,7 +18,7 @@ import {
     getSupportBugsPath,
     getSupportLogsPath,
     icarusDocs,
-    icarusDocsDetailsNew, icarusDocsViewFile,
+    icarusDocsDetailsNew, icarusDocsEditFile, icarusDocsViewFile,
     root,
     settingModule,
     submenu1,
@@ -33,6 +33,7 @@ import AuditChecklist from "../Audit/AuditChecklist/AuditChecklist";
 import IcarusDocs from "../SupportCenter/IcarusDocs/IcarusDocs";
 import FileDetailsWrapperNew from "../SupportCenter/IcarusDocs/FileDetailsWrapperNew";
 import IcarusDocsFileView from "../SupportCenter/IcarusDocs/IcarusDocsFileView";
+import FileDetailsWrapperEdit from "../SupportCenter/IcarusDocs/FileDetailsWrapperEdit";
 
 const AdminRouter = () => {
   return (
@@ -88,6 +89,13 @@ const AdminRouter = () => {
             path={icarusDocsDetailsNew}
             component={FileDetailsWrapperNew}
             key="icarus-docs-details-new"
+        />
+        <ProtectedRoute
+            exact
+            protectedAuthorities={['PERM_SUPPORT_BASIC', 'PERM_SUPPORT_CRUD', 'PERM_SUPPORT_ADMIN']}
+            path={icarusDocsEditFile}
+            component={FileDetailsWrapperEdit}
+            key="icarus-docs-details-edit"
         />
         <ProtectedRoute
             exact

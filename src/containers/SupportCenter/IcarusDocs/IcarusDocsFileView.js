@@ -12,7 +12,7 @@ function FileView(props) {
 
     useEffect(() => {
         let viewModel = {
-            documentationFileId: props.documentationFileId,
+            icarusDocumentationFileId: props.icarusDocumentationFileId,
             viewFile: true
         };
         props.icarusDocumentationFileActions.viewFile(viewModel);
@@ -82,7 +82,7 @@ function FileView(props) {
 function mapStateToProps(state, ownProps) {
     const {id} = ownProps.match.params;
     return {
-        documentationFileId: id,
+        icarusDocumentationFileId: id,
         file: state.IcarusDocumentationFile.file,
         progress: state.Progress.progress,
         progressBarOpened: state.Progress.progressOpened

@@ -1,4 +1,4 @@
-import React, {Component} from 'react';
+import React from 'react';
 import {makeStyles} from "@mui/styles";
 import {FormControlLabel, FormLabel, Typography} from "@mui/material";
 import IntlMessages from "../IntlMessages";

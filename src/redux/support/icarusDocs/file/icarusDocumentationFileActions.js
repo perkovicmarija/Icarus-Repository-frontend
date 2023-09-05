@@ -15,16 +15,16 @@ export function load(viewModel) {
     }
 }
 
-export function loadRevisions(viewModel) {
+export function loadHistory(viewModel) {
     return {
-        type: types.LOAD_ICARUS_DOCUMENTATION_FILE_REVISIONS_REQUEST,
+        type: types.LOAD_ICARUS_DOCUMENTATION_FILE_HISTORY_REQUEST,
         viewModel
     }
 }
 
-export function loadHistory(viewModel) {
+export function exportToExcel(viewModel) {
     return {
-        type: types.LOAD_ICARUS_DOCUMENTATION_FILE_HISTORY_REQUEST,
+        type: types.CREATE_ICARUS_DOCUMENTATION_FILE_DOWNLOAD_LIST_EXCEL_REQUEST,
         viewModel
     }
 }
@@ -71,13 +71,6 @@ export function upload(viewModel) {
     }
 }
 
-export function revise(viewModel) {
-    return {
-        type: types.REVISE_ICARUS_DOCUMENTATION_FILE_REQUEST,
-        viewModel
-    }
-}
-
 export function editFile(viewModel) {
     return {
         type: types.EDIT_ICARUS_DOCUMENTATION_FILE_REQUEST,
@@ -120,10 +113,10 @@ export function deleteAction(viewModel) {
     }
 }
 
-export function passFile(documentationFile) {
+export function passFile(icarusDocumentationFile) {
     return {
         type: types.PASS_ICARUS_DOCUMENTATION_FILE,
-        documentationFile
+        icarusDocumentationFile
     }
 }
 

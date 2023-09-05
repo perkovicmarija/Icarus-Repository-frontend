@@ -1,24 +1,23 @@
 import * as types from '../../../actionTypes';
 
 const initState = {
-    documentationFiles: [],
-    documentationFile: {},
-    documentationFileHistory: [],
-    documentationFileRevisions: [],
+    icarusDocumentationFiles: [],
+    icarusDocumentationFile: {},
+    icarusDocumentationFileHistory: [],
     file: { data: [] }
 }
-export default function documentationFileReducer(state = initState, action) {
+export default function icarusDocumentationFileReducer(state = initState, action) {
     switch(action.type) {
         case types.LOAD_ICARUS_DOCUMENTATION_FILES_SUCCESS:
             return {
                 ...state,
-                documentationFiles: action.documentationFiles,
-                documentationFile: {}
+                icarusDocumentationFiles: action.icarusDocumentationFiles,
+                icarusDocumentationFile: {}
             };
         case types.LOAD_ICARUS_DOCUMENTATION_FILES_IN_FOLDER_REQUEST:
             return {
                 ...state,
-                documentationFiles: []
+                icarusDocumentationFiles: []
             };
         case types.VIEW_ICARUS_DOCUMENTATION_FILE:
             return {
@@ -33,37 +32,27 @@ export default function documentationFileReducer(state = initState, action) {
         case types.LOAD_ICARUS_DOCUMENTATION_FILE_SUCCESS:
             return {
                 ...state,
-                documentationFile: action.documentationFile
+                icarusDocumentationFile: action.icarusDocumentationFile
             };
         case types.LOAD_ICARUS_DOCUMENTATION_FILE_HISTORY_REQUEST:
             return {
                 ...state,
-                documentationFileHistory: []
+                icarusDocumentationFileHistory: []
             };
         case types.LOAD_ICARUS_DOCUMENTATION_FILE_HISTORY_SUCCESS:
             return {
                 ...state,
-                documentationFileHistory: action.documentationFileHistory
-            };
-        case types.LOAD_ICARUS_DOCUMENTATION_FILE_REVISIONS_REQUEST:
-            return {
-                ...state,
-                documentationFileRevisions: []
-            };
-        case types.LOAD_ICARUS_DOCUMENTATION_FILE_REVISIONS_SUCCESS:
-            return {
-                ...state,
-                documentationFileRevisions: action.documentationFileRevisions
+                icarusDocumentationFileHistory: action.icarusDocumentationFileHistory
             };
         case types.PASS_ICARUS_DOCUMENTATION_FILE:
             return {
                 ...state,
-                documentationFile: action.documentationFile
+                icarusDocumentationFile: action.icarusDocumentationFile
             };
         case types.REVERSE_ICARUS_DOCUMENTATION_FILE_ORDER:
             return {
                 ...state,
-                documentationFiles: [...state.documentationFiles.slice().reverse()]
+                icarusDocumentationFiles: [...state.icarusDocumentationFiles.slice().reverse()]
             };
 
         case types.UPLOAD_ICARUS_DOCUMENTATION_FILE_SUCCESS:

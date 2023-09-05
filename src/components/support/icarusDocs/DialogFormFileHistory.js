@@ -7,14 +7,13 @@ import Button from "@mui/material/Button";
 import DialogTitleWithExport from "../../core/Dialog/DialogTitleWithExport";
 
 
-export default function DialogFormNewFolder ({documentationFileHistory, onClose, title, onExportClick}) {
+export default function DialogFormNewFolder ({icarusDocumentationFileHistory, onClose, title, onExportClick}) {
 
     return(
         <React.Fragment>
             <DialogTitleWithExport
                 onExportClick={onExportClick}
             >
-                <IntlMessages id={title} />
             </DialogTitleWithExport>
             <DialogContent>
                 <Grid container>
@@ -24,18 +23,14 @@ export default function DialogFormNewFolder ({documentationFileHistory, onClose,
                                 <TableRow>
                                     <TableCell><IntlMessages id="documentation.download.user" /></TableCell>
                                     <TableCell><IntlMessages id="general.date" /></TableCell>
-                                    <TableCell><IntlMessages id="documentation.revision" /></TableCell>
-                                    <TableCell><IntlMessages id="documentation.revision.date" /></TableCell>
                                 </TableRow>
                             </TableHead>
                             <TableBody>
-                                {documentationFileHistory.map(fileHistory => {
+                                {icarusDocumentationFileHistory.map(fileHistory => {
                                     return (
                                         <TableRow>
                                             <TableCell>{fileHistory.user.fullName}</TableCell>
                                             <TableCell>{fileHistory.dateDownloadedFormatted}</TableCell>
-                                            <TableCell>{fileHistory.documentationFileRevision ? fileHistory.documentationFileRevision.revision : "-"}</TableCell>
-                                            <TableCell>{fileHistory.documentationFileRevision ? fileHistory.documentationFileRevision.dateRevisionFormatted : "-"}</TableCell>
                                         </TableRow>
                                     )
                                 })}
@@ -55,5 +50,5 @@ export default function DialogFormNewFolder ({documentationFileHistory, onClose,
 }
 DialogFormNewFolder.propTypes = {
     onClose: PropTypes.func.isRequired,
-    documentationFileHistory: PropTypes.array.isRequired,
+    icarusDocumentationFileHistory: PropTypes.array.isRequired,
 }

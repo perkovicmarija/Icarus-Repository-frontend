@@ -5,6 +5,7 @@ import RestApiPostMultipartAxios from './methods/RestApiPostMultipartAxios';
 import RestApiPostViewAxios from './methods/RestApiPostViewAxios';
 import RestApiGet from "./methods/RestApiGet";
 import RestApiDelete from "./methods/RestApiDelete";
+import RestApiGetDownloadAxios from "./methods/RestApiGetDownloadAxios";
 
 const IcarusDocumentationFileApi = {
     getAll(viewModel) {
@@ -25,11 +26,11 @@ const IcarusDocumentationFileApi = {
     update(viewModel) {
         return RestApiPost.postData('/icarusDocumentationFile/update', viewModel);
     },
-    getRevisions(viewModel) {
-        return RestApiPost.postData('/icarusDocumentationFile/fetchRevisions', viewModel);
-    },
     getHistory(viewModel) {
         return RestApiPost.postData('/icarusDocumentationFile/fetchHistory', viewModel);
+    },
+    createDownloadExcelList(viewModel) {
+        return RestApiGetDownloadAxios.getData('/icarusDocumentationFile/getDownloadHistoryExcelExport/', viewModel)
     },
     moveFile(viewModel) {
         return RestApiPost.postData('/icarusDocumentationFile/moveFile', viewModel);

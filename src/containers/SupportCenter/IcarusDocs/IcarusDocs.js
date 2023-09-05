@@ -14,14 +14,13 @@ import {connect} from "react-redux";
 import DialogProgress from "../../../components/core/Dialog/DialogProgress";
 import DialogNoCloseFrame from "../../../components/core/Dialog/DialogNoCloseFrame";
 import DialogFormNewFolder from "../../../components/support/icarusDocs/DialogFormNewFolder";
-import DialogFormFileRevisions from '../../../components/support/icarusDocs/DialogFormFileRevisions';
 import DialogFormFileMove from "../../../components/support/icarusDocs/DialogFormFileMove";
 import DialogFormFileHistory from '../../../components/support/icarusDocs/DialogFormFileHistory';
 import * as userRoleActions from '../../../redux/user/role/userRoleActions';
 import * as icarusDocumentationFileActions from '../../../redux/support/icarusDocs/file/icarusDocumentationFileActions';
 import * as icarusDocumentationFolderActions from '../../../redux/support/icarusDocs/folder/icarusDocumentationFolderActions';
 import * as userActions from '../../../redux/user/userActions';
-import {icarusDocsDetailsNew, icarusDocsViewFile} from "../../../consts/routePaths"
+import {icarusDocsDetailsNew, icarusDocsEditFile, icarusDocsViewFile} from "../../../consts/routePaths"
 
 const useStyles = makeStyles(theme => ({
     rootDiv: {
@@ -43,18 +42,18 @@ function IcarusDocs(props) {
     const [searchValue, setSearchValue] = useState("");
     const [dialogFileDeleteWarningOpen, setDialogFileDeleteWarningOpen] = useState(false);
     const [dialogFolderDeleteWarningOpen, setDialogFolderDeleteWarningOpen] = useState(false);
-    const [documentationFolder, setDocumentationFolder] = useState({
+    const [icarusDocumentationFolder, setIcarusDocumentationFolder] = useState({
         folderName: undefined,
-        documentationFolderUserRoleJoined: []
+        icarusDocumentationFolderUserRoleJoined: []
     })
-    const [documentationFileForMove, setDocumentationFileForMove] = useState(undefined);
-    const [documentationFolderForMove, setDocumentationFolderForMove] = useState(undefined);
-    const [documentationFolderDestinationMove, setDocumentationFolderDestinationMove] = useState(undefined);
+    const [icarusDocumentationFileForMove, setIcarusDocumentationFileForMove] = useState(undefined);
+    const [icarusDocumentationFolderForMove, setIcarusDocumentationFolderForMove] = useState(undefined);
+    const [icarusDocumentationFolderDestinationMove, setIcarusDocumentationFolderDestinationMove] = useState(undefined);
+    const [icarusDocumentationFileHistorySelected, setIcarusDocumentationFileHistorySelected] = useState(false);
 
-    const [documentationFileIdForDelete, setDocumentationFileIdForDelete] = useState(undefined);
-    const [documentationFolderIdForDelete, setDocumentationFolderIdForDelete] = useState(undefined);
+    const [icarusDocumentationFileIdForDelete, setIcarusDocumentationFileIdForDelete] = useState(undefined);
+    const [icarusDocumentationFolderIdForDelete, setIcarusDocumentationFolderIdForDelete] = useState(undefined);
     const [dialogNewFolderOpen, setDialogNewFolderOpen] = useState(false);
-    const [dialogRevisionsOpen, setDialogRevisionsOpen] = useState(false);
     const [dialogHistoryOpen, setDialogHistoryOpen] = useState(false);
     const [dialogMoveFileOpen, setDialogMoveFileOpen] = useState(false);
     const [dialogMoveFolderOpen, setDialogMoveFolderOpen] = useState(false);
@@ -62,24 +61,24 @@ function IcarusDocs(props) {
     let clickTimer = null;
 
     useEffect(() => {
-        updateFilesAndFoldersOPath(props.documentationFolderPath);
+        updateFilesAndFoldersOPath(props.icarusDocumentationFolderPath);
 
         props.userRoleActions.loadAll();
     }, [])
 
     useEffect(() => {
-        updateFilesAndFoldersOPath(props.documentationFolderPath);
-    }, [props.documentationFolderPath.length])
+        updateFilesAndFoldersOPath(props.icarusDocumentationFolderPath);
+    }, [props.icarusDocumentationFolderPath.length])
 
-    const updateFilesAndFoldersOPath = (documentationFolderPath) => {
+    const updateFilesAndFoldersOPath = (icarusDocumentationFolderPath) => {
         let viewModel = {
-            documentationFolderId: undefined,
+            icarusDocumentationFolderId: undefined,
             path: "/"
         };
-        if (documentationFolderPath.length > 0) {
-            let currentFolder = documentationFolderPath.slice(-1)[0];
+        if (icarusDocumentationFolderPath.length > 0) {
+            let currentFolder = icarusDocumentationFolderPath.slice(-1)[0];
             viewModel = {
-                documentationFolderId: currentFolder.icarusDocumentationFolderId,
+                icarusDocumentationFolderId: currentFolder.icarusDocumentationFolderId,
                 path: currentFolder.path + currentFolder.folderName + "/"
             }
         }
@@ -92,9 +91,9 @@ function IcarusDocs(props) {
     }
 
     const handleNewFolderClick = () => {
-        setDocumentationFolder({
+        setIcarusDocumentationFolder({
             folderName: undefined,
-            documentationFolderUserRoleJoined: []
+            icarusDocumentationFolderUserRoleJoined: []
         })
         setDialogNewFolderOpen(true);
     }
@@ -103,12 +102,9 @@ function IcarusDocs(props) {
         setDialogNewFolderOpen(false);
     }
 
-    const handleRevisionsClose = (event) => {
-        setDialogRevisionsOpen(false);
-    }
-
     const handleHistoryClose = (event) => {
         setDialogHistoryOpen(false);
+        setIcarusDocumentationFileHistorySelected(undefined);
     }
 
     const handleMoveFileClose = (event) => {
@@ -122,8 +118,8 @@ function IcarusDocs(props) {
     const handleMoveFileSubmit = (event) => {
         setDialogMoveFileOpen(false);
         let viewModel = {
-            documentationFile: documentationFileForMove,
-            documentationFolder: documentationFolderDestinationMove
+            icarusDocumentationFile: icarusDocumentationFileForMove,
+            icarusDocumentationFolder: icarusDocumentationFolderDestinationMove
         };
         props.icarusDocumentationFileActions.move(viewModel);
     }
@@ -131,8 +127,8 @@ function IcarusDocs(props) {
     const handleMoveFolderSubmit = (event) => {
         setDialogMoveFolderOpen(false);
         let viewModel = {
-            documentationFolder: documentationFolderForMove,
-            documentationFolderDest: documentationFolderDestinationMove
+            icarusDocumentationFolder: icarusDocumentationFolderForMove,
+            icarusDocumentationFolderDest: icarusDocumentationFolderDestinationMove
         };
         props.icarusDocumentationFolderActions.move(viewModel);
     }
@@ -155,19 +151,19 @@ function IcarusDocs(props) {
         setDialogFolderDeleteWarningOpen(false);
     }
 
-    const handleDeleteFile = (event, documentationFile) => {
+    const handleDeleteFile = (event, icarusDocumentationFile) => {
         setDialogFileDeleteWarningOpen(true);
-        setDocumentationFileIdForDelete(documentationFile.icarusDocumentationFileId);
+        setIcarusDocumentationFileIdForDelete(icarusDocumentationFile.icarusDocumentationFileId);
     }
 
-    const handleDeleteFolder = (event, documentationFolder) => {
+    const handleDeleteFolder = (event, icarusDocumentationFolder) => {
         setDialogFolderDeleteWarningOpen(true);
-        setDocumentationFolderIdForDelete(documentationFolder.icarusDocumentationFolderId)
+        setIcarusDocumentationFolderIdForDelete(icarusDocumentationFolder.icarusDocumentationFolderId)
     }
 
     const handleDeleteFileConfirmed = () => {
         let viewModel = {
-            id: documentationFileIdForDelete
+            id: icarusDocumentationFileIdForDelete
         }
         props.icarusDocumentationFileActions.deleteAction(viewModel);
         setDialogFileDeleteWarningOpen(false);
@@ -175,7 +171,7 @@ function IcarusDocs(props) {
 
     const handleDeleteFolderConfirmed = () => {
         let viewModel = {
-            id: documentationFolderIdForDelete
+            id: icarusDocumentationFolderIdForDelete
         }
         props.icarusDocumentationFolderActions.deleteAction(viewModel);
         setDialogFolderDeleteWarningOpen(false);
@@ -201,45 +197,45 @@ function IcarusDocs(props) {
                 });
             }
         }
-        let documentationFolderClone = cloneDeep(documentationFolder);
-        documentationFolderClone.documentationFolderUserRoleJoined = selectedUserRoles;
-        setDocumentationFolder(documentationFolderClone);
+        let icarusDocumentationFolderClone = cloneDeep(icarusDocumentationFolder);
+        icarusDocumentationFolderClone.icarusDocumentationFolderUserRoleJoined = selectedUserRoles;
+        setIcarusDocumentationFolder(icarusDocumentationFolderClone);
     }
 
     const handleInputFolderChange = name => event => {
-        let documentationFolderClone = cloneDeep(documentationFolder);
-        documentationFolderClone[name] = event.target.value;
-        setDocumentationFolder(documentationFolderClone);
+        let icarusDocumentationFolderClone = cloneDeep(icarusDocumentationFolder);
+        icarusDocumentationFolderClone[name] = event.target.value;
+        setIcarusDocumentationFolder(icarusDocumentationFolderClone);
     };
 
     const handleFolderSubmit = () => {
         setDialogNewFolderOpen(false);
 
-        let documentationFolderClone = cloneDeep(documentationFolder);
+        let icarusDocumentationFolderClone = cloneDeep(icarusDocumentationFolder);
 
-        if (documentationFolderClone.icarusDocumentationFolderId) {
-            props.icarusDocumentationFolderActions.update(documentationFolderClone);
+        if (icarusDocumentationFolderClone.icarusDocumentationFolderId) {
+            props.icarusDocumentationFolderActions.update(icarusDocumentationFolderClone);
         } else {
-            documentationFolderClone.path = "/";
-            if (props.documentationFolderPath.length > 0) {
-                let currentFolder = props.documentationFolderPath.slice(-1)[0];
-                documentationFolderClone.path = currentFolder.path + currentFolder.folderName + "/"
+            icarusDocumentationFolderClone.path = "/";
+            if (props.icarusDocumentationFolderPath.length > 0) {
+                let currentFolder = props.icarusDocumentationFolderPath.slice(-1)[0];
+                icarusDocumentationFolderClone.path = currentFolder.path + currentFolder.folderName + "/"
             }
-            props.icarusDocumentationFolderActions.create(documentationFolderClone);
+            props.icarusDocumentationFolderActions.create(icarusDocumentationFolderClone);
         }
     }
 
-    const handleEditFolder = (event, documentationFolder) => {
-        setDocumentationFolder(documentationFolder);
+    const handleEditFolder = (event, icarusDocumentationFolder) => {
+        setIcarusDocumentationFolder(icarusDocumentationFolder);
         setDialogNewFolderOpen(true);
     }
 
-    const handleFolderDoubleClick = (event, documentationFolder) => {
+    const handleFolderDoubleClick = (event, icarusDocumentationFolder) => {
         event.preventDefault();
-        props.icarusDocumentationFolderActions.enterFolder(documentationFolder);
+        props.icarusDocumentationFolderActions.enterFolder(icarusDocumentationFolder);
     }
 
-    const handleFolderDoubleTap = (event, documentationFolder) => {
+    const handleFolderDoubleTap = (event, icarusDocumentationFolder) => {
         if (clickTimer === null) {
             clickTimer = setTimeout(function () {
                 clickTimer = null;
@@ -248,7 +244,7 @@ function IcarusDocs(props) {
             event.preventDefault();
             clearTimeout(clickTimer);
             clickTimer = null;
-            props.icarusDocumentationFolderActions.enterFolder(documentationFolder);
+            props.icarusDocumentationFolderActions.enterFolder(icarusDocumentationFolder);
         }
     }
 
@@ -270,59 +266,50 @@ function IcarusDocs(props) {
         }
     }
 
-    const handleDownloadFile = (event, documentationFile) => {
+    const handleDownloadFile = (event, icarusDocumentationFile) => {
         let viewModel = {
-            documentationFileId: documentationFile.icarusDocumentationFileId,
+            icarusDocumentationFileId: icarusDocumentationFile.icarusDocumentationFileId,
             viewFile: false
         }
 
         props.icarusDocumentationFileActions.download(viewModel)
     }
 
-    const handleViewFile = (event, documentationFile) => {
-        props.history.push(icarusDocsViewFile + documentationFile.icarusDocumentationFileId);
+    const handleViewFile = (event, icarusDocumentationFile) => {
+        props.history.push(icarusDocsViewFile + icarusDocumentationFile.icarusDocumentationFileId);
     }
 
-    const handleReviseFile = (event, documentationFile) => {
-        props.icarusDocumentationFileActions.passFile(documentationFile);
-        props.history.push('/dashboard/icarusDocumentation/details/revision');
+    const handleEditFile = (event, icarusDocumentationFile) => {
+        props.icarusDocumentationFileActions.passFile(icarusDocumentationFile);
+        props.history.push(icarusDocsEditFile);
     }
 
-    const handleEditFile = (event, documentationFile) => {
-        props.icarusDocumentationFileActions.passFile(documentationFile);
-        props.history.push('/dashboard/icarusDocumentation/details/edit');
-    }
-
-    const handleRevisionsFile = (event, documentationFile) => {
-        props.icarusDocumentationFileActions.loadRevisions(documentationFile);
-        setDialogRevisionsOpen(true);
-    }
-
-    const handleHistoryFile = (event, documentationFile) => {
-        props.icarusDocumentationFileActions.loadHistory(documentationFile);
+    const handleHistoryFile = (event, icarusDocumentationFile) => {
+        props.icarusDocumentationFileActions.loadHistory(icarusDocumentationFile);
         setDialogHistoryOpen(true);
+        setIcarusDocumentationFileHistorySelected(icarusDocumentationFile);
     }
 
-    const handleMoveFile = (event, documentationFile) => {
+    const handleMoveFile = (event, icarusDocumentationFile) => {
         props.icarusDocumentationFolderActions.loadTree();
-        setDocumentationFileForMove(documentationFile);
+        setIcarusDocumentationFileForMove(icarusDocumentationFile);
         setDialogMoveFileOpen(true);
-        setDocumentationFolderDestinationMove(undefined);
+        setIcarusDocumentationFolderDestinationMove(undefined);
     }
 
-    const handleMoveFolder = (event, documentationFolder) => {
+    const handleMoveFolder = (event, icarusDocumentationFolder) => {
         props.icarusDocumentationFolderActions.loadTree();
-        setDocumentationFolderForMove(documentationFolder);
+        setIcarusDocumentationFolderForMove(icarusDocumentationFolder);
         setDialogMoveFolderOpen(true);
-        setDocumentationFolderDestinationMove(undefined);
+        setIcarusDocumentationFolderDestinationMove(undefined);
     }
 
-    const handleFolderMoveSelected = (event, documentationFolder) => {
-        setDocumentationFolderDestinationMove(documentationFolder);
+    const handleFolderMoveSelected = (event, icarusDocumentationFolder) => {
+        setIcarusDocumentationFolderDestinationMove(icarusDocumentationFolder);
     }
 
-    const handleDocumentationFolderPathClick = (documentationFolder) => {
-        props.icarusDocumentationFolderActions.goBackToFolder(documentationFolder);
+    const handleDocumentationFolderPathClick = (icarusDocumentationFolder) => {
+        props.icarusDocumentationFolderActions.goBackToFolder(icarusDocumentationFolder);
     }
 
     const handleDocumentationFolderRootClick = () => {
@@ -330,8 +317,8 @@ function IcarusDocs(props) {
     }
 
     const checkUserRoleInArray = (userRoleId) => {
-        for (let i = 0, l = documentationFolder.documentationFolderUserRoleJoined.length; i < l; i++) {
-            if (documentationFolder.documentationFolderUserRoleJoined[i].userRole.userRoleId === userRoleId) {
+        for (let i = 0, l = icarusDocumentationFolder.icarusDocumentationFolderUserRoleJoined.length; i < l; i++) {
+            if (icarusDocumentationFolder.icarusDocumentationFolderUserRoleJoined[i].userRole.userRoleId === userRoleId) {
                 return true;
             }
         }
@@ -349,21 +336,21 @@ function IcarusDocs(props) {
     const handleSearchSubmit = () => {
         if (!!searchValue.trim()) {
             let path;
-            let documentationFolderId;
-            if (documentationFolderPath.length > 0) {
-                let currentFolder = documentationFolderPath.slice(-1)[0];
+            let icarusDocumentationFolderId;
+            if (icarusDocumentationFolderPath.length > 0) {
+                let currentFolder = icarusDocumentationFolderPath.slice(-1)[0];
                 path = currentFolder.path + currentFolder.folderName
-                documentationFolderId = currentFolder.icarusDocumentationFolderId;
+                icarusDocumentationFolderId = currentFolder.icarusDocumentationFolderId;
             }
             let viewModel = {
                 searchText: searchValue,
                 path,
-                documentationFolderId
+                icarusDocumentationFolderId
             }
             props.icarusDocumentationFileActions.loadBySearch(viewModel);
             props.icarusDocumentationFolderActions.clearFolder();
         } else {
-            updateFilesAndFoldersOPath(props.documentationFolderPath);
+            updateFilesAndFoldersOPath(props.icarusDocumentationFolderPath);
         }
 
     };
@@ -388,9 +375,9 @@ function IcarusDocs(props) {
                 });
             }
         }
-        let documentationFolderClone = cloneDeep(documentationFolder);
-        documentationFolderClone.documentationFolderUserRoleJoined = selectedUserRoles;
-        setDocumentationFolder(documentationFolderClone);
+        let icarusDocumentationFolderClone = cloneDeep(icarusDocumentationFolder);
+        icarusDocumentationFolderClone.icarusDocumentationFolderUserRoleJoined = selectedUserRoles;
+        setIcarusDocumentationFolder(icarusDocumentationFolderClone);
     }
 
     const handlePermissionUserGroupsFolderSelectChange = (event) => {
@@ -413,9 +400,9 @@ function IcarusDocs(props) {
                 });
             }
         }
-        let documentationFolderClone = cloneDeep(documentationFolder);
-        documentationFolderClone.documentationFolderUserGroupJoined = selectedUserGroups;
-        setDocumentationFolder(documentationFolderClone);
+        let icarusDocumentationFolderClone = cloneDeep(icarusDocumentationFolder);
+        icarusDocumentationFolderClone.icarusDocumentationFolderUserGroupJoined = selectedUserGroups;
+        setIcarusDocumentationFolder(icarusDocumentationFolderClone);
     }
 
     const handlePermissionDepartmentFolderSelectChange = (event) => {
@@ -438,32 +425,38 @@ function IcarusDocs(props) {
                 });
             }
         }
-        let documentationFolderClone = cloneDeep(documentationFolder);
-        documentationFolderClone.documentationFolderDepartmentJoined = selectedDepartments;
-        setDocumentationFolder(documentationFolderClone);
+        let icarusDocumentationFolderClone = cloneDeep(icarusDocumentationFolder);
+        icarusDocumentationFolderClone.icarusDocumentationFolderDepartmentJoined = selectedDepartments;
+        setIcarusDocumentationFolder(icarusDocumentationFolderClone);
     };
 
     const handleRadioButtonChange = (event, value) => {
-        let documentationFolderClone = cloneDeep(documentationFolder);
-        documentationFolderClone[event.target.name] = value;
+        let icarusDocumentationFolderClone = cloneDeep(icarusDocumentationFolder);
+        icarusDocumentationFolderClone[event.target.name] = value;
         if(event.target.name === "permissionType"){
-            documentationFolderClone.documentationFolderUserRoleJoined = [];
-            documentationFolderClone.documentationFolderUserGroupJoined = [];
-            documentationFolderClone.documentationFolderDepartmentJoined = [];
+            icarusDocumentationFolderClone.icarusDocumentationFolderUserRoleJoined = [];
+            icarusDocumentationFolderClone.icarusDocumentationFolderUserGroupJoined = [];
+            icarusDocumentationFolderClone.icarusDocumentationFolderDepartmentJoined = [];
         }
 
-        setDocumentationFolder(documentationFolderClone);
+        setIcarusDocumentationFolder(icarusDocumentationFolderClone);
     };
+
+    const handleExportClick = () => {
+        let viewModel = {
+            icarusDocumentationFileId: icarusDocumentationFileHistorySelected.icarusDocumentationFileId
+        }
+        props.icarusDocumentationFileActions.exportToExcel(viewModel);
+    }
 
 
     const {
-        documentationFiles,
-        documentationFolders,
+        icarusDocumentationFiles,
+        icarusDocumentationFolders,
         userRoles,
-        documentationFolderPath,
-        documentationFileHistory,
-        documentationFileRevisions,
-        documentationFolderTree,
+        icarusDocumentationFolderPath,
+        icarusDocumentationFileHistory,
+        icarusDocumentationFolderTree,
         progress,
         progressBarOpened
     } = props;
@@ -487,11 +480,11 @@ function IcarusDocs(props) {
                         order={order}
                         orderBy={orderBy}
                         onRequestSort={handleRequestSort}
-                        files={documentationFiles}
-                        folders={documentationFolders}
+                        files={icarusDocumentationFiles}
+                        folders={icarusDocumentationFolders}
                         onDeleteFile={handleDeleteFile}
                         onDeleteFolder={handleDeleteFolder}
-                        documentationFolderPath={documentationFolderPath}
+                        icarusDocumentationFolderPath={icarusDocumentationFolderPath}
                         onFolderDoubleClick={handleFolderDoubleClick}
                         onFolderDoubleTap={handleFolderDoubleTap}
                         onBackDoubleClick={handleBackDoubleClick}
@@ -499,9 +492,7 @@ function IcarusDocs(props) {
                         onEditFolder={handleEditFolder}
                         onDownloadFile={handleDownloadFile}
                         onViewFile={handleViewFile}
-                        onReviseFile={handleReviseFile}
                         onEditFile={handleEditFile}
-                        onRevisionsFile={handleRevisionsFile}
                         onHistoryFile={handleHistoryFile}
                         onMoveFile={handleMoveFile}
                         onMoveFolder={handleMoveFolder}
@@ -533,17 +524,8 @@ function IcarusDocs(props) {
                                 onMultiSelectUserGroupChange={handlePermissionUserGroupsFolderSelectChange}
                                 onMultiSelectDepartmentChange={handlePermissionDepartmentFolderSelectChange}
                                 checkFolderDetailsRoleInArray={checkUserRoleInArray}
-                                documentationFolder={documentationFolder}
+                                icarusDocumentationFolder={icarusDocumentationFolder}
                                 userRoles={userRoles}/>
-                        }/>
-                    <DialogFormFrame
-                        onClose={handleRevisionsClose}
-                        title="documentation.file.revisions"
-                        open={dialogRevisionsOpen}
-                        formComponent={
-                            <DialogFormFileRevisions
-                                onClose={handleRevisionsClose}
-                                documentationFileRevisions={documentationFileRevisions}/>
                         }/>
                     <DialogFormFrame
                         onClose={handleHistoryClose}
@@ -552,7 +534,8 @@ function IcarusDocs(props) {
                         formComponent={
                             <DialogFormFileHistory
                                 onClose={handleHistoryClose}
-                                documentationFileHistory={documentationFileHistory}/>
+                                icarusDocumentationFileHistory={icarusDocumentationFileHistory}
+                                onExportClick={handleExportClick}/>
                         }/>
                     <DialogFormFrame
                         onClose={handleMoveFileClose}
@@ -562,8 +545,8 @@ function IcarusDocs(props) {
                             <DialogFormFileMove
                                 onClose={handleMoveFileClose}
                                 onSubmit={handleMoveFileSubmit}
-                                documentationFolderTree={documentationFolderTree}
-                                documentationFolderDestinationMove={documentationFolderDestinationMove}
+                                icarusDocumentationFolderTree={icarusDocumentationFolderTree}
+                                icarusDocumentationFolderDestinationMove={icarusDocumentationFolderDestinationMove}
                                 onFolderSelected={handleFolderMoveSelected}
                             />
                         }/>
@@ -575,8 +558,8 @@ function IcarusDocs(props) {
                             <DialogFormFileMove
                                 onClose={handleMoveFolderClose}
                                 onSubmit={handleMoveFolderSubmit}
-                                documentationFolderTree={documentationFolderTree}
-                                documentationFolderDestinationMove={documentationFolderDestinationMove}
+                                icarusDocumentationFolderTree={icarusDocumentationFolderTree}
+                                icarusDocumentationFolderDestinationMove={icarusDocumentationFolderDestinationMove}
                                 onFolderSelected={handleFolderMoveSelected}
                             />
                         }/>
@@ -603,12 +586,11 @@ IcarusDocs.propTypes = {
 
 function mapStateToProps(state, ownProps) {
     return {
-        documentationFiles: state.IcarusDocumentationFile.documentationFiles,
-        documentationFileHistory: state.IcarusDocumentationFile.documentationFileHistory,
-        documentationFileRevisions: state.IcarusDocumentationFile.documentationFileRevisions,
-        documentationFolders: state.IcarusDocumentationFolder.documentationFolders,
-        documentationFolderPath: state.IcarusDocumentationFolder.documentationFolderPath,
-        documentationFolderTree: state.IcarusDocumentationFolder.documentationFolderTree,
+        icarusDocumentationFiles: state.IcarusDocumentationFile.icarusDocumentationFiles,
+        icarusDocumentationFileHistory: state.IcarusDocumentationFile.icarusDocumentationFileHistory,
+        icarusDocumentationFolders: state.IcarusDocumentationFolder.icarusDocumentationFolders,
+        icarusDocumentationFolderPath: state.IcarusDocumentationFolder.icarusDocumentationFolderPath,
+        icarusDocumentationFolderTree: state.IcarusDocumentationFolder.icarusDocumentationFolderTree,
         storageInfo: state.IcarusDocumentationFolder.storageInfo,
         userRoles: state.UserRole.userRoles,
         users: state.User.usersSimple,

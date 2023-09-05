@@ -29,7 +29,7 @@ function EnhancedTableHeaderSimpleActions(props) {
                         <TableCell
                             key={column.id}
                             align={column.numeric ? 'right' : 'left'}
-                            padding={column.disablePadding ? 'none' : 'default'}
+                            padding={column.disablePadding ? 'none' : 'normal'}
                             sortDirection={orderBy === column.id ? order : false}
                         >
                             {disableSorting ?

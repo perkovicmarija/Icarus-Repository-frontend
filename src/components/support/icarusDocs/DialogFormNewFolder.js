@@ -36,7 +36,6 @@ function DialogFormNewFolder (props) {
         onMultiSelectUserGroupChange,
         onMultiSelectDepartmentChange,
         onMultiSelectSubdivisionChange,
-        onMultiSelectUserChange,
         onMultiAutocompleteUserChange,
         onRadioButtonChange,
         onValidationError
@@ -189,7 +188,6 @@ DialogFormNewFolder.propTypes = {
     onInputChange: PropTypes.func.isRequired,
     onMultiSelectChange: PropTypes.func.isRequired,
     documentationFolder: PropTypes.object.isRequired,
-    userRoles: PropTypes.array.isRequired
 }
 
 export default withValidation(DialogFormNewFolder);

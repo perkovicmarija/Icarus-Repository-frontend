@@ -1,16 +1,10 @@
-import React, {useEffect} from 'react';
+import React from 'react';
 
-import { Switch, Route } from 'react-router-dom';
+import {Route, Switch} from 'react-router-dom';
 
 import SupportBugs from './Bug/SupportBugs';
 import SupportSoftwareLog from './Logs/SupportSoftwareLog'
-import {
-    getSupportBugsPath,
-    getSupportLogsPath,
-    supportBugs,
-    supportLogs,
-    supportRoadmap
-} from "../../consts/routePaths";
+import {getSupportBugsPath, getSupportLogsPath, supportRoadmap} from "../../consts/routePaths";
 import Roadmap from "./Roadmap/Roadmap";
 
 function SupportCenter(props) {
