@@ -1,17 +1,17 @@
 import RestApiPost from './methods/RestApiPost';
-import RestApiGetPathParams from './methods/RestApiGetPathParams';
+import RestApiGet from './methods/RestApiGet';
 import RestApiGetRequestParams from './methods/RestApiGetRequestParams';
 import RestApiPostWithPathParams from './methods/RestApiPostWithPathParams';
 
 const UserGroupApi = {
     getAll(viewModel) {
-        return RestApiGetPathParams.getData('/userGroup/getAll', viewModel);
+        return RestApiGet.getData('/userGroup/getAll', viewModel);
     },
     getAllPagination(viewModel) {
         return RestApiPost.postData('/userGroup/getAllPagination', viewModel);
     },
     get(viewModel) {
-        return RestApiGetPathParams.getData('/userGroup/:userGroupId', viewModel);
+        return RestApiGet.getData('/userGroup/:userGroupId', viewModel);
     },
     create(viewModel) {
         return RestApiPost.postData('/userGroup/create', viewModel);

@@ -1,5 +1,4 @@
 import RestApiPost from './methods/RestApiPost';
-import RestApiGetPathParams from './methods/RestApiGetPathParams';
 import RestApiPostMultipartArrayAxios from './methods/Multipart/RestApiPostMultipartArrayAxios';
 import RestApiPostDownloadAxios from './methods/Download/RestApiPostDownloadAxios';
 import RestApiGet from "./methods/RestApiGet";
@@ -12,16 +11,16 @@ const SupportCenterApi = {
         return RestApiPost.postData('/supportBug/getAll', viewModel);
     },
     get(viewModel) {
-        return RestApiGetPathParams.getData('/supportBug/:supportBugId', viewModel);
+        return RestApiGet.getData('/supportBug/:supportBugId', viewModel);
     },
     getAllModules() {
-        return RestApiGetPathParams.getData('/supportBug/getAllModules', {});
+        return RestApiGet.getData('/supportBug/getAllModules', {});
     },
     getAllLevels() {
-        return RestApiGetPathParams.getData('/supportBug/getAllLevels', {});
+        return RestApiGet.getData('/supportBug/getAllLevels', {});
     },
     getAllStatuses() {
-        return RestApiGetPathParams.getData('/supportBug/getAllStatuses', {});
+        return RestApiGet.getData('/supportBug/getAllStatuses', {});
     },
     create(viewModel) {
         return RestApiPost.postData('/supportBug/create', viewModel);

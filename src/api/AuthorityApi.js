@@ -1,11 +1,11 @@
-import RestApiGetPathParams from './methods/RestApiGetPathParams';
+import RestApiGet from './methods/RestApiGet';
 
 const AuthorityApi = {
     getAll () {
-        return RestApiGetPathParams.getData('/authority/getAll', {});
+        return RestApiGet.getData('/authority/getAll', {});
     },
     get(viewModel) {
-        return RestApiGetPathParams.getData('/authority', viewModel);
+        return RestApiGet.getData('/authority', viewModel);
     }
 }
 

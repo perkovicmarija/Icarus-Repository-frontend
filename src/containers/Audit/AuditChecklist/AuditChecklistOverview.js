@@ -121,8 +121,7 @@ const AuditChecklistOverview = (props) => {
         props.history.push('/admin/audit-checklists/' + id);
     }
 
-    const handleInputChange = (e) => {
-        const {name, value} = e.target;
+    const handleInputChange = name => ({target: { value }}) => {
         setChecklist({
             ...checklist,
             [name]: value

@@ -1,17 +1,17 @@
 import RestApiPost from './methods/RestApiPost';
-import RestApiGetPathParams from './methods/RestApiGetPathParams';
+import RestApiGet from './methods/RestApiGet';
 import RestApiGetRequestParams from './methods/RestApiGetRequestParams';
 import RestApiPostWithPathParams from './methods/RestApiPostWithPathParams';
 
 const UserRoleApi = {
     getAll(viewModel) {
-        return RestApiGetPathParams.getData('/userRole/getAll', viewModel);
+        return RestApiGet.getData('/userRole/getAll', viewModel);
     },
     getAllPagination(viewModel) {
         return RestApiPost.postData('/userRole/getAllPagination', viewModel);
     },
     get(viewModel) {
-        return RestApiGetPathParams.getData('/userRole/:userRoleId', viewModel);
+        return RestApiGet.getData('/userRole/:userRoleId', viewModel);
     },
     create(viewModel) {
         return RestApiPost.postData('/userRole/create', viewModel);

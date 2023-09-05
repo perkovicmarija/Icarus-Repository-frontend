@@ -222,16 +222,14 @@ const AuditChecklist = (props) => {
         setDialogSubAreaOpen(false);
     }
 
-    const handleInputSubAreaChange = event => {
-        const { name, value } = event.target;
+    const handleInputSubAreaChange = name => ({target: { value }}) => {
         setSelectedSubArea({
             ...selectedSubArea,
             [name]: value
         });
     }
 
-    const handleInputChange = (event) => {
-        const { name, value } = event.target;
+    const handleInputChange = name => ({target: { value }}) => {
         setSelectedItem({
             ...selectedItem,
             [name]: value
