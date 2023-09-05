@@ -89,7 +89,7 @@ const SupportSoftwareLog = (props) => {
     props.supportActions.loadAllSoftwareLogsPagination(viewModel);
   };
 
-  const handleInputChange = ({ target: { name, value } }) => {
+  const handleInputChange = name => ({target: { value }}) => {
     setSoftwareLog(prevState => ({ ...prevState, [name]: value }));
   };
 

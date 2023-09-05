@@ -121,7 +121,7 @@ function Roadmap(props) {
         props.supportActions.loadAllRoadmapLogs();
     };
 
-    const handleInputChange = ({ target: { name, value } }) => {
+    const handleInputChange = name => ({target: { value }}) => {
         setRoadmapLog(prevState => ({ ...prevState, [name]: value }));
     };
 
@@ -220,7 +220,7 @@ function Roadmap(props) {
         props.supportActions.changeRoadmapLogFilters({ ...filters, [name]: value })
     }
 
-    const handleFilterInputChange = ({ target: {name, value} }) => {
+    const handleFilterInputChange = name => ({target: { value }}) => {
         props.supportActions.changeRoadmapLogFilters({ ...filters, [name]: value })
     }
 

@@ -1,5 +1,6 @@
 import RestApiGet from "./methods/RestApiGet";
 import RestApiPost from './methods/RestApiPost';
+import RestApiDelete from "./methods/RestApiDelete";
 
 const IcarusDocumentationFolderApi = {
     getAll(viewModel) {
@@ -24,7 +25,7 @@ const IcarusDocumentationFolderApi = {
         return RestApiPost.postData('/icarusDocumentationFolder/moveFolder', viewModel);
     },
     delete(viewModel) {
-        return RestApiGet.getData('/icarusDocumentationFolder/delete/', viewModel)
+        return RestApiDelete.deleteData(viewModel, '/icarusDocumentationFolder/:id' )
     },
     getStorageInfo(viewModel) {
         return RestApiGet.getData('/documentation/getStorageInfo', viewModel);

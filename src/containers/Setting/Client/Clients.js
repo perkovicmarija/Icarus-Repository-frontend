@@ -36,8 +36,7 @@ function Clients(props) {
     setDialogClientDetailsOpen(false);
   }
 
-  const handleClientDetailsInputChange = (event) => {
-    const { name, value } = event.target;
+  const handleClientDetailsInputChange = name => ({target: { value }}) => {
     let clientClone = cloneDeep(client);
     clientClone[name] = value;
     setClient(clientClone);

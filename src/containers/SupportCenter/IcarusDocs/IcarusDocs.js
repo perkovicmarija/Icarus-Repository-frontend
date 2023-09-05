@@ -202,9 +202,9 @@ function IcarusDocs(props) {
         setIcarusDocumentationFolder(icarusDocumentationFolderClone);
     }
 
-    const handleInputFolderChange = name => event => {
+    const handleInputFolderChange = event => {
         let icarusDocumentationFolderClone = cloneDeep(icarusDocumentationFolder);
-        icarusDocumentationFolderClone[name] = event.target.value;
+        icarusDocumentationFolderClone['folderName'] = event.target.value;
         setIcarusDocumentationFolder(icarusDocumentationFolderClone);
     };
 
