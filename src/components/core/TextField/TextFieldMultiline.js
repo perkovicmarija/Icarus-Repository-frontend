@@ -39,7 +39,7 @@ function TextFieldMultiline(props) {
             id={id}
             label={label && label !== "" ? <IntlMessages id={label}/> : undefined}
             value={value === null ? '' : value || ''}
-            onChange={onInputChange(name)}
+            onChange={onInputChange}
             placeholder={placeholder && placeholder !== "" ? intl.formatMessage(messages.placeholder) : undefined}
             fullWidth
             margin="dense"
