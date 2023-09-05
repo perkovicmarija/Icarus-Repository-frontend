@@ -4,7 +4,6 @@ import RestApiPostDownloadAxios from './methods/Download/RestApiPostDownloadAxio
 import RestApiGet from "./methods/RestApiGet";
 import RestApiPutWithPathParams from "./methods/RestApiPutWithPathParams";
 import RestApiDelete from "./methods/RestApiDelete";
-import RestApiGetWithParams from "./methods/RestApiGetWithParams";
 
 const SupportCenterApi = {
     getAll (viewModel) {
@@ -63,7 +62,7 @@ const SupportCenterApi = {
     ///////////////////////////   ROADMAP   ///////////////////////////////////////////////
 
     getRoadmapLogsPaginateFilter(viewModel) {
-        return RestApiGetWithParams.getData(viewModel, '/support/roadmap-log/paginate');
+        return RestApiGet.getData('/support/roadmap-log/paginate', viewModel);
     },
     getAllRoadmapLogs(viewModel) {
         return RestApiGet.getData('/support/roadmap-log', viewModel);
