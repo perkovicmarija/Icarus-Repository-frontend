@@ -21,6 +21,9 @@ import * as icarusDocumentationFolderActions
     from '../../../redux/support/icarusDocs/folder/icarusDocumentationFolderActions';
 import * as userActions from '../../../redux/user/userActions';
 import {icarusDocsDetailsNew, icarusDocsEditFile, icarusDocsViewFile} from "../../../consts/routePaths"
+import DialogFormDocumentationFilters from "../../../components/support/icarusDocs/DialogFormDocumentationFilters";
+import FilterIconCustom from "../../../components/core/FilterIconCustom";
+import DialogFormStorageInfo from "../../../components/support/icarusDocs/DialogFormStorageInfo";
 
 const useStyles = makeStyles(theme => ({
     rootDiv: {
@@ -33,6 +36,11 @@ const useStyles = makeStyles(theme => ({
         margin: theme.spacing(3)
     },
 }));
+
+const initFilters = {
+    expirationBeforeDate: null,
+    searchText: ""
+}
 
 function IcarusDocs(props) {
     const classes = useStyles();
@@ -50,6 +58,7 @@ function IcarusDocs(props) {
     const [icarusDocumentationFolderForMove, setIcarusDocumentationFolderForMove] = useState(undefined);
     const [icarusDocumentationFolderDestinationMove, setIcarusDocumentationFolderDestinationMove] = useState(undefined);
     const [icarusDocumentationFileHistorySelected, setIcarusDocumentationFileHistorySelected] = useState(false);
+    const [icarusDocumentationFilters, setIcarusDocumentationFilters] = useState(initFilters)
 
     const [icarusDocumentationFileIdForDelete, setIcarusDocumentationFileIdForDelete] = useState(undefined);
     const [icarusDocumentationFolderIdForDelete, setIcarusDocumentationFolderIdForDelete] = useState(undefined);
@@ -57,6 +66,8 @@ function IcarusDocs(props) {
     const [dialogHistoryOpen, setDialogHistoryOpen] = useState(false);
     const [dialogMoveFileOpen, setDialogMoveFileOpen] = useState(false);
     const [dialogMoveFolderOpen, setDialogMoveFolderOpen] = useState(false);
+    const [dialogDocumentationFilterOpen, setDialogDocumentationFilterOpen] = useState(false);
+    const [dialogStorageInfoOpen, setDialogStorageInfoOpen] = useState(false);
 
     let clickTimer = null;
 
@@ -64,6 +75,7 @@ function IcarusDocs(props) {
         updateFilesAndFoldersOPath(props.icarusDocumentationFolderPath);
 
         props.userRoleActions.loadAll();
+        props.icarusDocumentationFolderActions.loadStorageInfo();
     }, [])
 
     useEffect(() => {
@@ -328,6 +340,38 @@ function IcarusDocs(props) {
         props.icarusDocumentationFileActions.exportToExcel(viewModel);
     }
 
+    const handleFilterClick = () => {
+        setDialogDocumentationFilterOpen(true);
+    }
+
+    const handleDocumentationFiltersClose = () => {
+        setDialogDocumentationFilterOpen(false);
+    }
+
+    const handleDocumentationFilterSubmit = () => {
+        setDialogDocumentationFilterOpen(false);
+        handleSearchSubmit();
+    }
+
+    const handleExpirationBeforeDateChange = name => dateTime => {
+        setIcarusDocumentationFilters({
+            ...icarusDocumentationFilters,
+            expirationBeforeDate: dateTime
+        });
+    }
+
+    const handleClearAll = () => {
+        setIcarusDocumentationFilters(initFilters);
+    }
+
+    const handleStorageInfoClick = () => {
+        setDialogStorageInfoOpen(true);
+    }
+
+    const handleStorageInfoClose = () => {
+        setDialogStorageInfoOpen(false);
+    }
+
 
     const {
         icarusDocumentationFiles,
@@ -337,7 +381,8 @@ function IcarusDocs(props) {
         icarusDocumentationFileHistory,
         icarusDocumentationFolderTree,
         progress,
-        progressBarOpened
+        progressBarOpened,
+        storageInfo
     } = props;
 
     return (
@@ -353,6 +398,8 @@ function IcarusDocs(props) {
                         searchPlaceholder="general.search.files.name"
                         titleLabel="support.icarusDocs"
                         showAddNew={Protected.protectedAuth(['PERM_SUPPORT_ADMIN'])}
+                        onFilterClick={handleFilterClick}
+                        onStorageInfoClick={handleStorageInfoClick}
                     />
 
                     <IcarusDocumentationTable
@@ -424,6 +471,18 @@ function IcarusDocs(props) {
                             />
                         }/>
                     <DialogFormFrame
+                        onClose={handleDocumentationFiltersClose}
+                        title="general.selectFilters"
+                        open={dialogDocumentationFilterOpen}>
+                        <DialogFormDocumentationFilters
+                            filters={icarusDocumentationFilters}
+                            onClose={handleDocumentationFiltersClose}
+                            onSubmit={handleDocumentationFilterSubmit}
+                            onExpirationBeforeDateChange={handleExpirationBeforeDateChange}
+                            onClearAll={handleClearAll}
+                        />
+                    </DialogFormFrame>
+                    <DialogFormFrame
                         onClose={handleMoveFolderClose}
                         title="documentation.folder.move"
                         open={dialogMoveFolderOpen}
@@ -436,6 +495,15 @@ function IcarusDocs(props) {
                                 onFolderSelected={handleFolderMoveSelected}
                             />
                         }/>
+                    <DialogFormFrame
+                        onClose={handleStorageInfoClose}
+                        title="documentation.storageInfo"
+                        open={dialogStorageInfoOpen}>
+                        <DialogFormStorageInfo
+                            onClose={handleStorageInfoClose}
+                            storageInfo={storageInfo}
+                        />
+                    </DialogFormFrame>
 
                     <DialogNoCloseFrame
                         title="general.downloading"

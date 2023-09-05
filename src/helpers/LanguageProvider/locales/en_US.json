@@ -209,6 +209,7 @@
   "general.planned": "Planned",
   "general.expirationDate": "Expiration date",
   "general.individual": "Individual",
+  "general.expiresBefore": "Expires before",
 
   "form.user": "User",
   "form.users": "Users",

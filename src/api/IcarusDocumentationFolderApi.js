@@ -28,7 +28,7 @@ const IcarusDocumentationFolderApi = {
         return RestApiDelete.deleteData(viewModel, '/icarusDocumentationFolder/:id' )
     },
     getStorageInfo(viewModel) {
-        return RestApiGet.getData('/documentation/getStorageInfo', viewModel);
+        return RestApiGet.getData('/icarusDocumentationFolder/getStorageInfo', viewModel);
     },
 }
 

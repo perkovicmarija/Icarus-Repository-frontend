@@ -121,6 +121,7 @@ const IcarusDocumentationTable = ({
                     orderBy={orderBy}
                     onRequestSort={onRequestSort}
                 />
+
                 <TableBody>
                     {icarusDocumentationFolderPath?.length > 0 &&
                     <TableRow
