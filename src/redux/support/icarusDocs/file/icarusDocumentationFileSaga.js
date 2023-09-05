@@ -248,38 +248,6 @@ export function* createRequest() {
     });
 }
 
-export function* updateRequest() {
-    yield takeLatest(types.UPDATE_ICARUS_DOCUMENTATION_FILE_REQUEST, function*(action) {
-        try {
-            const response = yield call(IcarusDocumentationFileApi.update, action.viewModel);
-            if (response.code === "200") {
-                // const data = response.data;
-                yield put({
-                    type: types.UPDATE_ICARUS_DOCUMENTATION_FILE_SUCCESS,
-                });
-                yield put({
-                    type: types.AJAX_SUCCESS,
-                    message: response.message
-                });
-            } else {
-                yield put({type: types.UPDATE_ICARUS_DOCUMENTATION_FILE_FAILED})
-                yield put({
-                    type: types.AJAX_FAILED,
-                    message: "Failed to update icarusDocumentationFile"
-                });
-            }
-        } catch (e) {
-            yield put({type: types.UPDATE_ICARUS_DOCUMENTATION_FILE_FAILED});
-            yield put({
-                type: types.AJAX_FAILED,
-                message: "Failed to update icarusDocumentationFile"
-            });
-        } finally {
-            yield put({type: types.AJAX_FINISHED})
-        }
-    });
-}
-
 export function* uploadRequest() {
     yield takeLatest(types.UPLOAD_ICARUS_DOCUMENTATION_FILE, function*(action) {
         try {
@@ -316,7 +284,7 @@ export function* uploadRequest() {
                 }
             } catch(e) {
                 console.log(e);
-                yield put({type: types.UPDATE_ICARUS_DOCUMENTATION_FILE_FAILED});
+                yield put({type: types.EDIT_ICARUS_DOCUMENTATION_FILE_FAILED});
                 yield put({
                     type: types.AJAX_FAILED,
                     message: "Failed to upload file"
@@ -329,38 +297,11 @@ export function* uploadRequest() {
             }
         } catch (e) {
             console.log(e);
-            yield put({type: types.UPDATE_ICARUS_DOCUMENTATION_FILE_FAILED});
+            yield put({type: types.EDIT_ICARUS_DOCUMENTATION_FILE_FAILED});
             yield put({
                 type: types.AJAX_FAILED,
                 message: "Failed to upload file"
             });
-        }
-    });
-}
-
-export function* reviseRequest() {
-    yield takeLatest(types.REVISE_ICARUS_DOCUMENTATION_FILE_REQUEST, function*(action) {
-        try {
-            const response = yield call(IcarusDocumentationFileApi.revise, action.viewModel);
-            if (response.code === "200") {
-                yield put({
-                    type: types.AJAX_SUCCESS,
-                    message: response.message
-                });
-                yield put(push('/admin/support-center/icarus-docs'));
-            } else {
-                yield put({
-                    type: types.AJAX_FAILED,
-                    message: "Failed to revise file"
-                });
-            }
-        } catch (e) {
-            yield put({
-                type: types.AJAX_FAILED,
-                message: "Failed to revise file"
-            });
-        } finally {
-            yield put({type: types.AJAX_FINISHED})
         }
     });
 }
@@ -378,13 +319,13 @@ export function* editRequest() {
             } else {
                 yield put({
                     type: types.AJAX_FAILED,
-                    message: "Failed to revise file"
+                    message: "Failed to update file"
                 });
             }
         } catch (e) {
             yield put({
                 type: types.AJAX_FAILED,
-                message: "Failed to revise file"
+                message: "Failed to update file"
             });
         } finally {
             yield put({type: types.AJAX_FINISHED})
@@ -533,7 +474,6 @@ export default function* rootSaga() {
         fork(icarusDocumentationFileRequest),
         fork(loadInFolderRequest),
         fork(createRequest),
-        fork(updateRequest),
         fork(uploadRequest),
         fork(deleteRequest),
         fork(loadBySearchRequest),
@@ -541,7 +481,6 @@ export default function* rootSaga() {
         fork(cancelDownloadFile),
         fork(viewFileRequest),
         fork(cancelViewFile),
-        fork(reviseRequest),
         fork(editRequest),
         fork(loadHistoryRequest),
         fork(createDownloadExcelListRequest),

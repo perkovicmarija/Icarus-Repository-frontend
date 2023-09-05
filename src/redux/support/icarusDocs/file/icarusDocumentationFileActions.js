@@ -57,13 +57,6 @@ export function create(viewModel) {
     }
 }
 
-export function update(viewModel) {
-    return {
-        type: types.UPDATE_ICARUS_DOCUMENTATION_FILE_REQUEST,
-        viewModel
-    }
-}
-
 export function upload(viewModel) {
     return {
         type: types.UPLOAD_ICARUS_DOCUMENTATION_FILE,

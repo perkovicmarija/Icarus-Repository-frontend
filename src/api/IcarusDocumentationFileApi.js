@@ -5,7 +5,7 @@ import RestApiPostMultipartAxios from './methods/Multipart/RestApiPostMultipartA
 import RestApiPostViewAxios from './methods/Download/RestApiPostViewAxios';
 import RestApiGet from "./methods/RestApiGet";
 import RestApiDelete from "./methods/RestApiDelete";
-import RestApiGetDownloadAxios from "./methods/RestApiGetDownloadAxios";
+import RestApiGetDownloadAxios from "./methods/Download/RestApiGetDownloadAxios";
 
 const IcarusDocumentationFileApi = {
     getAll(viewModel) {
@@ -23,9 +23,6 @@ const IcarusDocumentationFileApi = {
     create(viewModel) {
         return RestApiPost.postData('/icarusDocumentationFile/create', viewModel);
     },
-    update(viewModel) {
-        return RestApiPost.postData('/icarusDocumentationFile/update', viewModel);
-    },
     getHistory(viewModel) {
         return RestApiPost.postData('/icarusDocumentationFile/fetchHistory', viewModel);
     },
@@ -37,9 +34,6 @@ const IcarusDocumentationFileApi = {
     },
     uploadFile(viewModel) {
         return RestApiPostMultipartAxios.postData(viewModel, '/icarusDocumentationFile/upload');
-    },
-    revise(viewModel) {
-        return RestApiPostMultipart.postData(viewModel, '/icarusDocumentationFile/revise');
     },
     edit(viewModel) {
         return RestApiPostMultipart.postData(viewModel, '/icarusDocumentationFile/edit');

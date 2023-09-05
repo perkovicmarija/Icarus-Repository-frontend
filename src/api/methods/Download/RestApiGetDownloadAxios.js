@@ -1,8 +1,8 @@
 import axios from 'axios';
-import {getServerPath} from '../../consts/ServerInfo';
-import { getToken } from '../../helpers/utility';
+import {getServerPath} from '../../../consts/ServerInfo';
+import { getToken } from '../../../helpers/utility';
 import {END, eventChannel} from "redux-saga";
-import * as types from "../../redux/actionTypes";
+import * as types from "../../../redux/actionTypes";
 
 const RestApiGetDownloadAxios = {
     getData (resourcePath, data) {
