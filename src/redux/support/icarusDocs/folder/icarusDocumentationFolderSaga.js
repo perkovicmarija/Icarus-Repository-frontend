@@ -253,10 +253,6 @@ export function* loadStorageInfoRequest() {
                     type: types.LOAD_STORAGE_INFO_SUCCESS,
                     storageInfo: data
                 });
-                yield put({
-                    type: types.AJAX_SUCCESS,
-                    message: response.message
-                });
             } else {
                 yield put({
                     type: types.AJAX_FAILED,

@@ -15,14 +15,12 @@ import DialogNoCloseFrame from "../../../components/core/Dialog/DialogNoCloseFra
 import DialogFormNewFolder from "../../../components/support/icarusDocs/DialogFormNewFolder";
 import DialogFormFileMove from "../../../components/support/icarusDocs/DialogFormFileMove";
 import DialogFormFileHistory from '../../../components/support/icarusDocs/DialogFormFileHistory';
-import * as userRoleActions from '../../../redux/user/role/userRoleActions';
 import * as icarusDocumentationFileActions from '../../../redux/support/icarusDocs/file/icarusDocumentationFileActions';
 import * as icarusDocumentationFolderActions
     from '../../../redux/support/icarusDocs/folder/icarusDocumentationFolderActions';
 import * as userActions from '../../../redux/user/userActions';
 import {icarusDocsDetailsNew, icarusDocsEditFile, icarusDocsViewFile} from "../../../consts/routePaths"
 import DialogFormDocumentationFilters from "../../../components/support/icarusDocs/DialogFormDocumentationFilters";
-import FilterIconCustom from "../../../components/core/FilterIconCustom";
 import DialogFormStorageInfo from "../../../components/support/icarusDocs/DialogFormStorageInfo";
 
 const useStyles = makeStyles(theme => ({
@@ -73,8 +71,6 @@ function IcarusDocs(props) {
 
     useEffect(() => {
         updateFilesAndFoldersOPath(props.icarusDocumentationFolderPath);
-
-        props.userRoleActions.loadAll();
         props.icarusDocumentationFolderActions.loadStorageInfo();
     }, [])
 
@@ -376,7 +372,6 @@ function IcarusDocs(props) {
     const {
         icarusDocumentationFiles,
         icarusDocumentationFolders,
-        userRoles,
         icarusDocumentationFolderPath,
         icarusDocumentationFileHistory,
         icarusDocumentationFolderTree,
@@ -445,7 +440,7 @@ function IcarusDocs(props) {
                                 onSubmit={handleFolderSubmit}
                                 onInputChange={handleInputFolderChange}
                                 icarusDocumentationFolder={icarusDocumentationFolder}
-                                userRoles={userRoles}/>
+                            />
                         }/>
                     <DialogFormFrame
                         onClose={handleHistoryClose}
@@ -533,7 +528,6 @@ function mapStateToProps(state, ownProps) {
         icarusDocumentationFolderPath: state.IcarusDocumentationFolder.icarusDocumentationFolderPath,
         icarusDocumentationFolderTree: state.IcarusDocumentationFolder.icarusDocumentationFolderTree,
         storageInfo: state.IcarusDocumentationFolder.storageInfo,
-        userRoles: state.UserRole.userRoles,
         users: state.User.usersSimple,
         progress: state.Progress.progress,
         progressBarOpened: state.Progress.progressOpened
@@ -544,7 +538,6 @@ function mapDispatchToProps(dispatch) {
     return {
         icarusDocumentationFileActions: bindActionCreators(icarusDocumentationFileActions, dispatch),
         icarusDocumentationFolderActions: bindActionCreators(icarusDocumentationFolderActions, dispatch),
-        userRoleActions: bindActionCreators(userRoleActions, dispatch),
         userActions: bindActionCreators(userActions, dispatch)
     };
 }

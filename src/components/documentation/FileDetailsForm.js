@@ -16,6 +16,7 @@ import FormSubmit from "../core/Form/FormSubmit";
 import PropTypes from "prop-types";
 import withValidation from "../core/HOC/withValidation";
 import classnames from "classnames";
+import SelectMultipleCustom from "../core/Select/SelectMultipleCustom";
 
 const useStyles = makeStyles(theme => ({
     root: {
@@ -75,7 +76,10 @@ const FileDetailsForm = (props) => {
         gridSpacing,
         onValidationError,
         onFileDrop,
-        onCancelDocumentationFile
+        onCancelDocumentationFile,
+        clients,
+        selectedClients,
+        onMultiSelectChange
     } = props;
     return (
         <div className={classes.root}>
@@ -189,50 +193,24 @@ const FileDetailsForm = (props) => {
                             type="text"/>
                     </Grid>
                 </Grid>
+
+                <Grid container spacing={gridSpacing} className={classes.container}>
+                    <Grid item xs={6}>
+                        <TypographyFieldTitle title="general.companies"/>
+                        <SelectMultipleCustom
+                            disabled={false}
+                            title="general.companies"
+                            objectArray={clients}
+                            selectArray={selectedClients}
+                            firstLvlValueProp="clientId"
+                            onMultiSelectChange={onMultiSelectChange}
+                            optionProp="name"
+                            optionKey="clientId"/>
+                    </Grid>
+                </Grid>
                 <Grid container spacing={gridSpacing} className={classes.container}>
 
 
-                </Grid>
-
-                <Grid container className={classes.notificationPart}>
-
-                    <Grid item xl={12} lg={12} md={12} sm={12} xs={12}>
-                        <div className={classes.actions}>
-                            <NotificationsActiveIcon className={classes.leftIcon}/>
-                            <strong className={classes.iconTitle}><IntlMessages id="promotion.news.notification"/></strong>
-                        </div>
-
-                    </Grid>
-                    <Grid item xl={6} lg={6} md={6} sm={12} xs={12}>
-                        <TypographyFieldTitle title="promotion.news.notificationType"/>
-
-                        <Grid item xs={12}>
-                            <FormControlLabel
-                                control={
-                                    <CheckboxReport
-                                        disabled={editDisabled}
-                                        checked={notifyByEmail}
-                                        onCheckboxChange={onCheckboxNotifyByEmailChange}
-                                        value="notifyByEmail"
-                                    />
-                                }
-                                label={<IntlMessages id="documentation.notifyByEmail"/>}
-                            />
-                        </Grid>
-                        <Grid item xs={12}>
-                            <FormControlLabel
-                                control={
-                                    <CheckboxReport
-                                        disabled={editDisabled}
-                                        checked={notifyByMessageBoard}
-                                        onCheckboxChange={onCheckboxNotifyByMessageBoardChange}
-                                        value="notifyByMessageBoard"
-                                    />
-                                }
-                                label={<IntlMessages id="documentation.notifyByMessageBoard"/>}
-                            />
-                        </Grid>
-                    </Grid>
                 </Grid>
 
                 <Grid container spacing={gridSpacing} className={classes.container} justify="center">

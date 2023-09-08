@@ -76,7 +76,7 @@ function DocumentationEnhancedTableToolbar(props) {
                         <Info/>
                     </IconButton>
                 </Tooltip>
-                <Tooltip title={<IntlMessages id="action.filter"/>}>
+                <Tooltip title="">
                     <span>
                         <FilterIconCustom onFilterClick={onFilterClick} filtersActive={filtersActive}/>
                     </span>

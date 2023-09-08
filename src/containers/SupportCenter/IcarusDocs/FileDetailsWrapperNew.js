@@ -13,12 +13,11 @@ function FileDetailsWrapperNew(props) {
         }
     }, [])
 
-    const handleDocumentationFileSave = (icarusDocumentationFile, {}, file, notifyByEmail, notifyByMessageBoard) => {
+    const handleDocumentationFileSave = (icarusDocumentationFile, icarusDocumentationFolder, selectedClients, file) => {
         let data = {
-            icarusDocumentationFile: icarusDocumentationFile,
-            documentationFileRevision: {},
-            notifyByEmail,
-            notifyByMessageBoard
+            icarusDocumentationFile,
+            icarusDocumentationFolder,
+            selectedClients
         }
         let path = "/";
         if (props.icarusDocumentationFolderPath.length > 0) {

@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {makeStyles} from "@mui/styles";
 import {useDeepCompareEffectNoCheck} from "use-deep-compare-effect";
 import {cloneDeep} from "lodash";
@@ -12,6 +12,7 @@ import PropTypes from "prop-types";
 import {icarusDocs} from "../../../consts/routePaths";
 import {bindActionCreators} from "redux";
 import * as icarusDocumentationFileActions from '../../../redux/support/icarusDocs/file/icarusDocumentationFileActions';
+import * as clientActions from '../../../redux/setting/client/clientActions';
 
 const useStyles = makeStyles(theme => ({
     root: {
@@ -29,15 +30,24 @@ function FileDetails(props) {
         note: undefined,
         protectedFile: false,
         uncontrolledCopy: false,
+        clients: []
     })
 
     const [file, setFile] = useState(undefined);
+    const [selectedClients, setSelectedClients] = useState([])
     const [notifyByEmail, setNotifyByEmail] = useState(false);
     const [notifyByMessageBoard, setNotifyByMessageBoard] = useState(false);
+
+    useEffect(() => {
+        if (props.clients.length === 0) {
+            props.clientActions.loadAllClients()
+        }
+    }, []);
 
     useDeepCompareEffectNoCheck(() => {
         if(props.icarusDocumentationFile && props.icarusDocumentationFile.icarusDocumentationFileId) {
             setIcarusDocumentationFile(props.icarusDocumentationFile);
+            setSelectedClients(props.icarusDocumentationFile.clients)
         }
     }, [props.icarusDocumentationFile])
 
@@ -73,7 +83,8 @@ function FileDetails(props) {
 
     const handleDocumentationFileSave = event => {
         event.preventDefault();
-        props.onDocumentationFileSave(icarusDocumentationFile, {}, file, notifyByEmail, notifyByMessageBoard)
+        let icarusDocumentationFolder = icarusDocumentationFolderPath[icarusDocumentationFolderPath.length - 1]
+        props.onDocumentationFileSave(icarusDocumentationFile, icarusDocumentationFolder, selectedClients, file)
     }
 
     const handleCancelDocumentationFile = event => {
@@ -86,7 +97,17 @@ function FileDetails(props) {
         setIcarusDocumentationFile(icarusDocumentationFileClone);
     };
 
-    const { progressBarOpened, progress } = props;
+    const handleMultiSelectChange = (event) => {
+        const selectedIds = event.target.value
+        let selected = [];
+        for (let i = 0, l = selectedIds.length; i < l; i++) {
+            const client = props.clients.find(type => type.clientId === selectedIds[i]);
+            selected.push(client);
+        }
+        setSelectedClients(selected)
+    }
+
+    const { progressBarOpened, progress, clients, icarusDocumentationFolderPath } = props;
     return (
         <Paper className={classes.root}>
             <FileDetailsForm
@@ -103,6 +124,9 @@ function FileDetails(props) {
                 gridSpacing={2}
                 onFileDrop={handleFileDrop}
                 onCancelDocumentationFile={handleCancelDocumentationFile}
+                clients={clients}
+                selectedClients={selectedClients}
+                onMultiSelectChange={handleMultiSelectChange}
             />
             <DialogNoCloseFrame
                 title="general.uploading"
@@ -125,12 +149,15 @@ function mapStateToProps(state, ownProps) {
     return {
         progress: state.Progress.progress,
         progressBarOpened: state.Progress.progressOpened,
+        clients: state.Client.clients,
+        icarusDocumentationFolderPath: state.IcarusDocumentationFolder.icarusDocumentationFolderPath,
     }
 }
 
 function mapDispatchToProps(dispatch) {
     return {
-        icarusDocumentationFileActions: bindActionCreators(icarusDocumentationFileActions, dispatch)
+        icarusDocumentationFileActions: bindActionCreators(icarusDocumentationFileActions, dispatch),
+        clientActions: bindActionCreators(clientActions, dispatch)
     };
 }
 
