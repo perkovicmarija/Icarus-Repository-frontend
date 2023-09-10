@@ -22,6 +22,7 @@ import * as userActions from '../../../redux/user/userActions';
 import {icarusDocsDetailsNew, icarusDocsEditFile, icarusDocsViewFile} from "../../../consts/routePaths"
 import DialogFormDocumentationFilters from "../../../components/support/icarusDocs/DialogFormDocumentationFilters";
 import DialogFormStorageInfo from "../../../components/support/icarusDocs/DialogFormStorageInfo";
+import * as clientActions from "../../../redux/setting/client/clientActions";
 
 const useStyles = makeStyles(theme => ({
     rootDiv: {
@@ -67,11 +68,16 @@ function IcarusDocs(props) {
     const [dialogDocumentationFilterOpen, setDialogDocumentationFilterOpen] = useState(false);
     const [dialogStorageInfoOpen, setDialogStorageInfoOpen] = useState(false);
 
+    const [selectedClients, setSelectedClients] = useState([])
+
     let clickTimer = null;
 
     useEffect(() => {
         updateFilesAndFoldersOPath(props.icarusDocumentationFolderPath);
         props.icarusDocumentationFolderActions.loadStorageInfo();
+        if (props.clients.length === 0) {
+            props.clientActions.loadAllClients()
+        }
     }, [])
 
     useEffect(() => {
@@ -92,6 +98,7 @@ function IcarusDocs(props) {
         }
         props.icarusDocumentationFolderActions.loadOnPath(viewModel);
         props.icarusDocumentationFileActions.loadInFolder(viewModel);
+        setSelectedClients([])
     }
 
     const handleNewFileClick = () => {
@@ -196,20 +203,26 @@ function IcarusDocs(props) {
 
         let icarusDocumentationFolderClone = cloneDeep(icarusDocumentationFolder);
 
+        let viewModel = {
+            folder: icarusDocumentationFolderClone,
+            selectedClients
+        }
+
         if (icarusDocumentationFolderClone.icarusDocumentationFolderId) {
-            props.icarusDocumentationFolderActions.update(icarusDocumentationFolderClone);
+            props.icarusDocumentationFolderActions.update(viewModel);
         } else {
             icarusDocumentationFolderClone.path = "/";
             if (props.icarusDocumentationFolderPath.length > 0) {
                 let currentFolder = props.icarusDocumentationFolderPath.slice(-1)[0];
                 icarusDocumentationFolderClone.path = currentFolder.path + currentFolder.folderName + "/"
             }
-            props.icarusDocumentationFolderActions.create(icarusDocumentationFolderClone);
+            props.icarusDocumentationFolderActions.create(viewModel);
         }
     }
 
     const handleEditFolder = (event, icarusDocumentationFolder) => {
         setIcarusDocumentationFolder(icarusDocumentationFolder);
+        setSelectedClients(icarusDocumentationFolder.clients)
         setDialogNewFolderOpen(true);
     }
 
@@ -252,7 +265,8 @@ function IcarusDocs(props) {
     const handleDownloadFile = (event, icarusDocumentationFile) => {
         let viewModel = {
             icarusDocumentationFileId: icarusDocumentationFile.icarusDocumentationFileId,
-            viewFile: false
+            viewFile: false,
+            uncontrolledCopy: icarusDocumentationFile.uncontrolledCopy
         }
 
         props.icarusDocumentationFileActions.download(viewModel)
@@ -268,7 +282,7 @@ function IcarusDocs(props) {
     }
 
     const handleHistoryFile = (event, icarusDocumentationFile) => {
-        props.icarusDocumentationFileActions.loadHistory(icarusDocumentationFile);
+        props.icarusDocumentationFileActions.loadHistory({icarusDocumentationFileDownloadId: icarusDocumentationFile.icarusDocumentationFileId});
         setDialogHistoryOpen(true);
         setIcarusDocumentationFileHistorySelected(icarusDocumentationFile);
     }
@@ -368,6 +382,16 @@ function IcarusDocs(props) {
         setDialogStorageInfoOpen(false);
     }
 
+    const handleMultiSelectChange = (event) => {
+        const selectedIds = event.target.value
+        let selected = [];
+        for (let i = 0, l = selectedIds.length; i < l; i++) {
+            const client = props.clients.find(type => type.clientId === selectedIds[i]);
+            selected.push(client);
+        }
+        setSelectedClients(selected)
+    }
+
 
     const {
         icarusDocumentationFiles,
@@ -377,7 +401,8 @@ function IcarusDocs(props) {
         icarusDocumentationFolderTree,
         progress,
         progressBarOpened,
-        storageInfo
+        storageInfo,
+        clients
     } = props;
 
     return (
@@ -440,6 +465,9 @@ function IcarusDocs(props) {
                                 onSubmit={handleFolderSubmit}
                                 onInputChange={handleInputFolderChange}
                                 icarusDocumentationFolder={icarusDocumentationFolder}
+                                onMultiSelectChange={handleMultiSelectChange}
+                                clients={clients}
+                                selectedClients={selectedClients}
                             />
                         }/>
                     <DialogFormFrame
@@ -530,7 +558,8 @@ function mapStateToProps(state, ownProps) {
         storageInfo: state.IcarusDocumentationFolder.storageInfo,
         users: state.User.usersSimple,
         progress: state.Progress.progress,
-        progressBarOpened: state.Progress.progressOpened
+        progressBarOpened: state.Progress.progressOpened,
+        clients: state.Client.clients,
     }
 }
 
@@ -538,7 +567,8 @@ function mapDispatchToProps(dispatch) {
     return {
         icarusDocumentationFileActions: bindActionCreators(icarusDocumentationFileActions, dispatch),
         icarusDocumentationFolderActions: bindActionCreators(icarusDocumentationFolderActions, dispatch),
-        userActions: bindActionCreators(userActions, dispatch)
+        userActions: bindActionCreators(userActions, dispatch),
+        clientActions: bindActionCreators(clientActions, dispatch)
     };
 }
 

@@ -8,6 +8,7 @@ import Button from "@mui/material/Button";
 import IntlMessages from "../../core/IntlMessages";
 import PropTypes from "prop-types";
 import withValidation from "../../core/HOC/withValidation";
+import SelectMultipleCustom from "../../core/Select/SelectMultipleCustom";
 
 
 function DialogFormNewFolder (props) {
@@ -17,7 +18,10 @@ function DialogFormNewFolder (props) {
         onClose,
         onSubmit,
         onInputChange,
-        onValidationError
+        onValidationError,
+        onMultiSelectChange,
+        clients,
+        selectedClients,
     } = props;
 
     return(
@@ -44,6 +48,21 @@ function DialogFormNewFolder (props) {
                             errorMessages={['This field is required']}
                             required
                         />
+                    </Grid>
+                </Grid>
+
+                <Grid container spacing={1}>
+                    <Grid item xs={6}>
+                        <TypographyFieldTitle title="general.companies"/>
+                        <SelectMultipleCustom
+                            disabled={false}
+                            title="general.companies"
+                            objectArray={clients}
+                            selectArray={selectedClients}
+                            firstLvlValueProp="clientId"
+                            onMultiSelectChange={onMultiSelectChange}
+                            optionProp="name"
+                            optionKey="clientId"/>
                     </Grid>
                 </Grid>
 

@@ -65,13 +65,9 @@ const FileDetailsForm = (props) => {
 
     const {
         icarusDocumentationFile,
-        notifyByEmail,
-        notifyByMessageBoard,
         editDisabled,
         onInputFileChange,
         onSwitchFileChange,
-        onCheckboxNotifyByEmailChange,
-        onCheckboxNotifyByMessageBoardChange,
         onDocumentationFileSave,
         gridSpacing,
         onValidationError,
