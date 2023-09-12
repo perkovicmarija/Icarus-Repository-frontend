@@ -12,7 +12,7 @@ import Progress from './progress/progressReducer';
 import LanguageSwitcher from './languageSwitcher/languageSwitcherReducer';
 import AuditChecklist from './auditChecklist/auditChecklistReducer';
 import AuditChecklistItem from './auditChecklistItem/auditChecklistItemReducer';
-import AuditChecklistSubArea from './auditChecklistSubArea/AuditChecklistSubAreaReducer';
+import AuditChecklistSubArea from './auditChecklistSubArea/auditChecklistSubAreaReducer';
 import Client from './setting/client/clientReducer';
 import AuditorActionLocationType from './auditorActionLocationType/AuditorActionLocationTypeReducer';
 import IcarusDocumentationFile from "./support/icarusDocs/file/icarusDocumentationFileReducer"

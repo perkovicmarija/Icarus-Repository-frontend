@@ -7,7 +7,7 @@ import supportCenterSagas from './support/supportSaga';
 import authoritySagas from './authority/authoritySaga';
 import auditChecklistSaga from './auditChecklist/auditChecklistSaga';
 import auditChecklistItemSaga from "./auditChecklistItem/auditChecklistItemSaga";
-import auditChecklistSubAreaSaga from "./auditChecklistSubArea/AuditChecklistSubAreaSaga";
+import auditChecklistSubAreaSaga from "./auditChecklistSubArea/auditChecklistSubAreaSaga";
 import settingSagas from "./setting/client/clientSaga"
 import auditorActionLocationType from "./auditorActionLocationType/AuditorActionLocationTypeSaga";
 import icarusDocumentationFileSagas from "./support/icarusDocs/file/icarusDocumentationFileSaga"
