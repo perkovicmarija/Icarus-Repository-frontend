@@ -9,7 +9,8 @@ export function* loadVersionsMobileRequest() {
       if (response.code === "200") {
         yield put({
           type: types.LOAD_ALL_VERSIONS_MOBILE_SUCCESS,
-          versionsMobile: response.data
+          versionsMobile: response.data,
+          totalCount: response.meta.totalCount
         });
       } else {
           yield put({

@@ -9,7 +9,7 @@ import DialogFormFrame from "../../../components/core/Dialog/DialogFormFrame";
 import DialogFormVersionMobile from "../../../components/setting/DialogFormVersionMobile";
 import {cloneDeep, isEmpty} from "lodash";
 import DialogDeleteWarning from "../../../components/core/Dialog/DialogDeleteWarning";
-import {getVersionMobilePath} from "../../../consts/routePaths";
+import {getClientsPath, getVersionMobilePath} from "../../../consts/routePaths";
 import queryString from 'query-string';
 import {constructUrl} from "../../../helpers/utility";
 
@@ -28,11 +28,12 @@ function Versions(props) {
   const [versionMobileIdForDelete, setVersionMobileIdForDelete] = useState(undefined);
 
   useEffect(() => {
-    if (isEmpty(searchParams)) {
-      history.push('/admin/settings/version-mobile?page=0&rows_per_page=25');
+    let viewModel = {
+      page,
+      rows_per_page: rowsPerPage
     }
-    props.versionMobileActions.loadVersions(history.location.search);
-  },[useLocation().search])
+    props.versionMobileActions.loadVersions(viewModel);
+  },[])
 
   const handleVersionMobileDialogDetailsClose = () => {
     setDialogVersionMobileDetailsOpen(false);
@@ -107,11 +108,21 @@ function Versions(props) {
   }
 
   const handleChangePage = (event, page) => {
-    history.push(constructUrl(history, 'page', page));
+    const viewModel = {
+      page: page,
+      rowsPerPage: props.rowsPerPage
+    };
+    props.versionMobileActions.loadVersions(viewModel);
+    props.history.push(getVersionMobilePath(page, props.rowsPerPage));
   };
 
   const handleChangeRowsPerPage = event => {
-    history.push(constructUrl(history, 'rows_per_page', event.target.value));
+    const viewModel = {
+      page: page,
+      rowsPerPage: event.target.value
+    };
+    props.versionMobileActions.loadVersions(viewModel);
+    props.history.push(getVersionMobilePath(page, event.target.value));
   };
 
   const handleSelectChange = ({target: {name, value}}) => {
@@ -142,8 +153,8 @@ function Versions(props) {
         onVersionMobileEdit={handleVersionMobileEdit}
         onVersionMobileDelete={handleVersionMobileDelete}
         filtersActive={filtersActive}
-        page={searchParams['page']}
-        rowsPerPage={searchParams['rows_per_page']}
+        page={page}
+        rowsPerPage={rowsPerPage}
         onChangePage={handleChangePage}
         onChangeRowsPerPage={handleChangeRowsPerPage}
       />
@@ -171,7 +182,7 @@ function Versions(props) {
 
 function mapStateToProps(state, ownProps) {
   let page = 0;
-  let rowsPerPage = 10;
+  let rowsPerPage = 25;
   if (ownProps.match.params.page) {
     page = parseInt(ownProps.match.params.page);
   }

@@ -2,6 +2,7 @@ import RestApiGet from "./methods/RestApiGet";
 import RestApiPost from "./methods/RestApiPost";
 import RestApiDelete from "./methods/RestApiDelete";
 import RestApiPutWithPathParams from "./methods/RestApiPutWithPathParams";
+import RestApiGetWithParams from "./methods/RestApiGetWithParams";
 
 const ClientApi = {
   getAllClients(viewModel) {
@@ -23,7 +24,7 @@ const ClientApi = {
   ///////////////////////////   VERSION MOBILE   ///////////////////////////////////////////////
 
   getMobileVersions(viewModel) {
-    return RestApiGet.getData('/version-mobile', viewModel);
+    return RestApiGetWithParams.getData(viewModel, '/version-mobile');
   },
   createMobileVersion(viewModel) {
     return RestApiPost.postData('/version-mobile', viewModel);
