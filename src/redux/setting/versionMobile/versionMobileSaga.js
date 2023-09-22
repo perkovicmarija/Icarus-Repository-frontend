@@ -35,8 +35,7 @@ export function* createVersionMobileRequest() {
       const response = yield call(ClientApi.createMobileVersion, action.viewModel);
       if (response.code === "200") {
         yield put({
-          type: types.CREATE_VERSION_MOBILE_SUCCESS,
-          versionMobile: response.data
+          type: types.CREATE_VERSION_MOBILE_SUCCESS
         });
         yield put({
           type: types.AJAX_SUCCESS,
@@ -65,8 +64,7 @@ export function* updateVersionMobileRequest() {
       const response = yield call(ClientApi.updateMobileVersion, action.viewModel);
       if (response.code === "200") {
         yield put({
-          type: types.UPDATE_VERSION_MOBILE_SUCCESS,
-          updatedVersionMobile: response.data
+          type: types.UPDATE_VERSION_MOBILE_SUCCESS
         });
         yield put({
           type: types.AJAX_SUCCESS,
@@ -100,7 +98,7 @@ export function* deleteVersionMobileRequest() {
       if (response.code === "200") {
         yield put({
           type: types.DELETE_VERSION_MOBILE_SUCCESS,
-          deletedVersionMobileId: response.data
+          deletedVersionMobileId: action.viewModel.versionMobileId
         });
         yield put({
           type: types.AJAX_SUCCESS,

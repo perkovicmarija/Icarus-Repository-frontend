@@ -46,7 +46,7 @@ const VersionList = (props) => {
         searchValue={searchValue}
         onInputSearchChange={onInputSearchChange}
         onSearchSubmit={onSearchSubmit}
-        searchPlaceholder="search.byName"
+        searchPlaceholder="search.byClientName"
       >
         <Tooltip title={<IntlMessages id="general.addNew"/>}>
           <>

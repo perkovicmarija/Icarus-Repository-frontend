@@ -230,6 +230,7 @@
   "form.userRoles": "User roles",
   "form.writeDescription": "Write a description",
   "form.clients": "Clients",
+  "form.entryExists": "This entry already exists.",
 
   "client.clientName": "Client name",
   "client.abbreviation": "Abbreviation",
@@ -238,6 +239,7 @@
   "search.search": "Search",
   "search.byEmail": "Search by email",
   "search.byName": "Search by name",
+  "search.byClientName": "Search by client name",
 
   "page.signInButton": "Sign in",
 

@@ -24,7 +24,6 @@
     "moment-timezone": "^0.5.40",
     "perfect-scrollbar": "^1.4.0",
     "prop-types": "^15.7.2",
-    "query-string": "^8.1.0",
     "react": "^16.13.1",
     "react-dnd": "^16.0.1",
     "react-dnd-html5-backend": "^16.0.1",

@@ -574,7 +574,6 @@ export function* deleteRoadmapLogRequest() {
     yield takeLatest(types.DELETE_ROADMAP_LOG_REQUEST, function*(action) {
         try {
             const response = yield call(SupportCenterApi.deleteRoadmapLog, action.viewModel);
-            debugger
             if (response.code === "200") {
                 yield put({
                     type: types.DELETE_ROADMAP_LOG_SUCCESS,
