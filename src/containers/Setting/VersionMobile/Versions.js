@@ -31,7 +31,7 @@ function Versions(props) {
   });
 
   const [versionMobile, setVersionMobile] = useState(createInitialState);
-  const [entryExistsFlag, setEntryExistsFlage] = useState(false);
+  const [entryExistsFlag, setEntryExistsFlag] = useState(false);
   const [dialogVersionMobileDetailsOpen, setDialogVersionMobileDetailsOpen] = useState(false);
   const [dialogWarningOpen, setDialogWarningOpen] = useState(false);
   const [versionMobileIdForDelete, setVersionMobileIdForDelete] = useState(undefined);
@@ -46,6 +46,7 @@ function Versions(props) {
   },[])
 
   const handleVersionMobileDialogDetailsClose = () => {
+    setEntryExistsFlag(false)
     setDialogVersionMobileDetailsOpen(false);
   }
 
@@ -66,7 +67,7 @@ function Versions(props) {
   };
 
   const handleVersionMobileDialogDetailsSubmit = () => {
-    setEntryExistsFlage(checkForExistingCombination(versionsMobile, versionMobile))
+    setEntryExistsFlag(checkForExistingCombination(versionsMobile, versionMobile))
 
     //Do not allow creating of duplicates
     if (!checkForExistingCombination(versionsMobile, versionMobile)) {
@@ -77,7 +78,7 @@ function Versions(props) {
         props.versionMobileActions.create(versionMobile)
       }
       setDialogVersionMobileDetailsOpen(false);
-      setEntryExistsFlage(false)
+      setEntryExistsFlag(false)
       setVersionMobile(createInitialState)
       let viewModel = {
         page,
