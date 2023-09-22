@@ -7,7 +7,7 @@ import {makeStyles, useTheme} from '@mui/styles';
 import TabContainer from '../../components/core/TabContainer';
 import SettingRouter from './SettingRouter';
 import FormTitleBarRich from '../../components/core/Form/FormTitleBarRich';
-import {getClientsPath} from "../../consts/routePaths";
+import {getClientsPath, getVersionMobilePath} from "../../consts/routePaths";
 import IntlMessages from "../../components/core/IntlMessages";
 
 const useStyles = makeStyles(theme => ({
@@ -43,7 +43,9 @@ function SettingFrame(props) {
             indicatorColor="secondary">
 
             <Tab label={<IntlMessages id="form.clients" />} className={classes.tabLink} component={Link}
-                 to={getClientsPath(0, 10)}/>
+                 to={getClientsPath(0, 25)}/>
+            <Tab label={<IntlMessages id="general.versionsMobile" />} className={classes.tabLink} component={Link}
+                 to={getVersionMobilePath(0, 25)}/>
           </Tabs>
         </AppBar>
         <TabContainer dir={theme.direction}>

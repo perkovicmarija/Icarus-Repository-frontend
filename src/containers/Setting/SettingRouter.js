@@ -2,7 +2,8 @@ import React from 'react';
 
 import {Route, Switch} from 'react-router-dom';
 import Clients from './Client/Clients';
-import {clients} from "../../consts/routePaths";
+import Versions from './VersionMobile/Versions';
+import {clients, versionsMobile} from "../../consts/routePaths";
 
 function SettingRouter(props) {
   return (
@@ -11,6 +12,11 @@ function SettingRouter(props) {
         exact
         path={clients}
         component={Clients}
+      />
+    <Route
+        exact
+        path={versionsMobile}
+        component={Versions}
       />
     </Switch>
   );

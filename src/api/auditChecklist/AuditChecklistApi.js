@@ -31,7 +31,7 @@ const AuditChecklistApi = {
         return RestApiPost.postData('/audit-checklists/types', null);
     },
     createNewVersion(viewModel) {
-        return RestApiPost.postData('/audit-checklists/' + viewModel.auditChecklistId + '/version', viewModel);
+        return RestApiPost.postData('/audit-checklists/' + viewModel.auditChecklistId + '/versionMobile', viewModel);
     },
     getAuditDndChecklist(viewModel) {
         return RestApiGet.getData('/audit-checklists/' + viewModel.id + '/dnd-tree-view', null);
