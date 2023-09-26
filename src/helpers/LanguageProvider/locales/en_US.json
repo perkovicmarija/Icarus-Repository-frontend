@@ -30,6 +30,7 @@
   "general.notified": "Notified",
   "general.origin": "Origin",
   "general.name": "Name",
+  "general.client": "Client",
   "general.category" : "Category",
   "general.subcategory": "Subcategory",
   "general.download": "Download",
@@ -206,6 +207,12 @@
   "general.dragAndDropFileMaxSize": "Max size: {maxSizeMb}",
   "general.userManagement": "User management",
   "general.planned": "Planned",
+  "general.expirationDate": "Expiration date",
+  "general.individual": "Individual",
+  "general.expiresBefore": "Expires before",
+  "general.versionsMobile": "Mobile versions",
+  "general.versionMobile": "Mobile version",
+  "general.platform": "Platform",
 
   "form.user": "User",
   "form.users": "Users",
@@ -223,6 +230,7 @@
   "form.userRoles": "User roles",
   "form.writeDescription": "Write a description",
   "form.clients": "Clients",
+  "form.entryExists": "This entry already exists.",
 
   "client.clientName": "Client name",
   "client.abbreviation": "Abbreviation",
@@ -231,6 +239,7 @@
   "search.search": "Search",
   "search.byEmail": "Search by email",
   "search.byName": "Search by name",
+  "search.byClientName": "Search by client name",
 
   "page.signInButton": "Sign in",
 

@@ -55,7 +55,7 @@ const AuditChecklistsList = (props) => {
         { id: 'id', numeric: false, disablePadding: false, label: 'general.id' },
         { id: 'domain', numeric: false, disablePadding: false, label: 'qms.checklist.domain' },
         { id: 'title', numeric: false, disablePadding: false, label: 'general.title' },
-        { id: 'version', numeric: false, disablePadding: false, label: 'qms.checklist.version' },
+        { id: 'version', numeric: false, disablePadding: false, label: 'qms.checklist.versionMobile' },
         { id: 'type', numeric: false, disablePadding: false, label: 'general.type' },
         { id: 'effective', numeric: false, disablePadding: false, label: 'qms.checklist.effectiveDate' },
         { id: 'status', numeric: false, disablePadding: false, label: 'general.status'},

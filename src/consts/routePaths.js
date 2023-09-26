@@ -66,3 +66,8 @@ export const clients = settingModule + "/clients/:page?/:rowsPerPage?";
 export const getClientsPath = (page, rowsPerPage) => {
     return clients.replace(":page?", page).replace(":rowsPerPage?", rowsPerPage);
 }
+
+export const versionsMobile = settingModule + "/version-mobile/:page?/:rowsPerPage?";
+export const getVersionMobilePath = (page, rowsPerPage) => {
+    return versionsMobile.replace(":page?", page).replace(":rowsPerPage?", rowsPerPage);
+}

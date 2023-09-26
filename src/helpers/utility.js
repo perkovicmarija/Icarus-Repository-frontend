@@ -1,3 +1,5 @@
+import queryString from "query-string";
+
 export function clearToken() {
   localStorage.removeItem('token');
 }
@@ -10,3 +12,4 @@ export function getToken() {
     return null;
   }
 }
+
