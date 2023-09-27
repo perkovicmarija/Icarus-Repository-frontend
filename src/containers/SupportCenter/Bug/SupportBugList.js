@@ -149,7 +149,7 @@ function SupportCenterList(props) {
                         </IconButton>
                     </Tooltip>
                 }
-                <FilterIconCustom onFilterClick={onSupportFilterClick} filtersActive={filtersActive} />
+                <FilterIconCustom title={<IntlMessages id="action.filters"/>} onFilterClick={onSupportFilterClick} filtersActive={filtersActive} />
             </EnhancedTableToolbarRich>
             <Table className={classes.table}>
                 <EnhancedTableHeader

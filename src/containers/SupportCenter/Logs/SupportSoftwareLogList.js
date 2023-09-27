@@ -61,7 +61,7 @@ const SupportSoftwareLogList = (props) => {
             </IconButton>
           </>
         </Tooltip>
-        <FilterIconCustom onFilterClick={onUserFilterClick} filtersActive={selectedClients.length > 0}/>
+        <FilterIconCustom title={<IntlMessages id="action.filters"/>} onFilterClick={onUserFilterClick} filtersActive={selectedClients.length > 0}/>
       </EnhancedTableToolbarRich>
       <Table>
         <EnhancedTableHeaderActions
