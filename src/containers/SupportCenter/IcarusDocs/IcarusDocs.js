@@ -420,6 +420,7 @@ function IcarusDocs(props) {
                         showAddNew={Protected.protectedAuth(['PERM_SUPPORT_ADMIN'])}
                         onFilterClick={handleFilterClick}
                         onStorageInfoClick={handleStorageInfoClick}
+                        showFilters={false}
                     />
 
                     <IcarusDocumentationTable

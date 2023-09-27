@@ -49,7 +49,8 @@ function DocumentationEnhancedTableToolbar(props) {
         onStorageInfoClick,
 
         filtersActive,
-        onFilterClick
+        onFilterClick,
+        showFilters = true
     } = props;
 
     return (
@@ -76,11 +77,13 @@ function DocumentationEnhancedTableToolbar(props) {
                         <Info/>
                     </IconButton>
                 </Tooltip>
-                <Tooltip title="">
+                {showFilters &&
+                    <Tooltip title={<IntlMessages id="action.filter"/>}>
                     <span>
                         <FilterIconCustom onFilterClick={onFilterClick} filtersActive={filtersActive}/>
                     </span>
-                </Tooltip>
+                    </Tooltip>
+                }
                 {showAddNew &&
                     <React.Fragment>
                         <Tooltip title="Add new">
