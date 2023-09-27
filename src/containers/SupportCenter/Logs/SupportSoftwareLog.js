@@ -258,6 +258,7 @@ const SupportSoftwareLog = (props) => {
           notifyByEmail={notifyByEmail}
           handleNotifyByEmail={handleNotifyByEmail}
           clients={props.clients}
+          gridSpacing={2}
         />
       </DialogFormFrame>
       <DialogFormFrame

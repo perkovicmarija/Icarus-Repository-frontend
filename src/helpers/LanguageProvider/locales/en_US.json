@@ -249,6 +249,7 @@
 
   "support.title": "Support center",
   "support.logs": "Logs",
+  "support.dateOfLog": "Date of Log",
   "support.roadmap": "Roadmap",
   "support.estimatedTime": "Estimated time",
   "support.logs.new": "New software log",

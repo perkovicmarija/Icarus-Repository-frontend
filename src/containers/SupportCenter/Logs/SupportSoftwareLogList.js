@@ -19,6 +19,7 @@ const columnData = [
   {id: 'title', numeric: false, disablePadding: false, label: 'general.title'},
   {id: 'description', numeric: false, disablePadding: false, label: 'general.description'},
   {id: 'clients', numeric: false, disablePadding: false, label: 'form.clients'},
+  {id: 'date', numeric: false, disablePadding: false, label: 'support.dateOfLog'},
 ];
 
 const SupportSoftwareLogList = (props) => {
@@ -78,6 +79,7 @@ const SupportSoftwareLogList = (props) => {
                   <TableCell>{softwareLog.title}</TableCell>
                   <TableCell>{softwareLog.description}</TableCell>
                   <TableCell>{softwareLog.supportSoftwareLogClientJoinedList.map(x => x.client.name).join(', ')}</TableCell>
+                  <TableCell sx={{ width: '150px' }}>{softwareLog.dateFormatted}</TableCell>
                   <TableCell className="nostretch">
                     <Tooltip title="Edit">
                       <>
