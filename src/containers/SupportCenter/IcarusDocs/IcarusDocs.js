@@ -37,8 +37,7 @@ const useStyles = makeStyles(theme => ({
 }));
 
 const initFilters = {
-    expirationBeforeDate: null,
-    searchText: ""
+    selectedClients: []
 }
 
 function IcarusDocs(props) {
@@ -340,7 +339,6 @@ function IcarusDocs(props) {
         } else {
             updateFilesAndFoldersOPath(props.icarusDocumentationFolderPath);
         }
-
     };
 
     const handleExportClick = () => {
@@ -360,14 +358,28 @@ function IcarusDocs(props) {
 
     const handleDocumentationFilterSubmit = () => {
         setDialogDocumentationFilterOpen(false);
-        handleSearchSubmit();
+        handleFilterSubmit();
     }
 
-    const handleExpirationBeforeDateChange = name => dateTime => {
-        setIcarusDocumentationFilters({
-            ...icarusDocumentationFilters,
-            expirationBeforeDate: dateTime
-        });
+    const handleFilterSubmit = () => {
+        if (icarusDocumentationFilters.selectedClients.length > 0) {
+            let path;
+            let icarusDocumentationFolderId;
+            if (icarusDocumentationFolderPath.length > 0) {
+                let currentFolder = icarusDocumentationFolderPath.slice(-1)[0];
+                path = currentFolder.path + currentFolder.folderName
+                icarusDocumentationFolderId = currentFolder.icarusDocumentationFolderId;
+            }
+            let viewModel = {
+                path,
+                icarusDocumentationFolderId,
+                selectedClients: icarusDocumentationFilters.selectedClients
+            }
+            props.icarusDocumentationFileActions.loadByFilter(viewModel);
+            props.icarusDocumentationFolderActions.clearFolder();
+        } else {
+            updateFilesAndFoldersOPath(props.icarusDocumentationFolderPath);
+        }
     }
 
     const handleClearAll = () => {
@@ -390,6 +402,16 @@ function IcarusDocs(props) {
             selected.push(client);
         }
         setSelectedClients(selected)
+    }
+
+    const handleMultiSelectChangeFilters = (event) => {
+        const selectedIds = event.target.value
+        let selected = [];
+        for (let i = 0, l = selectedIds.length; i < l; i++) {
+            const client = props.clients.find(type => type.clientId === selectedIds[i]);
+            selected.push(client);
+        }
+        setIcarusDocumentationFilters(x => ({...x, selectedClients: selected}))
     }
 
 
@@ -420,7 +442,7 @@ function IcarusDocs(props) {
                         showAddNew={Protected.protectedAuth(['PERM_SUPPORT_ADMIN'])}
                         onFilterClick={handleFilterClick}
                         onStorageInfoClick={handleStorageInfoClick}
-                        showFilters={false}
+                        filtersActive={icarusDocumentationFilters.selectedClients.length > 0}
                     />
 
                     <IcarusDocumentationTable
@@ -502,8 +524,9 @@ function IcarusDocs(props) {
                             filters={icarusDocumentationFilters}
                             onClose={handleDocumentationFiltersClose}
                             onSubmit={handleDocumentationFilterSubmit}
-                            onExpirationBeforeDateChange={handleExpirationBeforeDateChange}
                             onClearAll={handleClearAll}
+                            onMultiSelectChange={handleMultiSelectChangeFilters}
+                            clients={clients}
                         />
                     </DialogFormFrame>
                     <DialogFormFrame

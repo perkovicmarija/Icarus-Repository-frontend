@@ -201,13 +201,40 @@ export function* loadBySearchRequest() {
             } else {
                 yield put({
                     type: types.AJAX_FAILED,
-                    message: "Failed to fetch files"
+                    message: "Failed to fetch files by search"
                 });
             }
         } catch (e) {
             yield put({
                 type: types.AJAX_FAILED,
-                message: "Failed to fetch files"
+                message: "Failed to fetch files by search"
+            });
+        } finally {
+            yield put({type: types.AJAX_FINISHED})
+        }
+    });
+}
+
+export function* loadByFilterRequest() {
+    yield takeLatest(types.LOAD_ICARUS_DOCUMENTATION_FILES_BY_FILTER_REQUEST, function*(action) {
+        try {
+            const response = yield call(IcarusDocumentationFileApi.getByFilter, action.viewModel);
+            if (response.code === "200") {
+                const data = response.data;
+                yield put({
+                    type: types.LOAD_ICARUS_DOCUMENTATION_FILES_SUCCESS,
+                    icarusDocumentationFiles: data
+                });
+            } else {
+                yield put({
+                    type: types.AJAX_FAILED,
+                    message: "Failed to fetch files by filter"
+                });
+            }
+        } catch (e) {
+            yield put({
+                type: types.AJAX_FAILED,
+                message: "Failed to fetch files by filter"
             });
         } finally {
             yield put({type: types.AJAX_FINISHED})
@@ -477,6 +504,7 @@ export default function* rootSaga() {
         fork(uploadRequest),
         fork(deleteRequest),
         fork(loadBySearchRequest),
+        fork(loadByFilterRequest),
         fork(downloadFileByGetRequest),
         fork(cancelDownloadFile),
         fork(viewFileRequest),

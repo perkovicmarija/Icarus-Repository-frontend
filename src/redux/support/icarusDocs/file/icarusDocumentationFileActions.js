@@ -50,6 +50,13 @@ export function loadBySearch(viewModel) {
     }
 }
 
+export function loadByFilter(viewModel) {
+    return {
+        type: types.LOAD_ICARUS_DOCUMENTATION_FILES_BY_FILTER_REQUEST,
+        viewModel
+    }
+}
+
 export function create(viewModel) {
     return {
         type: types.CREATE_ICARUS_DOCUMENTATION_FILE_REQUEST,

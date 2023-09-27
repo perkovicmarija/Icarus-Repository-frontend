@@ -7,6 +7,8 @@ import IntlMessages from "../../core/IntlMessages";
 import PropTypes from "prop-types";
 import withValidation from "../../core/HOC/withValidation";
 import {ValidatorForm} from "react-material-ui-form-validator";
+import TypographyFieldTitle from "../../core/TypographyFieldTitle";
+import SelectMultipleCustom from "../../core/Select/SelectMultipleCustom";
 
 function DialogFormDocumentationFilters(props) {
 
@@ -15,8 +17,9 @@ function DialogFormDocumentationFilters(props) {
         onClearAll,
         onClose,
         onSubmit,
-        onExpirationBeforeDateChange,
-        onValidationError
+        onMultiSelectChange,
+        onValidationError,
+        clients
     } = props;
     return (
         <ValidatorForm
@@ -28,12 +31,16 @@ function DialogFormDocumentationFilters(props) {
             <DialogContent>
                 <Grid container spacing={2}>
                     <Grid item xs={12}>
-                        <DatePickerCustom
+                        <TypographyFieldTitle title="general.companies"/>
+                        <SelectMultipleCustom
                             disabled={false}
-                            title="general.expiresBefore"
-                            value={filters.expirationBeforeDate}
-                            onDateTimeChange={onExpirationBeforeDateChange}
-                            name="expirationBeforeDate"/>
+                            title="general.companies"
+                            objectArray={clients}
+                            selectArray={filters.selectedClients}
+                            firstLvlValueProp="clientId"
+                            onMultiSelectChange={onMultiSelectChange}
+                            optionProp="name"
+                            optionKey="clientId"/>
                     </Grid>
                 </Grid>
             </DialogContent>

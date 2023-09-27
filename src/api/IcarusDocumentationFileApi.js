@@ -20,6 +20,9 @@ const IcarusDocumentationFileApi = {
     getBySearch(viewModel) {
         return RestApiPost.postData('/support/icarus-documentation-file/fetch-search', viewModel);
     },
+    getByFilter(viewModel) {
+        return RestApiPost.postData('/support/icarus-documentation-file/filter', viewModel);
+    },
     create(viewModel) {
         return RestApiPost.postData('/support/icarus-documentation-file/create', viewModel);
     },
