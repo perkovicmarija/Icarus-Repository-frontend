@@ -2,8 +2,8 @@ import RestApiGet from "../methods/RestApiGet";
 import RestApiPost from "../methods/RestApiPost";
 import RestApiPut from "../methods/RestApiPutWithPathParams";
 import RestApiDelete from "../methods/RestApiDelete";
-import RestApiPostDownloadAxios from "../methods/RestApiPostDownloadAxios";
-import RestApiPostMultipartAxios from "../methods/RestApiPostMultipartAxios";
+import RestApiPostDownloadAxios from "../methods/Download/RestApiPostDownloadAxios";
+import RestApiPostMultipartAxios from "../methods/Multipart/RestApiPostMultipartAxios";
 
 const AuditChecklistApi = {
     get(viewModel) {

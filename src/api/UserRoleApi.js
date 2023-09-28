@@ -1,17 +1,17 @@
 import RestApiPost from './methods/RestApiPost';
-import RestApiGetPathParams from './methods/RestApiGetPathParams';
-import RestApiGetRequestParams from './methods/RestApiGetRequestParams';
+import RestApiGet from './methods/RestApiGet';
 import RestApiPostWithPathParams from './methods/RestApiPostWithPathParams';
+import RestApiDelete from "./methods/RestApiDelete";
 
 const UserRoleApi = {
     getAll(viewModel) {
-        return RestApiGetPathParams.getData('/userRole/getAll', viewModel);
+        return RestApiGet.getData('/userRole/getAll', viewModel);
     },
     getAllPagination(viewModel) {
         return RestApiPost.postData('/userRole/getAllPagination', viewModel);
     },
     get(viewModel) {
-        return RestApiGetPathParams.getData('/userRole/:userRoleId', viewModel);
+        return RestApiGet.getData('/userRole/:userRoleId', viewModel);
     },
     create(viewModel) {
         return RestApiPost.postData('/userRole/create', viewModel);
@@ -20,7 +20,7 @@ const UserRoleApi = {
         return RestApiPostWithPathParams.postData('/userRole/update/:page/:rowsPerPage', viewModel, params);
     },
     delete(viewModel) {
-        return RestApiGetRequestParams.getData('/userRole/delete', viewModel)
+        return RestApiDelete.deleteData(viewModel, '/userRole/:userRoleId')
     }
 }
 

@@ -60,9 +60,9 @@ function Roles(props) {
         setDialogWarningOpen(true);
     }
 
-    const handleUserRoleDetailsInputChange = (name, event) => {
+    const handleUserRoleDetailsInputChange = name => ({target: { value }}) => {
         let userRoleClone = cloneDeep(userRole);
-        userRoleClone[name] = event.target.value;
+        userRoleClone[name] = value;
         setUserRole(userRoleClone);
     };
 

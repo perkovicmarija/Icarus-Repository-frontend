@@ -121,7 +121,7 @@ function Roadmap(props) {
         props.supportActions.loadAllRoadmapLogs();
     };
 
-    const handleInputChange = ({ target: { name, value } }) => {
+    const handleInputChange = name => ({target: { value }}) => {
         setRoadmapLog(prevState => ({ ...prevState, [name]: value }));
     };
 
@@ -220,7 +220,7 @@ function Roadmap(props) {
         props.supportActions.changeRoadmapLogFilters({ ...filters, [name]: value })
     }
 
-    const handleFilterInputChange = ({ target: {name, value} }) => {
+    const handleFilterInputChange = name => ({target: { value }}) => {
         props.supportActions.changeRoadmapLogFilters({ ...filters, [name]: value })
     }
 
@@ -243,7 +243,7 @@ function Roadmap(props) {
                 <Timeline position="alternate">
                     {roadmaps.map(item => {
                         return (
-                            <TimelineItem key={item.roadmapLogId}>
+                            <TimelineItem key={item.icarusRoadmapLogId}>
                                 <TimelineOppositeContent>
 
                                 </TimelineOppositeContent>
@@ -264,8 +264,8 @@ function Roadmap(props) {
                                             Estimated: {item.estimatedTimeFormatted}
                                         </Typography>
                                         <div className={classes.iconContainer}>
-                                            <IconButton size="small">
-                                                <EditIcon onClick={() => handleRoadmapLogUpdate(item)}/>
+                                            <IconButton size="small" onClick={() => handleRoadmapLogUpdate(item)}>
+                                                <EditIcon />
                                             </IconButton>
                                             <IconButton size="small" className={classes.deleteIcon} onClick={() => handleRoadmapLogDelete(item)}>
                                                 <DeleteIcon />

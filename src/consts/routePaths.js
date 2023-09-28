@@ -32,10 +32,17 @@ export const getUserRolesPath = (page, rowsPerPage) => {
 // SUPPORT CENTER
 
 export const supportCenter = adminRoot + "/support-center";
+
 export const supportLogs = supportCenter + "/logs/:page?/:rowsPerPage?";
 export const getSupportLogsPath = (page, rowsPerPage) => {
     return supportLogs.replace(":page?", page).replace(":rowsPerPage?", rowsPerPage);
 }
+
+export const icarusDocs = supportCenter + "/icarus-docs";
+
+export const icarusDocsDetailsNew = icarusDocs + "/details/new";
+export const icarusDocsViewFile = icarusDocs + "/view/";
+export const icarusDocsEditFile = icarusDocs + "/details/edit";
 
 export const supportBugs = supportCenter + "/bugs/:page?/:rowsPerPage?";
 export const getSupportBugsPath = (page, rowsPerPage) => {

@@ -8,7 +8,7 @@ import DialogFormFrame from "../../../components/core/Dialog/DialogFormFrame";
 import DialogFormClient from "../../../components/setting/DialogFormClient";
 import {cloneDeep} from "lodash";
 import DialogDeleteWarning from "../../../components/core/Dialog/DialogDeleteWarning";
-import {getClientsPath, getSupportLogsPath} from "../../../consts/routePaths";
+import {getClientsPath} from "../../../consts/routePaths";
 
 function Clients(props) {
 
@@ -36,8 +36,7 @@ function Clients(props) {
     setDialogClientDetailsOpen(false);
   }
 
-  const handleClientDetailsInputChange = (event) => {
-    const { name, value } = event.target;
+  const handleClientDetailsInputChange = name => ({target: { value }}) => {
     let clientClone = cloneDeep(client);
     clientClone[name] = value;
     setClient(clientClone);

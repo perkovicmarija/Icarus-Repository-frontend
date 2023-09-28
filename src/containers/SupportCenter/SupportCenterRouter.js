@@ -1,10 +1,10 @@
 import React from 'react';
 
-import { Switch, Route } from 'react-router-dom';
+import {Route, Switch} from 'react-router-dom';
 
 import SupportBugs from './Bug/SupportBugs';
 import SupportSoftwareLog from './Logs/SupportSoftwareLog'
-import { supportBugs, supportLogs, supportRoadmap } from "../../consts/routePaths";
+import {getSupportBugsPath, getSupportLogsPath, supportRoadmap} from "../../consts/routePaths";
 import Roadmap from "./Roadmap/Roadmap";
 
 function SupportCenter(props) {
@@ -12,12 +12,12 @@ function SupportCenter(props) {
         <Switch>
             <Route
                 exact
-                path={supportBugs}
+                path={getSupportBugsPath(0, 25)}
                 component={SupportBugs}
             />
             <Route
                 exact
-                path={supportLogs}
+                path={getSupportLogsPath(0, 25)}
                 component={SupportSoftwareLog}
             />
             <Route

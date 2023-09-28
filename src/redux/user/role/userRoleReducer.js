@@ -40,7 +40,7 @@ export default function userRoleReducer(state = initState, action) {
         case types.DELETE_USER_ROLE_SUCCESS:
             return {
                 ...state,
-                userRolesPagination: action.userRoles,
+                userRolesPagination: state.userRolesPagination.filter(role => role.userRoleId !== action.userRoleId),
                 totalCount: action.totalCount,
                 userRole: {}
             }

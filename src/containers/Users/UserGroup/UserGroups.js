@@ -59,9 +59,9 @@ function UserGroups(props) {
         setDialogWarningOpen(true);
     }
 
-    const handleUserGroupDetailsInputChange = (name, event) => {
+    const handleUserGroupDetailsInputChange = name => ({target: { value }}) => {
         let userGroupClone = cloneDeep(userGroup);
-        userGroupClone[name] = event.target.value;
+        userGroupClone[name] = value;
         setUserGroup(userGroupClone);
     };
 
@@ -90,9 +90,7 @@ function UserGroups(props) {
     const handleDeleteUserGroupConfirmed = () => {
         if (userGroupIdForDelete) {
             let viewModel = {
-                userGroupId: userGroupIdForDelete,
-                page: props.page,
-                rowsPerPage: props.rowsPerPage
+                userGroupId: userGroupIdForDelete
             }
             props.userGroupActions.deleteAction(viewModel);
         }

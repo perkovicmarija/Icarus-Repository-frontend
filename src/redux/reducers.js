@@ -16,6 +16,8 @@ import AuditChecklistSubArea from './auditChecklistSubArea/auditChecklistSubArea
 import Client from './setting/client/clientReducer';
 import AuditorActionLocationType from './auditorActionLocationType/AuditorActionLocationTypeReducer';
 import VersionMobile from './setting/versionMobile/versionMobileReducer';
+import IcarusDocumentationFile from "./support/icarusDocs/file/icarusDocumentationFileReducer"
+import IcarusDocumentationFolder from "./support/icarusDocs/folder/icarusDocumentationFolderReducer"
 
 export default (history) => combineReducers({
     router: connectRouter(history),
@@ -33,6 +35,8 @@ export default (history) => combineReducers({
     AuditChecklistItem,
     AuditChecklistSubArea,
     Client,
+    IcarusDocumentationFile,
+    IcarusDocumentationFolder,
     AuditorActionLocationType,
     VersionMobile,
 })

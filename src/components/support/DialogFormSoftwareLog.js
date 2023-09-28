@@ -1,13 +1,8 @@
 import React from 'react';
 
-import {
-    DialogActions,
-    DialogContent,
-    Button,
-    Grid, Checkbox, FormGroup, FormControlLabel
-} from '@mui/material';
+import {Button, Checkbox, DialogActions, DialogContent, FormControlLabel, FormGroup, Grid} from '@mui/material';
 import PropTypes from 'prop-types';
-import { ValidatorForm } from 'react-material-ui-form-validator';
+import {ValidatorForm} from 'react-material-ui-form-validator';
 
 import TextFieldValidation from '../core/TextField/TextFieldValidation';
 import TypographyFieldTitle from '../core/TypographyFieldTitle';
@@ -29,7 +24,8 @@ function DialogFormComment(props) {
         onMultiSelectChange,
         onValidationError,
         handleNotifyByEmail,
-        notifyByEmail
+        notifyByEmail,
+        gridSpacing
     } = props;
 
     return (
@@ -39,8 +35,8 @@ function DialogFormComment(props) {
                 onError={onValidationError}
                 noValidate>
                 <DialogContent>
-                    <Grid container>
-                        <Grid item xl={12} lg={12} md={12} sm={12} xs={12}>
+                    <Grid container spacing={gridSpacing}>
+                        <Grid item xs={12}>
                             <TypographyFieldTitle title="general.title"/>
                             <TextFieldValidation
                                 disabled={false}
@@ -56,10 +52,7 @@ function DialogFormComment(props) {
                                 required/>
                         </Grid>
 
-                    </Grid>
-
-                    <Grid container>
-                        <Grid item xl={12} lg={12} md={12} sm={12} xs={12}>
+                        <Grid item xs={12}>
                             <TypographyFieldTitle title="general.description"/>
                             <TextFieldMultiline
                                 disabled={false}
@@ -72,10 +65,8 @@ function DialogFormComment(props) {
                                 placeholder="form.writeDescription"
                                 type="text"/>
                         </Grid>
-                    </Grid>
 
-                    <Grid container>
-                        <Grid item xl={12} lg={12} md={12} sm={12} xs={12}>
+                        <Grid item xs={12}>
                             <TypographyFieldTitle title="general.companies"/>
                             <SelectMultipleCustom
                               disabled={false}
@@ -87,9 +78,7 @@ function DialogFormComment(props) {
                               optionProp="name"
                               optionKey="clientId"/>
                         </Grid>
-                    </Grid>
 
-                    <Grid container>
                         <Grid item xl={12} lg={12} md={12} sm={12} xs={12}>
                             <FormGroup>
 
@@ -103,15 +92,15 @@ function DialogFormComment(props) {
                                   Therefore, show the checkbox only when updating.
                                 */}
                                 {!(_.isEmpty(softwareLog.supportSoftwareLog)) &&
-                                <FormControlLabel control={<Checkbox checked={notifyByEmail.notifyUpdated}/>}
-                                                  label={<IntlMessages id="support.notification.notifyUpdated"/>}
-                                                  name="notifyUpdated"
-                                                  onChange={handleNotifyByEmail}/>}
+                                    <FormControlLabel control={<Checkbox checked={notifyByEmail.notifyUpdated}/>}
+                                                      label={<IntlMessages id="support.notification.notifyUpdated"/>}
+                                                      name="notifyUpdated"
+                                                      onChange={handleNotifyByEmail}/>}
 
                             </FormGroup>
                         </Grid>
-                    </Grid>
 
+                    </Grid>
                 </DialogContent>
                 <DialogActions>
                     <Button onClick={onClose}>

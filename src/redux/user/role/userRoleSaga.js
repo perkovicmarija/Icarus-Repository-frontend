@@ -158,12 +158,9 @@ export function* deleteRequest() {
         try {
             const response = yield call(UserRoleApi.delete, action.viewModel);
             if (response.code === "200") {
-                const data = response.data;
-                const meta = response.meta;
                 yield put({
                     type: types.DELETE_USER_ROLE_SUCCESS,
-                    userRoles: data,
-                    totalCount: meta.totalCount
+                    userRoleId: action.viewModel.userRoleId
                 });
                 yield put({
                     type: types.AJAX_SUCCESS,

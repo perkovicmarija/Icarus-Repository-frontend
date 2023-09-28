@@ -89,7 +89,7 @@ const SupportSoftwareLog = (props) => {
     props.supportActions.loadAllSoftwareLogsPagination(viewModel);
   };
 
-  const handleInputChange = ({ target: { name, value } }) => {
+  const handleInputChange = name => ({target: { value }}) => {
     setSoftwareLog(prevState => ({ ...prevState, [name]: value }));
   };
 
@@ -258,6 +258,7 @@ const SupportSoftwareLog = (props) => {
           notifyByEmail={notifyByEmail}
           handleNotifyByEmail={handleNotifyByEmail}
           clients={props.clients}
+          gridSpacing={2}
         />
       </DialogFormFrame>
       <DialogFormFrame
