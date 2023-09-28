@@ -23,6 +23,7 @@ import {icarusDocsDetailsNew, icarusDocsEditFile, icarusDocsViewFile} from "../.
 import DialogFormDocumentationFilters from "../../../components/support/icarusDocs/DialogFormDocumentationFilters";
 import DialogFormStorageInfo from "../../../components/support/icarusDocs/DialogFormStorageInfo";
 import * as clientActions from "../../../redux/setting/client/clientActions";
+import DocumentationFolderPath from "../../../components/support/icarusDocs/DocumentationFolderPath";
 
 const useStyles = makeStyles(theme => ({
     rootDiv: {
@@ -444,7 +445,11 @@ function IcarusDocs(props) {
                         onStorageInfoClick={handleStorageInfoClick}
                         filtersActive={icarusDocumentationFilters.selectedClients.length > 0}
                     />
-
+                    <DocumentationFolderPath
+                        documentationFolderPath={icarusDocumentationFolderPath}
+                        onDocumentationFolderPathClick={handleDocumentationFolderPathClick}
+                        onDocumentationFolderRootClick={handleDocumentationFolderRootClick}
+                    />
                     <IcarusDocumentationTable
                         order={order}
                         orderBy={orderBy}

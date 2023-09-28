@@ -54,10 +54,10 @@ export function deleteAction(viewModel) {
     }
 }
 
-export function goBackToFolder(documentationFolder) {
+export function goBackToFolder(icarusDocumentationFolder) {
     return {
         type: types.GO_BACK_TO_FOLDER,
-        documentationFolder
+        icarusDocumentationFolder
     }
 }
 
