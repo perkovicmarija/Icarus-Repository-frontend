@@ -8,7 +8,8 @@ import authoritySagas from './authority/authoritySaga';
 import auditChecklistSaga from './auditChecklist/auditChecklistSaga';
 import auditChecklistItemSaga from "./auditChecklistItem/auditChecklistItemSaga";
 import auditChecklistSubAreaSaga from "./auditChecklistSubArea/auditChecklistSubAreaSaga";
-import settingSagas from "./setting/client/clientSaga"
+import clientSagas from "./setting/client/clientSaga"
+import versionMobileSagas from "./setting/versionMobile/versionMobileSaga"
 import auditorActionLocationType from "./auditorActionLocationType/AuditorActionLocationTypeSaga";
 import icarusDocumentationFileSagas from "./support/icarusDocs/file/icarusDocumentationFileSaga"
 import icarusDocumentationFolderSagas from "./support/icarusDocs/folder/icarusDocumentationFolderSaga"
@@ -24,10 +25,11 @@ export default function* rootSaga(getState) {
         auditChecklistSaga(),
         auditChecklistItemSaga(),
         auditChecklistSubAreaSaga(),
-        settingSagas(),
-        auditChecklistSubAreaSaga(),
         auditorActionLocationType(),
         icarusDocumentationFileSagas(),
         icarusDocumentationFolderSagas(),
+        auditorActionLocationType(),
+        clientSagas(),
+        versionMobileSagas()
     ]);
 }
