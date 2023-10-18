@@ -51,9 +51,16 @@ function FileDetails(props) {
         }
     }, [props.icarusDocumentationFile])
 
-    const handleInputFileChange = name => event => {
+    const handleInputFileMultilineChange = name => event => {
         let icarusDocumentationFileClone = cloneDeep(icarusDocumentationFile);
         icarusDocumentationFileClone[name] = event.target.value;
+        setIcarusDocumentationFile(icarusDocumentationFileClone);
+    };
+
+    const handleInputFileChange = (event) => {
+        const { name, value } = event.target;
+        let icarusDocumentationFileClone = cloneDeep(icarusDocumentationFile);
+        icarusDocumentationFileClone[name] = value;
         setIcarusDocumentationFile(icarusDocumentationFileClone);
     };
 
@@ -117,6 +124,7 @@ function FileDetails(props) {
                 editDisabled={false}
                 onRadioButtonChange={handleRadioButtonChange}
                 onInputFileChange={handleInputFileChange}
+                onInputFileMultilineChange={handleInputFileMultilineChange}
                 onSwitchFileChange={handleSwitchFileChange}
                 onCheckboxNotifyByEmailChange={handleCheckboxNotifyByEmailChange}
                 onCheckboxNotifyByMessageBoardChange={handleCheckboxNotifyByMessageBoardChange}

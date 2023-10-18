@@ -31,7 +31,7 @@ function TextFieldValidation(props) {
             label={label && label !== "" ? <IntlMessages id={label}/> : ""}
             name={name}
             value={value ? value : ""}
-            onChange={(event) => onInputChange(event)}
+            onChange={onInputChange(name)}
             multiline={multiline}
             rows={multiline ? rows : undefined}
             InputLabelProps={{
