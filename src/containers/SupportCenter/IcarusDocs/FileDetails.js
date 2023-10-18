@@ -57,8 +57,7 @@ function FileDetails(props) {
         setIcarusDocumentationFile(icarusDocumentationFileClone);
     };
 
-    const handleInputFileChange = (event) => {
-        const { name, value } = event.target;
+    const handleInputFileChange = name => ({target: { value }}) => {
         let icarusDocumentationFileClone = cloneDeep(icarusDocumentationFile);
         icarusDocumentationFileClone[name] = value;
         setIcarusDocumentationFile(icarusDocumentationFileClone);
