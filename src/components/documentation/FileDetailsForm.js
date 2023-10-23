@@ -67,6 +67,7 @@ const FileDetailsForm = (props) => {
         icarusDocumentationFile,
         editDisabled,
         onInputFileChange,
+        onInputFileMultilineChange,
         onSwitchFileChange,
         onDocumentationFileSave,
         gridSpacing,
@@ -184,7 +185,7 @@ const FileDetailsForm = (props) => {
                             label=""
                             name="note"
                             value={icarusDocumentationFile.note}
-                            onInputChange={onInputFileChange}
+                            onInputChange={onInputFileMultilineChange}
                             placeholder="general.note"
                             type="text"/>
                     </Grid>
