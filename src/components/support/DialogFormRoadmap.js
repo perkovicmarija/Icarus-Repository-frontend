@@ -103,19 +103,18 @@ export default function DialogFormRoadmap ({
 
                     </Grid>
 
-
-
                 </DialogContent>
+
                 <DialogActions>
                     <Button onClick={onClose}>
                         Cancel
                     </Button>
                     <Button type="submit" className="uppercase">
                         {/*
-                          If the supportSoftwareLog is empty, display the "Create" label to indicate adding new functionality.
-                          If the supportSoftwareLog has properties, display the "Update" label to indicate update functionality.
+                          If the icarusRoadmapLogId is empty, display the "Create" label to indicate adding new functionality.
+                          If the icarusRoadmapLogId has a value, display the "Update" label to indicate update functionality.
                         */}
-                        {_.isEmpty(roadmapLog.icarusRoadmapLogId) ? "Create" : "Update"}
+                        {!roadmapLog?.icarusRoadmapLogId ? "Create" : "Update"}
                     </Button>
                 </DialogActions>
             </ValidatorForm>

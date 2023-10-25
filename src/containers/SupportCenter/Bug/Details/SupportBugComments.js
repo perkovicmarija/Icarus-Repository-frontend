@@ -57,7 +57,7 @@ function SupportBugComments(props) {
         }
     }, [props.supportBug]);
 
-    const handleInputChange = name => ({target: { value }}) => {
+    const handleInputChange = ({target: { name, value }}) => {
         let newCommentClone = cloneDeep(newComment);
         newCommentClone[name] = value;
         setNewComment(newCommentClone);

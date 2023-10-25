@@ -59,7 +59,7 @@ function UserGroups(props) {
         setDialogWarningOpen(true);
     }
 
-    const handleUserGroupDetailsInputChange = name => ({target: { value }}) => {
+    const handleUserGroupDetailsInputChange = ({target: { name, value }}) => {
         let userGroupClone = cloneDeep(userGroup);
         userGroupClone[name] = value;
         setUserGroup(userGroupClone);

@@ -18,7 +18,6 @@ class DateTimePickerValidation extends ValidatorComponent {
             <DateTimePicker
                 {...rest}
                 error={!isValid}
-
                 helperText={(!isValid && this.getErrorMessage()) || helperText}
                 renderInput={(params) => <TextField {...params} />}
             />

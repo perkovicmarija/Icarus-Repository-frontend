@@ -50,8 +50,7 @@ function Versions(props) {
     setDialogVersionMobileDetailsOpen(false);
   }
 
-  const handleVersionMobileDetailsInputChange = (event) => {
-    const { name, value } = event.target;
+  const handleVersionMobileDetailsInputChange = ({target: { name, value }}) => {
     let versionMobileClone = cloneDeep(versionMobile);
     versionMobileClone[name] = value;
     setVersionMobile(versionMobileClone);

@@ -121,7 +121,7 @@ function Roadmap(props) {
         props.supportActions.loadAllRoadmapLogs();
     };
 
-    const handleInputChange = name => ({target: { value }}) => {
+    const handleInputChange = ({target: { name, value }}) => {
         setRoadmapLog(prevState => ({ ...prevState, [name]: value }));
     };
 
@@ -155,7 +155,7 @@ function Roadmap(props) {
         setRoadmapLog(createInitialState)
     };
 
-    const handleSelectChange = ({target: {name, value}}) => {
+    const handleSelectChange = ({ target: {name, value} }) => {
         let roadmapLogClone = cloneDeep(roadmapLog);
         roadmapLogClone[name] = value
         setRoadmapLog(roadmapLogClone);
@@ -168,8 +168,8 @@ function Roadmap(props) {
     };
 
     const handleRoadmapLogUpdate = (roadmapLog) => {
-        handleDialogLogOpen()
         setRoadmapLog(roadmapLog)
+        handleDialogLogOpen()
     }
 
     const handleRoadmapLogDelete = (roadmapLog) => {
@@ -220,7 +220,7 @@ function Roadmap(props) {
         props.supportActions.changeRoadmapLogFilters({ ...filters, [name]: value })
     }
 
-    const handleFilterInputChange = name => ({target: { value }}) => {
+    const handleFilterInputChange = ({target: { name, value }}) => {
         props.supportActions.changeRoadmapLogFilters({ ...filters, [name]: value })
     }
 

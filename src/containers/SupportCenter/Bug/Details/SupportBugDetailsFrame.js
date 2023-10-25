@@ -100,7 +100,7 @@ function SupportBugDetailsFrame(props) {
         setValue(value);
     };
 
-    const handleInputIcarusBugChange = name => ({target: { value }}) => {
+    const handleInputIcarusBugChange = ({target: { name, value }}) => {
         let supportBugClone = cloneDeep(supportBug);
         supportBugClone[name] = value;
         setSupportBug(supportBugClone);
