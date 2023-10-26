@@ -161,10 +161,10 @@ function Roadmap(props) {
         setRoadmapLog(roadmapLogClone);
     }
 
-    const handleDateTimeChange = name => dateTime => {
-        let viewModel = cloneDeep(roadmapLog);
-        viewModel[name] = dateTime;
-        setRoadmapLog(viewModel);
+    const handleDateTimeChange = (name, dateTime)  => {
+        let roadmapLogClone = cloneDeep(roadmapLog);
+        roadmapLogClone[name] = dateTime
+        setRoadmapLog(roadmapLogClone);
     };
 
     const handleRoadmapLogUpdate = (roadmapLog) => {
@@ -296,7 +296,7 @@ function Roadmap(props) {
 
                 <DialogFormFrame
                     onClose={handleDialogLogClose}
-                    title="support.logs.new"
+                    title="support.roadmap.new"
                     open={dialogNewLog}
                     formComponent={
                         <DialogFormRoadmap
