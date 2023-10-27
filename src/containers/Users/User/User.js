@@ -45,7 +45,7 @@ function User(props) {
         }
     }, [props.user.userId]);
 
-    const handleInputChange = name => ({target: { value }}) => {
+    const handleInputChange = ({target: { name, value }}) => {
         let userClone = cloneDeep(user);
         userClone[name] = value;
         setUser(userClone);

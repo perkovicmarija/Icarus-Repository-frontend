@@ -7,9 +7,8 @@ import TextFieldMultiline from '../core/TextField/TextFieldMultiline';
 import Grid from '@mui/material/Grid';
 import TypographyFieldTitle from "../core/TypographyFieldTitle";
 import {ValidatorForm} from 'react-material-ui-form-validator';
-import _ from "lodash";
 import SelectBasicCustomValidation from "../core/Select/SelectBasicCustomValidation";
-import DateTimePickerCustomValidation from "../core/DatePicker/DateTimePickerCustomValidation";
+import DateTimePickerCustom from "../core/DatePicker/DateTimePickerCustom";
 
 const statusArray = ["completed", "in-progress", "future"]
 
@@ -80,20 +79,17 @@ export default function DialogFormRoadmap ({
                         </Grid>
 
                         <Grid item xl={6} lg={6} md={6} sm={6} xs={12}>
-                            <DateTimePickerCustomValidation
+                            <DateTimePickerCustom
                                 title="general.created"
                                 disabled={false}
                                 value={roadmapLog.created}
                                 onDateTimeChange={onDateTimeChange}
-                                required
-                                validators={["required"]}
-                                errorMessages={["This field is required"]}
                                 name="created"
                             />
                         </Grid>
 
                         <Grid item xl={6} lg={6} md={6} sm={6} xs={12}>
-                            <DateTimePickerCustomValidation
+                            <DateTimePickerCustom
                                 disabled={false}
                                 title="support.estimatedTime"
                                 value={roadmapLog.estimatedTime}
@@ -103,19 +99,18 @@ export default function DialogFormRoadmap ({
 
                     </Grid>
 
-
-
                 </DialogContent>
+
                 <DialogActions>
                     <Button onClick={onClose}>
                         Cancel
                     </Button>
                     <Button type="submit" className="uppercase">
                         {/*
-                          If the supportSoftwareLog is empty, display the "Create" label to indicate adding new functionality.
-                          If the supportSoftwareLog has properties, display the "Update" label to indicate update functionality.
+                          If the icarusRoadmapLogId is empty, display the "Create" label to indicate adding new functionality.
+                          If the icarusRoadmapLogId has a value, display the "Update" label to indicate update functionality.
                         */}
-                        {_.isEmpty(roadmapLog.icarusRoadmapLogId) ? "Create" : "Update"}
+                        {!roadmapLog?.icarusRoadmapLogId ? "Create" : "Update"}
                     </Button>
                 </DialogActions>
             </ValidatorForm>

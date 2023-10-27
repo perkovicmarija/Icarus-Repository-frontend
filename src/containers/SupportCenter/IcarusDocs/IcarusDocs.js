@@ -192,7 +192,7 @@ function IcarusDocs(props) {
         setDialogFolderDeleteWarningOpen(false);
     }
 
-    const handleInputFolderChange = name => ({target: { value }}) => {
+    const handleInputFolderChange = ({target: { name, value }}) => {
         let icarusDocumentationFolderClone = cloneDeep(icarusDocumentationFolder);
         icarusDocumentationFolderClone[name] = value;
         setIcarusDocumentationFolder(icarusDocumentationFolderClone);

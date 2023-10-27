@@ -260,6 +260,7 @@
   "support.roadmap": "Roadmap",
   "support.estimatedTime": "Estimated time",
   "support.logs.new": "New software log",
+  "support.roadmap.new": "New roadmap log",
   "support.logs.update": "Update software log",
   "support.bugs": "Requests",
   "support.bug.list": "Request list",
