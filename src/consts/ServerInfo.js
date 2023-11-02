@@ -1,5 +1,3 @@
-//export const SERVER_PATH = 'http://localhost:8080';
-
 export function getServerPath() {
   let fullUrl = window.location.href;
   if (fullUrl.includes("localhost")) {

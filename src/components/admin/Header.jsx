@@ -13,7 +13,7 @@ import {
 } from '@mui/material';
 import { AccountCircle, Menu as MenuIcon } from "@mui/icons-material";
 import { makeStyles } from '@mui/styles';
-import clsx from 'clsx';
+import clsx from 'classnames';
 
 import * as languageSwitcherActions from '../../redux/languageSwitcher/languageSwitcherActions';
 import IntlMessages from '../../components/core/IntlMessages';

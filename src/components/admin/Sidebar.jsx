@@ -2,7 +2,7 @@ import React from 'react';
 
 import { makeStyles } from '@mui/styles';
 import { Drawer, Divider, List, Hidden } from "@mui/material";
-import clsx from 'clsx';
+import clsx from 'classnames';
 
 import Logo from './Logo';
 import SidebarListItemFrame from './SidebarListItemFrame';
