@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { DateTimePicker } from "@mui/lab";
+import { DateTimePicker } from "@mui/x-date-pickers";
 import { makeStyles } from '@mui/styles';
 import { IconButton, Typography, InputAdornment } from '@mui/material';
 import { NavigateNext, NavigateBefore, DateRange, QueryBuilder } from '@mui/icons-material';

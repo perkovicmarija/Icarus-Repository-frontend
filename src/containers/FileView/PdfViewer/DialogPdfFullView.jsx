@@ -18,6 +18,8 @@ const useStyles = makeStyles(theme => ({
     },
     background: {
         backgroundColor: '#808080',
+        margin: 'auto',
+        marginTop: '1rem'
     },
 }));
 

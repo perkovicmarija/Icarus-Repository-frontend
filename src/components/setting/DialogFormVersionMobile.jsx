@@ -1,5 +1,5 @@
 import React from 'react';
-import {Button, DialogActions, DialogContent, Grid} from '@mui/material';
+import {Alert, Button, DialogActions, DialogContent, Grid} from '@mui/material';
 import {makeStyles} from '@mui/styles';
 import {ValidatorForm} from 'react-material-ui-form-validator';
 import PropTypes from 'prop-types';
@@ -9,7 +9,6 @@ import withValidation from '../../containers/HOC/withValidation';
 import IntlMessages from "../core/IntlMessages";
 import SelectMultipleCustom from "../core/Select/SelectMultipleCustom";
 import SelectBasicCustomValidation from "../core/Select/SelectBasicCustomValidation";
-import {Alert} from "@mui/lab";
 
 const useStyles = makeStyles(theme => ({
   container: {

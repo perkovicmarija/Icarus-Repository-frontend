@@ -1,5 +1,3 @@
-import React from 'react';
-
 import { Provider } from 'react-redux';
 import { createTheme, ThemeProvider, StyledEngineProvider  } from '@mui/material/styles';
 import { red, brown, grey } from '@mui/material/colors';

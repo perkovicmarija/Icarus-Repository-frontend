@@ -118,7 +118,7 @@ function Header(props) {
                         onClick={handleMenuLanguage}
                         color="inherit"
                     >
-                        <img className="languageIcon" src={process.env.PUBLIC_URL + language.icon} alt="flag" />
+                        <img className="languageIcon" src={language.icon} alt="flag" />
                     </IconButton>
                     <Menu
                         id="menu-appbar-language"
@@ -141,7 +141,7 @@ function Header(props) {
                             return (
                                 <MenuItem key={languageId} onClick={() => handleClickLanguage(languageId)}>
                                     <ListItemIcon>
-                                        <img className="languageIcon" src={process.env.PUBLIC_URL + icon} alt="flag" />
+                                        <img className="languageIcon" src={icon} alt="flag" />
                                     </ListItemIcon>
                                     <Typography variant="inherit"><IntlMessages id={intlId} /></Typography>
                                 </MenuItem>

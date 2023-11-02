@@ -16,7 +16,7 @@ import useWindowSize from './useWindowSize';
 import CssBaseline from '@mui/material/CssBaseline';
 import authAction from '../../redux/auth/authActions';
 import { AppLocale } from '../../App';
-import routes from "./sidebarRoutes.js";
+import routes from "./sidebarRoutes";
 
 const useStyles = makeStyles(theme => ({
     root: {
