@@ -467,7 +467,7 @@ function IcarusDocs(props) {
   } = props;
 
   return (
-    <Paper elevation={2}>
+    <Paper>
       <DocumentationEnhancedTableToolbar
         onNewFileClick={handleNewFileClick}
         onNewFolderClick={handleNewFolderClick}

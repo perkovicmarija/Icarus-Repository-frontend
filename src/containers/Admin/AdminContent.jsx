@@ -29,6 +29,8 @@ const useStyles = makeStyles((theme) => ({
     marginTop: 64,
     background: "#F9F9F9",
     flexGrow: 1,
+    width: "100%",
+    overflow: "hidden",
   },
 }));
 

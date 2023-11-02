@@ -9,6 +9,7 @@ import DialogDeleteWarning from "../../../components/core/Dialog/DialogDeleteWar
 import DialogFormChecklistFilters from "../../../components/auditChecklist/dialogs/DialogFormChecklistFilters";
 import {cloneDeep} from "lodash";
 import { auditChecklistActions } from "../../../redux/auditChecklist/auditChecklistReducer";
+import { Paper } from '@mui/material';
 
 
 const AuditChecklistOverview = (props) => {
@@ -310,7 +311,7 @@ const AuditChecklistOverview = (props) => {
     };
 
     return (
-        <div>
+        <Paper>
             <AuditChecklistsList
                 auditChecklists={auditChecklists}
                 totalCount={totalCount}
@@ -400,7 +401,7 @@ const AuditChecklistOverview = (props) => {
                     checklistTypes={auditChecklistTypes}
                 />
             </DialogFormFrame>
-        </div>
+        </Paper>
     );
 }
 
