@@ -1,4 +1,4 @@
-import {  useState } from "react";
+import { useState } from "react";
 import BookmarkItem from "./BookmarkItem";
 import { Document, Page, pdfjs } from "react-pdf";
 import "react-pdf/dist/Page/AnnotationLayer.css";
@@ -23,23 +23,37 @@ const FindState = {
 
 const useStyles = makeStyles({
   page: { border: "1px solid gray" },
+  document: {
+    display: "flex",
+    flexDirection: "column",
+    rowGap: "1rem",
+  },
 });
 
 const PdfFrame = ({ file }: { file: any }) => {
   const classes = useStyles();
 
   const [numPages, setNumPages] = useState<number>(1);
-  const [pageNumber, setPageNumber] = useState<number>(1);
 
   function onDocumentLoadSuccess({ numPages }: { numPages: number }): void {
     setNumPages(numPages);
   }
 
-  console.log(file);
+  const pages = [];
+
+  for (let i = 1; i <= numPages; i++) {
+    pages.push(
+      <Page key={i} pageNumber={i} scale={1.5} className={classes.page} />
+    );
+  }
+
   return (
-    <Document file={file.data} onLoadSuccess={onDocumentLoadSuccess}>
-      <Page pageNumber={1} scale={1.5} className={classes.page} />
-      <Page pageNumber={2} scale={1.5} className={classes.page} />
+    <Document
+      file={file.data}
+      onLoadSuccess={onDocumentLoadSuccess}
+      className={classes.document}
+    >
+      {pages}
     </Document>
   );
 };
