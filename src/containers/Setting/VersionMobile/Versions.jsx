@@ -1,18 +1,17 @@
-import React, {useEffect, useState} from 'react';
-import {bindActionCreators} from "redux";
+import React, { useEffect, useState } from "react";
+import { bindActionCreators } from "redux";
 import * as versionMobileActions from "../../../redux/setting/versionMobile/versionMobileActions";
-import * as clientActions from '../../../redux/setting/client/clientActions';
-import {connect} from "react-redux";
-import {withRouter} from "react-router-dom";
+import * as clientActions from "../../../redux/setting/client/clientActions";
+import { connect } from "react-redux";
+import { withRouter } from "react-router-dom";
 import VersionList from "./VersionList";
 import DialogFormFrame from "../../../components/core/Dialog/DialogFormFrame";
-import DialogFormVersionMobile from "../../../components/setting/DialogFormVersionMobile";
-import {cloneDeep} from "lodash";
+import DialogFormVersionMobile from "./DialogFormVersionMobile";
+import { cloneDeep } from "lodash";
 import DialogDeleteWarning from "../../../components/core/Dialog/DialogDeleteWarning";
-import {getVersionMobilePath} from "../../../consts/routePaths";
+import { getVersionMobilePath } from "../../../consts/routePaths";
 
 function Versions(props) {
-
   const {
     versionsMobile,
     totalCount,
@@ -20,155 +19,108 @@ function Versions(props) {
     filtersActive,
     page,
     rowsPerPage,
-    clients
+    clients,
   } = props;
 
   const createInitialState = () => ({
     versionMobileId: undefined,
     versionMin: undefined,
     platform: undefined,
-    selectedClients: []
+    selectedClients: [],
   });
 
   const [versionMobile, setVersionMobile] = useState(createInitialState);
   const [entryExistsFlag, setEntryExistsFlag] = useState(false);
-  const [dialogVersionMobileDetailsOpen, setDialogVersionMobileDetailsOpen] = useState(false);
+  const [dialogVersionMobileDetails, setDialogVersionMobileDetails] =
+    useState();
   const [dialogWarningOpen, setDialogWarningOpen] = useState(false);
-  const [versionMobileIdForDelete, setVersionMobileIdForDelete] = useState(undefined);
+  const [versionMobileIdForDelete, setVersionMobileIdForDelete] =
+    useState(undefined);
 
   useEffect(() => {
     let viewModel = {
       page,
-      rows_per_page: rowsPerPage
-    }
+      rows_per_page: rowsPerPage,
+    };
     props.versionMobileActions.loadVersions(viewModel);
-    props.clientActions.loadAllClients()
-  },[])
-
-  const handleVersionMobileDialogDetailsClose = () => {
-    setEntryExistsFlag(false)
-    setDialogVersionMobileDetailsOpen(false);
-  }
-
-  const handleVersionMobileDetailsInputChange = ({target: { name, value }}) => {
-    let versionMobileClone = cloneDeep(versionMobile);
-    versionMobileClone[name] = value;
-    setVersionMobile(versionMobileClone);
-  };
+    props.clientActions.loadAllClients();
+  }, []);
 
   // Check if a version with the same client name, platform and version already exists
   const checkForExistingCombination = (versionsMobile, versionMobile) => {
-    return versionsMobile.some(vm =>
+    return versionsMobile.some(
+      (vm) =>
         versionMobile.versionMin === vm.versionMin &&
         versionMobile.platform === vm.platform &&
         versionMobile.selectedClients[0].name === vm.client.name
     );
   };
 
-  const handleVersionMobileDialogDetailsSubmit = () => {
-    setEntryExistsFlag(checkForExistingCombination(versionsMobile, versionMobile))
-
-    //Do not allow creating of duplicates
-    if (!checkForExistingCombination(versionsMobile, versionMobile)) {
-      if (versionMobile.versionMobileId) {
-        props.versionMobileActions.update(versionMobile);
-      }
-      else {
-        props.versionMobileActions.create(versionMobile)
-      }
-      setDialogVersionMobileDetailsOpen(false);
-      setEntryExistsFlag(false)
-      setVersionMobile(createInitialState)
-      let viewModel = {
-        page,
-        rows_per_page: rowsPerPage
-      }
-      props.versionMobileActions.loadVersions(viewModel);
-    }
-  }
-
   const handleDeleteVersionMobileConfirmed = () => {
     if (versionMobileIdForDelete) {
       let viewModel = {
         versionMobileId: versionMobileIdForDelete,
-      }
+      };
       props.versionMobileActions.deleteAction(viewModel);
       setDialogWarningOpen(false);
     }
-  }
+  };
 
   const handleVersionMobileDelete = (event, versionMobile) => {
     setVersionMobileIdForDelete(versionMobile.versionMobileId);
     setDialogWarningOpen(true);
-  }
+  };
 
   const handleDeleteVersionMobileClose = () => {
     setDialogWarningOpen(false);
     setVersionMobileIdForDelete(undefined);
-  }
-
-  const handleNewVersionMobileClick = (event) => {
-    setVersionMobile(createInitialState);
-    setDialogVersionMobileDetailsOpen(true);
-  }
+  };
 
   const handleVersionMobileEdit = (event, version) => {
-    let selectedClients = []
-    selectedClients.push(version.client)
+    /* let selectedClients = [];
+    selectedClients.push(version.client);
     setVersionMobile({
       versionMobileId: version.versionMobileId,
       versionMin: version.versionMin,
       platform: version.platform,
-      selectedClients
-    })
-    setDialogVersionMobileDetailsOpen(true);
-  }
+      selectedClients,
+    });
+    setDialogVersionMobileDetails(selectedClients); */
+  };
 
   const handleInputSearchChange = (event) => {
-    props.versionMobileActions.changeFilterVersionMobileSearch(event.target.value);
-  }
+    props.versionMobileActions.changeFilterVersionMobileSearch(
+      event.target.value
+    );
+  };
 
   const handleSearchSubmit = () => {
     let viewModel = {
       page,
       rows_per_page: rowsPerPage,
-      client_name: filters.clientName
-    }
+      client_name: filters.clientName,
+    };
     props.versionMobileActions.loadVersions(viewModel);
-    props.history.push(getVersionMobilePath( 0 , rowsPerPage))
-  }
+    props.history.push(getVersionMobilePath(0, rowsPerPage));
+  };
 
   const handleChangePage = (event, page) => {
     const viewModel = {
       page: page,
-      rows_per_page: rowsPerPage
+      rows_per_page: rowsPerPage,
     };
     props.versionMobileActions.loadVersions(viewModel);
     props.history.push(getVersionMobilePath(page, rowsPerPage));
   };
 
-  const handleChangeRowsPerPage = event => {
+  const handleChangeRowsPerPage = (event) => {
     const viewModel = {
       page: page,
-      rowsPerPage: event.target.value
+      rowsPerPage: event.target.value,
     };
     props.versionMobileActions.loadVersions(viewModel);
     props.history.push(getVersionMobilePath(page, event.target.value));
   };
-
-  const handleMultipleSelectChange = (event) => {
-    const selectedIds = event.target.value;
-    const selectedClients = clients.filter(client => selectedIds.includes(client.clientId));
-    setVersionMobile(x => ({
-      ...x, selectedClients
-    }))
-  };
-
-  const handleSelectChange = ({target: {name, value}}) => {
-    let versionMobileClone = cloneDeep(versionMobile);
-    versionMobileClone[name] = value
-    setVersionMobile(versionMobileClone);
-  }
 
   return (
     <>
@@ -178,7 +130,7 @@ function Versions(props) {
         searchValue={filters.clientName}
         onInputSearchChange={handleInputSearchChange}
         onSearchSubmit={handleSearchSubmit}
-        onNewVersionMobileClick={handleNewVersionMobileClick}
+        onNewVersionMobileClick={() => setDialogVersionMobileDetails({})}
         onVersionMobileEdit={handleVersionMobileEdit}
         onVersionMobileDelete={handleVersionMobileDelete}
         filtersActive={filtersActive}
@@ -187,27 +139,47 @@ function Versions(props) {
         onChangePage={handleChangePage}
         onChangeRowsPerPage={handleChangeRowsPerPage}
       />
-      <DialogFormFrame
-        onClose={handleVersionMobileDialogDetailsClose}
-        title="general.versionMobile"
-        open={dialogVersionMobileDetailsOpen}>
-        <DialogFormVersionMobile
-          onClose={handleVersionMobileDialogDetailsClose}
-          onSubmit={handleVersionMobileDialogDetailsSubmit}
-          onInputChange={handleVersionMobileDetailsInputChange}
-          versionMobile={versionMobile}
-          clients={clients}
-          selectedClients={versionMobile.selectedClients}
-          onMultiSelectChange={handleMultipleSelectChange}
-          onSelectChange={handleSelectChange}
-          entryExistsFlag={entryExistsFlag}
-        />
-      </DialogFormFrame>
+
+      {dialogVersionMobileDetails && (
+        <DialogFormFrame
+          onClose={() => setDialogVersionMobileDetails()}
+          title="general.versionMobile"
+          open={dialogVersionMobileDetails}
+        >
+          <DialogFormVersionMobile
+            initialData={dialogVersionMobileDetails}
+            onClose={() => setDialogVersionMobileDetails()}
+            onSubmit={(payload) => {
+              const duplicate = checkForExistingCombination(
+                versionsMobile,
+                payload
+              );
+
+              //Do not allow creating of duplicates
+              if (!duplicate) {
+                if (payload.versionMobileId) {
+                  props.versionMobileActions.update(payload);
+                } else {
+                  props.versionMobileActions.create(payload);
+                }
+                props.versionMobileActions.loadVersions({
+                  page,
+                  rows_per_page: rowsPerPage,
+                });
+              }
+            }}
+            //
+            clients={clients}
+          />
+        </DialogFormFrame>
+      )}
+
       <DialogDeleteWarning
         open={dialogWarningOpen}
         text="general.deleteWarning"
         onDelete={handleDeleteVersionMobileConfirmed}
-        onClose={handleDeleteVersionMobileClose}/>
+        onClose={handleDeleteVersionMobileClose}
+      />
     </>
   );
 }
@@ -228,15 +200,18 @@ function mapStateToProps(state, ownProps) {
     filtersActive: true,
     page: page,
     rowsPerPage: rowsPerPage,
-    clients: state.Client.clients
-  }
+    clients: state.Client.clients,
+  };
 }
 
 function mapDispatchToProps(dispatch) {
   return {
     versionMobileActions: bindActionCreators(versionMobileActions, dispatch),
-    clientActions: bindActionCreators(clientActions, dispatch)
+    clientActions: bindActionCreators(clientActions, dispatch),
   };
 }
 
-export default (connect(mapStateToProps, mapDispatchToProps)(withRouter(Versions)));
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(withRouter(Versions));
