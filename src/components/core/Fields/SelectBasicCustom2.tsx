@@ -1,24 +1,23 @@
-import React, { forwardRef } from "react";
-import { MenuItem, TextField } from "@material-ui/core";
+import { forwardRef } from "react";
+import { MenuItem, TextField, TextFieldProps } from "@mui/material";
 import TypographyReportField from "../TypographyReportField";
-import { Controller } from "react-hook-form";
-import { injectIntl } from "react-intl";
+import {
+  Controller,
+  FieldValues,
+  UseControllerProps,
+  UseFormStateReturn,
+} from "react-hook-form";
+import { useIntl } from "react-intl";
 
-const SelectCustom = forwardRef(
-  (
-    {
-      intl,
-      //
-      name,
-      options,
-      label,
-      disabled,
-      required,
-      formState,
-      ...props
-    },
-    ref
-  ) => {
+type SelectCustomProps = {
+  options: string[];
+  formState: UseFormStateReturn<FieldValues>;
+  name: string;
+} & TextFieldProps;
+
+const SelectCustom = forwardRef<HTMLInputElement, SelectCustomProps>(
+  ({ name, options, label, disabled, required, formState, ...props }, ref) => {
+    const intl = useIntl();
     const error = formState.errors[name];
 
     return (
@@ -31,7 +30,8 @@ const SelectCustom = forwardRef(
           inputRef={ref}
           error={Boolean(error)}
           helperText={
-            error?.message && intl.formatMessage({ id: error.message })
+            error?.message &&
+            intl.formatMessage({ id: error.message as string })
           }
           {...props}
         >
@@ -47,16 +47,14 @@ const SelectCustom = forwardRef(
 );
 
 const SelectBasicCustom2 = ({
-  intl,
-  //
-  name,
   control,
+  name,
   rules,
   label,
   options,
   defaultValue,
   ...props
-}) => {
+}: { label?: string; options: string[] } & UseControllerProps) => {
   return (
     <Controller
       name={name}
@@ -68,7 +66,6 @@ const SelectBasicCustom2 = ({
         <SelectCustom
           {...field}
           formState={formState}
-          intl={intl}
           label={label}
           options={options}
           required={Boolean(rules?.required)}
@@ -78,4 +75,4 @@ const SelectBasicCustom2 = ({
   );
 };
 
-export default injectIntl(SelectBasicCustom2);
+export default SelectBasicCustom2;
