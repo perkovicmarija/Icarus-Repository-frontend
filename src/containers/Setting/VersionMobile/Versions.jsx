@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { bindActionCreators } from "redux";
 import * as versionMobileActions from "../../../redux/setting/versionMobile/versionMobileActions";
 import * as clientActions from "../../../redux/setting/client/clientActions";
-import { connect } from "react-redux";
+import { connect, useDispatch } from "react-redux";
 import { withRouter } from "react-router-dom";
 import VersionList from "./VersionList";
 import DialogFormFrame from "../../../components/core/Dialog/DialogFormFrame";
@@ -10,6 +10,7 @@ import DialogFormVersionMobile from "./DialogFormVersionMobile";
 import { cloneDeep } from "lodash";
 import DialogDeleteWarning from "../../../components/core/Dialog/DialogDeleteWarning";
 import { getVersionMobilePath } from "../../../consts/routePaths";
+import { AJAX_FAILED } from "../../../redux/actionTypes";
 
 function Versions(props) {
   const {
@@ -21,6 +22,8 @@ function Versions(props) {
     rowsPerPage,
     clients,
   } = props;
+
+  const dispatch = useDispatch();
 
   const createInitialState = () => ({
     versionMobileId: undefined,
@@ -76,16 +79,8 @@ function Versions(props) {
     setVersionMobileIdForDelete(undefined);
   };
 
-  const handleVersionMobileEdit = (event, version) => {
-    /* let selectedClients = [];
-    selectedClients.push(version.client);
-    setVersionMobile({
-      versionMobileId: version.versionMobileId,
-      versionMin: version.versionMin,
-      platform: version.platform,
-      selectedClients,
-    });
-    setDialogVersionMobileDetails(selectedClients); */
+  const handleVersionMobileEdit = (e, version) => {
+    setDialogVersionMobileDetails(version);
   };
 
   const handleInputSearchChange = (event) => {
@@ -166,6 +161,12 @@ function Versions(props) {
                   page,
                   rows_per_page: rowsPerPage,
                 });
+              } else {
+                dispatch({
+                  type: AJAX_FAILED,
+                  message: "Duplicate",
+                });
+                throw new Error();
               }
             }}
             //

@@ -9,7 +9,6 @@ import IntlMessages from "../../../components/core/IntlMessages";
 import { useForm } from "react-hook-form";
 import TextField2 from "../../../components/core/Fields/TextField2";
 import SelectBasicCustom2 from "../../../components/core/Fields/SelectBasicCustom2";
-import AutocompleteLargeDataset2 from "../../../components/core/Fields/AutocompleteLargeDataset2";
 import AutocompleteMultiLargeDataset2 from "../../../components/core/Fields/AutocompleteMultiLargeDataset2";
 
 const DialogFormVersionMobile = ({
@@ -29,8 +28,10 @@ const DialogFormVersionMobile = ({
       onSubmit={(e) => {
         e.stopPropagation();
         handleSubmit((data) => {
-          onSubmit(data);
-          onClose();
+          try {
+            onSubmit(data);
+            onClose();
+          } catch (e) {}
         })(e);
       }}
     >

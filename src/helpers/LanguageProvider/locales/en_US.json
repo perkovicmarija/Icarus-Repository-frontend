@@ -215,6 +215,7 @@
   "general.versionsMobile": "Mobile versions",
   "general.versionMobile": "Mobile version",
   "general.platform": "Platform",
+  "general.required": "Required",
 
   "form.user": "User",
   "form.users": "Users",
