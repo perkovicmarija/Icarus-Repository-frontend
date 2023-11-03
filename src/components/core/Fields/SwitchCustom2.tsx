@@ -1,20 +1,31 @@
-import React from "react";
-import Switch from "@material-ui/core/Switch";
-import { FormGroup, FormControlLabel } from "@material-ui/core";
-import IntlMessages from "../../../../components/utility/intlMessages";
-import { useController } from "react-hook-form";
+import { FormGroup, FormControlLabel, Switch } from "@mui/material";
+import { Control, UseControllerProps, useController } from "react-hook-form";
 import TypographyReportField from "../TypographyReportField";
+import { FormGroupProps } from "@mui/material";
+import IntlMessages from "../IntlMessages";
+
+type SwitchCustom2Props = FormGroupProps & {
+  control: Control;
+  name: string;
+  label?: string;
+  rules?: UseControllerProps["rules"];
+  defaultValue?: string;
+  inlineLabel?: string;
+  disabled?: boolean;
+  info?: string;
+};
 
 function SwitchCustom2({
   control,
   name,
+  label,
   rules,
   defaultValue,
-  label,
   inlineLabel,
   disabled,
+  info,
   ...props
-}) {
+}: SwitchCustom2Props) {
   const {
     field: { ref, ...field },
     formState,
@@ -33,6 +44,7 @@ function SwitchCustom2({
         <TypographyReportField
           title={label}
           required={Boolean(rules?.required)}
+          info={info}
         />
       )}
       <FormGroup row {...props}>
@@ -40,7 +52,7 @@ function SwitchCustom2({
           control={
             <Switch
               disabled={disabled}
-              onChange={(e) => field.onChange(e.target.checked)}
+              onChange={(e: any) => field.onChange(e.target.checked)}
               checked={field.value}
             />
           }

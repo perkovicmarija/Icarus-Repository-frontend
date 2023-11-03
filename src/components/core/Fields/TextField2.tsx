@@ -1,12 +1,21 @@
-import React from "react";
-import { injectIntl } from "react-intl";
-import { TextField } from "@material-ui/core";
-import { useController } from "react-hook-form";
+import { useIntl } from "react-intl";
+import { TextField, TextFieldProps } from "@mui/material";
+import { Control, UseControllerProps, useController } from "react-hook-form";
 import TypographyReportField from "../TypographyReportField";
 
+type TextField2Props = TextFieldProps & {
+  control: Control;
+  name: string;
+  label?: string;
+  rules?: UseControllerProps["rules"];
+  defaultValue?: string;
+  placeholder?: string;
+  disabled?: boolean;
+  multiline?: boolean;
+  info?: string;
+};
+
 const TextField2 = ({
-  intl,
-  //
   name,
   control,
   rules,
@@ -17,7 +26,7 @@ const TextField2 = ({
   multiline,
   info,
   ...props
-}) => {
+}: TextField2Props) => {
   const {
     field: { ref, ...field },
     formState,
@@ -26,7 +35,10 @@ const TextField2 = ({
     control,
     rules,
     defaultValue,
+    disabled,
   });
+
+  const intl = useIntl();
 
   const error = formState.errors[name];
 
@@ -40,10 +52,10 @@ const TextField2 = ({
         />
       )}
       <TextField
-        {...field}
         error={Boolean(error)}
-        helperText={error?.message && intl.formatMessage({ id: error.message })}
-        disabled={disabled}
+        helperText={
+          error?.message && intl.formatMessage({ id: error.message as string })
+        }
         placeholder={placeholder && intl.formatMessage({ id: placeholder })}
         fullWidth
         multiline={multiline}
@@ -54,9 +66,10 @@ const TextField2 = ({
           }
         }}
         {...props}
+        {...field}
       />
     </>
   );
 };
 
-export default injectIntl(TextField2);
+export default TextField2;

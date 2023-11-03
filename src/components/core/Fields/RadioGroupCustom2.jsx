@@ -8,7 +8,7 @@ import {
 import { FormControlLabel } from "@material-ui/core";
 import Typography from "@material-ui/core/Typography";
 import IntlMessages from "../../../../components/utility/intlMessages";
-import TypographyReportField from "../../core/TypographyReportField";
+import TypographyReportField from "../TypographyReportField";
 import { injectIntl } from "react-intl";
 import { useController } from "react-hook-form";
 
