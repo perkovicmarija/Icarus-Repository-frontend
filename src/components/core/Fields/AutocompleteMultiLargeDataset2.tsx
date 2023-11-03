@@ -1,5 +1,5 @@
 import { forwardRef } from "react";
-import { Button, Autocomplete, Checkbox, Box } from "@mui/material";
+import { Button, Autocomplete, Box } from "@mui/material";
 import { CheckBoxOutlineBlank, CheckBox } from "@mui/icons-material";
 import TypographyReportField from "../TypographyReportField";
 import {
@@ -120,16 +120,8 @@ const AutocompleteMultiLargeDataset = forwardRef(
               />
             );
           }}
-          open={true}
-          renderOption={(_props, option: any, { selected }) => (
-            <div
-              role="listitem"
-              style={{
-                display: "flex",
-                alignItems: "center",
-                height: "100%",
-              }}
-            >
+          renderOption={(props, option, { selected }) => (
+            <li {...props}>
               {option[keyProp] === "select-all" ? (
                 <Button value="SelectAll">
                   <IntlMessages id="general.selectAll" />
@@ -169,7 +161,7 @@ const AutocompleteMultiLargeDataset = forwardRef(
                     : option[labelProp]}
                 </Box>
               )}
-            </div>
+            </li>
           )}
         />
       </>
