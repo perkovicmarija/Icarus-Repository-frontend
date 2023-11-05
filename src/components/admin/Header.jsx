@@ -16,8 +16,8 @@ import { makeStyles } from '@mui/styles';
 import clsx from 'classnames';
 
 import * as languageSwitcherActions from '../../redux/languageSwitcher/languageSwitcherActions';
-import IntlMessages from '../../components/core/IntlMessages';
 import config from '../../helpers/LanguageProvider/config';
+import { FormattedMessage } from 'react-intl';
 
 
 const useStyles = makeStyles(theme => ({
@@ -143,7 +143,7 @@ function Header(props) {
                                     <ListItemIcon>
                                         <img className="languageIcon" src={icon} alt="flag" />
                                     </ListItemIcon>
-                                    <Typography variant="inherit"><IntlMessages id={intlId} /></Typography>
+                                    <Typography variant="inherit"><FormattedMessage id={intlId} /></Typography>
                                 </MenuItem>
                             );
                         })}

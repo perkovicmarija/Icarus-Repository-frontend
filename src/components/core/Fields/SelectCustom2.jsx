@@ -1,6 +1,6 @@
 import React, { forwardRef } from "react";
-import { TextField } from "@material-ui/core";
-import MenuItem from "@material-ui/core/MenuItem";
+import { TextField } from "@mui/material";
+import MenuItem from "@mui/material/MenuItem";
 import IntlMessages from "../../../../components/utility/intlMessages";
 import { useController } from "react-hook-form";
 import { injectIntl } from "react-intl";

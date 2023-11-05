@@ -4,9 +4,9 @@ import {
   FormHelperText,
   Radio,
   RadioGroup,
-} from "@material-ui/core";
-import { FormControlLabel } from "@material-ui/core";
-import Typography from "@material-ui/core/Typography";
+} from "@mui/material";
+import { FormControlLabel } from "@mui/material";
+import Typography from "@mui/material/Typography";
 import IntlMessages from "../../../../components/utility/intlMessages";
 import TypographyReportField from "../TypographyReportField";
 import { injectIntl } from "react-intl";

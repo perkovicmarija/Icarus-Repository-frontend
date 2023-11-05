@@ -6,9 +6,9 @@ import {
   TextField,
   Box,
   Chip,
-} from "@material-ui/core";
-import MenuItem from "@material-ui/core/MenuItem";
-import { Button } from "@material-ui/core";
+} from "@mui/material";
+import MenuItem from "@mui/material/MenuItem";
+import { Button } from "@mui/material";
 import IntlMessages from "../../../../components/utility/intlMessages";
 import { injectIntl } from "react-intl";
 import TypographyReportField from "../TypographyReportField";
