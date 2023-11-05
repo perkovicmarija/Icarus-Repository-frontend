@@ -66,8 +66,8 @@ export interface TableToolbar2Props {
   onNotifyAllClick?: any;
   tooltipNotifyAll?: any;
   //
-  onFilterClick: any;
-  initFilters: any;
+  onFilterClick?: any;
+  initFilters?: any;
   //
   toolbarStyle?: any;
 }
