@@ -220,6 +220,7 @@
   "general.rowsPerPage": "Rows per page",
   "general.of": "of",
   "general.roleName": "Role name",
+  "general.noItems": "No items",
 
   "form.user": "User",
   "form.users": "Users",
