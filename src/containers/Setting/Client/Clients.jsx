@@ -61,14 +61,15 @@ function Clients(props) {
     setClientIdForDelete(undefined);
   };
 
-  const handleSearchSubmit = () => {
+  const handleSearchSubmit = (newFilters) => {
     const viewModel = {
-      filters: props.filters,
+      filters: { ...filters, ...newFilters },
       pagination: {
         page: 0,
         rowsPerPage: props.rowsPerPage,
       },
     };
+    props.clientActions.setFilters({ ...filters, ...newFilters });
     props.clientActions.loadAllClientsPagination(viewModel);
     props.history.push(getClientsPath(0, props.rowsPerPage));
   };
@@ -104,12 +105,14 @@ function Clients(props) {
     <>
       <ClientList
         data={clients}
-        totalCount={totalCount}
-        filters={filters}
-        onSearchSubmit={handleSearchSubmit}
         onNewClientClick={(event) => setDialogClientDetails({})}
         onClientEdit={(e, client) => setDialogClientDetails(client)}
         onClientDelete={handleClientDelete}
+        //
+        filters={filters}
+        onSearchSubmit={handleSearchSubmit}
+        //
+        totalCount={totalCount}
         page={page}
         rowsPerPage={rowsPerPage}
         onChangePage={handleChangePage}
