@@ -22,6 +22,7 @@ const columnData: ColumnDefinition[] = [
 
 function RoleList({
   data,
+  title,
   totalCount,
   page,
   rowsPerPage,
@@ -31,7 +32,7 @@ function RoleList({
   onEdit,
   onDelete,
 }: TableToolbar2Props &
-  TableHeaderProps &
+  Omit<TableHeaderProps, "columnData"> &
   TablePagination2Props & {
     data: any[];
     onEdit: any;
@@ -40,7 +41,7 @@ function RoleList({
   return (
     <div>
       <TableToolbar2
-        title="form.userRoles"
+        title={title}
         //
         onAddClick={onAddClick}
       />

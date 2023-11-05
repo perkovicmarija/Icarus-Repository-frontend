@@ -298,7 +298,7 @@ function Roadmap(props) {
                     onClose={handleDialogLogClose}
                     title="support.roadmap.new"
                     open={dialogNewLog}
-                    formComponent={
+                    >
                         <DialogFormRoadmap
                             onClose={handleDialogLogClose}
                             onSubmit={handleRoadmapLogSubmit}
@@ -307,7 +307,7 @@ function Roadmap(props) {
                             onDateTimeChange={handleDateTimeChange}
                             roadmapLog={roadmapLog}
                             />
-                    } />
+                    </DialogFormFrame>
                 <DialogDeleteWarning
                     open={dialogWarningOpen}
                     text="general.deleteWarning"

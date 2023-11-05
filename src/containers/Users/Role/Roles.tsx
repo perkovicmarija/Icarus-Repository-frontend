@@ -26,7 +26,7 @@ function Roles({
     userRoleAuthorityJoined: [],
   });
   const [userRoleIdForDelete, setUserRoleIdForDelete] = useState(undefined);
-  const [dialogUserRoleDetailsOpen, setDialogUserRoleDetailsOpen] =
+  const [dialogUserRoleDetails, setDialogUserRoleDetailsOpen] =
     useState(false);
   const [dialogWarningOpen, setDialogWarningOpen] = useState(false);
 
@@ -143,6 +143,7 @@ function Roles({
     <>
       <RoleList
         data={roles}
+        title="form.userRoles"
         totalCount={totalCount}
         onChangePage={handleChangePage}
         onChangeRowsPerPage={handleChangeRowsPerPage}
@@ -156,7 +157,7 @@ function Roles({
       <DialogFormFrame
         onClose={handleUserRoleDialogDetailsClose}
         title="Roles"
-        open={dialogUserRoleDetailsOpen}
+        open={dialogUserRoleDetails}
       >
         <DialogFormUserRole
           onClose={handleUserRoleDialogDetailsClose}

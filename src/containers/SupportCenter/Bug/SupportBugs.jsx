@@ -142,15 +142,14 @@ function SupportBugs({
         onClose={() => setDialogFilters()}
         title="general.selectFilters"
         open={dialogFilters}
-        formComponent={
-          <DialogFormSupportCenterFilters
-            initialData={dialogFilters}
-            onClose={() => setDialogFilters()}
-            onSubmit={handleFilterSubmit}
-            statuses={statuses}
-          />
-        }
-      />
+      >
+        <DialogFormSupportCenterFilters
+          initialData={dialogFilters}
+          onClose={() => setDialogFilters()}
+          onSubmit={handleFilterSubmit}
+          statuses={statuses}
+        />
+      </DialogFormFrame>
     </>
   );
 }

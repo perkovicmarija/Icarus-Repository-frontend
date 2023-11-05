@@ -525,7 +525,7 @@ function IcarusDocs(props) {
         onClose={handleFolderDetailsClose}
         title="documentation.folder.details"
         open={dialogNewFolderOpen}
-        formComponent={
+        >
           <DialogFormNewFolder
             onClose={handleFolderDetailsClose}
             onSubmit={handleFolderSubmit}
@@ -535,25 +535,23 @@ function IcarusDocs(props) {
             clients={clients}
             selectedClients={selectedClients}
           />
-        }
-      />
+        </DialogFormFrame>
       <DialogFormFrame
         onClose={handleHistoryClose}
         title="documentation.file.history"
         open={dialogHistoryOpen}
-        formComponent={
+        >
           <DialogFormFileHistory
             onClose={handleHistoryClose}
             icarusDocumentationFileHistory={icarusDocumentationFileHistory}
             onExportClick={handleExportClick}
           />
-        }
-      />
+      </DialogFormFrame>
       <DialogFormFrame
         onClose={handleMoveFileClose}
         title="documentation.file.move"
         open={dialogMoveFileOpen}
-        formComponent={
+        >
           <DialogFormFileMove
             onClose={handleMoveFileClose}
             onSubmit={handleMoveFileSubmit}
@@ -563,8 +561,7 @@ function IcarusDocs(props) {
             }
             onFolderSelected={handleFolderMoveSelected}
           />
-        }
-      />
+      </DialogFormFrame>
       <DialogFormFrame
         onClose={handleDocumentationFiltersClose}
         title="general.selectFilters"
@@ -583,7 +580,7 @@ function IcarusDocs(props) {
         onClose={handleMoveFolderClose}
         title="documentation.folder.move"
         open={dialogMoveFolderOpen}
-        formComponent={
+        >
           <DialogFormFileMove
             onClose={handleMoveFolderClose}
             onSubmit={handleMoveFolderSubmit}
@@ -593,8 +590,7 @@ function IcarusDocs(props) {
             }
             onFolderSelected={handleFolderMoveSelected}
           />
-        }
-      />
+      </DialogFormFrame>
       <DialogFormFrame
         onClose={handleStorageInfoClose}
         title="documentation.storageInfo"
