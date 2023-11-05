@@ -10,8 +10,18 @@ import DialogFormFrame from "../../../components/core/Dialog/DialogFormFrame";
 import DialogFormUserRole from "../../../components/user/DialogFormUserRole";
 import DialogDeleteWarning from "../../../components/core/Dialog/DialogDeleteWarning";
 import { getUserRolesPath } from "../../../consts/routePaths";
+import { useHistory } from "react-router-dom";
 
-function Roles(props) {
+function Roles({
+  page,
+  rowsPerPage,
+  userRoleActions,
+  authorities,
+  authorityActions,
+  roles,
+  totalCount,
+}) {
+  const history = useHistory();
   const [userRole, setUserRole] = useState({
     userRoleAuthorityJoined: [],
   });
@@ -22,21 +32,21 @@ function Roles(props) {
 
   useEffect(() => {
     const viewModel = {
-      page: props.page,
-      rowsPerPage: props.rowsPerPage,
+      page,
+      rowsPerPage,
     };
-    props.userRoleActions.loadAllPagination(viewModel);
-    if (props.authorities.length === 0) {
-      props.authorityActions.loadAll();
+    userRoleActions.loadAllPagination(viewModel);
+    if (authorities.length === 0) {
+      authorityActions.loadAll();
     }
   }, []);
 
   const handleChangePage = (e, page) => {
-    props.history.push(getUserRolesPath(page, props.rowsPerPage));
+    history.push(getUserRolesPath(page, rowsPerPage));
   };
 
   const handleChangeRowsPerPage = (e) => {
-    props.history.push(getUserRolesPath(props.page, e.target.value));
+    history.push(getUserRolesPath(page, e.target.value));
   };
 
   const handleRoleNewClick = () => {
@@ -76,13 +86,13 @@ function Roles(props) {
       let viewModel = {
         requestBody: userRole,
         params: {
-          page: props.page,
-          rowsPerPage: props.rowsPerPage,
+          page,
+          rowsPerPage,
         },
       };
-      props.userRoleActions.update(viewModel);
+      userRoleActions.update(viewModel);
     } else {
-      props.userRoleActions.create(userRole);
+      userRoleActions.create(userRole);
     }
   };
 
@@ -90,10 +100,10 @@ function Roles(props) {
     if (userRoleIdForDelete) {
       let viewModel = {
         userRoleId: userRoleIdForDelete,
-        page: props.page,
-        rowsPerPage: props.rowsPerPage,
+        page,
+        rowsPerPage,
       };
-      props.userRoleActions.deleteAction(viewModel);
+      userRoleActions.deleteAction(viewModel);
       setDialogWarningOpen(false);
     }
   };
@@ -106,7 +116,7 @@ function Roles(props) {
     let selectedAuthorities = [];
     let lastSelected = event.target.value[event.target.value.length - 1];
     if (lastSelected === "SelectAll") {
-      props.authorities.forEach((authority) => {
+      authorities.forEach((authority) => {
         selectedAuthorities.push({
           authority,
         });
@@ -116,7 +126,7 @@ function Roles(props) {
     } else {
       const selectedAuthoritiesIds = event.target.value;
       for (let i = 0, l = selectedAuthoritiesIds.length; i < l; i++) {
-        const authorityObject = props.authorities.find(
+        const authorityObject = authorities.find(
           (authority) => authority.authorityId === selectedAuthoritiesIds[i]
         );
         selectedAuthorities.push({
@@ -128,8 +138,6 @@ function Roles(props) {
     userRoleClone.userRoleAuthorityJoined = selectedAuthorities;
     setUserRole(userRoleClone);
   };
-
-  const { roles, totalCount, authorities, page, rowsPerPage } = props;
 
   return (
     <>

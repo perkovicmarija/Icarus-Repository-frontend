@@ -70,7 +70,7 @@ function Users({
   };
 
   return (
-    <Paper>
+    <>
       <UserList
         data={users}
         totalCount={totalCount}
@@ -97,7 +97,7 @@ function Users({
           userRoles={userRoles}
         />
       </DialogFormFrame>
-    </Paper>
+    </>
   );
 }
 
