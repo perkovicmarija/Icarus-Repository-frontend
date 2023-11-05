@@ -1,26 +1,26 @@
 import { Info } from "@mui/icons-material";
 import { Tooltip, Typography, TypographyProps } from "@mui/material";
-import IntlMessages from "./IntlMessages";
+import { FormattedMessage } from "react-intl";
 
-export interface TypographyReportFieldProps extends TypographyProps {
-  title: string;
+export interface TypographyReportField2Props extends TypographyProps {
+  label: string;
   required?: boolean;
   info?: string;
 }
 
-const TypographyReportField = ({
-  title,
+const TypographyReportField2 = ({
+  label,
   required,
   info,
   ...props
-}: TypographyReportFieldProps) => {
-  if (title === undefined) {
+}: TypographyReportField2Props) => {
+  if (label === undefined) {
     return null;
   }
 
   return (
     <Typography variant="button" {...props}>
-      <IntlMessages id={title} />
+      <FormattedMessage id={label} />
       {required && (
         <span
           style={{
@@ -34,7 +34,7 @@ const TypographyReportField = ({
       )}{" "}
       {info && (
         <Tooltip
-          title={<IntlMessages id={info} />}
+          title={<FormattedMessage id={info} />}
           //classes={{ tooltip: classes.noMaxWidth }}
         >
           <Info style={{ verticalAlign: "middle" }} />
@@ -44,4 +44,4 @@ const TypographyReportField = ({
   );
 };
 
-export default TypographyReportField;
+export default TypographyReportField2;
