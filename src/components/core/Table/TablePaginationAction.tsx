@@ -132,6 +132,7 @@ function TablePaginationAction({
             handleManualPageButtonClick(e);
           }
         }}
+        variant="standard"
       />
       <div style={{ fontSize: "14px", marginRight: "3px" }}>/</div>
       <div style={{ fontSize: "14px", paddingBottom: "1px" }}>

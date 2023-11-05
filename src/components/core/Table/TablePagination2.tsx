@@ -1,15 +1,6 @@
 import { MenuItem, TextField } from "@mui/material";
 import TablePaginationAction from "./TablePaginationAction";
 import { FormattedMessage } from "react-intl";
-import { makeStyles } from "@mui/styles";
-
-const useStyles = makeStyles(() => ({
-  input: {
-    "& fieldset": {
-      border: "none",
-    },
-  },
-}));
 
 export interface TablePagination2Props {
   totalCount: number;
@@ -26,8 +17,6 @@ export const TablePagination2 = ({
   onChangePage,
   onChangeRowsPerPage,
 }: TablePagination2Props) => {
-  const classes = useStyles();
-
   const firstRowOnPage = page * rowsPerPage + 1;
   const lastRowOnPage = Math.min((page + 1) * rowsPerPage, count);
 
@@ -51,16 +40,20 @@ export const TablePagination2 = ({
           select
           value={rowsPerPage}
           onChange={onChangeRowsPerPage}
-          InputProps={{
-            style: { fontSize: "14px" },
-            classes: { root: classes.input },
-          }}
           SelectProps={{
             SelectDisplayProps: {
-              style: { padding: "6px 32px 4px 12px" },
+              style: { padding: "4px 32px 6px 12px" },
+            },
+            sx: {
+              fontSize: "14px",
+              "& svg": {
+                marginTop: "-2px",
+              },
+              "& fieldset": {
+                border: "none",
+              },
             },
           }}
-          variant="outlined"
         >
           {[5, 10, 25, 50, 100].map((option) => (
             <MenuItem key={option} value={option}>
