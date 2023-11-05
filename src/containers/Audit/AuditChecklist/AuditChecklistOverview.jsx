@@ -26,14 +26,6 @@ const AuditChecklistOverview = (props) => {
   );
   const filters = useSelector((state) => state.AuditChecklist.filters);
 
-  const filtersActive = useMemo(() => {
-    return (
-      filters.startDate !== null ||
-      filters.endDate !== null ||
-      filters.checklistTypes.length !== 0
-    );
-  }, [filters]);
-
   //Paging
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(25);
@@ -43,7 +35,7 @@ const AuditChecklistOverview = (props) => {
   const [orderBy, setOrderBy] = useState("irmTimestamp");
 
   //Dialogs
-  const [dialogFiltersOpen, setDialogFiltersOpen] = useState(false);
+  const [dialogFilters, setDialogFilters] = useState();
   const [dialogWarningOpen, setDialogWarningOpen] = useState(false);
   const [dialogNewChecklistOpen, setDialogNewChecklistOpen] = useState(false);
   const [dialogNewVersionOpen, setDialogNewVersionOpen] = useState(false);
@@ -76,10 +68,10 @@ const AuditChecklistOverview = (props) => {
     dispatch(auditChecklistActions.getAuditChecklistTypes());
 
     const viewModel = {
-      filters: filters,
+      filters,
       pagination: {
-        page: page,
-        rowsPerPage: rowsPerPage,
+        page,
+        rowsPerPage,
       },
     };
 
@@ -92,8 +84,8 @@ const AuditChecklistOverview = (props) => {
     const viewModel = {
       filters: filters,
       pagination: {
-        page: page,
-        rowsPerPage: rowsPerPage,
+        page,
+        rowsPerPage,
       },
     };
     dispatch(auditChecklistActions.getAllActiveRequest(viewModel));
@@ -105,7 +97,7 @@ const AuditChecklistOverview = (props) => {
     const viewModel = {
       filters: filters,
       pagination: {
-        page: page,
+        page,
         rowsPerPage: event.target.value,
       },
     };
@@ -211,8 +203,8 @@ const AuditChecklistOverview = (props) => {
         pagination: {
           filters: filters,
           pagination: {
-            page: page,
-            rowsPerPage: rowsPerPage,
+            page,
+            rowsPerPage,
           },
         },
         checklist: viewModelChecklist,
@@ -262,59 +254,15 @@ const AuditChecklistOverview = (props) => {
     });
   };
 
-  const handleSearchSubmit = () => {
+  const handleFilterSubmit = (newFilters) => {
     const viewModel = {
-      filters: filters,
+      filters: { ...filters, ...newFilters },
       pagination: {
-        page: page,
-        rowsPerPage: rowsPerPage,
+        page,
+        rowsPerPage,
       },
     };
     dispatch(auditChecklistActions.getAllActiveRequest(viewModel));
-  };
-
-  const handleChecklistFilterClick = () => {
-    setDialogFiltersOpen(true);
-  };
-
-  const handleFilterDialogClose = () => {
-    setDialogFiltersOpen(false);
-  };
-
-  const handleFilterSubmit = () => {
-    setDialogFiltersOpen(false);
-    const viewModel = {
-      filters: filters,
-      pagination: {
-        page: page,
-        rowsPerPage: rowsPerPage,
-      },
-    };
-    dispatch(auditChecklistActions.getAllActiveRequest(viewModel));
-  };
-
-  const handleClearAllFilters = () => {
-    dispatch(auditChecklistActions.clearFilters());
-  };
-
-  const handleStartDateChange = (name, event) => {
-    dispatch(auditChecklistActions.setFilterStartDate(event));
-  };
-
-  const handleEndDateChange = (name, event) => {
-    dispatch(auditChecklistActions.setFilterEndDate(event));
-  };
-
-  const handleMultiSelectChangeChecklistType = (event) => {
-    const selectedIds = event.target.value;
-    let selectedChecklistTypes = [];
-    for (let i = 0, l = selectedIds.length; i < l; i++) {
-      const typeObject = auditChecklistTypes.find(
-        (type) => type.auditChecklistTypeId === selectedIds[i]
-      );
-      selectedChecklistTypes.push(typeObject);
-    }
-    dispatch(auditChecklistActions.setFilterType(selectedChecklistTypes));
   };
 
   const onChecklistRevisionView = (item) => {
@@ -325,24 +273,26 @@ const AuditChecklistOverview = (props) => {
     <Paper>
       <AuditChecklistsList
         auditChecklists={auditChecklists}
-        totalCount={totalCount}
-        filtersActive={filtersActive}
-        onChangePage={onChangePage}
-        onChangeRowsPerPage={onChangeRowsPerPage}
-        handleChecklistFilterClick={handleChecklistFilterClick}
         handleAuditChecklistClick={handleAuditChecklistClick}
         handleChecklistNewClick={handleChecklistNewClick}
         handleChecklistEdit={handleChecklistEdit}
         handleChecklistNewVersion={handleChecklistNewVersion}
         handleChecklistRevisions={handleChecklistRevisions}
         handleChecklistDelete={handleChecklistDelete}
+        //
         filters={filters}
-        onSearchSubmit={handleSearchSubmit}
+        onFilterClick={() => setDialogFilters(filters)}
+        onSearchSubmit={handleFilterSubmit}
+        //
         onRequestSort={onRequestSort}
         order={order}
         orderBy={orderBy}
+        //
+        totalCount={totalCount}
         page={page}
         rowsPerPage={rowsPerPage}
+        onChangePage={onChangePage}
+        onChangeRowsPerPage={onChangeRowsPerPage}
       />
       <DialogFormFrame
         onClose={handleDialogNewChecklistClose}
@@ -394,22 +344,17 @@ const AuditChecklistOverview = (props) => {
         onDelete={handleDeleteChecklistConfirmed}
         onClose={handleDeleteChecklistClose}
       />
+
       <DialogFormFrame
-        onClose={handleFilterDialogClose}
+        onClose={() => setDialogFilters()}
         title="general.selectFilters"
-        open={dialogFiltersOpen}
+        open={dialogFilters}
       >
         <DialogFormChecklistFilters
-          onClearAll={handleClearAllFilters}
-          onClose={handleFilterDialogClose}
+          initialData={dialogFilters}
+          onClose={() => setDialogFilters()}
           onSubmit={handleFilterSubmit}
-          onMultiSelectChangeChecklistType={
-            handleMultiSelectChangeChecklistType
-          }
-          onStartDateChange={handleStartDateChange}
-          onEndDateChange={handleEndDateChange}
           checklistTypeId="auditChecklistTypeId"
-          filters={filters}
           checklistTypes={auditChecklistTypes}
         />
       </DialogFormFrame>

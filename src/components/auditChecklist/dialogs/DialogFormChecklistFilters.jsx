@@ -1,95 +1,79 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import Button from '@mui/material/Button';
-import {DialogActions, DialogContent} from '@mui/material';
-import IntlMessages from '../../../components/core/IntlMessages';
-import TypographyFieldTitle from '../../core/TypographyFieldTitle';
-import DateTimePickerCustom from '../../core/DatePicker/DateTimePickerCustom';
-import SelectMultipleCustom from '../../core/Select/SelectMultipleCustom';
-import Grid from '@mui/material/Grid';
-import {ValidatorForm} from "react-material-ui-form-validator";
+import React from "react";
+import PropTypes from "prop-types";
+import Button from "@mui/material/Button";
+import { DialogActions, DialogContent } from "@mui/material";
+import IntlMessages from "../../../components/core/IntlMessages";
+import TypographyFieldTitle from "../../core/TypographyFieldTitle";
+import DateTimePickerCustom from "../../core/DatePicker/DateTimePickerCustom";
+import SelectMultipleCustom from "../../core/Select/SelectMultipleCustom";
+import Grid from "@mui/material/Grid";
+import { initFilters } from "../../../redux/auditChecklist/auditChecklistReducer";
+import { useForm } from "react-hook-form";
+import DateTimePickerCustom2 from "../../core/Fields/DateTimePickerCustom2";
+import AutocompleteMultiLargeDataset2 from "../../core/Fields/AutocompleteMultiLargeDataset2";
 
-const DialogFormChecklistFilters = (props) => {
+const DialogFormChecklistFilters = ({
+  initialData,
+  onClose,
+  onSubmit,
+  checklistTypes,
+  checklistTypeId,
+}) => {
+  const { handleSubmit, control, reset } = useForm({
+    defaultValues: initialData,
+  });
 
-    const {
-        filters,
-        checklistTypes,
-        onClearAll,
-        onClose,
-        handleError,
-        onSubmit,
-        onMultiSelectChangeChecklistType,
-        checklistTypeId,
-        onStartDateChange,
-        onEndDateChange
-    } = props;
-
-    return(
-        <div>
-            <ValidatorForm
-                onSubmit={onSubmit}
-                onError={handleError}
-                noValidate
-            >
-                <DialogContent>
-                    <Grid container spacing={2}>
-                        <Grid item xl={6} lg={6} md={6} sm={12} xs={12}>
-                            <DateTimePickerCustom
-                                disabled={false}
-                                title="general.startDate"
-                                value={filters.startDate}
-                                onDateTimeChange={onStartDateChange}
-                                name="startDate"
-                            />
-                        </Grid>
-                        <Grid item xl={6} lg={6} md={6} sm={6} xs={12}>
-                            <DateTimePickerCustom
-                                disabled={false}
-                                title="general.endDate"
-                                value={filters.endDate}
-                                onDateTimeChange={onEndDateChange}
-                                name="endDate"
-                            />
-                        </Grid>
-                    </Grid>
-                    <Grid container className="m-t-10">
-                        <Grid item xl={12} lg={12} md={12} sm={12} xs={12}>
-                            <TypographyFieldTitle title="general.type" />
-                            <SelectMultipleCustom
-                                disabled={false}
-                                title="general.type"
-                                selectArray={filters.checklistTypes}
-                                objectArray={checklistTypes}
-                                firstLvlValueProp={checklistTypeId}
-                                onMultiSelectChange={onMultiSelectChangeChecklistType}
-                                optionProp="name"
-                                optionKey={checklistTypeId}/>
-                        </Grid>
-                    </Grid>
-                </DialogContent>
-                <DialogActions>
-                    <Button onClick={onClearAll}>
-                        <IntlMessages id="action.clearAll" />
-                    </Button>
-                    <Button onClick={onClose}>
-                        <IntlMessages id="action.cancel" />
-                    </Button>
-                    <Button onClick={onSubmit} className="uppercase">
-                        <IntlMessages id="action.submit" />
-                    </Button>
-                </DialogActions>
-            </ValidatorForm>
-        </div>
-    );
-}
-
-DialogFormChecklistFilters.propTypes = {
-    onClose: PropTypes.func.isRequired,
-    onSubmit: PropTypes.func.isRequired,
-    onMultiSelectChangeChecklistType: PropTypes.func.isRequired,
-    onStartDateChange: PropTypes.func.isRequired,
-    onEndDateChange: PropTypes.func.isRequired,
-    filters: PropTypes.object.isRequired
-}
+  return (
+    <form
+      onSubmit={(e) => {
+        e.stopPropagation();
+        handleSubmit((data) => {
+          onSubmit(data);
+          onClose();
+        })(e);
+      }}
+    >
+      <DialogContent>
+        <Grid container spacing={2}>
+          <Grid item sm={6} xs={12}>
+            <DateTimePickerCustom2
+              control={control}
+              label="general.startDate"
+              name="startDate"
+            />
+          </Grid>
+          <Grid item sm={6} xs={12}>
+            <DateTimePickerCustom2
+              control={control}
+              label="general.endDate"
+              name="endDate"
+            />
+          </Grid>
+          <Grid item xs={12}>
+            <AutocompleteMultiLargeDataset2
+              control={control}
+              label="general.type"
+              name="checklistTypes"
+              options={checklistTypes}
+              keyProp="checklistTypeId"
+              labelProp="name"
+            />
+          </Grid>
+        </Grid>
+      </DialogContent>
+      <DialogActions>
+        <Button onClick={() => reset(initFilters)}>
+          <IntlMessages id="action.clearAll" />
+        </Button>
+        <Button onClick={onClose}>
+          <IntlMessages id="action.cancel" />
+        </Button>
+        <Button type="submit">
+          <IntlMessages id="action.submit" />
+        </Button>
+      </DialogActions>
+    </form>
+  );
+};
 
 export default DialogFormChecklistFilters;

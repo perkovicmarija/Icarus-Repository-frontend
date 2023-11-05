@@ -34,6 +34,7 @@ const initialState = {
   auditChecklistDomains: [],
   auditChecklistTypes: [],
   filters: {
+    ...initFilters,
     stringSearch: "",
   },
   auditDndChecklist: {
@@ -110,20 +111,8 @@ const auditChecklistSlice = createSlice({
       state.auditChecklistTypes = action.auditChecklistTypes;
     },
     createNewVersionRequest() {},
-    setFilterStringSearch(state, action) {
-      state.filters.stringSearch = action.payload;
-    },
-    clearFilters(state) {
-      state.filters = initialState.filters;
-    },
-    setFilterStartDate(state, action) {
-      state.filters.startDate = action.payload;
-    },
-    setFilterEndDate(state, action) {
-      state.filters.endDate = action.payload;
-    },
-    setFilterType(state, action) {
-      state.filters.checklistTypes = action.payload;
+    setFilters(state, action) {
+      state.filters = action.payload;
     },
     clearAuditChecklists(state) {
       state.auditChecklists = [];

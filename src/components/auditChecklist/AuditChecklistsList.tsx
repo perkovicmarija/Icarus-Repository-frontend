@@ -31,7 +31,8 @@ const AuditChecklistsList = ({
   onChangeRowsPerPage,
   filters,
   onSearchSubmit,
-  handleChecklistFilterClick,
+  onFilterClick,
+  //
   handleAuditChecklistClick,
   handleChecklistEdit,
   handleChecklistNewVersion,
@@ -103,7 +104,7 @@ const AuditChecklistsList = ({
         searchTextPropKey="stringSearch"
         //
         initFilters={initFilters}
-        onFilterClick={handleChecklistFilterClick}
+        onFilterClick={onFilterClick}
       />
       <TableContainer2
         headerProps={{
