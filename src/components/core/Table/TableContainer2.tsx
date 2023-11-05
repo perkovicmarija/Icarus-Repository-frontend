@@ -5,18 +5,12 @@ import { ReactNode } from "react";
 
 export const TableContainer2 = ({
   children,
-  headerProps: { columnData, order, orderBy, onRequestSort },
-  paginationProps: {
-    totalCount,
-    rowsPerPage,
-    page,
-    onChangePage,
-    onChangeRowsPerPage,
-  },
+  headerProps,
+  paginationProps,
 }: {
   children: ReactNode;
   headerProps: TableHeaderProps;
-  paginationProps: TablePagination2Props;
+  paginationProps?: TablePagination2Props;
 }) => {
   return (
     <>
@@ -30,25 +24,12 @@ export const TableContainer2 = ({
         }}
       >
         <Table style={{ minWidth: "700px" }}>
-          <TableHeader
-            columnData={columnData}
-            order={order}
-            orderBy={orderBy}
-            onRequestSort={onRequestSort}
-          />
+          <TableHeader {...headerProps} />
           <TableBody>{children}</TableBody>
         </Table>
       </TableContainer>
 
-      {onChangePage && (
-        <TablePagination2
-          totalCount={totalCount}
-          rowsPerPage={rowsPerPage}
-          page={page}
-          onChangePage={onChangePage}
-          onChangeRowsPerPage={onChangeRowsPerPage}
-        />
-      )}
+      {paginationProps && <TablePagination2 {...paginationProps} />}
     </>
   );
 };
