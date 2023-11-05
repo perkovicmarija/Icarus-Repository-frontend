@@ -1,47 +1,16 @@
 import { makeStyles } from "@mui/styles";
-import {
-  Table,
-  TableBody,
-  TableCell,
-  TableFooter,
-  TablePagination,
-  TableRow,
-  IconButton,
-  Tooltip,
-} from "@mui/material";
-import EnhancedTableHeader from "../core/Table/EnhancedTableHeader";
-import EnhancedTableToolbarSingleOption from "../core/Table/EnhancedTableToolbarSingleOption";
+import { TableCell, TableRow, IconButton, Tooltip } from "@mui/material";
 import * as Protected from "../../protectedAuth";
-import IntlMessages from "../../components/core/IntlMessages";
 import Edit from "@mui/icons-material/Edit";
 import Add from "@mui/icons-material/Add";
 import List from "@mui/icons-material/List";
 import Delete from "@mui/icons-material/Delete";
-import TablePaginationAction from "../core/Table/TablePaginationAction";
+import { TableContainer2 } from "../core/Table/TableContainer2";
+import TableToolbar2 from "../core/Table/TableToolbar2";
+import { initFilters } from "../../redux/auditChecklist/auditChecklistReducer";
+import { FormattedMessage } from "react-intl";
 
 const useStyles = makeStyles(() => ({
-  table: {
-    minWidth: 700,
-  },
-  tableRow: {
-    cursor: "pointer",
-  },
-  statusFinishedFindings: {
-    color: "#FF0000",
-    fontWeight: "bold",
-  },
-  statusInProgress: {
-    color: "#c3922e",
-    fontWeight: "bold",
-  },
-  statusFinished: {
-    color: "#2ECC71",
-    fontWeight: "bold",
-  },
-  statusNone: {
-    color: "#000000",
-    fontWeight: "bold",
-  },
   labelCustomValuePublished: {
     fontWeight: "bold",
     color: "green",
@@ -58,12 +27,10 @@ const AuditChecklistsList = ({
   orderBy,
   auditChecklists,
   totalCount,
-  handleChangePage,
-  handleChangeRowsPerPage,
-  onInputSearchChange,
+  onChangePage,
+  onChangeRowsPerPage,
+  filters,
   onSearchSubmit,
-  searchValue,
-  filtersActive,
   handleChecklistFilterClick,
   handleAuditChecklistClick,
   handleChecklistEdit,
@@ -71,7 +38,7 @@ const AuditChecklistsList = ({
   handleChecklistRevisions,
   handleChecklistNewClick,
   handleChecklistDelete,
-  handleRequestSort,
+  onRequestSort,
 }: any) => {
   const classes = useStyles();
 
@@ -123,170 +90,162 @@ const AuditChecklistsList = ({
 
   return (
     <div>
-      <EnhancedTableToolbarSingleOption
+      <TableToolbar2
         title="qms.audits.checklists"
-        onNewClick={handleChecklistNewClick}
-        onFilterClick={handleChecklistFilterClick}
-        filtersActive={filtersActive}
-        showSearch
-        searchValue={searchValue}
-        onInputSearchChange={onInputSearchChange}
+        onAddClick={
+          Protected.protectedAuth(["PERM_AUDIT_CRUD", "PERM_AUDIT_ENTRY"]) &&
+          handleChecklistNewClick
+        }
+        //
+        filters={filters}
         onSearchSubmit={onSearchSubmit}
         searchPlaceholder="general.search.idTitle2"
-        authPermissions={["PERM_AUDIT_CRUD", "PERM_AUDIT_ENTRY"]}
-        tooltipNew="general.addNew"
+        searchTextPropKey="stringSearch"
+        //
+        initFilters={initFilters}
+        onFilterClick={handleChecklistFilterClick}
       />
-      <Table className={classes.table}>
-        <EnhancedTableHeader
-          columnData={columnData}
-          order={order}
-          orderBy={orderBy}
-          onRequestSort={handleRequestSort}
-          rowCount={auditChecklists.length}
-        />
-        <TableBody>
-          {auditChecklists.map((item) => {
-            return (
-              <TableRow
-                style={{ cursor: "pointer" }}
-                key={item.auditChecklistId}
-                hover={true}
+      <TableContainer2
+        headerProps={{
+          columnData,
+          order,
+          orderBy,
+          onRequestSort,
+        }}
+        paginationProps={{
+          totalCount,
+          rowsPerPage,
+          page,
+          onChangePage,
+          onChangeRowsPerPage,
+        }}
+      >
+        {auditChecklists.map((item: any) => {
+          return (
+            <TableRow
+              style={{ cursor: "pointer" }}
+              key={item.auditChecklistId}
+              hover={true}
+            >
+              <TableCell
+                onClick={(event) =>
+                  handleAuditChecklistClick(event, item.auditChecklistId)
+                }
               >
-                <TableCell
-                  onClick={(event) =>
-                    handleAuditChecklistClick(event, item.auditChecklistId)
-                  }
-                >
-                  {item.abbreviation}
+                {item.abbreviation}
+              </TableCell>
+              <TableCell
+                onClick={(event) =>
+                  handleAuditChecklistClick(event, item.auditChecklistId)
+                }
+              >
+                {item.domain !== null ? item.domain.name : "-"}
+              </TableCell>
+              <TableCell
+                onClick={(event) =>
+                  handleAuditChecklistClick(event, item.auditChecklistId)
+                }
+              >
+                {item.title}
+              </TableCell>
+              <TableCell
+                onClick={(event) =>
+                  handleAuditChecklistClick(event, item.auditChecklistId)
+                }
+              >
+                {item.version}
+              </TableCell>
+              <TableCell
+                onClick={(event) =>
+                  handleAuditChecklistClick(event, item.auditChecklistId)
+                }
+              >
+                {item.auditChecklistType ? item.auditChecklistType.name : ""}
+              </TableCell>
+              <TableCell
+                onClick={(event) =>
+                  handleAuditChecklistClick(event, item.auditChecklistId)
+                }
+              >
+                {item.effectiveDate}
+              </TableCell>
+              <TableCell
+                onClick={(event) =>
+                  handleAuditChecklistClick(event, item.auditChecklistId)
+                }
+              >
+                {item.published ? (
+                  <label className={classes.labelCustomValuePublished}>
+                    PUBLISHED
+                  </label>
+                ) : (
+                  <label className={classes.labelCustomValueDraft}>DRAFT</label>
+                )}
+              </TableCell>
+              {Protected.protectedAuth(["PERM_AUDIT_CRUD"]) ? (
+                <TableCell className="nostretch">
+                  <Tooltip title={<FormattedMessage id="general.edit" />}>
+                    <>
+                      <div className="d-inline">
+                        <IconButton
+                          aria-label="Edit"
+                          onClick={(event) => handleChecklistEdit(event, item)}
+                        >
+                          <Edit />
+                        </IconButton>
+                      </div>
+                    </>
+                  </Tooltip>
+                  <Tooltip
+                    title={<FormattedMessage id="general.newRevision" />}
+                  >
+                    <>
+                      <div className="d-inline">
+                        <IconButton
+                          aria-label="New version"
+                          onClick={(event) =>
+                            handleChecklistNewVersion(event, item)
+                          }
+                        >
+                          <Add />
+                        </IconButton>
+                      </div>
+                    </>
+                  </Tooltip>
+                  <Tooltip title={<FormattedMessage id="general.revisions" />}>
+                    <>
+                      <div className="d-inline">
+                        <IconButton
+                          aria-label="Revisions"
+                          onClick={(event) =>
+                            handleChecklistRevisions(event, item)
+                          }
+                        >
+                          <List />
+                        </IconButton>
+                      </div>
+                    </>
+                  </Tooltip>
+                  <Tooltip title={<FormattedMessage id="general.delete" />}>
+                    <>
+                      <div className="d-inline">
+                        <IconButton
+                          aria-label="Delete"
+                          onClick={(event) =>
+                            handleChecklistDelete(event, item)
+                          }
+                        >
+                          <Delete />
+                        </IconButton>
+                      </div>
+                    </>
+                  </Tooltip>
                 </TableCell>
-                <TableCell
-                  onClick={(event) =>
-                    handleAuditChecklistClick(event, item.auditChecklistId)
-                  }
-                >
-                  {item.domain !== null ? item.domain.name : "-"}
-                </TableCell>
-                <TableCell
-                  onClick={(event) =>
-                    handleAuditChecklistClick(event, item.auditChecklistId)
-                  }
-                >
-                  {item.title}
-                </TableCell>
-                <TableCell
-                  onClick={(event) =>
-                    handleAuditChecklistClick(event, item.auditChecklistId)
-                  }
-                >
-                  {item.version}
-                </TableCell>
-                <TableCell
-                  onClick={(event) =>
-                    handleAuditChecklistClick(event, item.auditChecklistId)
-                  }
-                >
-                  {item.auditChecklistType ? item.auditChecklistType.name : ""}
-                </TableCell>
-                <TableCell
-                  onClick={(event) =>
-                    handleAuditChecklistClick(event, item.auditChecklistId)
-                  }
-                >
-                  {item.effectiveDate}
-                </TableCell>
-                <TableCell
-                  onClick={(event) =>
-                    handleAuditChecklistClick(event, item.auditChecklistId)
-                  }
-                >
-                  {item.published ? (
-                    <label className={classes.labelCustomValuePublished}>
-                      PUBLISHED
-                    </label>
-                  ) : (
-                    <label className={classes.labelCustomValueDraft}>
-                      DRAFT
-                    </label>
-                  )}
-                </TableCell>
-                {Protected.protectedAuth(["PERM_AUDIT_CRUD"]) ? (
-                  <TableCell className="nostretch">
-                    <Tooltip title={<IntlMessages id="general.edit" />}>
-                      <>
-                        <div className="d-inline">
-                          <IconButton
-                            aria-label="Edit"
-                            onClick={(event) =>
-                              handleChecklistEdit(event, item)
-                            }
-                          >
-                            <Edit />
-                          </IconButton>
-                        </div>
-                      </>
-                    </Tooltip>
-                    <Tooltip title={<IntlMessages id="general.newRevision" />}>
-                      <>
-                        <div className="d-inline">
-                          <IconButton
-                            aria-label="New version"
-                            onClick={(event) =>
-                              handleChecklistNewVersion(event, item)
-                            }
-                          >
-                            <Add />
-                          </IconButton>
-                        </div>
-                      </>
-                    </Tooltip>
-                    <Tooltip title={<IntlMessages id="general.revisions" />}>
-                      <>
-                        <div className="d-inline">
-                          <IconButton
-                            aria-label="Revisions"
-                            onClick={(event) =>
-                              handleChecklistRevisions(event, item)
-                            }
-                          >
-                            <List />
-                          </IconButton>
-                        </div>
-                      </>
-                    </Tooltip>
-                    <Tooltip title={<IntlMessages id="general.delete" />}>
-                      <>
-                        <div className="d-inline">
-                          <IconButton
-                            aria-label="Delete"
-                            onClick={(event) =>
-                              handleChecklistDelete(event, item)
-                            }
-                          >
-                            <Delete />
-                          </IconButton>
-                        </div>
-                      </>
-                    </Tooltip>
-                  </TableCell>
-                ) : null}
-              </TableRow>
-            );
-          })}
-        </TableBody>
-        <TableFooter>
-          <TableRow>
-            <TablePagination
-              colSpan={columnData.length}
-              count={totalCount}
-              rowsPerPage={rowsPerPage}
-              page={page}
-              onPageChange={handleChangePage}
-              onRowsPerPageChange={handleChangeRowsPerPage}
-              ActionsComponent={TablePaginationAction}
-            />
-          </TableRow>
-        </TableFooter>
-      </Table>
+              ) : null}
+            </TableRow>
+          );
+        })}
+      </TableContainer2>
     </div>
   );
 };

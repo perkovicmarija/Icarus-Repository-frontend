@@ -1,122 +1,104 @@
-import React from 'react';
+import React from "react";
 
-import PropTypes from 'prop-types';
-import { makeStyles } from '@mui/styles';
+import PropTypes from "prop-types";
+import { makeStyles } from "@mui/styles";
 import {
-    Table,
-    TableBody,
-    TableCell,
-    TableRow,
-    TableFooter,
-    TablePagination,
-    Tooltip,
-    IconButton
-} from '@mui/material';
+  Table,
+  TableBody,
+  TableCell,
+  TableRow,
+  TableFooter,
+  TablePagination,
+  Tooltip,
+  IconButton,
+} from "@mui/material";
 import { NoteAdd } from "@mui/icons-material";
 
-import IntlMessages from '../../../components/core/IntlMessages';
-import TablePaginationAction from '../../../components/core/Table/TablePaginationAction';
-import EnhancedTableToolbarRich from '../../../components/core/Table/EnhancedTableToolbarRich';
-import EnhancedTableHeader from '../../../components/core/Table/EnhancedTableHeader';
-import FilterIconCustom from '../../../components/core/FilterIconCustom';
+import IntlMessages from "../../../components/core/IntlMessages";
+import FilterIconCustom from "../../../components/core/FilterIconCustom";
+import { TableContainer2 } from "../../../components/core/Table/TableContainer2";
+import TableToolbar2 from "../../../components/core/Table/TableToolbar2";
+import { initFilters } from "../../../redux/user/userReducer";
 
-const useStyles = makeStyles(theme => ({
-    root: {
-        width: '100%',
-        overflowX: 'auto',
-    },
-    table: {
-        minWidth: 700,
-    },
-    tableRow: {
-        cursor: 'pointer'
-    }
+const useStyles = makeStyles((theme) => ({
+  root: {
+    width: "100%",
+    overflowX: "auto",
+  },
+  table: {
+    minWidth: 700,
+  },
+  tableRow: {
+    cursor: "pointer",
+  },
 }));
 
-const columnData = [
-    {label: 'form.name'},
-    {label: 'form.email'},
-];
+const columnData = [{ label: "form.name" }, { label: "form.email" }];
 
 function UserList(props) {
-    const classes = useStyles();
+  const classes = useStyles();
 
-    const {
-        users,
-        totalCount,
-        page,
-        rowsPerPage,
-        onUserClick,
-        onUserNewClick,
-        handleChangePage,
-        handleChangeRowsPerPage,
-        onUserFilterClick,
-        filtersActive,
-        searchValue,
-        onInputSearchChange,
-        onSearchSubmit
-    } = props;
+  const {
+    users,
+    totalCount,
+    page,
+    rowsPerPage,
+    onUserClick,
+    onUserNewClick,
+    onPageChange,
+    onRowsPerPageChange,
+    onUserFilterClick,
+    filtersActive,
+    searchValue,
+    onInputSearchChange,
+    onSearchSubmit,
+  } = props;
 
-    return (
-        <div className={classes.root}>
-            <EnhancedTableToolbarRich
-                title="form.users"
-                showSearch
-                searchValue={searchValue}
-                onInputSearchChange={onInputSearchChange}
-                onSearchSubmit={onSearchSubmit}
-                searchPlaceholder="search.byEmail"
+  return (
+    <div className={classes.root}>
+      <TableToolbar2
+        title="form.users"
+        //
+        onSearchSubmit={onSearchSubmit}
+        searchPlaceholder="search.byEmail"
+        searchTextPropKey="userSearch"
+        //
+        onAddClick={onUserNewClick}
+        //
+        onFilterClick={onUserFilterClick}
+        initFilters={initFilters}
+      />
+      <TableContainer2
+        headerProps={{
+          columnData,
+        }}
+        paginationProps={{
+          totalCount,
+          rowsPerPage,
+          page,
+          onPageChange,
+          onRowsPerPageChange,
+        }}
+      >
+        {users.map((user) => {
+          return (
+            <TableRow
+              className={classes.tableRow}
+              key={user.userId}
+              onClick={(event) => onUserClick(event, user.userId)}
+              hover={true}
             >
-                <Tooltip title={<IntlMessages id="general.addNew" />}>
-                    <>
-                        <IconButton aria-label="Add new"
-                                    aria-haspopup="true"
-                                    onClick={onUserNewClick}>
-                            <NoteAdd />
-                        </IconButton>
-                    </>
-                </Tooltip>
-                <FilterIconCustom onFilterClick={onUserFilterClick} filtersActive={filtersActive} />
-            </EnhancedTableToolbarRich>
-            <Table className={classes.table}>
-                <EnhancedTableHeader
-                    columnData={columnData}
-                />
-                <TableBody>
-                    {users.map(user => {
-                        return (
-                            <TableRow
-                                className={classes.tableRow}
-                                key={user.userId}
-                                onClick={event => onUserClick(event, user.userId)}
-                                hover={true}>
-
-                                <TableCell>{user.surname + " " + user.name}</TableCell>
-                                <TableCell>{user.email}</TableCell>
-                            </TableRow>
-                        );
-                    })}
-                </TableBody>
-                <TableFooter>
-                    <TableRow>
-                        <TablePagination
-                            colSpan={columnData.length}
-                            count={totalCount}
-                            rowsPerPage={rowsPerPage}
-                            page={page}
-                            onPageChange={handleChangePage}
-                            onRowsPerPageChange={handleChangeRowsPerPage}
-                            ActionsComponent={TablePaginationAction}
-                            />
-                    </TableRow>
-                </TableFooter>
-            </Table>
-        </div>
-
-    );
+              <TableCell>{user.surname + " " + user.name}</TableCell>
+              <TableCell>{user.email}</TableCell>
+            </TableRow>
+          );
+        })}
+      </TableContainer2>
+    </div>
+  );
 }
 
 UserList.propTypes = {
-    users: PropTypes.array.isRequired,
-}
+  users: PropTypes.array.isRequired,
+};
 export default UserList;

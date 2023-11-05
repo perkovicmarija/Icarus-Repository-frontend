@@ -216,6 +216,9 @@
   "general.versionMobile": "Mobile version",
   "general.platform": "Platform",
   "general.required": "Required",
+  "general.page": "Page",
+  "general.rowsPerPage": "Rows per page",
+  "general.of": "of",
 
   "form.user": "User",
   "form.users": "Users",
@@ -300,6 +303,7 @@
   "qms.newChecklist": "Create new checklist",
   "qms.checklist.objectives": "Objectives",
   "qms.checklist.newVersion": "New version",
+  "qms.checklist.versionMobile": "Mobile version",
   "qms.checklist.newAbbreviation": "New abbrevation",
   "qms.checklist.addItem": "Add item",
   "qms.checklist.updateOrder": "Update order",

@@ -36,6 +36,42 @@ const useStyles = makeStyles((theme: any) => ({
   },
 }));
 
+export interface TableToolbar2Props {
+  title: string;
+  //
+  filters: any;
+  onSearchSubmit: any;
+  searchPlaceholder: any;
+  searchTextPropKey: any;
+  searchToolbarStyle?: any;
+  //
+  onColumnEditClick?: any;
+  tooltipColumnEdit?: any;
+  //
+  onAddClick?: any;
+  tooltipAdd?: any;
+  addMenuOptions?: any;
+  //
+  onExportClick?: any;
+  tooltipExport?: any;
+  //
+  onImportClick?: any;
+  //
+  onHelpClick?: any;
+  tooltipHelp?: any;
+  //
+  onMoreClick?: any;
+  tooltipMore?: any;
+  //
+  onNotifyAllClick?: any;
+  tooltipNotifyAll?: any;
+  //
+  onFilterClick: any;
+  initFilters: any;
+  //
+  toolbarStyle?: any;
+}
+
 function TableToolbar2({
   title,
   //
@@ -70,7 +106,7 @@ function TableToolbar2({
   initFilters,
   //
   toolbarStyle,
-}: any) {
+}: TableToolbar2Props) {
   const classes = useStyles();
 
   const [searchText, setSearchText] = useState("");

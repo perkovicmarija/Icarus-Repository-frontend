@@ -61,10 +61,6 @@ function Clients(props) {
     setClientIdForDelete(undefined);
   };
 
-  const handleInputSearchChange = (event) => {
-    props.clientActions.changeFilterClientSearch(event.target.value);
-  };
-
   const handleSearchSubmit = () => {
     const viewModel = {
       filters: props.filters,
@@ -109,13 +105,11 @@ function Clients(props) {
       <ClientList
         clients={clients}
         totalCount={totalCount}
-        searchValue={filters.clientSearch}
-        onInputSearchChange={handleInputSearchChange}
+        filters={filters}
         onSearchSubmit={handleSearchSubmit}
         onNewClientClick={(event) => setDialogClientDetails({})}
         onClientEdit={(e, client) => setDialogClientDetails(client)}
         onClientDelete={handleClientDelete}
-        filtersActive={filtersActive}
         page={page}
         rowsPerPage={rowsPerPage}
         onChangePage={handleChangePage}

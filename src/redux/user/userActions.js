@@ -98,13 +98,6 @@ export function changeFilterUserRole(userRoles) {
     }
 }
 
-export function changeFilterUserSearch(userSearch) {
-    return {
-        type: types.FILTER_USER_SEARCH_UPDATE,
-        userSearch
-    }
-}
-
 export function changeFilterShowDeactivated(showDeactivated) {
     return {
         type: types.FILTER_USER_SHOW_DEACTIVATED_UPDATE,

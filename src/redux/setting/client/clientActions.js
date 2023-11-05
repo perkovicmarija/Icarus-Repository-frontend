@@ -39,15 +39,6 @@ export function loadAllClientsPagination(viewModel) {
   }
 }
 
-// Filter
-
-export function changeFilterClientSearch(clientSearch) {
-  return {
-    type: types.FILTER_CLIENT_SEARCH_UPDATE,
-    clientSearch
-  }
-}
-
 
 
 

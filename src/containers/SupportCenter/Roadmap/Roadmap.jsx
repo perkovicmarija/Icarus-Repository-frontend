@@ -26,7 +26,8 @@ import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
 import DialogDeleteWarning from "../../../components/core/Dialog/DialogDeleteWarning";
 import DialogFormRoadmapLogFilter from "../../../components/support/DialogFormRoadmapLogFilter";
-import EnhancedTableToolbarSingleOption from "../../../components/core/Table/EnhancedTableToolbarSingleOption";
+import TableToolbar2 from '../../../components/core/Table/TableToolbar2';
+import { initFilters } from '../../../redux/support/supportReducer';
 
 const useStyles = makeStyles(theme => ({
     root: {
@@ -226,12 +227,11 @@ function Roadmap(props) {
 
         return (
             <div>
-                <EnhancedTableToolbarSingleOption
+                <TableToolbar2
                     title="support.roadmap"
+                    //
+                    initFilters={initFilters}
                     onFilterClick={handleRoadmapFilterClick}
-                    filtersActive={!Object.values(filters).every(value => !value)}
-                    onSearchSubmit={handleFilterSubmit}
-                    noAdd={true}
                 />
 
                 <Tooltip title="Roadmap">

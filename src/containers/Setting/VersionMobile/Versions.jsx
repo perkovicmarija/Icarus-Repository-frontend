@@ -17,7 +17,6 @@ function Versions(props) {
     versionsMobile,
     totalCount,
     filters,
-    filtersActive,
     page,
     rowsPerPage,
     clients,
@@ -128,7 +127,7 @@ function Versions(props) {
         onNewVersionMobileClick={() => setDialogVersionMobileDetails({})}
         onVersionMobileEdit={handleVersionMobileEdit}
         onVersionMobileDelete={handleVersionMobileDelete}
-        filtersActive={filtersActive}
+        filters={filters}
         page={page}
         rowsPerPage={rowsPerPage}
         onChangePage={handleChangePage}
@@ -198,7 +197,6 @@ function mapStateToProps(state, ownProps) {
     versionsMobile: state.VersionMobile.versionsMobile,
     totalCount: state.VersionMobile.totalCount,
     filters: state.VersionMobile.filters,
-    filtersActive: true,
     page: page,
     rowsPerPage: rowsPerPage,
     clients: state.Client.clients,

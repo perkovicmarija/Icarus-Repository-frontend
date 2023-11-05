@@ -45,11 +45,11 @@ function Users(props) {
         props.userActions.changeFilterShowDeactivated(event.target.checked);
     }
 
-    const handleChangePage = (event, page) => {
+    const onPageChange = (event, page) => {
         props.history.push(getUsersPath(page, props.rowsPerPage));
     };
 
-    const handleChangeRowsPerPage = event => {
+    const onRowsPerPageChange = event => {
         props.history.push(getUsersPath(props.page, event.target.value));
     };
 
@@ -77,10 +77,6 @@ function Users(props) {
         props.userActions.clearFilters();
     }
 
-    const handleInputSearchChange = (event) => {
-        props.userActions.changeFilterUserSearch(event.target.value);
-    }
-
     const handleSearchSubmit = () => {
         const viewModel = {
             filters: props.filters,
@@ -105,7 +101,6 @@ function Users(props) {
         totalCount,
         filters,
         userRoles,
-        filtersActive,
         page,
         rowsPerPage
     } = props;
@@ -115,15 +110,13 @@ function Users(props) {
             <UserList
                 users={users}
                 totalCount={totalCount}
-                searchValue={filters.userSearch}
                 onUserClick={handleUserClick}
                 onUserNewClick={handleUserNewClick}
-                onInputSearchChange={handleInputSearchChange}
                 onSearchSubmit={handleSearchSubmit}
-                handleChangePage={handleChangePage}
-                handleChangeRowsPerPage={handleChangeRowsPerPage}
+                onPageChange={onPageChange}
+                onRowsPerPageChange={onRowsPerPageChange}
                 onUserFilterClick={handleUserFilterClick}
-                filtersActive={filtersActive}
+                filters={filters}
                 page={page}
                 rowsPerPage={rowsPerPage}
             />
@@ -159,8 +152,6 @@ function mapStateToProps(state, ownProps) {
         userRoles: state.UserRole.userRoles,
         totalCount: state.User.totalCount,
         filters: state.User.filters,
-        filtersActive: state.User.filters.userRoles.length > 0
-        || state.User.filters.showDeactivated,
         page: page,
         rowsPerPage: rowsPerPage
     }

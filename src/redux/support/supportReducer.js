@@ -1,6 +1,6 @@
 import * as types from '../actionTypes';
 
-const initFilters = {
+export const initFilters = {
   startDate: null,
   endDate: null,
   statuses: [],

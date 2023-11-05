@@ -225,8 +225,7 @@ const SupportSoftwareLog = (props) => {
       <SupportSoftwareLogList
         softwareLogs={softwareLogsPagination}
         totalCount={totalCount}
-        searchValue={filters.softwareLogSearch}
-        onInputSearchChange={handleInputSearchChange}
+        filters={filters}
         onSearchSubmit={handleSearchSubmit}
         onNewSoftwareLogClick={handleNewSoftwareLogClick}
         onSoftwareLogEdit={handleSoftwareLogEdit}

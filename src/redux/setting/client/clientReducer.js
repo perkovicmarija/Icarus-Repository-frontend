@@ -1,16 +1,14 @@
 import * as types from '../../actionTypes';
 
-const initFilters = {
-  clientSearch: undefined,
-}
-
 const initState = {
   clientsPagination: [],
   clients: [],
   client: {},
   totalCount: 0,
   rowsPerPage: 10,
-  filters: initFilters
+  filters: {
+    clientSearch: "",
+  }
 }
 
 
@@ -41,14 +39,6 @@ export default function clientReducer(state = initState, action) {
         ...state,
         client: action.updatedClient,
         clientsPagination: [...state.clientsPagination.slice(0, index), updatedClient, ...state.clientsPagination.slice(index + 1)]
-      };
-    case types.FILTER_CLIENT_SEARCH_UPDATE:
-      return {
-        ...state,
-        filters: {
-          ...state.filters,
-          clientSearch: action.clientSearch
-        }
       };
     case types.CREATE_CLIENT_SUCCESS:
       return {
