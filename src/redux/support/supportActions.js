@@ -116,23 +116,10 @@ export function loadAllSoftwareLogsPagination(viewModel) {
     }
 }
 
-export function changeFilterSoftwareLogSearch(softwareLogSearch) {
+export function setFilters(filters) {
     return {
-        type: types.FILTER_SOFTWARE_LOG_SEARCH_UPDATE,
-        softwareLogSearch
-    }
-}
-
-export function changeFilterSoftwareLogClients(selectedClients) {
-    return {
-        type: types.FILTER_CLIENTS_UPDATE,
-        selectedClients
-    }
-}
-
-export function clearSoftwareLogFilters() {
-    return {
-        type: types.CLEAR_SOFTWARE_LOG_FILTERS
+        type: types.SOFTWARE_LOG_SET_FILTERS,
+        filters
     }
 }
 

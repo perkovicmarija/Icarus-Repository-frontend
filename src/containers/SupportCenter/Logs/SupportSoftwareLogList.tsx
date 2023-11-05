@@ -1,29 +1,17 @@
-import React from "react";
-
-import {
-  IconButton,
-  Table,
-  TableBody,
-  TableCell,
-  TableFooter,
-  TablePagination,
-  TableRow,
-  Tooltip,
-} from "@mui/material";
-import IntlMessages from "../../../components/core/IntlMessages";
-import { Delete, Edit, NoteAdd } from "@mui/icons-material";
-import { makeStyles } from "@mui/styles";
-import FilterIconCustom from "../../../components/core/FilterIconCustom";
+import { IconButton, TableCell, TableRow, Tooltip } from "@mui/material";
+import { Delete, Edit } from "@mui/icons-material";
 import { TableContainer2 } from "../../../components/core/Table/TableContainer2";
-import TableToolbar2 from "../../../components/core/Table/TableToolbar2";
+import TableToolbar2, {
+  TableToolbar2Props,
+} from "../../../components/core/Table/TableToolbar2";
+import { initFilters } from "../../../redux/support/supportReducer";
+import {
+  ColumnDefinition,
+  TableHeaderProps,
+} from "../../../components/core/Table/TableHeader";
+import { TablePagination2Props } from "../../../components/core/Table/TablePagination2";
 
-const useStyles = makeStyles((theme) => ({
-  tableRow: {
-    cursor: "pointer",
-  },
-}));
-
-const columnData = [
+const columnData: ColumnDefinition[] = [
   {
     id: "title",
     numeric: false,
@@ -48,26 +36,35 @@ const columnData = [
     disablePadding: false,
     label: "support.dateOfLog",
   },
+  {
+    id: "actions",
+    label: "general.actions",
+    style: { textAlign: "center" },
+  },
 ];
 
-const SupportSoftwareLogList = (props) => {
-  const classes = useStyles();
-
-  const {
-    softwareLogs,
-    onSearchSubmit,
-    onNewSoftwareLogClick,
-    onSoftwareLogEdit,
-    onSoftwareLogDelete,
-    page,
-    rowsPerPage,
-    totalCount,
-    onChangePage,
-    onChangeRowsPerPage,
-    onUserFilterClick,
-    selectedClients,
-  } = props;
-
+const SupportSoftwareLogList = ({
+  data,
+  onAddClick,
+  onEdit,
+  onDelete,
+  //
+  page,
+  rowsPerPage,
+  totalCount,
+  onChangePage,
+  onChangeRowsPerPage,
+  //
+  filters,
+  onFilterClick,
+  onSearchSubmit,
+}: TableToolbar2Props &
+  TableHeaderProps &
+  TablePagination2Props & {
+    data: any[];
+    onEdit: any;
+    onDelete: any;
+  }) => {
   return (
     <div>
       <TableToolbar2
@@ -78,11 +75,12 @@ const SupportSoftwareLogList = (props) => {
         searchPlaceholder="search.search"
         searchTextPropKey="softwareLogSearch"
         //
-        onAddClick={onNewSoftwareLogClick}
+        onAddClick={onAddClick}
         //
-        initFilters={{}}
-        onFilterClick={onUserFilterClick}
+        initFilters={initFilters}
+        onFilterClick={onFilterClick}
       />
+
       <TableContainer2
         headerProps={{
           columnData,
@@ -91,18 +89,18 @@ const SupportSoftwareLogList = (props) => {
           totalCount,
           rowsPerPage,
           page,
-          onPageChange,
-          onRowsPerPageChange,
+          onChangePage,
+          onChangeRowsPerPage,
         }}
       >
-        {softwareLogs.map((softwareLog, i) => {
+        {data.map((softwareLog, i) => {
           return (
-            <TableRow className={classes.tableRow} key={i} hover={true}>
+            <TableRow style={{ cursor: "pointer" }} key={i} hover={true}>
               <TableCell>{softwareLog.title}</TableCell>
               <TableCell>{softwareLog.description}</TableCell>
               <TableCell>
                 {softwareLog.supportSoftwareLogClientJoinedList
-                  .map((x) => x.client.name)
+                  .map((x: any) => x.client.name)
                   .join(", ")}
               </TableCell>
               <TableCell sx={{ width: "150px" }}>
@@ -114,9 +112,7 @@ const SupportSoftwareLogList = (props) => {
                     <div className="d-inline">
                       <IconButton
                         aria-label="Edit"
-                        onClick={(event) =>
-                          onSoftwareLogEdit(event, softwareLog)
-                        }
+                        onClick={(event) => onEdit(event, softwareLog)}
                       >
                         <Edit />
                       </IconButton>
@@ -128,9 +124,7 @@ const SupportSoftwareLogList = (props) => {
                     <div className="d-inline">
                       <IconButton
                         aria-label="Delete"
-                        onClick={(event) =>
-                          onSoftwareLogDelete(event, softwareLog)
-                        }
+                        onClick={(event) => onDelete(event, softwareLog)}
                       >
                         <Delete />
                       </IconButton>

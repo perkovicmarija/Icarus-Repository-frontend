@@ -1,57 +1,50 @@
-import React from 'react';
-import {Button, DialogActions, DialogContent, Grid} from "@mui/material";
-import TypographyFieldTitle from "../core/TypographyFieldTitle";
-import SelectMultipleCustom from "../core/Select/SelectMultipleCustom";
-import PropTypes from "prop-types";
+import React from "react";
+import { Button, DialogActions, DialogContent, Grid } from "@mui/material";
+import { initFilters } from "../../redux/support/supportReducer";
+import AutocompleteMultiLargeDataset2 from "../core/Fields/AutocompleteMultiLargeDataset2";
+import { useForm } from "react-hook-form";
 
-function DialogFormSoftwareLogFilter(props) {
-
-  const {
-    onMultiSelectChangeClients,
-    onClearAll,
-    onClose,
-    onSubmit,
-    clients,
-    selectedClients
-  } = props
+function DialogFormSoftwareLogFilter({
+  initialData,
+  onClose,
+  onSubmit,
+  clients,
+}) {
+  const { handleSubmit, control, reset } = useForm({
+    defaultValues: initialData,
+  });
 
   return (
-    <div>
+    <form
+      onSubmit={(e) => {
+        e.stopPropagation();
+        handleSubmit((data) => {
+          onSubmit(data);
+          onClose();
+        })(e);
+      }}
+    >
       <DialogContent>
         <Grid container spacing={2}>
-          <Grid item xl={12} lg={12} md={12} sm={12} xs={12}>
-            <TypographyFieldTitle title="client.clientName"/>
-            <SelectMultipleCustom
-              disabled={false}
-              title="client.clientName"
-              objectArray={clients}
-              selectArray={selectedClients}
-              firstLvlValueProp="clientId"
-              onMultiSelectChange={onMultiSelectChangeClients}
-              optionProp="name"
-              optionKey="clientId"/>
+          <Grid item xs={12}>
+            <AutocompleteMultiLargeDataset2
+              control={control}
+              label="client.clientName"
+              options={clients}
+              name="selectedClients"
+              keyProp="clientId"
+              labelProp="name"
+            />
           </Grid>
         </Grid>
       </DialogContent>
       <DialogActions>
-        <Button onClick={onClearAll}>
-          Clear all
-        </Button>
-        <Button onClick={onClose}>
-          Cancel
-        </Button>
-        <Button onClick={onSubmit} className="uppercase">
-          Submit
-        </Button>
+        <Button onClick={() => reset(initFilters)}>Clear all</Button>
+        <Button onClick={onClose}>Cancel</Button>
+        <Button type="submit">Submit</Button>
       </DialogActions>
-    </div>
+    </form>
   );
-}
-
-DialogFormSoftwareLogFilter.propTypes = {
-  onClose: PropTypes.func.isRequired,
-  onSubmit: PropTypes.func.isRequired,
-  clients: PropTypes.array.isRequired
 }
 
 export default DialogFormSoftwareLogFilter;

@@ -1,81 +1,89 @@
-import React, {useEffect, useMemo, useState} from 'react';
+import React, { useEffect, useMemo, useState } from "react";
 
-import {withRouter} from 'react-router-dom';
-import {connect} from 'react-redux';
-import {bindActionCreators} from 'redux';
-import {Paper,} from '@mui/material';
-import {makeStyles} from '@mui/styles';
-import _, {cloneDeep} from 'lodash';
-import DialogFormFrame from '../../../components/core/Dialog/DialogFormFrame';
-import DialogFormSoftwareLog from '../../../components/support/DialogFormSoftwareLog';
-import * as supportActions from '../../../redux/support/supportActions';
-import * as clientActions from '../../../redux/setting/client/clientActions';
+import { withRouter } from "react-router-dom";
+import { connect } from "react-redux";
+import { bindActionCreators } from "redux";
+import { Paper } from "@mui/material";
+import { makeStyles } from "@mui/styles";
+import _, { cloneDeep } from "lodash";
+import DialogFormFrame from "../../../components/core/Dialog/DialogFormFrame";
+import DialogFormSoftwareLog from "../../../components/support/DialogFormSoftwareLog";
+import * as supportActions from "../../../redux/support/supportActions";
+import * as clientActions from "../../../redux/setting/client/clientActions";
 import SupportSoftwareLogList from "./SupportSoftwareLogList";
-import {getSupportLogsPath} from "../../../consts/routePaths";
+import { getSupportLogsPath } from "../../../consts/routePaths";
 import DialogDeleteWarning from "../../../components/core/Dialog/DialogDeleteWarning";
 import DialogFormSoftwareLogFilter from "../../../components/support/DialogFormSoftwareLogFilter";
 
 const SupportSoftwareLog = (props) => {
-
   const createInitialState = () => ({
     title: "",
     description: "",
     selectedClients: [],
     supportSoftwareLog: {},
     notifyAllClientsByEmail: false,
-    notifyUpdatedClientsByEmail: false
+    notifyUpdatedClientsByEmail: false,
   });
 
   const [dialogNewLog, setDialogNewLog] = useState(false);
   const [notifyByEmail, setNotifyByEmail] = useState({
     notifyAll: false,
-    notifyUpdated: false
+    notifyUpdated: false,
   });
   const [softwareLog, setSoftwareLog] = useState(createInitialState);
   const [dialogWarningOpen, setDialogWarningOpen] = useState(false);
-  const [softwareLogIdForDelete, setSoftwareLogIdForDelete] = useState(undefined)
-  const [dialogFilterOpen, setDialogFilterOpen] = useState(false)
+  const [softwareLogIdForDelete, setSoftwareLogIdForDelete] =
+    useState(undefined);
+  const [dialogFilters, setDialogFilters] = useState();
 
-  const viewModel = useMemo(() => ({
-    filters: {
-      softwareLogSearch: props.filters.softwareLogSearch,
-      selectedClients: props.filters.selectedClients
-    },
-    pagination: {
-      page: props.page,
-      rowsPerPage: props.rowsPerPage
-    }
-  }), [props.filters.softwareLogSearch, props.filters.selectedClients, props.page, props.rowsPerPage]);
-
+  const viewModel = useMemo(
+    () => ({
+      filters: {
+        softwareLogSearch: props.filters.softwareLogSearch,
+        selectedClients: props.filters.selectedClients,
+      },
+      pagination: {
+        page: props.page,
+        rowsPerPage: props.rowsPerPage,
+      },
+    }),
+    [
+      props.filters.softwareLogSearch,
+      props.filters.selectedClients,
+      props.page,
+      props.rowsPerPage,
+    ]
+  );
 
   useEffect(() => {
     props.supportActions.loadAllSoftwareLogsPagination(viewModel);
     if (props.clients.length === 0) {
-      props.clientActions.loadAllClients()
+      props.clientActions.loadAllClients();
     }
-    handleClearAllFilters();
   }, []);
 
   const handleNewSoftwareLogClick = (event) => {
     setDialogNewLog(true);
-    setSoftwareLog(x => ({...x, supportSoftwareLog: {}}))
-  }
+    setSoftwareLog((x) => ({ ...x, supportSoftwareLog: {} }));
+  };
 
   const handleSoftwareLogEdit = (event, softwareLog) => {
     setSoftwareLog({
       title: softwareLog.title,
       description: softwareLog.description,
-      selectedClients: softwareLog.supportSoftwareLogClientJoinedList.map(x => x.client),
+      selectedClients: softwareLog.supportSoftwareLogClientJoinedList.map(
+        (x) => x.client
+      ),
       supportSoftwareLog: softwareLog,
       notifyAllClientsByEmail: false,
-      notifyUpdatedClientsByEmail: false
+      notifyUpdatedClientsByEmail: false,
     });
     setNotifyByEmail({
       notifyAll: false,
-      notifyUpdated: false
-    })
+      notifyUpdated: false,
+    });
     setDialogNewLog(true);
-  }
+  };
 
   const handleDialogFormSoftwareLogSubmit = () => {
     setDialogNewLog(false);
@@ -84,61 +92,63 @@ const SupportSoftwareLog = (props) => {
     } else {
       props.supportActions.createSoftwareLogClient(softwareLog);
     }
-    setSoftwareLog(createInitialState)
+    setSoftwareLog(createInitialState);
     // props.supportActions.loadAllSoftwareLogs(viewModel);
     props.supportActions.loadAllSoftwareLogsPagination(viewModel);
   };
 
-  const handleInputChange = ({target: { name, value }}) => {
-    setSoftwareLog(prevState => ({ ...prevState, [name]: value }));
+  const handleInputChange = ({ target: { name, value } }) => {
+    setSoftwareLog((prevState) => ({ ...prevState, [name]: value }));
   };
 
   const handleMultipleSelectChange = (event) => {
     const selectedIds = event.target.value;
-    const selectedClients = props.clients.filter(client => selectedIds.includes(client.clientId));
-    setSoftwareLog(x => ({
-      ...x, selectedClients
-    }))
+    const selectedClients = props.clients.filter((client) =>
+      selectedIds.includes(client.clientId)
+    );
+    setSoftwareLog((x) => ({
+      ...x,
+      selectedClients,
+    }));
   };
 
   const handleDialogLogClose = () => {
     setDialogNewLog(false);
-    setSoftwareLog(createInitialState)
+    setSoftwareLog(createInitialState);
   };
 
   const handleInputSearchChange = (event) => {
     props.supportActions.changeFilterSoftwareLogSearch(event.target.value);
-  }
+  };
 
-  const handleSearchSubmit = () => {
-    const viewModelWithPageReset = {
-      ...viewModel,
+  const handleSubmitFilters = (newFilters) => {
+    props.supportActions.loadAllSoftwareLogsPagination({
+      filters: { ...filters, ...newFilters },
       pagination: {
-        ...viewModel.pagination,
-        page: 0
-      }
-    };
-    props.supportActions.loadAllSoftwareLogsPagination(viewModelWithPageReset);
-    props.history.push(getSupportLogsPath(0, props.rowsPerPage))
-  }
+        page: props.page,
+        rowsPerPage: props.rowsPerPage,
+      },
+    });
+    props.supportActions.setFilters({ ...filters, ...newFilters });
+  };
 
   const handleSoftwareLogDelete = (event, softwareLog) => {
     setSoftwareLogIdForDelete(softwareLog.supportSoftwareLogId);
     setDialogWarningOpen(true);
-  }
+  };
 
   const handleDeleteSoftwareLogClose = () => {
     setDialogWarningOpen(false);
     setSoftwareLogIdForDelete(undefined);
-  }
+  };
 
   const handleDeleteSoftwareLogConfirmed = () => {
     let viewModel = {
       softwareLogId: softwareLogIdForDelete,
-    }
+    };
     props.supportActions.deleteSoftwareLogClient(viewModel);
     setDialogWarningOpen(false);
-  }
+  };
 
   // PAGINATION
 
@@ -147,53 +157,26 @@ const SupportSoftwareLog = (props) => {
       ...viewModel,
       pagination: {
         ...viewModel.pagination,
-        page: page
-      }
+        page: page,
+      },
     };
     props.supportActions.loadAllSoftwareLogsPagination(viewModelWithNewPage);
     props.history.push(getSupportLogsPath(page, props.rowsPerPage));
   };
 
-  const handleChangeRowsPerPage = event => {
+  const handleChangeRowsPerPage = (event) => {
     const viewModelWithNewRowsPerPage = {
       ...viewModel,
       pagination: {
         ...viewModel.pagination,
-        rowsPerPage: event.target.value
-      }
+        rowsPerPage: event.target.value,
+      },
     };
-    props.supportActions.loadAllSoftwareLogsPagination(viewModelWithNewRowsPerPage);
+    props.supportActions.loadAllSoftwareLogsPagination(
+      viewModelWithNewRowsPerPage
+    );
     props.history.push(getSupportLogsPath(props.page, event.target.value));
   };
-
-  // FILTERS
-
-  const handleUserFilterClick = () => {
-    setDialogFilterOpen(true);
-  }
-
-  const handleFilterDialogClose = () => {
-    setDialogFilterOpen(false);
-  }
-
-  const handleClearAllFilters = () => {
-    props.supportActions.clearSoftwareLogFilters();
-  }
-
-  const handleFilterSubmit = () => {
-    setDialogFilterOpen(false);
-    props.supportActions.loadAllSoftwareLogsPagination(viewModel);
-  }
-
-  const handleMultiSelectChangeClients = (event) => {
-    const selectedIds = event.target.value
-    let selectedClients = [];
-    for (let i = 0, l = selectedIds.length; i < l; i++) {
-      const client = props.clients.find(type => type.clientId === selectedIds[i]);
-      selectedClients.push(client);
-    }
-    props.supportActions.changeFilterSoftwareLogClients(selectedClients);
-  }
 
   const handleNotifyByEmail = (event) => {
     const { name, checked } = event.target;
@@ -201,41 +184,37 @@ const SupportSoftwareLog = (props) => {
     const newNotifyByEmailState = {
       notifyAll: false,
       notifyUpdated: false,
-      [name]: checked
+      [name]: checked,
     };
 
     setNotifyByEmail(newNotifyByEmailState);
     setSoftwareLog((prevState) => ({
       ...prevState,
       notifyAllClientsByEmail: newNotifyByEmailState.notifyAll,
-      notifyUpdatedClientsByEmail: newNotifyByEmailState.notifyUpdated
+      notifyUpdatedClientsByEmail: newNotifyByEmailState.notifyUpdated,
     }));
   };
 
-  const {
-    softwareLogsPagination,
-    totalCount,
-    filters,
-    page,
-    rowsPerPage,
-  } = props;
+  const { softwareLogsPagination, totalCount, filters, page, rowsPerPage } =
+    props;
 
   return (
     <Paper>
       <SupportSoftwareLogList
-        softwareLogs={softwareLogsPagination}
+        data={softwareLogsPagination}
+        onAddClick={handleNewSoftwareLogClick}
+        onEdit={handleSoftwareLogEdit}
+        onDelete={handleSoftwareLogDelete}
+        //
         totalCount={totalCount}
-        filters={filters}
-        onSearchSubmit={handleSearchSubmit}
-        onNewSoftwareLogClick={handleNewSoftwareLogClick}
-        onSoftwareLogEdit={handleSoftwareLogEdit}
-        onSoftwareLogDelete={handleSoftwareLogDelete}
         page={page}
         rowsPerPage={rowsPerPage}
         onChangePage={handleChangePage}
         onChangeRowsPerPage={handleChangeRowsPerPage}
-        onUserFilterClick={handleUserFilterClick}
-        selectedClients={props.filters.selectedClients}
+        //
+        filters={filters}
+        onFilterClick={() => setDialogFilters(filters)}
+        onSearchSubmit={handleSubmitFilters}
       />
 
       {/*
@@ -245,8 +224,13 @@ const SupportSoftwareLog = (props) => {
       */}
       <DialogFormFrame
         onClose={handleDialogLogClose}
-        title={_.isEmpty(softwareLog.supportSoftwareLog) ? "support.logs.new" : "support.logs.update"}
-        open={dialogNewLog}>
+        title={
+          _.isEmpty(softwareLog.supportSoftwareLog)
+            ? "support.logs.new"
+            : "support.logs.update"
+        }
+        open={dialogNewLog}
+      >
         <DialogFormSoftwareLog
           onClose={handleDialogLogClose}
           onSubmit={handleDialogFormSoftwareLogSubmit}
@@ -260,31 +244,29 @@ const SupportSoftwareLog = (props) => {
           gridSpacing={2}
         />
       </DialogFormFrame>
+
       <DialogFormFrame
-        onClose={handleFilterDialogClose}
+        onClose={() => setDialogFilters()}
         title="general.selectFilters"
-        open={dialogFilterOpen}>
+        open={dialogFilters}
+      >
         <DialogFormSoftwareLogFilter
-          onClearAll={handleClearAllFilters}
-          onClose={handleFilterDialogClose}
-          onSubmit={handleFilterSubmit}
-          onMultiSelectChangeClients={handleMultiSelectChangeClients}
+          initialData={dialogFilters}
+          onClose={() => setDialogFilters()}
+          onSubmit={handleSubmitFilters}
           clients={props.clients}
-          selectedClients={props.filters.selectedClients}
         />
       </DialogFormFrame>
+
       <DialogDeleteWarning
         open={dialogWarningOpen}
         text="general.deleteWarning"
         onDelete={handleDeleteSoftwareLogConfirmed}
-        onClose={handleDeleteSoftwareLogClose}/>
+        onClose={handleDeleteSoftwareLogClose}
+      />
     </Paper>
   );
-}
-
-SupportSoftwareLog.propTypes = {
-  //myProp: PropTypes.string.isRequired
-}
+};
 
 function mapStateToProps(state, ownProps) {
   let page = 0;
@@ -302,15 +284,18 @@ function mapStateToProps(state, ownProps) {
     totalCount: state.SupportCenter.totalCount,
     filters: state.SupportCenter.filters,
     page: page,
-    rowsPerPage: rowsPerPage
-  }
+    rowsPerPage: rowsPerPage,
+  };
 }
 
 function mapDispatchToProps(dispatch) {
   return {
     supportActions: bindActionCreators(supportActions, dispatch),
-    clientActions: bindActionCreators(clientActions, dispatch)
+    clientActions: bindActionCreators(clientActions, dispatch),
   };
 }
 
-export default (connect(mapStateToProps, mapDispatchToProps)(withRouter(SupportSoftwareLog)));
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(withRouter(SupportSoftwareLog));
