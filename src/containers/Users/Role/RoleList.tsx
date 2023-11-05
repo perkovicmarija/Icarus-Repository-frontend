@@ -1,53 +1,48 @@
-import React from "react";
-
-import { makeStyles } from "@mui/styles";
-import {
-  Table,
-  TableBody,
-  TableCell,
-  TableRow,
-  TableFooter,
-  TablePagination,
-  Tooltip,
-  IconButton,
-} from "@mui/material";
-import { Edit, Delete, NoteAdd } from "@mui/icons-material";
-import PropTypes from "prop-types";
-import IntlMessages from "../../../components/core/IntlMessages";
+import { TableRow, IconButton, TableCell, Tooltip } from "@mui/material";
+import { Edit, Delete } from "@mui/icons-material";
 import { TableContainer2 } from "../../../components/core/Table/TableContainer2";
-import TableToolbar2 from "../../../components/core/Table/TableToolbar2";
+import TableToolbar2, {
+  TableToolbar2Props,
+} from "../../../components/core/Table/TableToolbar2";
+import {
+  ColumnDefinition,
+  TableHeaderProps,
+} from "../../../components/core/Table/TableHeader";
+import { TablePagination2Props } from "../../../components/core/Table/TablePagination2";
 
-const useStyles = makeStyles((theme) => ({
-  tableRow: {
-    cursor: "pointer",
-  },
-}));
-
-const columnData = [
+const columnData: ColumnDefinition[] = [
   { id: "name", numeric: false, disablePadding: false, label: "general.name" },
+
+  {
+    id: "actions",
+    label: "general.actions",
+    style: { textAlign: "center" },
+  },
 ];
 
-function RoleList(props) {
-  const classes = useStyles();
-
-  const {
-    roles,
-    totalCount,
-    page,
-    rowsPerPage,
-    onChangePage,
-    onChangeRowsPerPage,
-    onRoleNewClick,
-    onRoleEdit,
-    onRoleDelete,
-  } = props;
-
+function RoleList({
+  data,
+  totalCount,
+  page,
+  rowsPerPage,
+  onChangePage,
+  onChangeRowsPerPage,
+  onAddClick,
+  onEdit,
+  onDelete,
+}: TableToolbar2Props &
+  TableHeaderProps &
+  TablePagination2Props & {
+    data: any[];
+    onEdit: any;
+    onDelete: any;
+  }) {
   return (
     <div>
       <TableToolbar2
         title="form.userRoles"
         //
-        onAddClick={onRoleNewClick}
+        onAddClick={onAddClick}
       />
 
       <TableContainer2
@@ -58,14 +53,14 @@ function RoleList(props) {
           totalCount,
           rowsPerPage,
           page,
-          onPageChange,
-          onRowsPerPageChange,
+          onChangePage,
+          onChangeRowsPerPage,
         }}
       >
-        {roles.map((role) => {
+        {data.map((role) => {
           return (
             <TableRow
-              className={classes.tableRow}
+              style={{ cursor: "pointer" }}
               key={role.userRoleId}
               hover={true}
             >
@@ -75,7 +70,7 @@ function RoleList(props) {
                   <div className="d-inline">
                     <IconButton
                       aria-label="Edit"
-                      onClick={(event) => onRoleEdit(event, role)}
+                      onClick={(event) => onEdit(event, role)}
                     >
                       <Edit />
                     </IconButton>
@@ -86,7 +81,7 @@ function RoleList(props) {
                     <div className="d-inline">
                       <IconButton
                         aria-label="Delete"
-                        onClick={(event) => onRoleDelete(event, role)}
+                        onClick={(event) => onDelete(event, role)}
                       >
                         <Delete />
                       </IconButton>
@@ -102,7 +97,4 @@ function RoleList(props) {
   );
 }
 
-RoleList.propTypes = {
-  roles: PropTypes.array.isRequired,
-};
 export default RoleList;
