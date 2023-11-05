@@ -1,11 +1,12 @@
 import { useState, useEffect } from "react";
 import { makeStyles, useTheme } from "@mui/styles";
-import { IconButton, TextField, Input } from "@mui/material";
+import { IconButton, TextField } from "@mui/material";
 import {
   KeyboardArrowLeft,
   KeyboardArrowRight,
   FirstPage,
   LastPage,
+  Input,
 } from "@mui/icons-material";
 import { FormattedMessage } from "react-intl";
 
