@@ -165,7 +165,7 @@ function IcarusDocs(props) {
     props.icarusDocumentationFolderActions.move(viewModel);
   };
 
-  const handleRequestSort = (event, property) => {
+  const onRequestSort = (event, property) => {
     props.icarusDocumentationFileActions.reverseOrder(property);
     props.icarusDocumentationFolderActions.reverseOrder(property);
     if (order === "desc") {
@@ -489,7 +489,7 @@ function IcarusDocs(props) {
       <IcarusDocumentationTable
         order={order}
         orderBy={orderBy}
-        onRequestSort={handleRequestSort}
+        onRequestSort={onRequestSort}
         files={icarusDocumentationFiles}
         folders={icarusDocumentationFolders}
         onDeleteFile={handleDeleteFile}

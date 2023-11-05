@@ -55,19 +55,39 @@ const toolbarStyles = (theme) => ({
 });
 
 const columnData = [
-  { id: "ext", numeric: false, disablePadding: false, label: "general.type" },
-  { id: "name", numeric: false, disablePadding: false, label: "general.name" },
+  {
+    id: "ext",
+    numeric: false,
+    disablePadding: false,
+    label: "general.type",
+    sortable: true,
+  },
+  {
+    id: "name",
+    numeric: false,
+    disablePadding: false,
+    label: "general.name",
+    sortable: true,
+  },
   {
     id: "userCreated",
     numeric: false,
     disablePadding: false,
     label: "general.createdBy",
+    sortable: true,
   },
   {
     id: "size",
     numeric: false,
     disablePadding: false,
     label: "documentation.size",
+    sortable: true,
+  },
+  {
+    id: "actions",
+    disablePadding: true,
+    label: "general.actions",
+    style: { textAlign: "center" },
   },
 ];
 
@@ -141,8 +161,6 @@ const IcarusDocumentationTable = ({
           <TableCell />
           <TableCell />
           <TableCell />
-          <TableCell />
-          <TableCell />
         </TableRow>
       )}
 
@@ -163,7 +181,7 @@ const IcarusDocumentationTable = ({
             <TableCell />
             <TableCell>
               {Protected.protectedAuth(["PERM_SUPPORT_ADMIN"]) ? (
-                <div>
+                <div style={{ textAlign: "center" }}>
                   <IconButton
                     aria-label="More"
                     aria-owns={
@@ -261,7 +279,7 @@ const IcarusDocumentationTable = ({
             </TableCell>
             <TableCell>{file.userCreator.fullName}</TableCell>
             <TableCell>{file.sizeFormatted}</TableCell>
-            <TableCell>
+            <TableCell style={{ textAlign: "center" }}>
               <IconButton
                 aria-label="More"
                 aria-owns={indexSelectedFile === index ? "long-menu" : null}
@@ -275,6 +293,7 @@ const IcarusDocumentationTable = ({
                 anchorEl={indexSelectedFile === index ? anchorElFile : null}
                 open={indexSelectedFile === index}
                 onClose={handleFileActionClose}
+                style={{ textAlign: "flex-start" }}
               >
                 {!file.protectedFile && (
                   <MenuItem
@@ -357,12 +376,6 @@ const IcarusDocumentationTable = ({
                         primary={<IntlMessages id="general.history" />}
                       />
                     </MenuItem>
-                    {/*                                                <MenuItem onClick={handleFileActionClose}>
-                                                    <ListItemIcon>
-                                                        <Info/>
-                                                    </ListItemIcon>
-                                                    <ListItemText primary="Info"/>
-                                                </MenuItem>*/}
                   </div>
                 ) : null}
               </Menu>
