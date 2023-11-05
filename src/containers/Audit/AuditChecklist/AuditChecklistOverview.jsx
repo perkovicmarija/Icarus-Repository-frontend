@@ -262,6 +262,7 @@ const AuditChecklistOverview = (props) => {
         rowsPerPage,
       },
     };
+    dispatch(auditChecklistActions.setFilters({ ...filters, ...newFilters }));
     dispatch(auditChecklistActions.getAllActiveRequest(viewModel));
   };
 
