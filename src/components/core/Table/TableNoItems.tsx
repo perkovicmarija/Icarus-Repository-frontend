@@ -9,7 +9,7 @@ export const TableNoItems = ({ message }: { message?: string }) => {
         justifyContent="center"
         fontStyle="oblique"
         fontSize="fontSize"
-        style={{ margin: "1.25rem 0" }}
+        style={{ padding: "1.25rem 0" }}
       >
         <FormattedMessage id={message ?? "general.noItems"} />
       </Box>
