@@ -103,7 +103,7 @@ function Clients(props) {
   return (
     <>
       <ClientList
-        clients={clients}
+        data={clients}
         totalCount={totalCount}
         filters={filters}
         onSearchSubmit={handleSearchSubmit}

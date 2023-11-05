@@ -13,14 +13,8 @@ import { getVersionMobilePath } from "../../../consts/routePaths";
 import { AJAX_FAILED } from "../../../redux/actionTypes";
 
 function Versions(props) {
-  const {
-    versionsMobile,
-    totalCount,
-    filters,
-    page,
-    rowsPerPage,
-    clients,
-  } = props;
+  const { versionsMobile, totalCount, filters, page, rowsPerPage, clients } =
+    props;
 
   const dispatch = useDispatch();
 
@@ -82,18 +76,13 @@ function Versions(props) {
     setDialogVersionMobileDetails(version);
   };
 
-  const handleInputSearchChange = (event) => {
-    props.versionMobileActions.changeFilterVersionMobileSearch(
-      event.target.value
-    );
-  };
-
-  const handleSearchSubmit = () => {
+  const handleSearchSubmit = (newFilters) => {
     let viewModel = {
       page,
       rows_per_page: rowsPerPage,
-      client_name: filters.clientName,
+      client_name: newFilters.clientName,
     };
+    props.versionMobileActions.setFilters({ ...filters, newFilters });
     props.versionMobileActions.loadVersions(viewModel);
     props.history.push(getVersionMobilePath(0, rowsPerPage));
   };
@@ -119,15 +108,15 @@ function Versions(props) {
   return (
     <>
       <VersionList
-        versionsMobile={versionsMobile}
-        totalCount={totalCount}
-        searchValue={filters.clientName}
-        onInputSearchChange={handleInputSearchChange}
-        onSearchSubmit={handleSearchSubmit}
+        data={versionsMobile}
         onNewVersionMobileClick={() => setDialogVersionMobileDetails({})}
         onVersionMobileEdit={handleVersionMobileEdit}
         onVersionMobileDelete={handleVersionMobileDelete}
+        //
+        onSearchSubmit={handleSearchSubmit}
         filters={filters}
+        //
+        totalCount={totalCount}
         page={page}
         rowsPerPage={rowsPerPage}
         onChangePage={handleChangePage}

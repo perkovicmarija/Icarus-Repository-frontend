@@ -32,10 +32,10 @@ export function deleteAction(viewModel) {
 
 // Filter
 
-export function changeFilterVersionMobileSearch(clientName) {
+export function setFilters(filters) {
   return {
-    type: types.FILTER_VERSION_MOBILE_SEARCH_UPDATE,
-    clientName
+    type: types.MOBILE_VERSIONS_SET_FILTERS,
+    filters
   }
 }
 

@@ -1,26 +1,7 @@
-import React from "react";
-
-import {
-  IconButton,
-  Table,
-  TableBody,
-  TableCell,
-  TableFooter,
-  TablePagination,
-  TableRow,
-  Tooltip,
-} from "@mui/material";
-import IntlMessages from "../../../components/core/IntlMessages";
-import { Delete, Edit, NoteAdd } from "@mui/icons-material";
-import { makeStyles } from "@mui/styles";
+import { IconButton, TableCell, TableRow, Tooltip } from "@mui/material";
+import { Delete, Edit } from "@mui/icons-material";
 import { TableContainer2 } from "../../../components/core/Table/TableContainer2";
 import TableToolbar2 from "../../../components/core/Table/TableToolbar2";
-
-const useStyles = makeStyles((theme) => ({
-  tableRow: {
-    cursor: "pointer",
-  },
-}));
 
 const columnData = [
   {
@@ -41,25 +22,26 @@ const columnData = [
     disablePadding: false,
     label: "general.client",
   },
+  {
+    id: "actions",
+    label: "general.actions",
+    style: { textAlign: "center" },
+  },
 ];
 
-const VersionList = (props) => {
-  const classes = useStyles();
-
-  const {
-    versionsMobile,
-    filters,
-    onSearchSubmit,
-    onNewVersionMobileClick,
-    onVersionMobileEdit,
-    onVersionMobileDelete,
-    page,
-    rowsPerPage,
-    totalCount,
-    onChangePage,
-    onChangeRowsPerPage,
-  } = props;
-
+const VersionList = ({
+  data,
+  filters,
+  onSearchSubmit,
+  onNewVersionMobileClick,
+  onVersionMobileEdit,
+  onVersionMobileDelete,
+  page,
+  rowsPerPage,
+  totalCount,
+  onChangePage,
+  onChangeRowsPerPage,
+}: any) => {
   return (
     <>
       <TableToolbar2
@@ -68,6 +50,7 @@ const VersionList = (props) => {
         filters={filters}
         onSearchSubmit={onSearchSubmit}
         searchPlaceholder="search.byClientName"
+        searchTextPropKey="clientName"
         //
         onAddClick={onNewVersionMobileClick}
       />
@@ -80,14 +63,14 @@ const VersionList = (props) => {
           totalCount,
           rowsPerPage,
           page,
-          onPageChange,
-          onRowsPerPageChange,
+          onChangePage,
+          onChangeRowsPerPage,
         }}
       >
-        {versionsMobile.map((version) => {
+        {data.map((version: any) => {
           return (
             <TableRow
-              className={classes.tableRow}
+              style={{ cursor: "pointer" }}
               key={version.versionMobileId}
               hover={true}
             >
@@ -128,10 +111,6 @@ const VersionList = (props) => {
       </TableContainer2>
     </>
   );
-};
-
-VersionList.propTypes = {
-  //myProp: PropTypes.string.isRequired
 };
 
 export default VersionList;

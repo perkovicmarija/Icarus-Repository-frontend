@@ -82,7 +82,7 @@ const AuditChecklistsList = ({
       label: "general.status",
     },
     {
-      id: "action",
+      id: "actions",
       numeric: false,
       disablePadding: false,
       label: "general.actions",

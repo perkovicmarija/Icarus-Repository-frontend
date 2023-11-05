@@ -1,26 +1,11 @@
-import React from "react";
-
-import {
-  IconButton,
-  Table,
-  TableBody,
-  TableCell,
-  TableFooter,
-  TablePagination,
-  TableRow,
-  Tooltip,
-} from "@mui/material";
-import IntlMessages from "../../../components/core/IntlMessages";
-import { Delete, Edit, NoteAdd } from "@mui/icons-material";
-import { makeStyles } from "@mui/styles";
+import { IconButton, TableCell, TableRow, Tooltip } from "@mui/material";
+import { Delete, Edit } from "@mui/icons-material";
 import { TableContainer2 } from "../../../components/core/Table/TableContainer2";
-import TableToolbar2 from "../../../components/core/Table/TableToolbar2";
-
-const useStyles = makeStyles((theme) => ({
-  tableRow: {
-    cursor: "pointer",
-  },
-}));
+import TableToolbar2, {
+  TableToolbar2Props,
+} from "../../../components/core/Table/TableToolbar2";
+import { TableHeaderProps } from "../../../components/core/Table/TableHeader";
+import { TablePagination2Props } from "../../../components/core/Table/TablePagination2";
 
 const columnData = [
   { id: "name", numeric: false, disablePadding: false, label: "general.name" },
@@ -30,29 +15,38 @@ const columnData = [
     disablePadding: false,
     label: "general.abbreviation",
   },
+  {
+    id: "actions",
+    label: "general.actions",
+  },
 ];
 
-const ClientList = (props) => {
-  const classes = useStyles();
-
-  const {
-    clients,
-    onSearchSubmit,
-    onNewClientClick,
-    onClientEdit,
-    onClientDelete,
-    page,
-    rowsPerPage,
-    totalCount,
-    onChangePage,
-    onChangeRowsPerPage,
-  } = props;
-
+const ClientList = ({
+  data,
+  onSearchSubmit,
+  onNewClientClick,
+  onClientEdit,
+  onClientDelete,
+  page,
+  rowsPerPage,
+  totalCount,
+  onChangePage,
+  onChangeRowsPerPage,
+  filters,
+}: TableToolbar2Props &
+  TableHeaderProps &
+  TablePagination2Props & {
+    onClientEdit: any;
+    onClientDelete: any;
+    onNewClientClick: any;
+    data: any[];
+  }) => {
   return (
     <>
       <TableToolbar2
         title="form.clients"
         //
+        filters={filters}
         onSearchSubmit={onSearchSubmit}
         searchPlaceholder={"search.byName"}
         searchTextPropKey="clientSearch"
@@ -68,16 +62,16 @@ const ClientList = (props) => {
           totalCount,
           rowsPerPage,
           page,
-          onPageChange,
-          onRowsPerPageChange,
+          onChangePage,
+          onChangeRowsPerPage,
         }}
       >
-        {clients
-          .filter((client) => !client.deactivated)
-          .map((client) => {
+        {data
+          .filter((client: any) => !client.deactivated)
+          .map((client: any) => {
             return (
               <TableRow
-                className={classes.tableRow}
+                style={{ cursor: "pointer" }}
                 key={client.clientId}
                 hover={true}
               >
@@ -115,10 +109,6 @@ const ClientList = (props) => {
       </TableContainer2>
     </>
   );
-};
-
-ClientList.propTypes = {
-  //myProp: PropTypes.string.isRequired
 };
 
 export default ClientList;
