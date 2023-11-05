@@ -43,5 +43,4 @@ DialogDeleteWarning.propTypes = {
     onClose: PropTypes.func.isRequired,
     onDelete: PropTypes.func.isRequired,
     text: PropTypes.string.isRequired,
-    formComponent: PropTypes.node
 }
