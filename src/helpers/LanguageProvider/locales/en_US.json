@@ -1,6 +1,6 @@
 {
   "general.title": "Title",
-  "general.forgotPassword":"You forgot your password?",
+  "general.forgotPassword": "You forgot your password?",
   "general.yes": "Yes",
   "general.no": "No",
   "general.dashboard": "Dashboard",
@@ -31,7 +31,7 @@
   "general.origin": "Origin",
   "general.name": "Name",
   "general.client": "Client",
-  "general.category" : "Category",
+  "general.category": "Category",
   "general.subcategory": "Subcategory",
   "general.download": "Download",
   "general.loading": "Loading",
@@ -219,6 +219,7 @@
   "general.page": "Page",
   "general.rowsPerPage": "Rows per page",
   "general.of": "of",
+  "general.roleName": "Role name",
 
   "form.user": "User",
   "form.users": "Users",
@@ -257,7 +258,6 @@
   "action.filter": "Filter",
   "action.filters": "Filters",
   "action.download": "Download",
-
 
   "support.title": "Support center",
   "support.logs": "Logs",
@@ -340,7 +340,6 @@
   "qms.audit.checklist.auditorAction.isago.headquarters": "Headquarters",
   "qms.audit.checklist.auditorAction.isago.station": "Station",
 
-
   "training.exam.questionBank.importQuestion.typeOfFileQuestion": "WHAT TYPE OF FILE TO UPLOAD",
   "training.exam.questionBank.importQuestion.typeOfFile": "Excel file .xslx",
   "training.exam.questionBank.importQuestion.fileContent": "CONTENT OF THE FILE",
@@ -353,10 +352,10 @@
   "documentation.permissionType": "Permission type",
   "documentation.addNewFile": "Add new file",
   "documentation.addNewFolder": "Add new folder",
-  "documentation.clickToChoose" : "Click to choose a file or drag it here.",
-  "documentation.uncontrolledCopy" : "Uncontrolled copy?",
-  "documentation.uncontrolledCopy.message" : "If this is set, watermark 'UNCONTROLLED COPY' will be added to the PDF file.",
-  "documentation.responsiblePerson.message" : "Responsible person can be notified about expiration date of the document. You can set that in the app settings. ",
+  "documentation.clickToChoose": "Click to choose a file or drag it here.",
+  "documentation.uncontrolledCopy": "Uncontrolled copy?",
+  "documentation.uncontrolledCopy.message": "If this is set, watermark 'UNCONTROLLED COPY' will be added to the PDF file.",
+  "documentation.responsiblePerson.message": "Responsible person can be notified about expiration date of the document. You can set that in the app settings. ",
   "documentation.ext": "EXT",
   "documentation.revision.abbreviation": "REV",
   "documentation.revisionDate.abbreviation": "REV. DATE",
@@ -393,6 +392,6 @@
   "userRoles.users.title": "Users with this role",
   "users.groups": "User groups",
 
-  "promotion.news.notification":"Notifications",
+  "promotion.news.notification": "Notifications",
   "promotion.news.notificationType": "Notification Type"
 }

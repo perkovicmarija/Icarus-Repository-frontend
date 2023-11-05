@@ -7,6 +7,7 @@ export const initFilters = {
   userRoles: [],
   showDeactivated: false,
 };
+
 const initState = {
   usersPagination: [],
   users: [],
@@ -104,26 +105,10 @@ export default function userReducer(state = initState, action) {
           companies: action.companies,
         },
       };
-    case types.FILTER_USER_ROLES_UPDATE:
+    case types.USERS_SET_FILTERS:
       return {
         ...state,
-        filters: {
-          ...state.filters,
-          userRoles: action.userRoles,
-        },
-      };
-    case types.FILTER_USER_SHOW_DEACTIVATED_UPDATE:
-      return {
-        ...state,
-        filters: {
-          ...state.filters,
-          showDeactivated: action.showDeactivated,
-        },
-      };
-    case types.FILTER_USER_CLEAR:
-      return {
-        ...state,
-        filters: initFilters,
+        filters: action.filters,
       };
     default:
       return state;
