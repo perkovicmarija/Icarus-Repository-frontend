@@ -2,8 +2,9 @@ import { IconButton, TableCell, TableRow, Tooltip } from "@mui/material";
 import { Delete, Edit } from "@mui/icons-material";
 import { TableContainer2 } from "../../../components/core/Table/TableContainer2";
 import TableToolbar2 from "../../../components/core/Table/TableToolbar2";
+import { ColumnDefinition } from "../../../components/core/Table/TableHeader";
 
-const columnData = [
+const columnData: ColumnDefinition[] = [
   {
     id: "versionMin",
     numeric: false,

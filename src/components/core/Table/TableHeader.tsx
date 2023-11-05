@@ -9,7 +9,7 @@ import {
 import { FormattedMessage } from "react-intl";
 import { CSSProperties, MouseEvent } from "react";
 
-interface ColumnDefinition {
+export interface ColumnDefinition {
   id: string;
   label: string;
   numeric?: boolean;

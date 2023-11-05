@@ -9,6 +9,7 @@ import { TableContainer2 } from "../core/Table/TableContainer2";
 import TableToolbar2 from "../core/Table/TableToolbar2";
 import { initFilters } from "../../redux/auditChecklist/auditChecklistReducer";
 import { FormattedMessage } from "react-intl";
+import { ColumnDefinition } from "../core/Table/TableHeader";
 
 const useStyles = makeStyles(() => ({
   labelCustomValuePublished: {
@@ -43,7 +44,7 @@ const AuditChecklistsList = ({
 }: any) => {
   const classes = useStyles();
 
-  const columnData = [
+  const columnData: ColumnDefinition[] = [
     { id: "id", numeric: false, disablePadding: false, label: "general.id" },
     {
       id: "domain",
@@ -83,9 +84,8 @@ const AuditChecklistsList = ({
     },
     {
       id: "actions",
-      numeric: false,
-      disablePadding: false,
       label: "general.actions",
+      style: { textAlign: "center" },
     },
   ];
 

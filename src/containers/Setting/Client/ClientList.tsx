@@ -4,10 +4,13 @@ import { TableContainer2 } from "../../../components/core/Table/TableContainer2"
 import TableToolbar2, {
   TableToolbar2Props,
 } from "../../../components/core/Table/TableToolbar2";
-import { TableHeaderProps } from "../../../components/core/Table/TableHeader";
+import {
+  ColumnDefinition,
+  TableHeaderProps,
+} from "../../../components/core/Table/TableHeader";
 import { TablePagination2Props } from "../../../components/core/Table/TablePagination2";
 
-const columnData = [
+const columnData: ColumnDefinition[] = [
   { id: "name", numeric: false, disablePadding: false, label: "general.name" },
   {
     id: "abbreviation",
@@ -18,6 +21,7 @@ const columnData = [
   {
     id: "actions",
     label: "general.actions",
+    style: { textAlign: "center" },
   },
 ];
 

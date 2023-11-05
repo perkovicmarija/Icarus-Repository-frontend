@@ -82,9 +82,9 @@ function Versions(props) {
       rows_per_page: rowsPerPage,
       client_name: newFilters.clientName,
     };
-    props.versionMobileActions.setFilters({ ...filters, newFilters });
+    props.versionMobileActions.setFilters({ ...filters, ...newFilters });
     props.versionMobileActions.loadVersions(viewModel);
-    props.history.push(getVersionMobilePath(0, rowsPerPage));
+    // props.history.push(getVersionMobilePath(0, rowsPerPage));
   };
 
   const handleChangePage = (event, page) => {
