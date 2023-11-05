@@ -39,10 +39,10 @@ const useStyles = makeStyles((theme: any) => ({
 export interface TableToolbar2Props {
   title: string;
   //
-  filters: any;
-  onSearchSubmit: any;
-  searchPlaceholder: any;
-  searchTextPropKey: any;
+  filters?: any;
+  onSearchSubmit?: any;
+  searchPlaceholder?: any;
+  searchTextPropKey?: any;
   searchToolbarStyle?: any;
   //
   onColumnEditClick?: any;

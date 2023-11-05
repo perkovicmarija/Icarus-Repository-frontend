@@ -22,8 +22,8 @@ const DateTimePickerCustom2 = ({
 }: UseControllerProps &
   DateTimePickerProps<Moment> & {
     label?: string;
-    titleProps: Omit<TypographyReportField2Props, "label">;
-    hidePlaceholder: boolean;
+    titleProps?: Omit<TypographyReportField2Props, "label">;
+    hidePlaceholder?: boolean;
     placeholder?: string;
   }) => {
   const intl = useIntl();

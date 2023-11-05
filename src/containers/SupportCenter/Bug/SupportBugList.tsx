@@ -1,32 +1,18 @@
-import React from "react";
-
-import {
-  Table,
-  TableBody,
-  TableCell,
-  TableRow,
-  TableFooter,
-  TablePagination,
-  Tooltip,
-  IconButton,
-} from "@mui/material";
-import { NoteAdd } from "@mui/icons-material";
+import { TableCell, TableRow } from "@mui/material";
 import { makeStyles } from "@mui/styles";
-
-import FilterIconCustom from "../../../components/core/FilterIconCustom";
-import * as Protected from "../../../protectedAuth";
-import IntlMessages from "../../../components/core/IntlMessages";
 import { TableContainer2 } from "../../../components/core/Table/TableContainer2";
-import TableToolbar2 from "../../../components/core/Table/TableToolbar2";
+import TableToolbar2, {
+  TableToolbar2Props,
+} from "../../../components/core/Table/TableToolbar2";
+import { protectedAuth } from "../../../protectedAuth";
+import { TableHeaderProps } from "../../../components/core/Table/TableHeader";
+import { TablePagination2Props } from "../../../components/core/Table/TablePagination2";
 
-const useStyles = makeStyles((theme) => ({
+const useStyles = makeStyles((theme: any) => ({
   root: {
     width: "100%",
     marginTop: theme.spacing(3),
     overflowX: "auto",
-  },
-  table: {
-    minWidth: 700,
   },
   tableRow: {
     cursor: "pointer",
@@ -110,10 +96,26 @@ const columnData = [
   },
 ];
 
-function SupportCenterList(props) {
+function SupportBugList({
+  data,
+  totalCount,
+  page,
+  rowsPerPage,
+  onChangePage,
+  onChangeRowsPerPage,
+  onEdit,
+  onFilterClick,
+  filters,
+  onAddClick,
+}: Omit<TableToolbar2Props, "title"> &
+  Omit<TableHeaderProps, "columnData"> &
+  TablePagination2Props & {
+    data: any[];
+    onEdit: any;
+  }) {
   const classes = useStyles();
 
-  const changeValueOnStatus = (value) => {
+  const changeValueOnStatus = (value: any) => {
     if (value === "in-progress") {
       return classes.statusInProgress;
     }
@@ -129,7 +131,7 @@ function SupportCenterList(props) {
     return classes.statusPending;
   };
 
-  const changeValueOnLevel = (value, status) => {
+  const changeValueOnLevel = (value: any, status: any) => {
     if (status === "completed" || status === "cancelled") {
       return classes.levelNone;
     }
@@ -150,19 +152,6 @@ function SupportCenterList(props) {
     return classes.levelNone;
   };
 
-  const {
-    supportBugs,
-    totalCount,
-    page,
-    rowsPerPage,
-    onChangePage,
-    onChangeRowsPerPage,
-    onSupportItemClick,
-    onSupportFilterClick,
-    filtersActive,
-    onSupportItemNewClick,
-  } = props;
-
   return (
     <div className={classes.root}>
       <TableToolbar2
@@ -173,8 +162,11 @@ function SupportCenterList(props) {
             "PERM_SUPPORT_BASIC",
             "PERM_SUPPORT_CRUD",
             "PERM_SUPPORT_ADMIN",
-          ]) && onSupportItemNewClick
+          ]) && onAddClick
         }
+        //
+        filters={filters}
+        onFilterClick={onFilterClick}
       />
 
       <TableContainer2
@@ -185,16 +177,16 @@ function SupportCenterList(props) {
           totalCount,
           rowsPerPage,
           page,
-          onPageChange,
-          onRowsPerPageChange,
+          onChangePage,
+          onChangeRowsPerPage,
         }}
       >
-        {supportBugs.map((item) => {
+        {data.map((item: any) => {
           return (
             <TableRow
               className={classes.tableRow}
               key={item.supportBugIdSign}
-              onClick={(event) => onSupportItemClick(event, item.supportBugId)}
+              onClick={(event) => onEdit(event, item.supportBugId)}
               hover={true}
             >
               <TableCell>{item.supportBugIdSign}</TableCell>
@@ -224,4 +216,4 @@ function SupportCenterList(props) {
   );
 }
 
-export default SupportCenterList;
+export default SupportBugList;
