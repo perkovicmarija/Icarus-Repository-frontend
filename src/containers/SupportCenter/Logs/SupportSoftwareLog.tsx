@@ -77,20 +77,25 @@ const SupportSoftwareLog = ({
     <Paper>
       <SupportSoftwareLogList
         data={data}
-        onAddClick={() => setDialogAddEditLog({})}
         onEdit={setDialogAddEditLog}
         onDelete={setDialogWarning}
         //
-        totalCount={totalCount}
-        page={page}
-        rowsPerPage={rowsPerPage}
-        onChangePage={onChangePage}
-        onChangeRowsPerPage={onChangeRowsPerPage}
+        toolbarProps={{
+          onAddClick: () => setDialogAddEditLog({}),
+          title: "support.softwareLogs",
+          filters,
+          onFilterClick: setDialogFilters,
+          onSearchSubmit: handleSubmitFilters,
+        }}
+        paginationProps={{
+          totalCount,
+          page,
+          rowsPerPage,
+          onChangePage,
+          onChangeRowsPerPage,
+        }}
+
         //
-        title="support.softwareLogs"
-        filters={filters}
-        onFilterClick={() => setDialogFilters(filters)}
-        onSearchSubmit={handleSubmitFilters}
       />
 
       {dialogAddEditLog && (

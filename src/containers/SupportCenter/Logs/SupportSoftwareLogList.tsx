@@ -6,7 +6,6 @@ import TableToolbar2, {
 } from "../../../components/core/Table/TableToolbar2";
 import {
   ColumnDefinition,
-  TableHeaderProps,
 } from "../../../components/core/Table/TableHeader";
 import { TablePagination2Props } from "../../../components/core/Table/TablePagination2";
 import { initFilters } from "../../../redux/support/supportLogs/supportLogsSlice";
@@ -45,29 +44,26 @@ const columnData: ColumnDefinition[] = [
 
 const SupportSoftwareLogList = ({
   data,
-  onAddClick,
   onEdit,
   onDelete,
   //
-  page,
-  rowsPerPage,
-  totalCount,
-  onChangePage,
-  onChangeRowsPerPage,
-  //
-  title,
-  filters,
-  onFilterClick,
-  onSearchSubmit,
-}: TableToolbar2Props &
-  Omit<TableHeaderProps, "columnData"> &
-  TablePagination2Props & {
-    data: any[];
-    onEdit: any;
-    onDelete: any;
-  }) => {
+  toolbarProps: { onAddClick, title, filters, onFilterClick, onSearchSubmit },
+  paginationProps: {
+    page,
+    rowsPerPage,
+    totalCount,
+    onChangePage,
+    onChangeRowsPerPage,
+  },
+}: {
+  toolbarProps: TableToolbar2Props;
+  paginationProps: TablePagination2Props;
+  data: any[];
+  onEdit: any;
+  onDelete: any;
+}) => {
   return (
-    <div>
+    <>
       <TableToolbar2
         title={title}
         //
@@ -137,7 +133,7 @@ const SupportSoftwareLogList = ({
           );
         })}
       </TableContainer2>
-    </div>
+    </>
   );
 };
 
