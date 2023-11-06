@@ -1,70 +1,80 @@
-import { Provider } from 'react-redux';
-import { createTheme, ThemeProvider, StyledEngineProvider  } from '@mui/material/styles';
-import { red, brown, grey } from '@mui/material/colors';
-import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
-import { IntlProvider } from 'react-intl';
-import moment from 'moment-timezone';
-import 'moment/locale/en-gb';
-import PublicRoutes from './publicRouter';
-import Boot from './redux/boot';
-import { store, history } from './redux/store';
-import AppLocale from './helpers/LanguageProvider/index';
-import { getDefaultLanguage } from './helpers/LanguageProvider/config';
-import { AdapterMoment } from '@mui/x-date-pickers/AdapterMoment';
+import { Provider } from "react-redux";
+import {
+  createTheme,
+  ThemeProvider,
+  StyledEngineProvider,
+} from "@mui/material/styles";
+import { red, brown, grey } from "@mui/material/colors";
+import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
+import { IntlProvider } from "react-intl";
+import moment from "moment-timezone";
+import "moment/locale/en-gb";
+import PublicRoutes from "./publicRouter";
+import Boot from "./redux/boot";
+import { store, history } from "./redux/store";
+import AppLocale from "./helpers/LanguageProvider/index";
+import { getDefaultLanguage } from "./helpers/LanguageProvider/config";
+import { AdapterMoment } from "@mui/x-date-pickers/AdapterMoment";
 
 import { DndProvider } from "react-dnd";
 import { getBackendOptions, MultiBackend } from "@minoru/react-dnd-treeview";
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
-const currentAppLocale =
-    AppLocale[getDefaultLanguage().locale];
+const currentAppLocale = AppLocale[getDefaultLanguage().locale];
 
 const theme = createTheme({
-    typography: {
-        useNextVariants: true,
+  typography: {
+    useNextVariants: true,
+  },
+  palette: {
+    primary: {
+      light: grey[300],
+      main: grey[800],
+      dark: grey[900],
+      contrastText: "#FFFFFF",
     },
-    palette: {
-        primary: {
-            light:  grey[300],
-            main: grey[800],
-            dark: grey[900],
-            contrastText: '#FFFFFF',
-        },
-        secondary: {
-            light: brown[400],
-            main: brown[600],
-            dark: brown[800],
-            contrastText: '#FFFFFF'
-        },
-        error: red
-    }
+    secondary: {
+      light: brown[400],
+      main: brown[600],
+      dark: brown[800],
+      contrastText: "#FFFFFF",
+    },
+    error: red,
+  },
 });
 
 function App() {
-    moment.tz.setDefault("UTC");
+  moment.tz.setDefault("UTC");
 
-    return(
-        <IntlProvider
-            locale={currentAppLocale.locale}
-            messages={currentAppLocale.messages}
-        >
-            <DndProvider backend={MultiBackend} options={getBackendOptions()}>
-                <ThemeProvider theme={theme}>
-                    <StyledEngineProvider injectFirst>
-                        <LocalizationProvider dateAdapter={AdapterMoment} dateLibInstance={moment} adapterLocale="en-gb">
-                            <Provider store={store}>
-                                <PublicRoutes history={history}/>
-                            </Provider>
-                        </LocalizationProvider>
-                    </StyledEngineProvider>
-                </ThemeProvider>
-            </DndProvider>
-        </IntlProvider>
-    )
+  return (
+    <IntlProvider
+      locale={currentAppLocale.locale}
+      messages={currentAppLocale.messages}
+    >
+      <DndProvider backend={MultiBackend} options={getBackendOptions()}>
+        <ThemeProvider theme={theme}>
+          <StyledEngineProvider injectFirst>
+            <LocalizationProvider
+              dateAdapter={AdapterMoment}
+              dateLibInstance={moment}
+              adapterLocale="en-gb"
+            >
+              <Provider store={store}>
+                <PublicRoutes history={history} />
+              </Provider>
+            </LocalizationProvider>
+          </StyledEngineProvider>
+        </ThemeProvider>
+      </DndProvider>
+      <ToastContainer position="top-center" autoClose={3000} hideProgressBar />
+    </IntlProvider>
+  );
 }
 
 Boot()
-    .then(() => App())
-    .catch(error => console.error(error));
+  .then(() => App())
+  .catch((error) => console.error(error));
 
 export default App;
 export { AppLocale };

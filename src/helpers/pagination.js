@@ -18,7 +18,6 @@ export const paginationSetRowsPerPage = (moduleKey, value) => {
 export const usePagination = (moduleKey) => {
   const dispatch = useDispatch();
   const match = useRouteMatch();
-  console.log(match);
 
   const rowsPerPageSetting = useSelector(
     (s) => s.Settings.rowsPerPage[moduleKey]
