@@ -2,8 +2,6 @@ import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import SupportCenterApi from "../../../api/SupportCenterApi";
 
 export const initFilters = {
-  startDate: null,
-  endDate: null,
   selectedClients: [],
 };
 
@@ -15,12 +13,32 @@ const initialState = {
   filters: { ...initFilters, softwareLogSearch: "" },
 };
 
+export type FiltersType = (typeof initialState)["filters"];
+
 const getData = createAsyncThunk(
   "supportLogs/getData",
-  async (viewModel /* thunkAPI */) => {
+  async (viewModel: any /* thunkAPI */) => {
     const response = await SupportCenterApi.getAllSoftwareLogClientsPagination(
       viewModel
     );
+    return response.data;
+  }
+);
+
+const deleteItem = createAsyncThunk(
+  "supportLogs/deleteItem",
+  async (viewModel: any /* thunkAPI */) => {
+    const response = await SupportCenterApi.deleteSoftwareLogClient(viewModel);
+    return response.data;
+  }
+);
+
+const addEditItem = createAsyncThunk(
+  "supportLogs/addEditItem",
+  async ({ payload, meta }: { payload: any; meta: any } /* thunkAPI */) => {
+    const response = await (payload.supportSoftwareLogId
+      ? SupportCenterApi.updateSoftwareLogClient
+      : SupportCenterApi.createSoftwareLogClient)({ payload, meta });
     return response.data;
   }
 );
@@ -29,20 +47,22 @@ const supportLogsSlice = createSlice({
   name: "supportLogs",
   initialState,
   reducers: {
-    addEditItem() {},
-    deleteItem() {},
     setFilters(state, action) {
       state.filters = action.payload;
     },
   },
   extraReducers: (builder) => {
     builder.addCase(getData.fulfilled, (state, action) => {
-      console.log("rafa", action.payload.data);
       state.data = action.payload.data;
       state.meta = action.payload.meta;
     });
   },
 });
 
-export const supportLogsActions = { ...supportLogsSlice.actions, getData };
-export default supportLogsSlice.reducer;
+export const supportLogsActions = {
+  ...supportLogsSlice.actions,
+  getData,
+  addEditItem,
+  deleteItem,
+};
+export default supportLogsSlice;

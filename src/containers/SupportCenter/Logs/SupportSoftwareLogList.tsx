@@ -4,12 +4,12 @@ import { TableContainer2 } from "../../../components/core/Table/TableContainer2"
 import TableToolbar2, {
   TableToolbar2Props,
 } from "../../../components/core/Table/TableToolbar2";
-import { initFilters } from "../../../redux/support/supportReducer";
 import {
   ColumnDefinition,
   TableHeaderProps,
 } from "../../../components/core/Table/TableHeader";
 import { TablePagination2Props } from "../../../components/core/Table/TablePagination2";
+import { initFilters } from "../../../redux/support/supportLogs/supportLogsSlice";
 
 const columnData: ColumnDefinition[] = [
   {
