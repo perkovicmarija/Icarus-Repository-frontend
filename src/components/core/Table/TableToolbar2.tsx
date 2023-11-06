@@ -282,7 +282,7 @@ function TableToolbar2({
                 style={{ padding: "0.5rem" }}
                 aria-haspopup="true"
                 aria-owns={anchorEl ? "addNew-menu" : undefined}
-                onClick={addMenuOptions ? onAddMenuClick : onAddClick}
+                onClick={addMenuOptions ? onAddMenuClick : () => onAddClick({})}
               >
                 <NoteAdd />
               </IconButton>
@@ -293,7 +293,7 @@ function TableToolbar2({
             <Tooltip title={<FormattedMessage id="action.filter" />}>
               <FilterIconCustom
                 style={{ padding: "0.5rem" }}
-                onFilterClick={onFilterClick}
+                onFilterClick={() => onFilterClick(filters)}
                 filtersActive={filtersActive}
               />
             </Tooltip>
