@@ -43,3 +43,6 @@ sagaMiddleware.run(rootSaga);
 
 const getStore = () => store;
 export { store, history, getStore };
+
+export type RootState = ReturnType<typeof store.getState>;
+export type AppDispatch = typeof store.dispatch;

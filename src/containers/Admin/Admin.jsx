@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 
 import { bindActionCreators } from 'redux';
-import { connect } from 'react-redux';
+import { connect, useDispatch, useSelector } from 'react-redux';
 import { useTheme } from '@mui/material';
 import { makeStyles } from '@mui/styles';
 import { IntlProvider } from 'react-intl';
@@ -17,6 +17,7 @@ import CssBaseline from '@mui/material/CssBaseline';
 import authAction from '../../redux/auth/authActions';
 import { AppLocale } from '../../App';
 import routes from "./sidebarRoutes";
+import { settingsActions } from "../../redux/settings/settingsSlice";
 
 const useStyles = makeStyles(theme => ({
     root: {
@@ -65,6 +66,16 @@ function Dashboard(props) {
     const currentAppLocale = AppLocale[props.locale];
 
     const {...rest} = props;
+
+    const dispatch = useDispatch();
+    const settings = useSelector(state => state.Settings);
+    useEffect(() => {
+      console.log('initializeSettings');
+      dispatch(settingsActions.initializeSettings());
+    }, [])
+    if (!settings) {
+      return null;
+    }
 
     return (
         <IntlProvider
