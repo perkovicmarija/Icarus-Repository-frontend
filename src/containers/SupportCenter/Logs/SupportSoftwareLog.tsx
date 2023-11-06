@@ -1,21 +1,28 @@
-import React, { useEffect, useMemo, useState } from "react";
-
-import { withRouter } from "react-router-dom";
-import { connect } from "react-redux";
-import { bindActionCreators } from "redux";
+import { useEffect, useMemo, useState } from "react";
+import { useHistory } from "react-router-dom";
+import { connect, useDispatch } from "react-redux";
 import { Paper } from "@mui/material";
-import { makeStyles } from "@mui/styles";
-import _, { cloneDeep } from "lodash";
+import _ from "lodash";
 import DialogFormFrame from "../../../components/core/Dialog/DialogFormFrame";
 import DialogFormSoftwareLog from "../../../components/support/DialogFormSoftwareLog";
-import * as supportActions from "../../../redux/support/supportActions";
 import * as clientActions from "../../../redux/setting/client/clientActions";
 import SupportSoftwareLogList from "./SupportSoftwareLogList";
 import { getSupportLogsPath } from "../../../consts/routePaths";
 import DialogDeleteWarning from "../../../components/core/Dialog/DialogDeleteWarning";
 import DialogFormSoftwareLogFilter from "../../../components/support/DialogFormSoftwareLogFilter";
+import { supportLogsActions } from "../../../redux/support/supportLogs/supportLogsSlice";
 
-const SupportSoftwareLog = (props) => {
+const SupportSoftwareLog = ({
+  data,
+  filters,
+  totalCount,
+  page,
+  rowsPerPage,
+  //
+  clients,
+}: any) => {
+  const dispatch = useDispatch();
+  const history = useHistory();
   const createInitialState = () => ({
     title: "",
     description: "",
@@ -39,35 +46,30 @@ const SupportSoftwareLog = (props) => {
   const viewModel = useMemo(
     () => ({
       filters: {
-        softwareLogSearch: props.filters.softwareLogSearch,
-        selectedClients: props.filters.selectedClients,
+        softwareLogSearch: filters.softwareLogSearch,
+        selectedClients: filters.selectedClients,
       },
       pagination: {
-        page: props.page,
-        rowsPerPage: props.rowsPerPage,
+        page,
+        rowsPerPage,
       },
     }),
-    [
-      props.filters.softwareLogSearch,
-      props.filters.selectedClients,
-      props.page,
-      props.rowsPerPage,
-    ]
+    [filters.softwareLogSearch, filters.selectedClients, page, rowsPerPage]
   );
 
   useEffect(() => {
-    props.supportActions.loadAllSoftwareLogsPagination(viewModel);
-    if (props.clients.length === 0) {
-      props.clientActions.loadAllClients();
+    dispatch(supportLogsActions.getData(viewModel));
+    if (clients.length === 0) {
+      dispatch(clientActions.loadAllClients());
     }
   }, []);
 
-  const handleNewSoftwareLogClick = (event) => {
+  const handleNewSoftwareLogClick = () => {
     setDialogNewLog(true);
     setSoftwareLog((x) => ({ ...x, supportSoftwareLog: {} }));
   };
 
-  const handleSoftwareLogEdit = (event, softwareLog) => {
+  const handleSoftwareLogEdit = (_e, softwareLog) => {
     setSoftwareLog({
       title: softwareLog.title,
       description: softwareLog.description,
@@ -85,25 +87,24 @@ const SupportSoftwareLog = (props) => {
     setDialogNewLog(true);
   };
 
-  const handleDialogFormSoftwareLogSubmit = () => {
-    setDialogNewLog(false);
+  const handleDialogFormSoftwareLogSubmit = (viewModel) => {
+    /* setDialogNewLog(false);
     if (softwareLog.supportSoftwareLog.supportSoftwareLogId) {
-      props.supportActions.updateSoftwareLogClient(softwareLog);
+      supportLogsActions.updateSoftwareLogClient(softwareLog);
     } else {
-      props.supportActions.createSoftwareLogClient(softwareLog);
+      supportLogsActions.createSoftwareLogClient(softwareLog);
     }
-    setSoftwareLog(createInitialState);
-    // props.supportActions.loadAllSoftwareLogs(viewModel);
-    props.supportActions.loadAllSoftwareLogsPagination(viewModel);
+    setSoftwareLog(createInitialState); */
+    dispatch(supportLogsActions.loadAllSoftwareLogsPagination(viewModel));
   };
 
   const handleInputChange = ({ target: { name, value } }) => {
     setSoftwareLog((prevState) => ({ ...prevState, [name]: value }));
   };
 
-  const handleMultipleSelectChange = (event) => {
-    const selectedIds = event.target.value;
-    const selectedClients = props.clients.filter((client) =>
+  const handleMultipleSelectChange = (e) => {
+    const selectedIds = e.target.value;
+    const selectedClients = clients.filter((client) =>
       selectedIds.includes(client.clientId)
     );
     setSoftwareLog((x) => ({
@@ -117,19 +118,17 @@ const SupportSoftwareLog = (props) => {
     setSoftwareLog(createInitialState);
   };
 
-  const handleInputSearchChange = (event) => {
-    props.supportActions.changeFilterSoftwareLogSearch(event.target.value);
-  };
-
   const handleSubmitFilters = (newFilters) => {
-    props.supportActions.loadAllSoftwareLogsPagination({
-      filters: { ...filters, ...newFilters },
-      pagination: {
-        page: props.page,
-        rowsPerPage: props.rowsPerPage,
-      },
-    });
-    props.supportActions.setFilters({ ...filters, ...newFilters });
+    dispatch(
+      supportLogsActions.loadAllSoftwareLogsPagination({
+        filters: { ...filters, ...newFilters },
+        pagination: {
+          page,
+          rowsPerPage,
+        },
+      })
+    );
+    dispatch(supportLogsActions.setFilters({ ...filters, ...newFilters }));
   };
 
   const handleSoftwareLogDelete = (event, softwareLog) => {
@@ -146,40 +145,39 @@ const SupportSoftwareLog = (props) => {
     let viewModel = {
       softwareLogId: softwareLogIdForDelete,
     };
-    props.supportActions.deleteSoftwareLogClient(viewModel);
+    dispatch(supportLogsActions.deleteSoftwareLogClient(viewModel));
     setDialogWarningOpen(false);
   };
 
   // PAGINATION
-
-  const handleChangePage = (event, page) => {
-    const viewModelWithNewPage = {
+  const onChangePage = (event, page) => {
+    /* const viewModelWithNewPage = {
       ...viewModel,
       pagination: {
         ...viewModel.pagination,
         page: page,
       },
-    };
-    props.supportActions.loadAllSoftwareLogsPagination(viewModelWithNewPage);
-    props.history.push(getSupportLogsPath(page, props.rowsPerPage));
+    }; */
+    // supportLogsActions.loadAllSoftwareLogsPagination(viewModelWithNewPage);
+    history.push(getSupportLogsPath(page, rowsPerPage));
   };
-
-  const handleChangeRowsPerPage = (event) => {
-    const viewModelWithNewRowsPerPage = {
+  const onChangeRowsPerPage = (e) => {
+    /* const viewModelWithNewRowsPerPage = {
       ...viewModel,
       pagination: {
         ...viewModel.pagination,
-        rowsPerPage: event.target.value,
+        rowsPerPage: e.target.value,
       },
-    };
-    props.supportActions.loadAllSoftwareLogsPagination(
+    }; */
+    /* supportLogsActions.loadAllSoftwareLogsPagination(
       viewModelWithNewRowsPerPage
-    );
-    props.history.push(getSupportLogsPath(props.page, event.target.value));
+    ); */
+    console.log(getSupportLogsPath(page, e.target.value));
+    history.push(getSupportLogsPath(page, e.target.value));
   };
 
-  const handleNotifyByEmail = (event) => {
-    const { name, checked } = event.target;
+  const handleNotifyByEmail = (e) => {
+    const { name, checked } = e.target;
 
     const newNotifyByEmailState = {
       notifyAll: false,
@@ -195,13 +193,10 @@ const SupportSoftwareLog = (props) => {
     }));
   };
 
-  const { softwareLogsPagination, totalCount, filters, page, rowsPerPage } =
-    props;
-
   return (
     <Paper>
       <SupportSoftwareLogList
-        data={softwareLogsPagination}
+        data={data}
         onAddClick={handleNewSoftwareLogClick}
         onEdit={handleSoftwareLogEdit}
         onDelete={handleSoftwareLogDelete}
@@ -209,9 +204,10 @@ const SupportSoftwareLog = (props) => {
         totalCount={totalCount}
         page={page}
         rowsPerPage={rowsPerPage}
-        onChangePage={handleChangePage}
-        onChangeRowsPerPage={handleChangeRowsPerPage}
+        onChangePage={onChangePage}
+        onChangeRowsPerPage={onChangeRowsPerPage}
         //
+        title="support.softwareLogs"
         filters={filters}
         onFilterClick={() => setDialogFilters(filters)}
         onSearchSubmit={handleSubmitFilters}
@@ -240,21 +236,21 @@ const SupportSoftwareLog = (props) => {
           softwareLog={softwareLog}
           notifyByEmail={notifyByEmail}
           handleNotifyByEmail={handleNotifyByEmail}
-          clients={props.clients}
+          clients={clients}
           gridSpacing={2}
         />
       </DialogFormFrame>
 
       <DialogFormFrame
-        onClose={() => setDialogFilters()}
+        onClose={() => setDialogFilters(undefined)}
         title="general.selectFilters"
         open={dialogFilters}
       >
         <DialogFormSoftwareLogFilter
           initialData={dialogFilters}
-          onClose={() => setDialogFilters()}
+          onClose={() => setDialogFilters(undefined)}
           onSubmit={handleSubmitFilters}
-          clients={props.clients}
+          clients={clients}
         />
       </DialogFormFrame>
 
@@ -278,24 +274,14 @@ function mapStateToProps(state, ownProps) {
     rowsPerPage = parseInt(ownProps.match.params.rowsPerPage);
   }
   return {
-    softwareLogsPagination: state.SupportCenter.softwareLogsPagination,
-    softwareLog: state.SupportCenter.softwareLog,
+    data: state.SupportLogs.data,
+    totalCount: state.SupportLogs.meta.totalCount,
+    filters: state.SupportLogs.filters,
+    //
     clients: state.Client.clients,
-    totalCount: state.SupportCenter.totalCount,
-    filters: state.SupportCenter.filters,
     page: page,
     rowsPerPage: rowsPerPage,
   };
 }
 
-function mapDispatchToProps(dispatch) {
-  return {
-    supportActions: bindActionCreators(supportActions, dispatch),
-    clientActions: bindActionCreators(clientActions, dispatch),
-  };
-}
-
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(withRouter(SupportSoftwareLog));
+export default connect(mapStateToProps, null)(SupportSoftwareLog);

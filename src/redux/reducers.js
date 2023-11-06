@@ -8,6 +8,7 @@ import UserRole from './user/role/userRoleReducer'
 import UserGroup from './user/group/userGroupReducer';
 import Authority from './authority/authorityReducer';
 import SupportCenter from './support/supportReducer';
+import supportLogsSlice from './support/supportLogs/supportLogsSlice';
 import Progress from './progress/progressReducer';
 import LanguageSwitcher from './languageSwitcher/languageSwitcherReducer';
 import AuditChecklist from './auditChecklist/auditChecklistReducer';
@@ -30,6 +31,7 @@ export default (history) => combineReducers({
     UserGroup,
     Authority,
     SupportCenter,
+    SupportLogs: supportLogsSlice,
     LanguageSwitcher,
     AuditChecklist,
     AuditChecklistItem,

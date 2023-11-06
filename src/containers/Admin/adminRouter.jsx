@@ -15,8 +15,6 @@ import {
     auditChecklist,
     auditChecklistOverview,
     dashboard,
-    getSupportBugsPath,
-    getSupportLogsPath,
     icarusDocs,
     icarusDocsDetailsNew, icarusDocsEditFile, icarusDocsViewFile,
     root,
@@ -24,6 +22,7 @@ import {
     submenu1,
     submenu2,
     supportBug,
+    supportCenter,
     supportRoadmap,
     user,
     userModule
@@ -38,11 +37,6 @@ import FileDetailsWrapperEdit from "../SupportCenter/IcarusDocs/FileDetailsWrapp
 const AdminRouter = () => {
   return (
     <Switch>
-        {
-            /**
-             * Default routes
-             */
-        }
         <Route
             path={dashboard}
             component={Dashboard}
@@ -60,21 +54,9 @@ const AdminRouter = () => {
         />
         <ProtectedRoute
             protectedAuthorities={['PERM_SUPPORT_BASIC', 'PERM_SUPPORT_CRUD', 'PERM_SUPPORT_ADMIN']}
-            path={getSupportLogsPath(0, 25)}
+            path={supportCenter}
             component={SupportCenterFrame}
-            key="software-logs-list"
-        />
-        <ProtectedRoute
-            protectedAuthorities={['PERM_SUPPORT_BASIC', 'PERM_SUPPORT_CRUD', 'PERM_SUPPORT_ADMIN']}
-            path={getSupportBugsPath(0, 25)}
-            component={SupportCenterFrame}
-            key="software-bugs-list"
-        />
-        <ProtectedRoute
-            protectedAuthorities={['PERM_SUPPORT_BASIC', 'PERM_SUPPORT_CRUD', 'PERM_SUPPORT_ADMIN']}
-            path={supportRoadmap}
-            component={SupportCenterFrame}
-            key="roadmap"
+            key="supportCenter"
         />
         <ProtectedRoute
             exact

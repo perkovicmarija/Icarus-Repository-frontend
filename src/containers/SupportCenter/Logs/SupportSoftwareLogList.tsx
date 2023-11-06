@@ -55,11 +55,12 @@ const SupportSoftwareLogList = ({
   onChangePage,
   onChangeRowsPerPage,
   //
+  title,
   filters,
   onFilterClick,
   onSearchSubmit,
 }: TableToolbar2Props &
-  TableHeaderProps &
+  Omit<TableHeaderProps, "columnData"> &
   TablePagination2Props & {
     data: any[];
     onEdit: any;
@@ -68,7 +69,7 @@ const SupportSoftwareLogList = ({
   return (
     <div>
       <TableToolbar2
-        title="support.softwareLogs"
+        title={title}
         //
         filters={filters}
         onSearchSubmit={onSearchSubmit}

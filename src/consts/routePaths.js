@@ -33,9 +33,14 @@ export const getUserRolesPath = (page, rowsPerPage) => {
 
 export const supportCenter = adminRoot + "/support-center";
 
-export const supportLogs = supportCenter + "/logs/:page?/:rowsPerPage?";
+export const supportLogs = supportCenter + "/logs/";
 export const getSupportLogsPath = (page, rowsPerPage) => {
-    return supportLogs.replace(":page?", page).replace(":rowsPerPage?", rowsPerPage);
+    return `${supportLogs}${page}/${rowsPerPage ?? ""}`;
+}
+
+export const supportBugs = supportCenter + "/bugs/";
+export const getSupportBugsPath = (page, rowsPerPage) => {
+    return `${supportBugs}${page}/${rowsPerPage ?? ""}`;
 }
 
 export const icarusDocs = supportCenter + "/icarus-docs";
@@ -44,10 +49,6 @@ export const icarusDocsDetailsNew = icarusDocs + "/details/new";
 export const icarusDocsViewFile = icarusDocs + "/view/";
 export const icarusDocsEditFile = icarusDocs + "/details/edit";
 
-export const supportBugs = supportCenter + "/bugs/:page?/:rowsPerPage?";
-export const getSupportBugsPath = (page, rowsPerPage) => {
-    return supportBugs.replace(":page?", page).replace(":rowsPerPage?", rowsPerPage);
-}
 export const supportBug = adminRoot + "/request/:id";
 export const getSupportBugPath = (id) => {
     return supportBug.replace(":id", id);
