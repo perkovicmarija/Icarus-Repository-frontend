@@ -1,26 +1,26 @@
-import { FormGroup, FormControlLabel, Switch } from "@mui/material";
+import { FormControlLabel, FormControlLabelProps, Switch } from "@mui/material";
 import { Control, UseControllerProps, useController } from "react-hook-form";
 import TypographyReportField from "../TypographyReportField";
-import { FormGroupProps } from "@mui/material";
 import IntlMessages from "../IntlMessages";
 
-type SwitchCustom2Props = FormGroupProps & {
+interface SwitchCustom2Props
+  extends Omit<FormControlLabelProps, "control" | "defaultValue" | "label"> {
   control: Control;
   name: string;
   label?: string;
   rules?: UseControllerProps["rules"];
-  defaultValue?: string;
+  defaultValue?: boolean;
   inlineLabel?: string;
   disabled?: boolean;
   info?: string;
-};
+}
 
 function SwitchCustom2({
   control,
   name,
   label,
   rules,
-  defaultValue,
+  defaultValue = false,
   inlineLabel,
   disabled,
   info,
@@ -47,19 +47,18 @@ function SwitchCustom2({
           info={info}
         />
       )}
-      <FormGroup row {...props}>
-        <FormControlLabel
-          control={
-            <Switch
-              disabled={disabled}
-              onChange={(e: any) => field.onChange(e.target.checked)}
-              checked={field.value}
-            />
-          }
-          label={inlineLabel && <IntlMessages id={inlineLabel} />}
-          labelPlacement="end"
-        />
-      </FormGroup>
+      <FormControlLabel
+        control={
+          <Switch
+            disabled={disabled}
+            onChange={(e: any) => field.onChange(e.target.checked)}
+            checked={field.value}
+          />
+        }
+        label={inlineLabel && <IntlMessages id={inlineLabel} />}
+        labelPlacement="end"
+        {...props}
+      />
     </>
   );
 }

@@ -6,8 +6,8 @@ export interface TablePagination2Props {
   totalCount: number;
   rowsPerPage: number;
   page: number;
-  onChangePage: any;
-  onChangeRowsPerPage: any;
+  onChangePage: (newValue: number) => void;
+  onChangeRowsPerPage: (newValue: number) => void;
 }
 
 export const TablePagination2 = ({
@@ -39,7 +39,7 @@ export const TablePagination2 = ({
         <TextField
           select
           value={rowsPerPage}
-          onChange={onChangeRowsPerPage}
+          onChange={(e) => onChangeRowsPerPage(Number(e.target.value))}
           SelectProps={{
             SelectDisplayProps: {
               style: { padding: "4px 32px 6px 12px" },
@@ -67,7 +67,7 @@ export const TablePagination2 = ({
         </div>
         <TablePaginationAction
           page={page}
-          onChangePage={onChangePage}
+          onChangePage={(_e: any, newValue: number) => onChangePage(newValue)}
           count={count}
           rowsPerPage={rowsPerPage}
         />
