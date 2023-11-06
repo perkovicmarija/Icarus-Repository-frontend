@@ -44,7 +44,7 @@ function DialogDelete2<T>({
           }}
           disabled={disabled}
         >
-          <FormattedMessage id="action.delete" />
+          <FormattedMessage id="general.delete" />
         </Button>
         <Button onClick={onClose} disabled={disabled}>
           <FormattedMessage id="action.cancel" />

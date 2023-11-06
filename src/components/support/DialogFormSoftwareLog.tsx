@@ -54,7 +54,7 @@ function DialogFormComment({
               control={control}
               label="general.companies"
               options={clients}
-              name="selectedClients"
+              name="clients"
               keyProp="clientId"
               labelProp="name"
             />
@@ -75,7 +75,7 @@ function DialogFormComment({
           </Grid>
 
           <Grid item xs={12}>
-            {!initialData.supportSoftwareLogId && (
+            {initialData.supportSoftwareLogId && (
               <SwitchCustom2
                 control={control}
                 name="notifyUpdated"

@@ -113,7 +113,7 @@ const SupportSoftwareLogList = ({
                     <div className="d-inline">
                       <IconButton
                         aria-label="Edit"
-                        onClick={(event) => onEdit(event, softwareLog)}
+                        onClick={() => onEdit(softwareLog)}
                       >
                         <Edit />
                       </IconButton>
@@ -125,7 +125,7 @@ const SupportSoftwareLogList = ({
                     <div className="d-inline">
                       <IconButton
                         aria-label="Delete"
-                        onClick={(event) => onDelete(event, softwareLog)}
+                        onClick={() => onDelete(softwareLog)}
                       >
                         <Delete />
                       </IconButton>
