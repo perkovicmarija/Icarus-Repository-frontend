@@ -8,6 +8,7 @@ import {
 const defaultState = {
   rowsPerPage: {
     supportLogs: 25,
+    supportRequests: 25,
   },
 };
 

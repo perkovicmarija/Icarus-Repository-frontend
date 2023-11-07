@@ -25,7 +25,7 @@ export type FiltersType = (typeof initialState)["filters"];
 
 const getData = createAsyncThunk(
   "supportLogs/getData",
-  async (viewModel: any /* thunkAPI */) => {
+  async (viewModel: any /*, thunkAPI */) => {
     const response = await SupportCenterApi.getAllSoftwareLogClientsPagination(
       viewModel
     );
@@ -36,7 +36,7 @@ const getData = createAsyncThunk(
 
 const deleteItem = createAsyncThunk(
   "supportLogs/deleteItem",
-  async (viewModel: any /* thunkAPI */) => {
+  async (viewModel: SupportLog) => {
     const response = await SupportCenterApi.deleteSoftwareLogClient(viewModel);
     return response.data;
   }
@@ -44,7 +44,7 @@ const deleteItem = createAsyncThunk(
 
 const addEditItem = createAsyncThunk(
   "supportLogs/addEditItem",
-  async ({ payload, meta }: { payload: any; meta: any } /* thunkAPI */) => {
+  async ({ payload, meta }: { payload: SupportLog; meta: any }) => {
     const response = await (payload.supportSoftwareLogId
       ? SupportCenterApi.updateSoftwareLogClient
       : SupportCenterApi.createSoftwareLogClient)({ payload, meta });

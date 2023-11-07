@@ -1,15 +1,16 @@
+import { useState } from "react";
 import { TableCell, TableRow } from "@mui/material";
-import { Delete, Edit } from "@mui/icons-material";
 import { TableContainer2 } from "../../../components/core/Table/TableContainer2";
 import TableToolbar2, {
   TableToolbar2Props,
 } from "../../../components/core/Table/TableToolbar2";
 import { ColumnDefinition } from "../../../components/core/Table/TableHeader";
 import { TablePagination2Props } from "../../../components/core/Table/TablePagination2";
-import { initFilters } from "../../../redux/support/supportLogs/supportLogsSlice";
-import { useState } from "react";
 import { TableActions2 } from "../../../components/core/Table/TableActions2";
+import { Delete, Edit } from "@mui/icons-material";
 import { DialogDelete2 } from "../../../components/core/Dialog/DialogDelete2";
+//
+import { initFilters } from "../../../redux/support/supportLogs/supportLogsSlice";
 
 const columnData: ColumnDefinition[] = [
   {
@@ -97,9 +98,13 @@ const SupportSoftwareLogList = <T,>({
         loading={loading}
       >
         {data &&
-          data.map((item: any, i) => {
+          data.map((item: any) => {
             return (
-              <TableRow style={{ cursor: "pointer" }} key={i} hover={true}>
+              <TableRow
+                style={{ cursor: "pointer" }}
+                key={item.supportSoftwareLogId}
+                hover={true}
+              >
                 <TableCell>{item.title}</TableCell>
                 <TableCell>{item.description}</TableCell>
                 <TableCell>
@@ -116,7 +121,7 @@ const SupportSoftwareLogList = <T,>({
                       {
                         label: "general.edit",
                         Icon: Edit,
-                        onClick: () => onEdit(item!),
+                        onClick: () => onEdit(item),
                       },
                       {
                         label: "general.delete",

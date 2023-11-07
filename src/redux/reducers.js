@@ -9,6 +9,7 @@ import UserGroup from "./user/group/userGroupReducer";
 import Authority from "./authority/authorityReducer";
 import SupportCenter from "./support/supportReducer";
 import supportLogsSlice from "./support/supportLogs/supportLogsSlice";
+import supportRequestsSlice from "./support/supportRequests/supportRequestsSlice";
 import Progress from "./progress/progressReducer";
 import LanguageSwitcher from "./languageSwitcher/languageSwitcherReducer";
 import AuditChecklist from "./auditChecklist/auditChecklistReducer";
@@ -35,6 +36,7 @@ export default (history) =>
     Settings: settingsSlice.reducer,
     SupportCenter,
     SupportLogs: supportLogsSlice.reducer,
+    SupportRequests: supportRequestsSlice.reducer,
     LanguageSwitcher,
     AuditChecklist,
     AuditChecklistItem,

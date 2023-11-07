@@ -1,37 +1,40 @@
 import { useEffect, useMemo, useState } from "react";
 import { useHistory } from "react-router-dom";
 import { Paper } from "@mui/material";
-import { isEmpty } from "lodash";
 import DialogFormFrame from "../../../components/core/Dialog/DialogFormFrame";
-import DialogFormSoftwareLog from "../../../components/support/DialogFormSoftwareLog";
-import DialogFormSoftwareLogFilter from "../../../components/support/DialogFormSoftwareLogFilter";
-import SupportSoftwareLogList from "./SupportSoftwareLogList";
-import * as clientActions from "../../../redux/setting/client/clientActions";
-import { getSupportLogsPath } from "../../../consts/routePaths";
+import DialogFormSupportItem from "../../../components/support/DialogFormSupportItem";
+import DialogFormSupportCenterFilters from "../../../components/support/DialogFormSupportCenterFilters";
+import SupportBugList from "./SupportBugList";
+import * as supportActions from "../../../redux/support/supportActions";
+import {
+  getSupportBugsPath,
+  getSupportBugCommentsPath,
+} from "../../../consts/routePaths";
 import {
   FiltersType,
-  SupportLog,
-  supportLogsActions,
-} from "../../../redux/support/supportLogs/supportLogsSlice";
+  SupportRequest,
+  supportRequestsActions,
+} from "../../../redux/support/supportRequests/supportRequestsSlice";
 import { usePagination } from "../../../helpers/pagination";
 import { useAppDispatch, useAppSelector } from "../../../redux/store";
 
-const SupportSoftwareLog = () => {
+function SupportRequests() {
   const dispatch = useAppDispatch();
   const history = useHistory();
 
-  const data = useAppSelector((state) => state.SupportLogs.data);
+  const data = useAppSelector((state) => state.SupportRequests.data);
   const totalCount = useAppSelector(
-    (state) => state.SupportLogs.meta.totalCount
+    (state) => state.SupportRequests.meta.totalCount
   );
-  const filters = useAppSelector((state) => state.SupportLogs.filters);
+  const filters = useAppSelector((state) => state.SupportRequests.filters);
 
   const [dialogAddEdit, setDialogAddEdit] = useState<
-    SupportLog | {} | undefined
+    SupportRequest | {} | undefined
   >();
   const [dialogFilters, setDialogFilters] = useState();
 
-  const { page, rowsPerPage, storeRowsPerPage } = usePagination("supportLogs");
+  const { page, rowsPerPage, storeRowsPerPage } =
+    usePagination("supportRequests");
 
   const [loading, setLoading] = useState(false);
 
@@ -48,47 +51,55 @@ const SupportSoftwareLog = () => {
 
   useEffect(() => {
     setLoading(true);
-    dispatch(supportLogsActions.getData(meta)).then(() => setLoading(false));
+    dispatch(supportRequestsActions.getData(meta)).then(() =>
+      setLoading(false)
+    );
   }, [meta]);
 
   //
-  const clients = useAppSelector((state) => state.Client.clients);
+  const modules = useAppSelector((state) => state.SupportCenter.modules);
+  const levels = useAppSelector((state) => state.SupportCenter.levels);
+  const statuses = useAppSelector((state) => state.SupportCenter.statuses);
   useEffect(() => {
-    if (clients.length === 0) {
-      dispatch(clientActions.loadAllClients());
-    }
+    /* dispatch(supportActions.loadAllModules());
+    dispatch(supportActions.loadAllLevels());
+    dispatch(supportActions.loadAllStatuses()); */
   }, []);
   //
 
   const handleSubmitFilters = (newFilters: FiltersType) => {
-    dispatch(supportLogsActions.setFilters({ ...filters, ...newFilters }));
-    history.push(getSupportLogsPath(0, 0));
+    dispatch(supportRequestsActions.setFilters({ ...filters, ...newFilters }));
+    history.push(getSupportBugsPath(0, 0));
   };
   // PAGINATION
   const onChangePage = (newValue: number) => {
-    history.push(getSupportLogsPath(newValue, rowsPerPage));
+    history.push(getSupportBugsPath(newValue, rowsPerPage));
   };
   const onChangeRowsPerPage = (newValue: number) => {
     storeRowsPerPage(newValue);
-    history.push(getSupportLogsPath(page, newValue));
+    history.push(getSupportBugsPath(page, newValue));
+  };
+
+  const handleSupportItemClick = (item: SupportRequest) => {
+    history.push(getSupportBugCommentsPath(item.supportBugId));
   };
 
   return (
     <Paper>
-      <SupportSoftwareLogList<SupportLog>
+      <SupportBugList<SupportRequest>
         data={data}
-        onEdit={setDialogAddEdit}
+        onEdit={handleSupportItemClick}
         onDelete={(payload) => {
           return dispatch(
-            supportLogsActions.deleteItem({
-              softwareLogId: payload.supportSoftwareLogId,
+            supportRequestsActions.deleteItem({
+              softwareLogId: payload.supportBugId,
             })
           );
         }}
         //
         toolbarProps={{
           onAddClick: () => setDialogAddEdit({}),
-          title: "support.softwareLogs",
+          title: "support.bug.list",
           filters,
           onFilterClick: setDialogFilters,
           onSearchSubmit: handleSubmitFilters,
@@ -105,18 +116,19 @@ const SupportSoftwareLog = () => {
 
       <DialogFormFrame
         onClose={() => setDialogAddEdit(undefined)}
-        title={
-          isEmpty(dialogAddEdit) ? "support.logs.new" : "support.logs.update"
-        }
+        title="support.item"
         open={dialogAddEdit}
       >
-        <DialogFormSoftwareLog
+        <DialogFormSupportItem
           initialData={dialogAddEdit}
           onClose={() => setDialogAddEdit(undefined)}
           onSubmit={(payload: any) => {
-            return dispatch(supportLogsActions.addEditItem({ payload, meta }));
+            return dispatch(
+              supportRequestsActions.addEditItem({ payload, meta })
+            );
           }}
-          clients={clients}
+          modules={modules}
+          levels={levels}
         />
       </DialogFormFrame>
 
@@ -125,15 +137,15 @@ const SupportSoftwareLog = () => {
         title="general.selectFilters"
         open={dialogFilters}
       >
-        <DialogFormSoftwareLogFilter
+        <DialogFormSupportCenterFilters
           initialData={dialogFilters}
           onClose={() => setDialogFilters(undefined)}
           onSubmit={handleSubmitFilters}
-          clients={clients}
+          statuses={statuses}
         />
       </DialogFormFrame>
     </Paper>
   );
-};
+}
 
-export default SupportSoftwareLog;
+export default SupportRequests;

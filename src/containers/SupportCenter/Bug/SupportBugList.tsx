@@ -1,22 +1,20 @@
+import { useState } from "react";
 import { TableCell, TableRow } from "@mui/material";
-import { makeStyles } from "@mui/styles";
 import { TableContainer2 } from "../../../components/core/Table/TableContainer2";
 import TableToolbar2, {
   TableToolbar2Props,
 } from "../../../components/core/Table/TableToolbar2";
-import { protectedAuth } from "../../../protectedAuth";
-import { TableHeaderProps } from "../../../components/core/Table/TableHeader";
+import { ColumnDefinition } from "../../../components/core/Table/TableHeader";
 import { TablePagination2Props } from "../../../components/core/Table/TablePagination2";
+//import { TableActions2 } from "../../../components/core/Table/TableActions2";
+//import { Delete, Edit } from "@mui/icons-material";
+import { DialogDelete2 } from "../../../components/core/Dialog/DialogDelete2";
+//
+import { protectedAuth } from "../../../protectedAuth";
+import { initFilters } from "../../../redux/support/supportRequests/supportRequestsSlice";
+import { makeStyles } from "@mui/styles";
 
-const useStyles = makeStyles((theme: any) => ({
-  root: {
-    width: "100%",
-    marginTop: theme.spacing(3),
-    overflowX: "auto",
-  },
-  tableRow: {
-    cursor: "pointer",
-  },
+const useStyles = makeStyles(() => ({
   statusNeedReview: {
     color: "#FF0000",
     fontWeight: "bold",
@@ -55,7 +53,7 @@ const useStyles = makeStyles((theme: any) => ({
   },
 }));
 
-const columnData = [
+const columnData: ColumnDefinition[] = [
   { id: "id", numeric: false, disablePadding: false, label: "general.id" },
   {
     id: "title",
@@ -96,24 +94,31 @@ const columnData = [
   },
 ];
 
-function SupportBugList({
+const SupportRequestsList = <T,>({
   data,
-  totalCount,
-  page,
-  rowsPerPage,
-  onChangePage,
-  onChangeRowsPerPage,
   onEdit,
-  onFilterClick,
-  filters,
-  onAddClick,
-}: Omit<TableToolbar2Props, "title"> &
-  Omit<TableHeaderProps, "columnData"> &
-  TablePagination2Props & {
-    data: any[];
-    onEdit: any;
-  }) {
+  onDelete,
+  //
+  toolbarProps: { onAddClick, title, filters, onFilterClick, onSearchSubmit },
+  paginationProps: {
+    page,
+    rowsPerPage,
+    totalCount,
+    onChangePage,
+    onChangeRowsPerPage,
+  },
+  loading,
+}: {
+  toolbarProps: TableToolbar2Props;
+  paginationProps: TablePagination2Props;
+  data: T[] | undefined;
+  onEdit: (item: T) => any;
+  onDelete: (item: T) => any;
+  loading: boolean;
+}) => {
   const classes = useStyles();
+
+  const [dialogWarning, setDialogWarning] = useState<T | undefined>();
 
   const changeValueOnStatus = (value: any) => {
     if (value === "in-progress") {
@@ -153,9 +158,14 @@ function SupportBugList({
   };
 
   return (
-    <div className={classes.root}>
+    <>
       <TableToolbar2
-        title="support.bug.list"
+        title={title}
+        //
+        filters={filters}
+        onSearchSubmit={onSearchSubmit}
+        searchPlaceholder="search.search"
+        searchTextPropKey="searchString"
         //
         onAddClick={
           protectedAuth([
@@ -165,7 +175,7 @@ function SupportBugList({
           ]) && onAddClick
         }
         //
-        filters={filters}
+        initFilters={initFilters}
         onFilterClick={onFilterClick}
       />
 
@@ -180,40 +190,48 @@ function SupportBugList({
           onChangePage,
           onChangeRowsPerPage,
         }}
+        loading={loading}
       >
-        {data.map((item: any) => {
-          return (
-            <TableRow
-              className={classes.tableRow}
-              key={item.supportBugIdSign}
-              onClick={(event) => onEdit(event, item.supportBugId)}
-              hover={true}
-            >
-              <TableCell>{item.supportBugIdSign}</TableCell>
-              <TableCell>{item.title}</TableCell>
-              <TableCell>{item.module.name}</TableCell>
-              <TableCell>
-                {item.userAuthor.surname + " " + item.userAuthor.name}
-              </TableCell>
-              <TableCell
-                className={changeValueOnLevel(
-                  item.level.code,
-                  item.status.code
-                )}
+        {data &&
+          data.map((item: any) => {
+            return (
+              <TableRow
+                style={{ cursor: "pointer" }}
+                key={item.supportBugIdSign}
+                onClick={() => onEdit(item)}
+                hover={true}
               >
-                {item.level.level}
-              </TableCell>
-              <TableCell>{item.created}</TableCell>
-              <TableCell>{item.dueDate}</TableCell>
-              <TableCell className={changeValueOnStatus(item.status.code)}>
-                {item.status.status}
-              </TableCell>
-            </TableRow>
-          );
-        })}
+                <TableCell>{item.supportBugIdSign}</TableCell>
+                <TableCell>{item.title}</TableCell>
+                <TableCell>{item.module.name}</TableCell>
+                <TableCell>
+                  {item.userAuthor.fullName}
+                </TableCell>
+                <TableCell
+                  className={changeValueOnLevel(
+                    item.level.code,
+                    item.status.code
+                  )}
+                >
+                  {item.level.level}
+                </TableCell>
+                <TableCell>{item.created}</TableCell>
+                <TableCell>{item.dueDate}</TableCell>
+                <TableCell className={changeValueOnStatus(item.status.code)}>
+                  {item.status.status}
+                </TableCell>
+              </TableRow>
+            );
+          })}
       </TableContainer2>
-    </div>
-  );
-}
 
-export default SupportBugList;
+      <DialogDelete2
+        data={dialogWarning}
+        onSubmit={onDelete}
+        onClose={() => setDialogWarning(undefined)}
+      />
+    </>
+  );
+};
+
+export default SupportRequestsList;
