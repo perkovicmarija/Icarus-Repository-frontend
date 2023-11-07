@@ -48,7 +48,7 @@ const SupportCenterApi = {
         return RestApiGet.getData('/support/software-log-clients-joined', viewModel);
     },
     getAllSoftwareLogClientsPagination(viewModel) {
-        return RestApiPost.postData('/support/software-log-clients-joined/paginate', viewModel, "fetching");
+        return RestApiPost.postData('/support/software-log-clients-joined/paginate', viewModel);
     },
     createSoftwareLogClient(viewModel) {
         return RestApiPost.postData('/support/software-log-clients-joined', viewModel);

@@ -24,6 +24,7 @@ function DialogFormComment({
       onSubmit={(e) => {
         e.stopPropagation();
         handleSubmit((data) => {
+          setLoading(true);
           onSubmit(data)
             .then(onClose)
             .catch(() => setLoading(false));

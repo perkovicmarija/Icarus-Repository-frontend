@@ -60,7 +60,7 @@ const SupportSoftwareLogList = <T,>({
 }: {
   toolbarProps: TableToolbar2Props;
   paginationProps: TablePagination2Props;
-  data: T[];
+  data: T[] | undefined;
   onEdit: (item: T) => any;
   onDelete: (item: T) => any;
   loading: boolean;
@@ -94,43 +94,41 @@ const SupportSoftwareLogList = <T,>({
           onChangePage,
           onChangeRowsPerPage,
         }}
+        loading={loading}
       >
-        {data.map((item: any, i) => {
-          return (
-            <TableRow
-              style={{ cursor: "pointer", opacity: loading ? 0.5 : 1 }}
-              key={i}
-              hover={true}
-            >
-              <TableCell>{item.title}</TableCell>
-              <TableCell>{item.description}</TableCell>
-              <TableCell>
-                {item.supportSoftwareLogClientJoinedList
-                  .map((x: any) => x.client.name)
-                  .join(", ")}
-              </TableCell>
-              <TableCell sx={{ width: "150px" }}>
-                {item.dateFormatted}
-              </TableCell>
-              <TableCell className="nostretch">
-                <TableActions2
-                  actions={[
-                    {
-                      label: "general.edit",
-                      Icon: Edit,
-                      onClick: () => onEdit(item!),
-                    },
-                    {
-                      label: "general.delete",
-                      Icon: Delete,
-                      onClick: () => setDialogWarning(item),
-                    },
-                  ]}
-                />
-              </TableCell>
-            </TableRow>
-          );
-        })}
+        {data &&
+          data.map((item: any, i) => {
+            return (
+              <TableRow style={{ cursor: "pointer" }} key={i} hover={true}>
+                <TableCell>{item.title}</TableCell>
+                <TableCell>{item.description}</TableCell>
+                <TableCell>
+                  {item.supportSoftwareLogClientJoinedList
+                    .map((x: any) => x.client.name)
+                    .join(", ")}
+                </TableCell>
+                <TableCell sx={{ width: "150px" }}>
+                  {item.dateFormatted}
+                </TableCell>
+                <TableCell className="nostretch">
+                  <TableActions2
+                    actions={[
+                      {
+                        label: "general.edit",
+                        Icon: Edit,
+                        onClick: () => onEdit(item!),
+                      },
+                      {
+                        label: "general.delete",
+                        Icon: Delete,
+                        onClick: () => setDialogWarning(item),
+                      },
+                    ]}
+                  />
+                </TableCell>
+              </TableRow>
+            );
+          })}
       </TableContainer2>
 
       <DialogDelete2

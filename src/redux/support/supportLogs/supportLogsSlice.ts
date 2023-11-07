@@ -5,8 +5,16 @@ export const initFilters = {
   selectedClients: [],
 };
 
+export interface SupportLog {
+  supportSoftwareLogId: string;
+  title: string;
+  description: string;
+  clients: any[];
+  dateFormatted: string;
+}
+
 const initialState = {
-  data: [],
+  data: undefined as SupportLog[] | undefined,
   meta: {
     totalCount: 0,
   },

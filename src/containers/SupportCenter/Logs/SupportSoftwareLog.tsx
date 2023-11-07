@@ -1,6 +1,5 @@
 import { useEffect, useMemo, useState } from "react";
 import { useHistory } from "react-router-dom";
-import { connect, useDispatch } from "react-redux";
 import { Paper } from "@mui/material";
 import _ from "lodash";
 import DialogFormFrame from "../../../components/core/Dialog/DialogFormFrame";
@@ -11,25 +10,31 @@ import { getSupportLogsPath } from "../../../consts/routePaths";
 import DialogFormSoftwareLogFilter from "../../../components/support/DialogFormSoftwareLogFilter";
 import {
   FiltersType,
+  SupportLog,
   supportLogsActions,
 } from "../../../redux/support/supportLogs/supportLogsSlice";
 import { usePagination } from "../../../helpers/pagination";
-import { AppDispatch, RootState, useAppDispatch } from "../../../redux/store";
+import { useAppDispatch, useAppSelector } from "../../../redux/store";
 
-const SupportSoftwareLog = ({
-  data,
-  filters,
-  totalCount,
-  //
-  clients,
-}: any) => {
+const SupportSoftwareLog = () => {
   const dispatch = useAppDispatch();
   const history = useHistory();
 
-  const [dialogAddEditLog, setDialogAddEditLog] = useState<any>();
+  const data = useAppSelector((state) => state.SupportLogs.data);
+  const totalCount = useAppSelector(
+    (state) => state.SupportLogs.meta.totalCount
+  );
+  const filters = useAppSelector((state) => state.SupportLogs.filters);
+  const clients = useAppSelector((state) => state.Client.clients);
+
+  const [dialogAddEditLog, setDialogAddEditLog] = useState<
+    SupportLog | {} | undefined
+  >();
   const [dialogFilters, setDialogFilters] = useState();
 
   const { page, rowsPerPage, storeRowsPerPage } = usePagination("supportLogs");
+
+  const [loading, setLoading] = useState(false);
 
   const meta = useMemo(
     () => ({
@@ -41,30 +46,25 @@ const SupportSoftwareLog = ({
     }),
     [filters, page, rowsPerPage]
   );
+
   useEffect(() => {
-    dispatch(supportLogsActions.getData(meta));
+    setLoading(true);
+    dispatch(supportLogsActions.getData(meta)).then(() => setLoading(false));
     if (clients.length === 0) {
       dispatch(clientActions.loadAllClients());
     }
-  }, [page, rowsPerPage]);
+  }, [meta]);
 
   const handleSubmitFilters = (newFilters: FiltersType) => {
     dispatch(supportLogsActions.setFilters({ ...filters, ...newFilters }));
-    return dispatch(
-      supportLogsActions.getData({
-        filters: { ...filters, ...newFilters },
-        pagination: {
-          page,
-          rowsPerPage,
-        },
-      })
-    );
+    history.push(getSupportLogsPath(0, 0));
   };
 
   // PAGINATION
   const onChangePage = (newValue: number) => {
     history.push(getSupportLogsPath(newValue, rowsPerPage));
   };
+
   const onChangeRowsPerPage = (newValue: number) => {
     storeRowsPerPage(newValue);
     history.push(getSupportLogsPath(page, newValue));
@@ -72,7 +72,7 @@ const SupportSoftwareLog = ({
 
   return (
     <Paper>
-      <SupportSoftwareLogList<Record<string, any>>
+      <SupportSoftwareLogList<SupportLog>
         data={data}
         onEdit={setDialogAddEditLog}
         onDelete={(payload) => {
@@ -97,31 +97,27 @@ const SupportSoftwareLog = ({
           onChangePage,
           onChangeRowsPerPage,
         }}
-        loading={false}
+        loading={loading}
       />
 
-      {dialogAddEditLog && (
-        <DialogFormFrame
+      <DialogFormFrame
+        onClose={() => setDialogAddEditLog(undefined)}
+        title={
+          _.isEmpty(dialogAddEditLog)
+            ? "support.logs.new"
+            : "support.logs.update"
+        }
+        open={dialogAddEditLog}
+      >
+        <DialogFormSoftwareLog
+          initialData={dialogAddEditLog}
           onClose={() => setDialogAddEditLog(undefined)}
-          title={
-            _.isEmpty(dialogAddEditLog)
-              ? "support.logs.new"
-              : "support.logs.update"
-          }
-          open={dialogAddEditLog}
-        >
-          <DialogFormSoftwareLog
-            initialData={dialogAddEditLog}
-            onClose={() => setDialogAddEditLog(undefined)}
-            onSubmit={(payload: any) => {
-              return dispatch(
-                supportLogsActions.addEditItem({ payload, meta })
-              );
-            }}
-            clients={clients}
-          />
-        </DialogFormFrame>
-      )}
+          onSubmit={(payload: any) => {
+            return dispatch(supportLogsActions.addEditItem({ payload, meta }));
+          }}
+          clients={clients}
+        />
+      </DialogFormFrame>
 
       <DialogFormFrame
         onClose={() => setDialogFilters(undefined)}
@@ -139,14 +135,4 @@ const SupportSoftwareLog = ({
   );
 };
 
-function mapStateToProps(state: RootState) {
-  return {
-    data: state.SupportLogs.data,
-    totalCount: state.SupportLogs.meta.totalCount,
-    filters: state.SupportLogs.filters,
-    //
-    clients: state.Client.clients,
-  };
-}
-
-export default connect(mapStateToProps, null)(SupportSoftwareLog);
+export default SupportSoftwareLog;
