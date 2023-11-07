@@ -14,8 +14,7 @@ import {
   supportLogsActions,
 } from "../../../redux/support/supportLogs/supportLogsSlice";
 import { usePagination } from "../../../helpers/pagination";
-import { DialogDelete2 } from "../../../components/core/Dialog/DialogDelete2";
-import { AppDispatch, RootState } from "../../../redux/store";
+import { AppDispatch, RootState, useAppDispatch } from "../../../redux/store";
 
 const SupportSoftwareLog = ({
   data,
@@ -24,11 +23,10 @@ const SupportSoftwareLog = ({
   //
   clients,
 }: any) => {
-  const dispatch = useDispatch<AppDispatch>();
+  const dispatch = useAppDispatch();
   const history = useHistory();
 
   const [dialogAddEditLog, setDialogAddEditLog] = useState<any>();
-  const [dialogWarning, setDialogWarning] = useState<any>();
   const [dialogFilters, setDialogFilters] = useState();
 
   const { page, rowsPerPage, storeRowsPerPage } = usePagination("supportLogs");
@@ -43,7 +41,6 @@ const SupportSoftwareLog = ({
     }),
     [filters, page, rowsPerPage]
   );
-
   useEffect(() => {
     dispatch(supportLogsActions.getData(meta));
     if (clients.length === 0) {
@@ -52,7 +49,8 @@ const SupportSoftwareLog = ({
   }, [page, rowsPerPage]);
 
   const handleSubmitFilters = (newFilters: FiltersType) => {
-    dispatch(
+    dispatch(supportLogsActions.setFilters({ ...filters, ...newFilters }));
+    return dispatch(
       supportLogsActions.getData({
         filters: { ...filters, ...newFilters },
         pagination: {
@@ -61,7 +59,6 @@ const SupportSoftwareLog = ({
         },
       })
     );
-    dispatch(supportLogsActions.setFilters({ ...filters, ...newFilters }));
   };
 
   // PAGINATION
@@ -75,10 +72,16 @@ const SupportSoftwareLog = ({
 
   return (
     <Paper>
-      <SupportSoftwareLogList
+      <SupportSoftwareLogList<Record<string, any>>
         data={data}
         onEdit={setDialogAddEditLog}
-        onDelete={setDialogWarning}
+        onDelete={(payload) => {
+          return dispatch(
+            supportLogsActions.deleteItem({
+              softwareLogId: payload.supportSoftwareLogId,
+            })
+          );
+        }}
         //
         toolbarProps={{
           onAddClick: () => setDialogAddEditLog({}),
@@ -94,8 +97,7 @@ const SupportSoftwareLog = ({
           onChangePage,
           onChangeRowsPerPage,
         }}
-
-        //
+        loading={false}
       />
 
       {dialogAddEditLog && (
@@ -112,7 +114,9 @@ const SupportSoftwareLog = ({
             initialData={dialogAddEditLog}
             onClose={() => setDialogAddEditLog(undefined)}
             onSubmit={(payload: any) => {
-              dispatch(supportLogsActions.addEditItem({ payload, meta }));
+              return dispatch(
+                supportLogsActions.addEditItem({ payload, meta })
+              );
             }}
             clients={clients}
           />
@@ -131,18 +135,6 @@ const SupportSoftwareLog = ({
           clients={clients}
         />
       </DialogFormFrame>
-
-      <DialogDelete2
-        data={dialogWarning}
-        onSubmit={(payload) => {
-          return dispatch(
-            supportLogsActions.deleteItem({
-              softwareLogId: payload.supportSoftwareLogId,
-            })
-          );
-        }}
-        onClose={() => setDialogWarning(undefined)}
-      />
     </Paper>
   );
 };

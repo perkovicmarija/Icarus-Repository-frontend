@@ -3,7 +3,12 @@ import { routerMiddleware } from "connected-react-router";
 import createSagaMiddleware from "redux-saga";
 import createRootReducer from "./reducers";
 import rootSaga from "../redux/sagas";
-import { configureStore, getDefaultMiddleware } from "@reduxjs/toolkit";
+import {
+  ThunkDispatch,
+  configureStore,
+  getDefaultMiddleware,
+} from "@reduxjs/toolkit";
+import { TypedUseSelectorHook, useDispatch, useSelector } from "react-redux";
 //used for loading and saving state from local storage - unnecessary for now
 //import { loadState, saveState } from './localStorage';
 //import throttle from 'lodash/throttle';
@@ -46,3 +51,7 @@ export { store, history, getStore };
 
 export type RootState = ReturnType<typeof store.getState>;
 export type AppDispatch = typeof store.dispatch;
+
+type DispatchFunc = () => AppDispatch | ThunkDispatch<RootState, any, any>;
+export const useAppDispatch: DispatchFunc = useDispatch;
+export const useAppSelector: TypedUseSelectorHook<RootState> = useSelector;

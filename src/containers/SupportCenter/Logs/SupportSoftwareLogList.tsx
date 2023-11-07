@@ -1,14 +1,15 @@
-import { IconButton, TableCell, TableRow, Tooltip } from "@mui/material";
+import { TableCell, TableRow } from "@mui/material";
 import { Delete, Edit } from "@mui/icons-material";
 import { TableContainer2 } from "../../../components/core/Table/TableContainer2";
 import TableToolbar2, {
   TableToolbar2Props,
 } from "../../../components/core/Table/TableToolbar2";
-import {
-  ColumnDefinition,
-} from "../../../components/core/Table/TableHeader";
+import { ColumnDefinition } from "../../../components/core/Table/TableHeader";
 import { TablePagination2Props } from "../../../components/core/Table/TablePagination2";
 import { initFilters } from "../../../redux/support/supportLogs/supportLogsSlice";
+import { useState } from "react";
+import { TableActions2 } from "../../../components/core/Table/TableActions2";
+import { DialogDelete2 } from "../../../components/core/Dialog/DialogDelete2";
 
 const columnData: ColumnDefinition[] = [
   {
@@ -30,7 +31,7 @@ const columnData: ColumnDefinition[] = [
     label: "form.clients",
   },
   {
-    id: "date",
+    id: "dateFormatted",
     numeric: false,
     disablePadding: false,
     label: "support.dateOfLog",
@@ -42,7 +43,7 @@ const columnData: ColumnDefinition[] = [
   },
 ];
 
-const SupportSoftwareLogList = ({
+const SupportSoftwareLogList = <T,>({
   data,
   onEdit,
   onDelete,
@@ -55,13 +56,17 @@ const SupportSoftwareLogList = ({
     onChangePage,
     onChangeRowsPerPage,
   },
+  loading,
 }: {
   toolbarProps: TableToolbar2Props;
   paginationProps: TablePagination2Props;
-  data: any[];
-  onEdit: any;
-  onDelete: any;
+  data: T[];
+  onEdit: (item: T) => any;
+  onDelete: (item: T) => any;
+  loading: boolean;
 }) => {
+  const [dialogWarning, setDialogWarning] = useState<T | undefined>();
+
   return (
     <>
       <TableToolbar2
@@ -90,49 +95,49 @@ const SupportSoftwareLogList = ({
           onChangeRowsPerPage,
         }}
       >
-        {data.map((softwareLog, i) => {
+        {data.map((item: any, i) => {
           return (
-            <TableRow style={{ cursor: "pointer" }} key={i} hover={true}>
-              <TableCell>{softwareLog.title}</TableCell>
-              <TableCell>{softwareLog.description}</TableCell>
+            <TableRow
+              style={{ cursor: "pointer", opacity: loading ? 0.5 : 1 }}
+              key={i}
+              hover={true}
+            >
+              <TableCell>{item.title}</TableCell>
+              <TableCell>{item.description}</TableCell>
               <TableCell>
-                {softwareLog.supportSoftwareLogClientJoinedList
+                {item.supportSoftwareLogClientJoinedList
                   .map((x: any) => x.client.name)
                   .join(", ")}
               </TableCell>
               <TableCell sx={{ width: "150px" }}>
-                {softwareLog.dateFormatted}
+                {item.dateFormatted}
               </TableCell>
               <TableCell className="nostretch">
-                <Tooltip title="Edit">
-                  <>
-                    <div className="d-inline">
-                      <IconButton
-                        aria-label="Edit"
-                        onClick={() => onEdit(softwareLog)}
-                      >
-                        <Edit />
-                      </IconButton>
-                    </div>
-                  </>
-                </Tooltip>
-                <Tooltip title="Delete">
-                  <>
-                    <div className="d-inline">
-                      <IconButton
-                        aria-label="Delete"
-                        onClick={() => onDelete(softwareLog)}
-                      >
-                        <Delete />
-                      </IconButton>
-                    </div>
-                  </>
-                </Tooltip>
+                <TableActions2
+                  actions={[
+                    {
+                      label: "general.edit",
+                      Icon: Edit,
+                      onClick: () => onEdit(item!),
+                    },
+                    {
+                      label: "general.delete",
+                      Icon: Delete,
+                      onClick: () => setDialogWarning(item),
+                    },
+                  ]}
+                />
               </TableCell>
             </TableRow>
           );
         })}
       </TableContainer2>
+
+      <DialogDelete2
+        data={dialogWarning}
+        onSubmit={onDelete}
+        onClose={() => setDialogWarning(undefined)}
+      />
     </>
   );
 };

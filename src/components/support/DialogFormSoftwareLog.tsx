@@ -5,6 +5,7 @@ import { useForm } from "react-hook-form";
 import TextField2 from "../core/Fields/TextField2";
 import AutocompleteMultiLargeDataset2 from "../core/Fields/AutocompleteMultiLargeDataset2";
 import SwitchCustom2 from "../core/Fields/SwitchCustom2";
+import { useState } from "react";
 
 function DialogFormComment({
   initialData,
@@ -16,14 +17,16 @@ function DialogFormComment({
   const { handleSubmit, control } = useForm({
     defaultValues: initialData,
   });
+  const [loading, setLoading] = useState(false);
 
   return (
     <form
       onSubmit={(e) => {
         e.stopPropagation();
         handleSubmit((data) => {
-          onSubmit(data);
-          onClose();
+          onSubmit(data)
+            .then(onClose)
+            .catch(() => setLoading(false));
         })(e);
       }}
     >
@@ -85,7 +88,7 @@ function DialogFormComment({
           </Grid>
         </Grid>
       </DialogContent>
-      <DialogActions2 onClose={onClose} />
+      <DialogActions2 onClose={onClose} loading={loading} />
     </form>
   );
 }

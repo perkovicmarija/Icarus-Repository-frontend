@@ -6,6 +6,7 @@ import {
   Button,
   Typography,
 } from "@mui/material";
+import { useState } from "react";
 import { FormattedMessage } from "react-intl";
 
 function DialogDelete2<T>({
@@ -17,10 +18,12 @@ function DialogDelete2<T>({
 }: {
   data: T;
   onClose: () => void;
-  onSubmit: (data: T) => void;
+  onSubmit: (data: NonNullable<T>) => any;
   text?: string;
   disabled?: boolean;
 }) {
+  const [loading, setLoading] = useState(false);
+
   return (
     <Dialog
       fullWidth={true}
@@ -39,14 +42,16 @@ function DialogDelete2<T>({
       <DialogActions>
         <Button
           onClick={() => {
-            onSubmit(data);
-            onClose();
+            setLoading(true);
+            onSubmit(data!)
+              .then(onClose)
+              .catch(() => setLoading(false));
           }}
-          disabled={disabled}
+          disabled={disabled || loading}
         >
           <FormattedMessage id="general.delete" />
         </Button>
-        <Button onClick={onClose} disabled={disabled}>
+        <Button onClick={onClose} disabled={disabled || loading}>
           <FormattedMessage id="action.cancel" />
         </Button>
       </DialogActions>
