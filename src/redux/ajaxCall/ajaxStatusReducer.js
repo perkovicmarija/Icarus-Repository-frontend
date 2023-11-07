@@ -8,7 +8,7 @@ function actionTypeEndsInRequest(type) {
 }
 
 function actionTypeContainsInRequest(type) {
-    return type.toLowerCase().includes('request');
+    return type.toLowerCase().endsWith('Request');
 }
 export default function ajaxStatusReducer(state = initState, action) {
     //ZA SADA PRESKACEMO LOGIN
