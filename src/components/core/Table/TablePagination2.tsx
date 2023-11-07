@@ -3,7 +3,7 @@ import TablePaginationAction from "./TablePaginationAction";
 import { FormattedMessage } from "react-intl";
 
 export interface TablePagination2Props {
-  totalCount: number;
+  totalCount: number | undefined;
   rowsPerPage: number;
   page: number;
   onChangePage: (newValue: number) => void;
@@ -11,14 +11,18 @@ export interface TablePagination2Props {
 }
 
 export const TablePagination2 = ({
-  totalCount: count,
+  totalCount,
   rowsPerPage,
   page,
   onChangePage,
   onChangeRowsPerPage,
 }: TablePagination2Props) => {
+  if (totalCount === undefined) {
+    return null;
+  }
+
   const firstRowOnPage = page * rowsPerPage + 1;
-  const lastRowOnPage = Math.min((page + 1) * rowsPerPage, count);
+  const lastRowOnPage = Math.min((page + 1) * rowsPerPage, totalCount);
 
   return (
     <div style={{ overflow: "auto", whiteSpace: "nowrap" }}>
@@ -63,12 +67,12 @@ export const TablePagination2 = ({
         </TextField>
         <div style={{ marginLeft: "1.5rem" }}>
           {firstRowOnPage}-{lastRowOnPage} <FormattedMessage id="general.of" />{" "}
-          {count}
+          {totalCount}
         </div>
         <TablePaginationAction
           page={page}
           onChangePage={(_e: any, newValue: number) => onChangePage(newValue)}
-          count={count}
+          count={totalCount}
           rowsPerPage={rowsPerPage}
         />
       </div>

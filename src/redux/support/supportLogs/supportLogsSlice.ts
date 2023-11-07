@@ -16,7 +16,7 @@ export interface SupportLog {
 const initialState = {
   data: undefined as SupportLog[] | undefined,
   meta: {
-    totalCount: 0,
+    totalCount: undefined as number | undefined,
   },
   filters: { ...initFilters, softwareLogSearch: "" },
 };
