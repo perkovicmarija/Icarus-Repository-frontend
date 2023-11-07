@@ -13,6 +13,10 @@ const DialogFormFrame = ({
   open: Record<string, any> | boolean | undefined;
   children: ReactElement;
 }) => {
+  if (!open) {
+    return null;
+  }
+
   return (
     <Dialog
       fullWidth={true}

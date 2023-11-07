@@ -4,6 +4,7 @@ import createSagaMiddleware from "redux-saga";
 import createRootReducer from "./reducers";
 import rootSaga from "../redux/sagas";
 import {
+  Action,
   ThunkDispatch,
   configureStore,
   getDefaultMiddleware,
@@ -50,8 +51,7 @@ const getStore = () => store;
 export { store, history, getStore };
 
 export type RootState = ReturnType<typeof store.getState>;
-export type AppDispatch = typeof store.dispatch;
+export type ThunkAppDispatch = ThunkDispatch<RootState, void, Action>;
 
-type DispatchFunc = () => AppDispatch | ThunkDispatch<RootState, any, any>;
-export const useAppDispatch: DispatchFunc = useDispatch;
+export const useAppDispatch = useDispatch<ThunkAppDispatch>;
 export const useAppSelector: TypedUseSelectorHook<RootState> = useSelector;
