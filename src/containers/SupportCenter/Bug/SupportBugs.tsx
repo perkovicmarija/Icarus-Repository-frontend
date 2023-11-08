@@ -68,7 +68,7 @@ function SupportRequests() {
 
   const handleSubmitFilters = (newFilters: FiltersType) => {
     dispatch(supportRequestsActions.setFilters({ ...filters, ...newFilters }));
-    history.push(getSupportBugsPath(0, 0));
+    history.push(getSupportBugsPath(0));
   };
   // PAGINATION
   const onChangePage = (newValue: number) => {

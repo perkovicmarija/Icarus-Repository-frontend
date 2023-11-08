@@ -61,7 +61,7 @@ const SupportSoftwareLog = () => {
 
   const handleSubmitFilters = (newFilters: FiltersType) => {
     dispatch(supportLogsActions.setFilters({ ...filters, ...newFilters }));
-    history.push(getSupportLogsPath(0, 0));
+    history.push(getSupportLogsPath(0));
   };
   // PAGINATION
   const onChangePage = (newValue: number) => {
