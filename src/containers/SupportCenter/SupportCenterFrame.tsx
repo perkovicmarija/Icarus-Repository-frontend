@@ -1,11 +1,11 @@
 import { Link, useRouteMatch } from "react-router-dom";
 import { makeStyles, useTheme } from "@mui/styles";
 import { AppBar, Paper, Tab, Tabs } from "@mui/material";
-
-import IntlMessages from "../../components/core/IntlMessages";
-import TabContainer from "../../components/core/TabContainer";
-import SupportCenterRouter from "./SupportCenterRouter";
 import FormTitleBarRich from "../../components/core/Form/FormTitleBarRich";
+import TabContainer from "../../components/core/TabContainer";
+import { FormattedMessage } from "react-intl";
+//
+import SupportCenterRouter from "./SupportCenterRouter";
 import {
   supportBugs,
   supportLogs,
@@ -13,9 +13,6 @@ import {
 } from "../../consts/routePaths";
 
 const useStyles = makeStyles({
-  root: {
-    flexGrow: 1,
-  },
   tabLink: {
     display: "flex",
     alignItems: "center",
@@ -55,19 +52,19 @@ function SupportCenterFrame() {
           indicatorColor="secondary"
         >
           <Tab
-            label={<IntlMessages id="support.logs" />}
+            label={<FormattedMessage id="support.logs" />}
             className={classes.tabLink}
             component={Link}
             to={supportLogs}
           />
           <Tab
-            label={<IntlMessages id="support.bugs" />}
+            label={<FormattedMessage id="support.bugs" />}
             className={classes.tabLink}
             component={Link}
             to={supportBugs}
           />
           <Tab
-            label={<IntlMessages id="support.roadmap" />}
+            label={<FormattedMessage id="support.roadmap" />}
             className={classes.tabLink}
             component={Link}
             to={supportRoadmap}

@@ -127,7 +127,7 @@ const AdminRouter = () => {
           "PERM_SUPPORT_CRUD",
           "PERM_SUPPORT_ADMIN",
         ]}
-        path={settingModule}
+        path={settingModule + "/:tab?"}
         component={SettingFrame}
         key="setting-module"
       />

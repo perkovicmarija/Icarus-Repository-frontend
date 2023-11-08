@@ -1,32 +1,39 @@
-import React, { useState } from "react";
-
-import { Link } from "react-router-dom";
-import { AppBar, Paper, Tab, Tabs } from "@mui/material";
+import { Link, useRouteMatch } from "react-router-dom";
 import { makeStyles, useTheme } from "@mui/styles";
-
-import TabContainer from "../../components/core/TabContainer";
-import SettingRouter from "./SettingRouter";
+import { AppBar, Paper, Tab, Tabs } from "@mui/material";
 import FormTitleBarRich from "../../components/core/Form/FormTitleBarRich";
-import { getClientsPath, getVersionMobilePath } from "../../consts/routePaths";
-import IntlMessages from "../../components/core/IntlMessages";
+import TabContainer from "../../components/core/TabContainer";
+import { FormattedMessage } from "react-intl";
+//
+import SettingRouter from "./SettingRouter";
+import { clients, versionsMobile } from "../../consts/routePaths";
 
-const useStyles = makeStyles((theme) => ({
+const useStyles = makeStyles({
   tabLink: {
     display: "flex",
     alignItems: "center",
     justifyContent: "center",
   },
-}));
+});
 
-function SettingFrame(props) {
+type Tabs = "clients" | "version-mobile";
+
+function SettingFrame() {
   const classes = useStyles();
   const theme = useTheme();
+  const match = useRouteMatch<{ tab: Tabs }>();
 
-  const [tabSelected, setTabSelected] = useState(0);
-
-  const handleTabChange = (event, value) => {
-    setTabSelected(value);
-  };
+  let tabSelected;
+  switch (match.params.tab) {
+    case "clients":
+      tabSelected = 0;
+      break;
+    case "version-mobile":
+      tabSelected = 1;
+      break;
+    default:
+      throw new Error("wrong settings route");
+  }
 
   return (
     <Paper>
@@ -34,21 +41,20 @@ function SettingFrame(props) {
       <AppBar position="static" color="default">
         <Tabs
           value={tabSelected}
-          onChange={handleTabChange}
           variant="fullWidth"
           indicatorColor="secondary"
         >
           <Tab
-            label={<IntlMessages id="form.clients" />}
+            label={<FormattedMessage id="form.clients" />}
             className={classes.tabLink}
             component={Link}
-            to={getClientsPath(0, 25)}
+            to={clients}
           />
           <Tab
-            label={<IntlMessages id="general.versionsMobile" />}
+            label={<FormattedMessage id="general.versionsMobile" />}
             className={classes.tabLink}
             component={Link}
-            to={getVersionMobilePath(0, 25)}
+            to={versionsMobile}
           />
         </Tabs>
       </AppBar>

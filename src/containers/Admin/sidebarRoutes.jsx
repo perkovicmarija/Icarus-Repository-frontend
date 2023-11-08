@@ -7,8 +7,7 @@ import {
 } from "@mui/icons-material";
 import {
   auditChecklistOverview,
-  getClientsPath,
-  getSupportLogsPath,
+  clients,
   getUsersPath,
   icarusDocs,
   supportLogs,
@@ -66,9 +65,9 @@ const sidebarRoutes = [
     ],
     children: [
       {
-        path: getClientsPath(0, 25),
+        path: clients,
         name: "Clients",
-        key: "clients-list",
+        key: "clients",
         sidebar: true,
         permissions: [
           "PERM_SUPPORT_BASIC",
