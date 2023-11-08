@@ -121,6 +121,7 @@ export const AutocompleteInputField = ({
   errorMessage,
   placeholder,
   hidePlaceholder,
+  inputRef,
   ...props
 }: {
   hidePlaceholder?: boolean;
@@ -130,7 +131,6 @@ export const AutocompleteInputField = ({
 
   return (
     <TextField
-      {...props}
       value={value}
       error={Boolean(errorMessage)}
       helperText={errorMessage && intl.formatMessage({ id: errorMessage })}
@@ -141,16 +141,18 @@ export const AutocompleteInputField = ({
               id: placeholder ?? "general.select",
             })
       }
+      inputRef={inputRef}
+      {...props}
     />
   );
 };
 
-export interface AutocompleteProps {
+export interface AutocompleteProps<K extends string, L extends string>{
   translate?: boolean;
   hidePlaceholder?: boolean;
   placeholder?: string;
   label?: string;
-  keyProp: string;
-  labelProp: string;
-  options: Record<string, any>[];
+  keyProp: K;
+  labelProp: L;
+  options: Array<Record<K, string> & Record<L, string>>;
 }

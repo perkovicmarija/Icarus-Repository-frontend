@@ -1,5 +1,5 @@
 import { forwardRef } from "react";
-import { Button, Autocomplete, Box } from "@mui/material";
+import { Button, Autocomplete, Box, TextFieldProps } from "@mui/material";
 import { CheckBoxOutlineBlank, CheckBox } from "@mui/icons-material";
 import TypographyReportField from "../TypographyReportField";
 import {
@@ -22,7 +22,7 @@ interface AutocompleteMultiProps {
 }
 
 const AutocompleteMultiLargeDataset = forwardRef(
-  (
+  <K extends string, L extends string>(
     {
       value,
       name,
@@ -39,12 +39,12 @@ const AutocompleteMultiLargeDataset = forwardRef(
       hasSelectAll = false,
       error,
       translate,
-    }: AutocompleteProps &
+    }: AutocompleteProps<K, L> &
       AutocompleteMultiProps & {
         required: boolean;
         error: string | undefined;
       } & ControllerRenderProps<FieldValues, string>,
-    ref
+    ref: TextFieldProps["inputRef"]
   ) => {
     const intl = useIntl();
 
@@ -167,7 +167,7 @@ const AutocompleteMultiLargeDataset = forwardRef(
   }
 );
 
-const AutocompleteMultiLargeDataset2 = ({
+const AutocompleteMultiLargeDataset2 = <K extends string, L extends string>({
   name,
   control,
   rules,
@@ -181,7 +181,7 @@ const AutocompleteMultiLargeDataset2 = ({
   translate = false,
   disabled,
   defaultValue = [],
-}: AutocompleteProps & AutocompleteMultiProps & UseControllerProps) => {
+}: AutocompleteProps<K, L> & AutocompleteMultiProps & UseControllerProps) => {
   const { field, formState } = useController({
     name,
     control,

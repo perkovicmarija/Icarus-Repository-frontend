@@ -1,5 +1,5 @@
 import { forwardRef } from "react";
-import { Autocomplete } from "@mui/material";
+import { Autocomplete, TextFieldProps } from "@mui/material";
 import TypographyReportField from "../TypographyReportField";
 import {
   ControllerRenderProps,
@@ -15,7 +15,7 @@ import {
 } from "./autocompleteUtils";
 
 const AutocompleteLargeDataset = forwardRef(
-  (
+  <K extends string, L extends string>(
     {
       options,
       keyProp,
@@ -29,11 +29,11 @@ const AutocompleteLargeDataset = forwardRef(
       placeholder,
       hidePlaceholder,
       error,
-    }: AutocompleteProps & {
+    }: AutocompleteProps<K, L> & {
       required: boolean;
       error: string | undefined;
     } & ControllerRenderProps<FieldValues, string>,
-    ref
+    ref: TextFieldProps["inputRef"]
   ) => {
     /* const optionsCachedForCompare = useMemo(
     () =>
@@ -104,7 +104,7 @@ const AutocompleteLargeDataset = forwardRef(
   }
 );
 
-const AutocompleteLargeDataset2 = ({
+const AutocompleteLargeDataset2 = <K extends string, L extends string>({
   name,
   control,
   rules,
@@ -117,7 +117,7 @@ const AutocompleteLargeDataset2 = ({
   translate = false,
   disabled,
   defaultValue = null,
-}: AutocompleteProps & UseControllerProps) => {
+}: AutocompleteProps<K, L> & UseControllerProps) => {
   const { field, formState } = useController({
     name,
     control,
