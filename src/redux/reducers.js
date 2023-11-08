@@ -22,6 +22,7 @@ import VersionMobile from "./setting/versionMobile/versionMobileReducer";
 import IcarusDocumentationFile from "./support/icarusDocs/file/icarusDocumentationFileReducer";
 import IcarusDocumentationFolder from "./support/icarusDocs/folder/icarusDocumentationFolderReducer";
 import settingsSlice from "./settings/settingsSlice";
+import versionsSlice from "./setting/versionsSlice";
 
 export default (history) =>
   combineReducers({
@@ -48,4 +49,5 @@ export default (history) =>
     IcarusDocumentationFolder,
     AuditorActionLocationType,
     VersionMobile,
+    Versions: versionsSlice.reducer,
   });

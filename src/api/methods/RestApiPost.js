@@ -35,11 +35,16 @@ const RestApiPost = {
       })
       .then((data) => {
         if (data.status && data.status !== 200) {
-          toastMessage &&
-            toast.update(toastInProgress, {
-              render: () => `Error: ${data.message}`,
-              type: "error",
-            });
+          toastInProgress
+            ? toast.update(toastInProgress, {
+                render: () => `Error: ${data.message}`,
+                autoClose: false,
+                type: "error",
+              })
+            : toast(`Error: ${data.message}`, {
+                autoClose: false,
+                type: "error",
+              });
           throw new Error(data.message);
         }
         toastMessage &&

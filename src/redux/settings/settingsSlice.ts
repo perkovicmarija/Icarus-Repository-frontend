@@ -10,6 +10,7 @@ const defaultState = {
     supportLogs: 25,
     supportRequests: 25,
     clients: 25,
+    versions: 25,
   },
 };
 

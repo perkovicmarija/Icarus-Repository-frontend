@@ -1,8 +1,15 @@
-import { IconButton, TableCell, TableRow, Tooltip } from "@mui/material";
-import { Delete, Edit } from "@mui/icons-material";
+import { useState } from "react";
+import { TableCell, TableRow } from "@mui/material";
 import { TableContainer2 } from "../../../components/core/Table/TableContainer2";
-import TableToolbar2 from "../../../components/core/Table/TableToolbar2";
+import TableToolbar2, {
+  TableToolbar2Props,
+} from "../../../components/core/Table/TableToolbar2";
 import { ColumnDefinition } from "../../../components/core/Table/TableHeader";
+import { TablePagination2Props } from "../../../components/core/Table/TablePagination2";
+import { TableActions2 } from "../../../components/core/Table/TableActions2";
+import { Delete, Edit } from "@mui/icons-material";
+import { DialogDelete2 } from "../../../components/core/Dialog/DialogDelete2";
+//
 
 const columnData: ColumnDefinition[] = [
   {
@@ -30,30 +37,46 @@ const columnData: ColumnDefinition[] = [
   },
 ];
 
-const VersionList = ({
+const VersionList = <T,>({
   data,
-  filters,
-  onSearchSubmit,
-  onNewVersionMobileClick,
-  onVersionMobileEdit,
-  onVersionMobileDelete,
-  page,
-  rowsPerPage,
-  totalCount,
-  onChangePage,
-  onChangeRowsPerPage,
-}: any) => {
+  onEdit,
+  onDelete,
+  //
+  toolbarProps: {
+    onAddClick,
+    title,
+    filters,
+    /* onFilterClick ,*/ onSearchSubmit,
+  },
+  paginationProps: {
+    page,
+    rowsPerPage,
+    totalCount,
+    onChangePage,
+    onChangeRowsPerPage,
+  },
+  loading,
+}: {
+  toolbarProps: TableToolbar2Props;
+  paginationProps: TablePagination2Props;
+  data: T[] | undefined;
+  onEdit: (item: T) => any;
+  onDelete: (item: T) => any;
+  loading: boolean;
+}) => {
+  const [dialogWarning, setDialogWarning] = useState<T | undefined>();
+
   return (
     <>
       <TableToolbar2
-        title="general.versionsMobile"
+        title={title}
         //
         filters={filters}
         onSearchSubmit={onSearchSubmit}
         searchPlaceholder="search.byClientName"
         searchTextPropKey="clientName"
         //
-        onAddClick={onNewVersionMobileClick}
+        onAddClick={onAddClick}
       />
 
       <TableContainer2
@@ -67,49 +90,45 @@ const VersionList = ({
           onChangePage,
           onChangeRowsPerPage,
         }}
+        loading={loading}
       >
-        {data.map((version: any) => {
-          return (
-            <TableRow
-              style={{ cursor: "pointer" }}
-              key={version.versionMobileId}
-              hover={true}
-            >
-              <TableCell>{version.versionMin}</TableCell>
-              <TableCell>{version.platform}</TableCell>
-              <TableCell>{version.client.name}</TableCell>
-              <TableCell className="nostretch">
-                <Tooltip title="Edit">
-                  <>
-                    <div className="d-inline">
-                      <IconButton
-                        aria-label="Edit"
-                        onClick={(event) => onVersionMobileEdit(event, version)}
-                      >
-                        <Edit />
-                      </IconButton>
-                    </div>
-                  </>
-                </Tooltip>
-                <Tooltip title="Delete">
-                  <>
-                    <div className="d-inline">
-                      <IconButton
-                        aria-label="Delete"
-                        onClick={(event) =>
-                          onVersionMobileDelete(event, version)
-                        }
-                      >
-                        <Delete />
-                      </IconButton>
-                    </div>
-                  </>
-                </Tooltip>
-              </TableCell>
-            </TableRow>
-          );
-        })}
+        {data &&
+          data.map((item: any) => {
+            return (
+              <TableRow
+                style={{ cursor: "pointer" }}
+                key={item.versionMobileId}
+                hover={true}
+              >
+                <TableCell>{item.versionMin}</TableCell>
+                <TableCell>{item.platform}</TableCell>
+                <TableCell>{item.client.name}</TableCell>
+                <TableCell className="nostretch">
+                  <TableActions2
+                    actions={[
+                      {
+                        label: "general.edit",
+                        Icon: Edit,
+                        onClick: () => onEdit(item),
+                      },
+                      {
+                        label: "general.delete",
+                        Icon: Delete,
+                        onClick: () => setDialogWarning(item),
+                      },
+                    ]}
+                  />
+                </TableCell>
+              </TableRow>
+            );
+          })}
       </TableContainer2>
+
+      <DialogDelete2
+        data={dialogWarning}
+        onSubmit={onDelete}
+        onClose={() => setDialogWarning(undefined)}
+      />
     </>
   );
 };

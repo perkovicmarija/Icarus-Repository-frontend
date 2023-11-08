@@ -47,7 +47,7 @@ function Clients() {
 
   const handleSubmitFilters = (newFilters: FiltersType) => {
     dispatch(clientsActions.setFilters({ ...filters, ...newFilters }));
-    history.push(getClientsPath(0, 0));
+    history.push(getClientsPath(0));
   };
   // PAGINATION
   const onChangePage = (newValue: number) => {
