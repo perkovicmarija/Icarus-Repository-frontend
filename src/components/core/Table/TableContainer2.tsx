@@ -41,6 +41,9 @@ export const TableContainer2 = ({
               "& td": {
                 padding: "8px 16px",
               },
+              "& tr": {
+                height: "57px",
+              },
             }}
           >
             {children}
