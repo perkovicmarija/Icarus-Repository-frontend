@@ -49,7 +49,7 @@ const AdminRouter = () => {
           "PERM_SUPPORT_CRUD",
           "PERM_SUPPORT_ADMIN",
         ]}
-        path={supportCenter}
+        path={supportCenter + "/:tab?"}
         component={SupportCenterFrame}
         key="supportCenter"
       />
@@ -120,6 +120,7 @@ const AdminRouter = () => {
         component={User}
         key="user-module"
       />
+
       <ProtectedRoute
         protectedAuthorities={[
           "PERM_SUPPORT_BASIC",
@@ -130,6 +131,7 @@ const AdminRouter = () => {
         component={SettingFrame}
         key="setting-module"
       />
+
       {/**
        * Custom routes
        */}
