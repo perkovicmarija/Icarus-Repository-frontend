@@ -1,66 +1,83 @@
-import {Group, MenuBook, SupportAgent} from '@mui/icons-material';
-import SettingsIcon from '@mui/icons-material/Settings';
 import {
-    auditChecklistOverview,
-    getClientsPath,
-    getSupportLogsPath,
-    getUsersPath,
-    icarusDocs
-} from '../../consts/routePaths';
+  Group,
+  MenuBook,
+  SupportAgent,
+  Settings,
+  LibraryBooks,
+} from "@mui/icons-material";
+import {
+  auditChecklistOverview,
+  getClientsPath,
+  getSupportLogsPath,
+  getUsersPath,
+  icarusDocs,
+  supportLogs,
+} from "../../consts/routePaths";
 
 const sidebarRoutes = [
-    {
-        path: auditChecklistOverview,
-        name: "Audit checklists",
-        icon: MenuBook,
-        key: "auditChecklistOverview",
-        sidebar: true
-    },
-    {
-        path: getUsersPath(0, 25),
-        name: "Users",
-        icon: Group,
-        key: "user-module",
+  {
+    path: auditChecklistOverview,
+    name: "Audit checklists",
+    icon: MenuBook,
+    key: "auditChecklistOverview",
+    sidebar: true,
+  },
+  {
+    path: getUsersPath(0, 25),
+    name: "Users",
+    icon: Group,
+    key: "user-module",
+    sidebar: true,
+    permissions: ["PERM_USER_CRUD"],
+  },
+  {
+    path: supportLogs,
+    name: "Support center",
+    icon: SupportAgent,
+    key: "support-center",
+    sidebar: true,
+    permissions: [
+      "PERM_SUPPORT_BASIC",
+      "PERM_SUPPORT_CRUD",
+      "PERM_SUPPORT_ADMIN",
+    ],
+  },
+  {
+    path: icarusDocs,
+    name: "Icarus Docs",
+    icon: LibraryBooks,
+    key: "icarus-docs",
+    sidebar: true,
+    permissions: [
+      "PERM_SUPPORT_BASIC",
+      "PERM_SUPPORT_CRUD",
+      "PERM_SUPPORT_ADMIN",
+    ],
+  },
+  {
+    name: "Settings",
+    icon: Settings,
+    key: "setting-module",
+    sidebar: true,
+    permissions: [
+      "PERM_SUPPORT_BASIC",
+      "PERM_SUPPORT_CRUD",
+      "PERM_SUPPORT_ADMIN",
+    ],
+    children: [
+      {
+        path: getClientsPath(0, 25),
+        name: "Clients",
+        key: "clients-list",
         sidebar: true,
-        permissions: ['PERM_USER_CRUD'],
-    },
-    {
-        name: "Support center",
-        icon: SupportAgent,
-        key: "support-center",
-        sidebar: true,
-        permissions: ['PERM_SUPPORT_BASIC', 'PERM_SUPPORT_CRUD', 'PERM_SUPPORT_ADMIN'],
-        children: [
-            {
-            path: getSupportLogsPath(0, 25),
-            name: "Software Logs",
-            key: "software-logs-list",
-            sidebar: true,
-            permissions: ['PERM_SUPPORT_BASIC', 'PERM_SUPPORT_CRUD', 'PERM_SUPPORT_ADMIN'],
-            },
-            {
-            path: icarusDocs,
-            name: "Icarus Docs",
-            key: "icarus-docs",
-            sidebar: true,
-            permissions: ['PERM_SUPPORT_BASIC', 'PERM_SUPPORT_CRUD', 'PERM_SUPPORT_ADMIN'],
-            },
-        ]
-    },
-    {
-        name: "Settings",
-        icon: SettingsIcon,
-        key: "setting-module",
-        sidebar: true,
-        permissions: ['PERM_SUPPORT_BASIC', 'PERM_SUPPORT_CRUD', 'PERM_SUPPORT_ADMIN'],
-        children: [{
-            path: getClientsPath(0, 25),
-            name: "Clients",
-            key: "clients-list",
-            sidebar: true,
-            permissions: ['PERM_SUPPORT_BASIC', 'PERM_SUPPORT_CRUD', 'PERM_SUPPORT_ADMIN'],
-        }]
-    },
+        permissions: [
+          "PERM_SUPPORT_BASIC",
+          "PERM_SUPPORT_CRUD",
+          "PERM_SUPPORT_ADMIN",
+        ],
+      },
+    ],
+  },
 ];
 
 export default sidebarRoutes;
