@@ -1,14 +1,15 @@
-import { IconButton, TableCell, TableRow, Tooltip } from "@mui/material";
-import { Delete, Edit } from "@mui/icons-material";
+import { useState } from "react";
+import { TableCell, TableRow } from "@mui/material";
 import { TableContainer2 } from "../../../components/core/Table/TableContainer2";
 import TableToolbar2, {
   TableToolbar2Props,
 } from "../../../components/core/Table/TableToolbar2";
-import {
-  ColumnDefinition,
-  TableHeaderProps,
-} from "../../../components/core/Table/TableHeader";
+import { ColumnDefinition } from "../../../components/core/Table/TableHeader";
 import { TablePagination2Props } from "../../../components/core/Table/TablePagination2";
+import { TableActions2 } from "../../../components/core/Table/TableActions2";
+import { Delete, Edit } from "@mui/icons-material";
+import { DialogDelete2 } from "../../../components/core/Dialog/DialogDelete2";
+//
 
 const columnData: ColumnDefinition[] = [
   { id: "name", numeric: false, disablePadding: false, label: "general.name" },
@@ -25,37 +26,47 @@ const columnData: ColumnDefinition[] = [
   },
 ];
 
-const ClientList = ({
+const ClientList = <T,>({
   data,
-  onSearchSubmit,
-  onNewClientClick,
-  onClientEdit,
-  onClientDelete,
-  page,
-  rowsPerPage,
-  totalCount,
-  onChangePage,
-  onChangeRowsPerPage,
-  filters,
-}: TableToolbar2Props &
-  TableHeaderProps &
-  TablePagination2Props & {
-    onClientEdit: any;
-    onClientDelete: any;
-    onNewClientClick: any;
-    data: any[];
-  }) => {
+  onEdit,
+  onDelete,
+  //
+  toolbarProps: {
+    onAddClick,
+    title,
+    filters,
+    /* onFilterClick ,*/ onSearchSubmit,
+  },
+  paginationProps: {
+    page,
+    rowsPerPage,
+    totalCount,
+    onChangePage,
+    onChangeRowsPerPage,
+  },
+  loading,
+}: {
+  toolbarProps: TableToolbar2Props;
+  paginationProps: TablePagination2Props;
+  data: T[] | undefined;
+  onEdit: (item: T) => any;
+  onDelete: (item: T) => any;
+  loading: boolean;
+}) => {
+  const [dialogWarning, setDialogWarning] = useState<T | undefined>();
+
   return (
     <>
       <TableToolbar2
-        title="form.clients"
+        title={title}
         //
         filters={filters}
         onSearchSubmit={onSearchSubmit}
-        searchPlaceholder={"search.byName"}
+        searchPlaceholder="search.byName"
         searchTextPropKey="clientSearch"
         //
-        onAddClick={onNewClientClick}
+        onAddClick={onAddClick}
+        //
       />
 
       <TableContainer2
@@ -69,48 +80,44 @@ const ClientList = ({
           onChangePage,
           onChangeRowsPerPage,
         }}
+        loading={loading}
       >
-        {data
-          .filter((client: any) => !client.deactivated)
-          .map((client: any) => {
+        {data &&
+          data.map((item: any) => {
             return (
               <TableRow
                 style={{ cursor: "pointer" }}
-                key={client.clientId}
+                key={item.clientId}
                 hover={true}
               >
-                <TableCell>{client.name}</TableCell>
-                <TableCell>{client.abbreviation}</TableCell>
+                <TableCell>{item.name}</TableCell>
+                <TableCell>{item.abbreviation}</TableCell>
                 <TableCell className="nostretch">
-                  <Tooltip title="Edit">
-                    <>
-                      <div className="d-inline">
-                        <IconButton
-                          aria-label="Edit"
-                          onClick={(event) => onClientEdit(event, client)}
-                        >
-                          <Edit />
-                        </IconButton>
-                      </div>
-                    </>
-                  </Tooltip>
-                  <Tooltip title="Delete">
-                    <>
-                      <div className="d-inline">
-                        <IconButton
-                          aria-label="Delete"
-                          onClick={(event) => onClientDelete(event, client)}
-                        >
-                          <Delete />
-                        </IconButton>
-                      </div>
-                    </>
-                  </Tooltip>
+                  <TableActions2
+                    actions={[
+                      {
+                        label: "general.edit",
+                        Icon: Edit,
+                        onClick: () => onEdit(item),
+                      },
+                      {
+                        label: "general.delete",
+                        Icon: Delete,
+                        onClick: () => setDialogWarning(item),
+                      },
+                    ]}
+                  />
                 </TableCell>
               </TableRow>
             );
           })}
       </TableContainer2>
+
+      <DialogDelete2
+        data={dialogWarning}
+        onSubmit={onDelete}
+        onClose={() => setDialogWarning(undefined)}
+      />
     </>
   );
 };

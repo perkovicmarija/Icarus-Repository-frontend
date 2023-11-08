@@ -1,4 +1,3 @@
-import React from "react";
 import { Route, Switch } from "react-router-dom";
 import SupportSoftwareLog from "./Logs/SupportSoftwareLog";
 import SupportBugs from "./Bug/SupportBugs";
@@ -9,7 +8,7 @@ import {
   supportRoadmap,
 } from "../../consts/routePaths";
 
-function SupportCenter(props) {
+function SupportCenter() {
   return (
     <Switch>
       <Route

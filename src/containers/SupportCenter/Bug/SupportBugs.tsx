@@ -1,6 +1,5 @@
 import { useEffect, useLayoutEffect, useMemo, useState } from "react";
 import { useHistory } from "react-router-dom";
-import { Paper } from "@mui/material";
 import DialogFormFrame from "../../../components/core/Dialog/DialogFormFrame";
 import DialogFormSupportItem from "../../../components/support/DialogFormSupportItem";
 import DialogFormSupportCenterFilters from "../../../components/support/DialogFormSupportCenterFilters";
@@ -85,7 +84,7 @@ function SupportRequests() {
   };
 
   return (
-    <Paper>
+    <>
       <SupportBugList<SupportRequest>
         data={data}
         onEdit={handleSupportItemClick}
@@ -144,7 +143,7 @@ function SupportRequests() {
           statuses={statuses}
         />
       </DialogFormFrame>
-    </Paper>
+    </>
   );
 }
 

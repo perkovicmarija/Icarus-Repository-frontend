@@ -1,4 +1,4 @@
-import { createSlice } from "@reduxjs/toolkit";
+import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { cloneDeep } from "lodash";
 import {
   paginationSetRowsPerPage,
@@ -9,18 +9,25 @@ const defaultState = {
   rowsPerPage: {
     supportLogs: 25,
     supportRequests: 25,
+    clients: 25,
   },
 };
 
 const settingsSlice = createSlice({
   name: "settings",
-  initialState: null,
+  initialState: null as typeof defaultState | null,
   reducers: {
-    setPagination(state, action) {
+    setPagination(
+      state,
+      action: PayloadAction<{
+        moduleKey: keyof (typeof defaultState)["rowsPerPage"];
+        value: number;
+      }>
+    ) {
       paginationSetRowsPerPage(action.payload.moduleKey, action.payload.value);
-      state.rowsPerPage[action.payload.moduleKey] = action.payload.value;
+      state!.rowsPerPage[action.payload.moduleKey] = action.payload.value;
     },
-    initializeSettings(state, action) {
+    initializeSettings() {
       const initialState = cloneDeep(defaultState);
       initialState.rowsPerPage = {
         ...initialState.rowsPerPage,

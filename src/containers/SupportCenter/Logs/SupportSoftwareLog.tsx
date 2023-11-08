@@ -1,20 +1,20 @@
 import { useEffect, useLayoutEffect, useMemo, useState } from "react";
+import { useAppDispatch, useAppSelector } from "../../../redux/store";
+import { usePagination } from "../../../helpers/pagination";
 import { useHistory } from "react-router-dom";
-import { Paper } from "@mui/material";
 import { isEmpty } from "lodash";
 import DialogFormFrame from "../../../components/core/Dialog/DialogFormFrame";
+//
+import SupportSoftwareLogList from "./SupportSoftwareLogList";
 import DialogFormSoftwareLog from "../../../components/support/DialogFormSoftwareLog";
 import DialogFormSoftwareLogFilter from "../../../components/support/DialogFormSoftwareLogFilter";
-import SupportSoftwareLogList from "./SupportSoftwareLogList";
-import * as clientActions from "../../../redux/setting/client/clientActions";
 import { getSupportLogsPath } from "../../../consts/routePaths";
 import {
   FiltersType,
   SupportLog,
   supportLogsActions,
 } from "../../../redux/support/supportLogs/supportLogsSlice";
-import { usePagination } from "../../../helpers/pagination";
-import { useAppDispatch, useAppSelector } from "../../../redux/store";
+import * as clientActions from "../../../redux/setting/client/clientActions";
 
 const SupportSoftwareLog = () => {
   const dispatch = useAppDispatch();
@@ -74,7 +74,7 @@ const SupportSoftwareLog = () => {
   };
 
   return (
-    <Paper>
+    <>
       <SupportSoftwareLogList<SupportLog>
         data={data}
         onEdit={setDialogAddEdit}
@@ -132,7 +132,7 @@ const SupportSoftwareLog = () => {
           clients={clients}
         />
       </DialogFormFrame>
-    </Paper>
+    </>
   );
 };
 

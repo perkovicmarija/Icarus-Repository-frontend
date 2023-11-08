@@ -16,6 +16,7 @@ import AuditChecklist from "./auditChecklist/auditChecklistReducer";
 import AuditChecklistItem from "./auditChecklistItem/auditChecklistItemReducer";
 import AuditChecklistSubArea from "./auditChecklistSubArea/auditChecklistSubAreaReducer";
 import Client from "./setting/client/clientReducer";
+import clientsSlice from "./setting/clientsSlice";
 import AuditorActionLocationType from "./auditorActionLocationType/AuditorActionLocationTypeReducer";
 import VersionMobile from "./setting/versionMobile/versionMobileReducer";
 import IcarusDocumentationFile from "./support/icarusDocs/file/icarusDocumentationFileReducer";
@@ -42,6 +43,7 @@ export default (history) =>
     AuditChecklistItem,
     AuditChecklistSubArea,
     Client,
+    Clients: clientsSlice.reducer,
     IcarusDocumentationFile,
     IcarusDocumentationFolder,
     AuditorActionLocationType,
