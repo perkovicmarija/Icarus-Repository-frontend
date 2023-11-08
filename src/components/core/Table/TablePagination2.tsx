@@ -46,12 +46,12 @@ export const TablePagination2 = ({
           onChange={(e) => onChangeRowsPerPage(Number(e.target.value))}
           SelectProps={{
             SelectDisplayProps: {
-              style: { padding: "4px 32px 6px 12px" },
+              style: { padding: "5px 32px 5px 12px" },
             },
             sx: {
               fontSize: "14px",
               "& svg": {
-                marginTop: "-2px",
+                marginTop: "-1px",
               },
               "& fieldset": {
                 border: "none",

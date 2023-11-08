@@ -5,9 +5,10 @@ export const ProgressCustom = () => {
     <div
       style={{
         height: "4rem",
-        marginTop: "2rem",
         width: "100%",
-        textAlign: "center",
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "center",
       }}
     >
       <CircularProgress />
