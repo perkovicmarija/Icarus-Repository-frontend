@@ -6,7 +6,6 @@ import {
   ControllerRenderProps,
   FieldValues,
   UseControllerProps,
-  UseFormStateReturn,
   useController,
 } from "react-hook-form";
 import { useIntl } from "react-intl";
@@ -38,14 +37,13 @@ const AutocompleteMultiLargeDataset = forwardRef(
       placeholder,
       hidePlaceholder,
       hasSelectAll = false,
-      errors,
+      error,
       translate,
     }: AutocompleteProps &
-      AutocompleteMultiProps & { required: boolean } & ControllerRenderProps<
-        FieldValues,
-        string
-      > &
-      UseFormStateReturn<FieldValues>,
+      AutocompleteMultiProps & {
+        required: boolean;
+        error: string | undefined;
+      } & ControllerRenderProps<FieldValues, string>,
     ref
   ) => {
     const intl = useIntl();
@@ -113,7 +111,7 @@ const AutocompleteMultiLargeDataset = forwardRef(
               <AutocompleteInputField
                 {...params}
                 value={value}
-                errorMessage={errors?.[name]?.message as string | undefined}
+                errorMessage={error}
                 placeholder={placeholder}
                 hidePlaceholder={hidePlaceholder}
                 inputRef={ref}
@@ -192,6 +190,8 @@ const AutocompleteMultiLargeDataset2 = ({
     defaultValue,
   });
 
+  const error = formState.errors[name];
+
   return (
     <AutocompleteMultiLargeDataset
       options={options}
@@ -204,7 +204,7 @@ const AutocompleteMultiLargeDataset2 = ({
       hasSelectAll={hasSelectAll}
       translate={translate}
       {...field}
-      {...formState}
+      error={error?.message as string | undefined}
     />
   );
 };

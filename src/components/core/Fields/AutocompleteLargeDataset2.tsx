@@ -5,7 +5,6 @@ import {
   ControllerRenderProps,
   FieldValues,
   UseControllerProps,
-  UseFormStateReturn,
   useController,
 } from "react-hook-form";
 import {
@@ -29,12 +28,11 @@ const AutocompleteLargeDataset = forwardRef(
       required,
       placeholder,
       hidePlaceholder,
-      errors,
-    }: AutocompleteProps & { required: boolean } & ControllerRenderProps<
-        FieldValues,
-        string
-      > &
-      UseFormStateReturn<FieldValues>,
+      error,
+    }: AutocompleteProps & {
+      required: boolean;
+      error: string | undefined;
+    } & ControllerRenderProps<FieldValues, string>,
     ref
   ) => {
     /* const optionsCachedForCompare = useMemo(
@@ -92,7 +90,7 @@ const AutocompleteLargeDataset = forwardRef(
               <AutocompleteInputField
                 {...params}
                 value={value}
-                errorMessage={errors?.[name]?.message as string | undefined}
+                errorMessage={error}
                 placeholder={placeholder}
                 hidePlaceholder={hidePlaceholder}
                 inputRef={ref}
@@ -128,6 +126,8 @@ const AutocompleteLargeDataset2 = ({
     defaultValue,
   });
 
+  const error = formState.errors[name];
+
   return (
     <AutocompleteLargeDataset
       options={options}
@@ -139,7 +139,7 @@ const AutocompleteLargeDataset2 = ({
       required={Boolean(rules?.required)}
       translate={translate}
       {...field}
-      {...formState}
+      error={error?.message as string | undefined}
     />
   );
 };

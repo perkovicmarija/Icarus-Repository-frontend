@@ -152,5 +152,5 @@ export interface AutocompleteProps {
   label?: string;
   keyProp: string;
   labelProp: string;
-  options: { keyProp: string; labelProp: string }[];
+  options: Record<string, any>[];
 }
