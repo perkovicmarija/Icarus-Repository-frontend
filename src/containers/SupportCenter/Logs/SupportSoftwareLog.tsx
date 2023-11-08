@@ -14,7 +14,8 @@ import {
   SupportLog,
   supportLogsActions,
 } from "../../../redux/support/supportLogs/supportLogsSlice";
-import * as clientActions from "../../../redux/setting/client/clientActions";
+import { Client } from "../../../redux/setting/clientsSlice";
+import ClientApi from "../../../api/ClientApi";
 
 const SupportSoftwareLog = () => {
   const dispatch = useAppDispatch();
@@ -52,11 +53,9 @@ const SupportSoftwareLog = () => {
   }, [meta]);
 
   //
-  const clients = useAppSelector((state) => state.Client.clients);
+  const [clients, setClients] = useState<Client[]>([]);
   useEffect(() => {
-    if (clients.length === 0) {
-      dispatch(clientActions.loadAllClients());
-    }
+    ClientApi.getAllClients().then((response) => setClients(response.data));
   }, []);
   //
 
@@ -78,13 +77,7 @@ const SupportSoftwareLog = () => {
       <SupportSoftwareLogList<SupportLog>
         data={data}
         onEdit={setDialogAddEdit}
-        onDelete={(payload) => {
-          return dispatch(
-            supportLogsActions.deleteItem({
-              softwareLogId: payload.supportSoftwareLogId,
-            })
-          );
-        }}
+        onDelete={(payload) => dispatch(supportLogsActions.deleteItem(payload))}
         //
         toolbarProps={{
           onAddClick: () => setDialogAddEdit({}),
@@ -111,9 +104,9 @@ const SupportSoftwareLog = () => {
         open={dialogAddEdit}
       >
         <DialogFormSoftwareLog
-          initialData={dialogAddEdit}
+          initialData={dialogAddEdit!}
           onClose={() => setDialogAddEdit(undefined)}
-          onSubmit={(payload: any) => {
+          onSubmit={(payload) => {
             return dispatch(supportLogsActions.addEditItem({ payload, meta }));
           }}
           clients={clients}

@@ -63,7 +63,7 @@ function Clients() {
       <ClientList<Client>
         data={data}
         onEdit={setDialogAddEdit}
-        onDelete={clientsActions.deleteItem}
+        onDelete={(payload) => dispatch(clientsActions.deleteItem(payload))}
         //
         toolbarProps={{
           onAddClick: () => setDialogAddEdit({}),

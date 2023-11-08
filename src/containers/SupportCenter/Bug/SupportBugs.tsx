@@ -119,7 +119,7 @@ function SupportRequests() {
         open={dialogAddEdit}
       >
         <DialogFormSupportItem
-          initialData={dialogAddEdit}
+          initialData={dialogAddEdit!}
           onClose={() => setDialogAddEdit(undefined)}
           onSubmit={(payload: any) => {
             return dispatch(

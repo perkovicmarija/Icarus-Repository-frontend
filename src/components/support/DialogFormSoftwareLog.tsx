@@ -1,11 +1,12 @@
 import { DialogContent, Grid } from "@mui/material";
-import _ from "lodash";
 import { DialogActions2 } from "../core/Dialog/DialogActions2";
 import { useForm } from "react-hook-form";
 import TextField2 from "../core/Fields/TextField2";
 import AutocompleteMultiLargeDataset2 from "../core/Fields/AutocompleteMultiLargeDataset2";
 import SwitchCustom2 from "../core/Fields/SwitchCustom2";
 import { useState } from "react";
+import { SupportLog } from "../../redux/support/supportLogs/supportLogsSlice";
+import { Client } from "../../redux/setting/clientsSlice";
 
 function DialogFormComment({
   initialData,
@@ -13,7 +14,12 @@ function DialogFormComment({
   onSubmit,
   //
   clients,
-}: any) {
+}: {
+  initialData: SupportLog | {};
+  onClose: () => void;
+  onSubmit: (payload: SupportLog) => Promise<any>;
+  clients: Client[];
+}) {
   const { handleSubmit, control } = useForm({
     defaultValues: initialData,
   });
@@ -25,7 +31,7 @@ function DialogFormComment({
         e.stopPropagation();
         handleSubmit((data) => {
           setLoading(true);
-          onSubmit(data)
+          onSubmit(data as SupportLog)
             .then(onClose)
             .catch(() => setLoading(false));
         })(e);
@@ -79,7 +85,7 @@ function DialogFormComment({
           </Grid>
 
           <Grid item xs={12}>
-            {initialData.supportSoftwareLogId && (
+            {"supportSoftwareLogId" in initialData && (
               <SwitchCustom2
                 control={control}
                 name="notifyUpdated"
