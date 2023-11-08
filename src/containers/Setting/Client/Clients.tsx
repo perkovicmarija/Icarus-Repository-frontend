@@ -41,7 +41,7 @@ function Clients() {
 
   useLayoutEffect(() => {
     setLoading(true);
-    dispatch(clientsActions.getData(meta)).then(() => setLoading(false));
+    dispatch(clientsActions.getData(meta)).finally(() => setLoading(false));
   }, [meta]);
   //
 

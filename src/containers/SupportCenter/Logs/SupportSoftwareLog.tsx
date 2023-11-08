@@ -49,7 +49,7 @@ const SupportSoftwareLog = () => {
 
   useLayoutEffect(() => {
     setLoading(true);
-    dispatch(supportLogsActions.getData(meta)).then(() => setLoading(false));
+    dispatch(supportLogsActions.getData(meta)).finally(() => setLoading(false));
   }, [meta]);
 
   //
