@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useLayoutEffect, useMemo, useState } from "react";
 import { useHistory } from "react-router-dom";
 import { Paper } from "@mui/material";
 import { isEmpty } from "lodash";
@@ -46,7 +46,7 @@ const SupportSoftwareLog = () => {
     [filters, page, rowsPerPage]
   );
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     setLoading(true);
     dispatch(supportLogsActions.getData(meta)).then(() => setLoading(false));
   }, [meta]);

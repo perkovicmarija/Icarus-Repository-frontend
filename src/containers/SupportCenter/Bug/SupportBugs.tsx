@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useLayoutEffect, useMemo, useState } from "react";
 import { useHistory } from "react-router-dom";
 import { Paper } from "@mui/material";
 import DialogFormFrame from "../../../components/core/Dialog/DialogFormFrame";
@@ -49,7 +49,7 @@ function SupportRequests() {
     [filters, page, rowsPerPage]
   );
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     setLoading(true);
     dispatch(supportRequestsActions.getData(meta)).then(() =>
       setLoading(false)
@@ -61,9 +61,9 @@ function SupportRequests() {
   const levels = useAppSelector((state) => state.SupportCenter.levels);
   const statuses = useAppSelector((state) => state.SupportCenter.statuses);
   useEffect(() => {
-    /* dispatch(supportActions.loadAllModules());
+    dispatch(supportActions.loadAllModules());
     dispatch(supportActions.loadAllLevels());
-    dispatch(supportActions.loadAllStatuses()); */
+    dispatch(supportActions.loadAllStatuses());
   }, []);
   //
 
