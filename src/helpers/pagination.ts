@@ -1,6 +1,6 @@
 import { useCallback, useMemo } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { settingsActions } from "../redux/settings/settingsSlice";
+import { defaultState, settingsActions } from "../redux/settings/settingsSlice";
 import { useRouteMatch } from "react-router-dom";
 
 //
@@ -15,7 +15,9 @@ export const paginationSetRowsPerPage = (moduleKey, value) => {
 };
 
 //
-export const usePagination = (moduleKey) => {
+export const usePagination = (
+  moduleKey: keyof (typeof defaultState)["rowsPerPage"]
+) => {
   const dispatch = useDispatch();
   const match = useRouteMatch();
 

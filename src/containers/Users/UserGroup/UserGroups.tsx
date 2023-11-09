@@ -1,120 +1,77 @@
-import { useState, useEffect } from "react";
-
-import { connect } from "react-redux";
-import { bindActionCreators } from "redux";
-import { cloneDeep } from "lodash";
-
-import DialogFormUserGroup from "../../../components/user/DialogFormUserGroup";
-import DialogDeleteWarning from "../../../components/core/Dialog/DialogDeleteWarning";
-import UserGroupList from "./UserGroupList";
-import DialogFormFrame from "../../../components/core/Dialog/DialogFormFrame";
-import * as userGroupActions from "../../../redux/user/group/userGroupActions";
-import * as userAction from "../../../redux/user/userActions";
-import { getUserGroupsPath } from "../../../consts/routePaths";
+import { useEffect, useLayoutEffect, useMemo, useState } from "react";
+import { useAppDispatch, useAppSelector } from "../../../redux/store";
+import { usePagination } from "../../../helpers/pagination";
 import { useHistory } from "react-router-dom";
+import DialogFormFrame from "../../../components/core/Dialog/DialogFormFrame";
+//
+import UserGroupList from "./UserGroupList";
+import DialogFormUserGroup from "../../../components/user/DialogFormUserGroup";
+import { getUserGroupsPath } from "../../../consts/routePaths";
+import {
+  FiltersType,
+  UserGroup,
+  userGroupsActions,
+} from "../../../redux/user/userGroupsSlice";
+//
+import { User } from "../../../redux/user/usersSlice";
+import UserApi from "../../../api/UserApi";
 
-function UserGroups({
-  page,
-  rowsPerPage,
-  userGroupActions,
-  userAction,
-  userGroups,
-  totalCount,
-  users,
-}: any) {
+function UserGroups() {
+  const dispatch = useAppDispatch();
   const history = useHistory();
-  const [userGroup, setUserGroup] = useState({
-    userGroupJoined: [],
-  });
-  const [userGroupIdForDelete, setUserGroupIdForDelete] = useState(undefined);
-  const [dialogUserGroupDetailsOpen, setDialogUserGroupDetailsOpen] =
-    useState(false);
-  const [dialogWarningOpen, setDialogWarningOpen] = useState(false);
 
+  const data = useAppSelector((state) => state.UserGroups.data);
+  const totalCount = useAppSelector(
+    (state) => state.UserGroups.meta.totalCount
+  );
+  const filters = useAppSelector((state) => state.UserGroups.filters);
+
+  const [dialogAddEdit, setDialogAddEdit] = useState<
+    UserGroup | {} | undefined
+  >();
+  const [dialogFilters, setDialogFilters] = useState();
+
+  const { page, rowsPerPage, storeRowsPerPage } = usePagination("userGroups");
+
+  const [loading, setLoading] = useState(false);
+
+  const meta = useMemo(
+    () => ({
+      filters,
+      pagination: {
+        page,
+        rowsPerPage,
+      },
+    }),
+    [filters, page, rowsPerPage]
+  );
+
+  useLayoutEffect(() => {
+    setLoading(true);
+    dispatch(userGroupsActions.getData(meta)).finally(() => setLoading(false));
+  }, [meta]);
+
+  //
+  const [users, setUsers] = useState<User[]>([]);
   useEffect(() => {
-    const viewModel = {
-      page,
-      rowsPerPage,
-    };
-    userGroupActions.loadAllPagination(viewModel);
-
-    userGroupActions.loadAllPagination(viewModel);
-    userAction.loadAll();
+    UserApi.getAll().then((response) => setUsers(response.data));
   }, []);
+  //
 
-  const handleChangePage = (e, page: number) => {
-    history.push(getUserGroupsPath(page, rowsPerPage));
+  /* const handleSubmitFilters = (newFilters: FiltersType) => {
+    dispatch(userGroupsActions.setFilters({ ...filters, ...newFilters }));
+    history.push(getUserGroupsPath(0));
+  }; */
+  // PAGINATION
+  const onChangePage = (newValue: number) => {
+    history.push(getUserGroupsPath(newValue, rowsPerPage));
+  };
+  const onChangeRowsPerPage = (newValue: number) => {
+    storeRowsPerPage(newValue);
+    history.push(getUserGroupsPath(page, newValue));
   };
 
-  const handleChangeRowsPerPage = (e) => {
-    history.push(getUserGroupsPath(page, e.target.value));
-  };
-
-  const handleGroupNewClick = (e) => {
-    let userGroup = {
-      userGroupId: undefined,
-      name: undefined,
-      userGroupJoined: [],
-    };
-    setUserGroup(userGroup);
-    setDialogUserGroupDetailsOpen(true);
-  };
-
-  const handleGroupEdit = (e, userGroup: any) => {
-    setUserGroup(userGroup);
-    setDialogUserGroupDetailsOpen(true);
-  };
-
-  const handleGroupDelete = (e, role: any) => {
-    setUserGroupIdForDelete(role.userGroupId);
-    setDialogWarningOpen(true);
-  };
-
-  const handleUserGroupDetailsInputChange = ({
-    target: { name, value },
-  }: any) => {
-    let userGroupClone = cloneDeep(userGroup);
-    userGroupClone[name] = value;
-    setUserGroup(userGroupClone);
-  };
-
-  const handleUserGroupDialogDetailsClose = () => {
-    setDialogUserGroupDetailsOpen(false);
-  };
-
-  const handleUserGroupDialogDetailsSubmit = () => {
-    setDialogUserGroupDetailsOpen(false);
-
-    if (userGroup.userGroupId) {
-      let viewModel = {
-        requestBody: userGroup,
-        params: {
-          page,
-          rowsPerPage,
-        },
-      };
-      userGroupActions.update(viewModel);
-    } else {
-      userGroupActions.create(userGroup);
-    }
-  };
-
-  const handleDeleteUserGroupConfirmed = () => {
-    if (userGroupIdForDelete) {
-      let viewModel = {
-        userGroupId: userGroupIdForDelete,
-      };
-      userGroupActions.deleteAction(viewModel);
-    }
-
-    setDialogWarningOpen(false);
-  };
-
-  const handleDeleteUserGroupClose = () => {
-    setDialogWarningOpen(false);
-  };
-
-  const handleUserGroupDialogDetailsMultiSelectChange = (event) => {
+  /* const handleUserGroupDialogDetailsMultiSelectChange = (event) => {
     let selectedUsers = [];
     let lastSelected = event.target.value[event.target.value.length - 1];
     if (lastSelected === "SelectAll") {
@@ -139,70 +96,48 @@ function UserGroups({
     let userGroupClone = cloneDeep(userGroup);
     userGroupClone.userGroupJoined = selectedUsers;
     setUserGroup(userGroupClone);
-  };
+  }; */
 
   return (
     <>
-      <UserGroupList
-        data={userGroups}
-        totalCount={totalCount}
-        onChangePage={handleChangePage}
-        onChangeRowsPerPage={handleChangeRowsPerPage}
-        page={page}
-        rowsPerPage={rowsPerPage}
-        onAddClick={handleGroupNewClick}
-        onEdit={handleGroupEdit}
-        onDelete={handleGroupDelete}
+      <UserGroupList<UserGroup>
+        data={data}
+        onEdit={setDialogAddEdit}
+        onDelete={(payload) => dispatch(userGroupsActions.deleteItem(payload))}
+        //
+        toolbarProps={{
+          onAddClick: () => setDialogAddEdit({}),
+          title: "form.userGroups",
+          /* filters,
+          onFilterClick: setDialogFilters,
+          onSearchSubmit: handleSubmitFilters, */
+        }}
+        paginationProps={{
+          totalCount,
+          page,
+          rowsPerPage,
+          onChangePage,
+          onChangeRowsPerPage,
+        }}
+        loading={loading}
       />
 
       <DialogFormFrame
-        onClose={handleUserGroupDialogDetailsClose}
-        title="User groups"
-        open={dialogUserGroupDetailsOpen}
+        onClose={() => setDialogAddEdit(undefined)}
+        title="User group"
+        open={dialogAddEdit}
       >
         <DialogFormUserGroup
-          onClose={handleUserGroupDialogDetailsClose}
-          onSubmit={handleUserGroupDialogDetailsSubmit}
-          onInputChange={handleUserGroupDetailsInputChange}
-          onMultiSelectChange={handleUserGroupDialogDetailsMultiSelectChange}
-          userGroup={userGroup}
+          initialData={dialogAddEdit!}
+          onClose={() => setDialogAddEdit(undefined)}
+          onSubmit={(payload) => {
+            return dispatch(userGroupsActions.addEditItem({ payload, meta }));
+          }}
           users={users}
         />
       </DialogFormFrame>
-
-      <DialogDeleteWarning
-        open={dialogWarningOpen}
-        text="Are you sure you want to delete this item?"
-        onDelete={handleDeleteUserGroupConfirmed}
-        onClose={handleDeleteUserGroupClose}
-      />
     </>
   );
 }
 
-function mapStateToProps(state, ownProps) {
-  let page = 0;
-  let rowsPerPage = 25;
-  if (ownProps.match.params.page) {
-    page = parseInt(ownProps.match.params.page);
-  }
-  if (ownProps.match.params.rowsPerPage) {
-    rowsPerPage = parseInt(ownProps.match.params.rowsPerPage);
-  }
-  return {
-    userGroups: state.UserGroup.userGroupsPagination,
-    totalCount: state.UserGroup.totalCount,
-    users: state.User.users,
-    page: page,
-    rowsPerPage: rowsPerPage,
-  };
-}
-
-function mapDispatchToProps(dispatch) {
-  return {
-    userGroupActions: bindActionCreators(userGroupActions, dispatch),
-    userAction: bindActionCreators(userAction, dispatch),
-  };
-}
-
-export default connect(mapStateToProps, mapDispatchToProps)(UserGroups);
+export default UserGroups;

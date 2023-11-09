@@ -1,14 +1,15 @@
-import { TableCell, TableRow, Tooltip, IconButton } from "@mui/material";
-import { Edit, Delete } from "@mui/icons-material";
+import { useState } from "react";
+import { TableCell, TableRow } from "@mui/material";
+import { TableContainer2 } from "../../../components/core/Table/TableContainer2";
 import TableToolbar2, {
   TableToolbar2Props,
 } from "../../../components/core/Table/TableToolbar2";
-import { TableContainer2 } from "../../../components/core/Table/TableContainer2";
-import {
-  ColumnDefinition,
-  TableHeaderProps,
-} from "../../../components/core/Table/TableHeader";
+import { ColumnDefinition } from "../../../components/core/Table/TableHeader";
 import { TablePagination2Props } from "../../../components/core/Table/TablePagination2";
+import { TableActions2 } from "../../../components/core/Table/TableActions2";
+import { Delete, Edit } from "@mui/icons-material";
+import { DialogDelete2 } from "../../../components/core/Dialog/DialogDelete2";
+//
 
 const columnData: ColumnDefinition[] = [
   {
@@ -30,80 +31,69 @@ const columnData: ColumnDefinition[] = [
   },
 ];
 
-function UserGroupList({
+const UserGroupList = <T,>({
   data,
-  totalCount,
-  page,
-  rowsPerPage,
-  onChangePage,
-  onChangeRowsPerPage,
-  onAddClick,
   onEdit,
   onDelete,
-}: TableToolbar2Props &
-  TableHeaderProps &
-  TablePagination2Props & {
-    data: any[];
-    onEdit: any;
-    onDelete: any;
-  }) {
+  //
+  toolbarProps,
+  paginationProps,
+  loading,
+}: {
+  toolbarProps: TableToolbar2Props;
+  paginationProps: TablePagination2Props;
+  data: T[] | undefined;
+  onEdit: (item: T) => any;
+  onDelete: (item: T) => any;
+  loading: boolean;
+}) => {
+  const [dialogWarning, setDialogWarning] = useState<T | undefined>();
+
   return (
     <>
-      <TableToolbar2 title="form.userGroups" onAddClick={onAddClick} />
+      <TableToolbar2 {...toolbarProps} />
 
       <TableContainer2
         headerProps={{
           columnData,
         }}
-        paginationProps={{
-          totalCount,
-          rowsPerPage,
-          page,
-          onChangePage,
-          onChangeRowsPerPage,
-        }}
+        paginationProps={paginationProps}
+        loading={loading}
       >
-        {data.map((item) => {
-          return (
-            <TableRow
-              style={{ cursor: "pointer" }}
-              key={item.userGroupId}
-              hover={true}
-            >
-              <TableCell>{item.name}</TableCell>
-              <TableCell>{item.numberOfParticipants}</TableCell>
-              <TableCell className="nostretch">
-                <Tooltip title="Edit">
-                  <>
-                    <div className="d-inline">
-                      <IconButton
-                        aria-label="Edit"
-                        onClick={(event) => onEdit(event, item)}
-                      >
-                        <Edit />
-                      </IconButton>
-                    </div>
-                  </>
-                </Tooltip>
-                <Tooltip title="Delete">
-                  <>
-                    <div className="d-inline">
-                      <IconButton
-                        aria-label="Delete"
-                        onClick={(event) => onDelete(event, item)}
-                      >
-                        <Delete />
-                      </IconButton>
-                    </div>
-                  </>
-                </Tooltip>
-              </TableCell>
-            </TableRow>
-          );
-        })}
+        {data &&
+          data.map((item: any) => {
+            return (
+              <TableRow key={item.userGroupId} hover={true}>
+                <TableCell>{item.name}</TableCell>
+                <TableCell>{item.numberOfParticipants}</TableCell>
+                <TableCell className="nostretch">
+                  <TableActions2
+                    actions={[
+                      {
+                        label: "general.edit",
+                        Icon: Edit,
+                        onClick: () => onEdit(item),
+                      },
+                      {
+                        label: "general.delete",
+                        Icon: Delete,
+                        onClick: () => setDialogWarning(item),
+                      },
+                    ]}
+                  />
+                </TableCell>
+              </TableRow>
+            );
+          })}
       </TableContainer2>
+
+      <DialogDelete2
+        data={dialogWarning}
+        onSubmit={onDelete}
+        onClose={() => setDialogWarning(undefined)}
+      />
     </>
   );
-}
+};
 
 export default UserGroupList;

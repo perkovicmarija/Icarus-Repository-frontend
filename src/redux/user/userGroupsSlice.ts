@@ -1,54 +1,49 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import UserApi from "../../api/UserApi";
+import UserGroupApi from "../../api/UserGroupApi";
+//
+import { User } from "./usersSlice";
 
-export const initFilters = {
-  companies: [],
-  departments: [],
-  showDeactivated: false,
-  subdivisions: [],
-  userRoles: [],
-};
+export const initFilters = {};
 
-export interface User {
-  userId: string;
-  surname: string;
+export interface UserGroup {
+  userGroupId: string;
   name: string;
-  email: string;
-  deactivated: boolean;
-  fullName: string;
+  users: User[];
 }
 
 const initialState = {
-  data: undefined as User[] | undefined,
+  data: undefined as UserGroup[] | undefined,
   meta: {
     totalCount: undefined as number | undefined,
   },
-  filters: { ...initFilters, userSearch: "" },
+  filters: { ...initFilters, textSearch: "" },
 };
 
 export type FiltersType = (typeof initialState)["filters"];
 
 const getData = createAsyncThunk(
-  "users/getData",
+  "userGroups/getData",
   async (viewModel: any /*, thunkAPI */) => {
-    const response = await UserApi.getAllPagination(viewModel);
+    const response = await UserGroupApi.getAllPagination(viewModel);
     console.log(response);
     return response;
   }
 );
 
 const deleteItem = createAsyncThunk(
-  "users/deleteItem",
-  async (viewModel: User) => {
-    const response = await UserApi.delete(viewModel);
+  "userGroups/deleteItem",
+  async (viewModel: UserGroup) => {
+    const response = await UserGroupApi.delete(viewModel);
     return response.data;
   }
 );
 
 const addEditItem = createAsyncThunk(
-  "users/addEditItem",
-  async ({ payload, meta }: { payload: User; meta: any }) => {
-    const response = await (payload.userId ? UserApi.update : UserApi.create)({
+  "userGroups/addEditItem",
+  async ({ payload, meta }: { payload: UserGroup; meta: any }) => {
+    const response = await (payload.userGroupId
+      ? UserGroupApi.update
+      : UserGroupApi.create)({
       payload,
       meta,
     });
@@ -56,8 +51,8 @@ const addEditItem = createAsyncThunk(
   }
 );
 
-const usersSlice = createSlice({
-  name: "users",
+const userGroupsSlice = createSlice({
+  name: "userGroups",
   initialState,
   reducers: {
     setFilters(state, action) {
@@ -72,10 +67,10 @@ const usersSlice = createSlice({
   },
 });
 
-export const usersActions = {
-  ...usersSlice.actions,
+export const userGroupsActions = {
+  ...userGroupsSlice.actions,
   getData,
   addEditItem,
   deleteItem,
 };
-export default usersSlice;
+export default userGroupsSlice;

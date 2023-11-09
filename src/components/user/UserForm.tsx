@@ -194,7 +194,9 @@ const UserForm = ({
         </Grid>
       </DialogContent>
 
-      {!("userId" in initialData) && <DialogActions2 onClose={onClose} />}
+      {!("userId" in initialData) && (
+        <DialogActions2 onClose={onClose} loading={loading} />
+      )}
     </form>
   );
 };

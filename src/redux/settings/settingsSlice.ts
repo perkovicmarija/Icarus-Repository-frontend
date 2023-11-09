@@ -5,13 +5,14 @@ import {
   paginationGetRowsPerPage,
 } from "../../helpers/pagination";
 
-const defaultState = {
+export const defaultState = {
   rowsPerPage: {
     supportLogs: 25,
     supportRequests: 25,
     clients: 25,
     versions: 25,
     users: 25,
+    userGroups: 25,
   },
 };
 
