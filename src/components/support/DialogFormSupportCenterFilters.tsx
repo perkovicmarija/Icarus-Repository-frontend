@@ -1,9 +1,10 @@
 import { DialogActions, DialogContent, Button, Grid } from "@mui/material";
-import { initFilters } from "../../redux/support/supportReducer";
 import { FormattedMessage } from "react-intl";
 import DateTimePickerCustom2 from "../core/Fields/DateTimePickerCustom2";
 import AutocompleteMultiLargeDataset2 from "../core/Fields/AutocompleteMultiLargeDataset2";
 import { useForm } from "react-hook-form";
+//
+import { initFilters } from "../../redux/support/supportRequests/supportRequestsSlice";
 
 function DialogFormSupportCenterFilters({
   initialData,

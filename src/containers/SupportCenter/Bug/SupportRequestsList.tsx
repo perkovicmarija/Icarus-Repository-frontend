@@ -6,12 +6,8 @@ import TableToolbar2, {
 } from "../../../components/core/Table/TableToolbar2";
 import { ColumnDefinition } from "../../../components/core/Table/TableHeader";
 import { TablePagination2Props } from "../../../components/core/Table/TablePagination2";
-//import { TableActions2 } from "../../../components/core/Table/TableActions2";
-//import { Delete, Edit } from "@mui/icons-material";
 import { DialogDelete2 } from "../../../components/core/Dialog/DialogDelete2";
 //
-import { protectedAuth } from "../../../protectedAuth";
-import { initFilters } from "../../../redux/support/supportRequests/supportRequestsSlice";
 import { makeStyles } from "@mui/styles";
 
 const useStyles = makeStyles(() => ({

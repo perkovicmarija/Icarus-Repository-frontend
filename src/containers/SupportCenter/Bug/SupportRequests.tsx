@@ -3,7 +3,7 @@ import { useHistory } from "react-router-dom";
 import DialogFormFrame from "../../../components/core/Dialog/DialogFormFrame";
 import DialogFormSupportItem from "../../../components/support/DialogFormSupportItem";
 import DialogFormSupportCenterFilters from "../../../components/support/DialogFormSupportCenterFilters";
-import SupportBugList from "./SupportBugList";
+import SupportBugList from "./SupportRequestsList";
 import * as supportActions from "../../../redux/support/supportActions";
 import {
   getSupportBugsPath,
@@ -17,6 +17,7 @@ import {
 import { usePagination } from "../../../helpers/pagination";
 import { useAppDispatch, useAppSelector } from "../../../redux/store";
 import { protectedAuth } from "../../../protectedAuth";
+import { initFilters } from "../../../redux/support/supportRequests/supportRequestsSlice";
 
 function SupportRequests() {
   const dispatch = useAppDispatch();
@@ -107,6 +108,7 @@ function SupportRequests() {
               "PERM_SUPPORT_CRUD",
               "PERM_SUPPORT_ADMIN",
             ]) && (() => setDialogAddEdit({})),
+          initFilters,
           filters,
           onFilterClick: setDialogFilters,
           onSearchSubmit: handleSubmitFilters,
