@@ -14,6 +14,7 @@ import {
 } from "../../../redux/user/usersSlice";
 import UserRoleApi from "../../../api/UserRoleApi";
 import UserForm from "../../../components/user/UserForm";
+import { initFilters } from "../../../redux/user/usersSlice";
 
 function Users() {
   const dispatch = useAppDispatch();
@@ -76,6 +77,9 @@ function Users() {
         toolbarProps={{
           onAddClick: () => setDialogAddEdit({}),
           title: "form.users",
+          searchPlaceholder: "search.byEmail",
+          searchTextPropKey: "userSearch",
+          initFilters,
           filters,
           onFilterClick: setDialogFilters,
           onSearchSubmit: handleSubmitFilters,

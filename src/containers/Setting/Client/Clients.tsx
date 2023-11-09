@@ -68,6 +68,8 @@ function Clients() {
         toolbarProps={{
           onAddClick: () => setDialogAddEdit({}),
           title: "form.clients",
+          searchPlaceholder: "search.byName",
+          searchTextPropKey: "clientSearch",
           filters,
           onSearchSubmit: handleSubmitFilters,
         }}

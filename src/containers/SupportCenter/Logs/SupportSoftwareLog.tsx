@@ -14,9 +14,9 @@ import {
   SupportLog,
   supportLogsActions,
 } from "../../../redux/support/supportLogs/supportLogsSlice";
-//
 import { Client } from "../../../redux/setting/clientsSlice";
 import ClientApi from "../../../api/ClientApi";
+import { initFilters } from "../../../redux/support/supportLogs/supportLogsSlice";
 
 const SupportSoftwareLog = () => {
   const dispatch = useAppDispatch();
@@ -83,6 +83,9 @@ const SupportSoftwareLog = () => {
         toolbarProps={{
           onAddClick: () => setDialogAddEdit({}),
           title: "support.softwareLogs",
+          searchPlaceholder: "search.search",
+          searchTextPropKey: "softwareLogSearch",
+          initFilters,
           filters,
           onFilterClick: setDialogFilters,
           onSearchSubmit: handleSubmitFilters,

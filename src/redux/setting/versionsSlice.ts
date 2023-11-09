@@ -1,5 +1,6 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import VersionsApi from "../../api/VersionsApi";
+import { Client } from "./clientsSlice";
 
 export const initFilters = {};
 
@@ -7,7 +8,7 @@ export interface Version {
   versionMobileId: string;
   versionMin: string;
   platform: "";
-  selectedClients: [];
+  selectedClients: Client[];
 }
 
 const initialState = {
@@ -58,10 +59,10 @@ const versionsSlice = createSlice({
     builder.addCase(getData.fulfilled, (state, action) => {
       state.data = action.payload.data;
       state.meta = action.payload.meta;
-    })
+    });
     /* .addCase(getData.rejected, (state, action) => {
       console.log("rafa")
-    }) */;
+    }) */
   },
 });
 

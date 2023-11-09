@@ -17,12 +17,15 @@ import ClientApi from "../../../api/ClientApi";
 import { toast } from "react-toastify";
 
 // Check if a version with the same client name, platform and version already exists
-const checkForExistingCombination = (versionsMobile, versionMobile) => {
+const checkForExistingCombination = (
+  versionsMobile: Version[],
+  versionMobile: Version
+) => {
   return versionsMobile.some(
     (vm) =>
       versionMobile.versionMin === vm.versionMin &&
       versionMobile.platform === vm.platform &&
-      versionMobile.selectedClients[0].name === vm.client.name
+      versionMobile.selectedClients[0].name === vm.selectedClients[0].name
   );
 };
 
@@ -91,6 +94,8 @@ function Versions() {
         toolbarProps={{
           onAddClick: () => setDialogAddEdit({}),
           title: "general.versionsMobile",
+          searchPlaceholder: "search.byClientName",
+          searchTextPropKey: "clientName",
           filters,
           onSearchSubmit: handleSubmitFilters,
         }}
@@ -115,7 +120,7 @@ function Versions() {
           onSubmit={(payload) => {
             // return dispatch(supportLogsActions.addEditItem({ payload, meta }));
 
-            const duplicate = checkForExistingCombination(data, payload);
+            const duplicate = checkForExistingCombination(data!, payload);
 
             //Do not allow creating of duplicates
             if (!duplicate) {

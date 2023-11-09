@@ -99,14 +99,8 @@ const SupportRequestsList = <T,>({
   onEdit,
   onDelete,
   //
-  toolbarProps: { onAddClick, title, filters, onFilterClick, onSearchSubmit },
-  paginationProps: {
-    page,
-    rowsPerPage,
-    totalCount,
-    onChangePage,
-    onChangeRowsPerPage,
-  },
+  toolbarProps,
+  paginationProps,
   loading,
 }: {
   toolbarProps: TableToolbar2Props;
@@ -159,37 +153,13 @@ const SupportRequestsList = <T,>({
 
   return (
     <>
-      <TableToolbar2
-        title={title}
-        //
-        filters={filters}
-        onSearchSubmit={onSearchSubmit}
-        searchPlaceholder="search.search"
-        searchTextPropKey="searchString"
-        //
-        onAddClick={
-          protectedAuth([
-            "PERM_SUPPORT_BASIC",
-            "PERM_SUPPORT_CRUD",
-            "PERM_SUPPORT_ADMIN",
-          ]) && onAddClick
-        }
-        //
-        initFilters={initFilters}
-        onFilterClick={onFilterClick}
-      />
+      <TableToolbar2 {...toolbarProps} />
 
       <TableContainer2
         headerProps={{
           columnData,
         }}
-        paginationProps={{
-          totalCount,
-          rowsPerPage,
-          page,
-          onChangePage,
-          onChangeRowsPerPage,
-        }}
+        paginationProps={paginationProps}
         loading={loading}
       >
         {data &&
@@ -204,9 +174,7 @@ const SupportRequestsList = <T,>({
                 <TableCell>{item.supportBugIdSign}</TableCell>
                 <TableCell>{item.title}</TableCell>
                 <TableCell>{item.module.name}</TableCell>
-                <TableCell>
-                  {item.userAuthor.fullName}
-                </TableCell>
+                <TableCell>{item.userAuthor.fullName}</TableCell>
                 <TableCell
                   className={changeValueOnLevel(
                     item.level.code,

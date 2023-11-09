@@ -10,7 +10,6 @@ import { TableActions2 } from "../../../components/core/Table/TableActions2";
 import { Delete, Edit } from "@mui/icons-material";
 import { DialogDelete2 } from "../../../components/core/Dialog/DialogDelete2";
 //
-import { initFilters } from "../../../redux/user/usersSlice";
 
 const columnData: ColumnDefinition[] = [
   { id: "name", label: "form.name" },
@@ -27,14 +26,8 @@ const UserList = <T,>({
   onEdit,
   onDelete,
   //
-  toolbarProps: { onAddClick, title, filters, onFilterClick, onSearchSubmit },
-  paginationProps: {
-    page,
-    rowsPerPage,
-    totalCount,
-    onChangePage,
-    onChangeRowsPerPage,
-  },
+  toolbarProps,
+  paginationProps,
   loading,
 }: {
   toolbarProps: TableToolbar2Props;
@@ -48,31 +41,13 @@ const UserList = <T,>({
 
   return (
     <>
-      <TableToolbar2
-        title={title}
-        //
-        filters={filters}
-        onSearchSubmit={onSearchSubmit}
-        searchPlaceholder="search.byEmail"
-        searchTextPropKey="userSearch"
-        //
-        onAddClick={onAddClick}
-        //
-        initFilters={initFilters}
-        onFilterClick={onFilterClick}
-      />
+      <TableToolbar2 {...toolbarProps} />
 
       <TableContainer2
         headerProps={{
           columnData,
         }}
-        paginationProps={{
-          totalCount,
-          rowsPerPage,
-          page,
-          onChangePage,
-          onChangeRowsPerPage,
-        }}
+        paginationProps={paginationProps}
         loading={loading}
       >
         {data &&

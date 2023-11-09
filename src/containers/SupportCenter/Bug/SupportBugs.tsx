@@ -16,6 +16,7 @@ import {
 } from "../../../redux/support/supportRequests/supportRequestsSlice";
 import { usePagination } from "../../../helpers/pagination";
 import { useAppDispatch, useAppSelector } from "../../../redux/store";
+import { protectedAuth } from "../../../protectedAuth";
 
 function SupportRequests() {
   const dispatch = useAppDispatch();
@@ -97,8 +98,15 @@ function SupportRequests() {
         }}
         //
         toolbarProps={{
-          onAddClick: () => setDialogAddEdit({}),
           title: "support.bug.list",
+          searchPlaceholder: "search.search",
+          searchTextPropKey: "searchString",
+          onAddClick:
+            protectedAuth([
+              "PERM_SUPPORT_BASIC",
+              "PERM_SUPPORT_CRUD",
+              "PERM_SUPPORT_ADMIN",
+            ]) && (() => setDialogAddEdit({})),
           filters,
           onFilterClick: setDialogFilters,
           onSearchSubmit: handleSubmitFilters,
