@@ -26,7 +26,6 @@ import {
   supportBug,
   supportCenter,
   supportRoadmap,
-  user,
   userModule,
 } from "../../consts/routePaths";
 import AuditChecklistOverview from "../Audit/AuditChecklist/AuditChecklistOverview";
@@ -108,16 +107,11 @@ const AdminRouter = () => {
         component={SupportBugDetailsFrame}
         key="support-bug-details"
       />
+
       <ProtectedRoute
         protectedAuthorities={["PERM_USER_CRUD"]}
-        path={userModule}
+        path={userModule + "/:tab?"}
         component={UserRoleFrame}
-        key="user-module"
-      />
-      <ProtectedRoute
-        protectedAuthorities={["PERM_USER_CRUD"]}
-        path={user}
-        component={User}
         key="user-module"
       />
 

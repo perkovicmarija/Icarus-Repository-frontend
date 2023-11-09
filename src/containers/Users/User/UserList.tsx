@@ -1,43 +1,55 @@
+import { useState } from "react";
 import { TableCell, TableRow } from "@mui/material";
-
 import { TableContainer2 } from "../../../components/core/Table/TableContainer2";
 import TableToolbar2, {
   TableToolbar2Props,
 } from "../../../components/core/Table/TableToolbar2";
-import { initFilters } from "../../../redux/user/userReducer";
-import {
-  ColumnDefinition,
-  TableHeaderProps,
-} from "../../../components/core/Table/TableHeader";
+import { ColumnDefinition } from "../../../components/core/Table/TableHeader";
 import { TablePagination2Props } from "../../../components/core/Table/TablePagination2";
+import { TableActions2 } from "../../../components/core/Table/TableActions2";
+import { Delete, Edit } from "@mui/icons-material";
+import { DialogDelete2 } from "../../../components/core/Dialog/DialogDelete2";
+//
+import { initFilters } from "../../../redux/user/usersSlice";
 
 const columnData: ColumnDefinition[] = [
   { id: "name", label: "form.name" },
   { id: "email", label: "form.email" },
+  {
+    id: "actions",
+    label: "general.actions",
+    style: { textAlign: "center" },
+  },
 ];
 
-function UserList({
+const UserList = <T,>({
   data,
-  totalCount,
-  page,
-  rowsPerPage,
   onEdit,
-  onAddClick,
-  onChangePage,
-  onChangeRowsPerPage,
-  onFilterClick,
-  filters,
-  onSearchSubmit,
-}: TableToolbar2Props &
-  TableHeaderProps &
-  TablePagination2Props & {
-    data: any[];
-    onEdit: any;
-  }) {
+  onDelete,
+  //
+  toolbarProps: { onAddClick, title, filters, onFilterClick, onSearchSubmit },
+  paginationProps: {
+    page,
+    rowsPerPage,
+    totalCount,
+    onChangePage,
+    onChangeRowsPerPage,
+  },
+  loading,
+}: {
+  toolbarProps: TableToolbar2Props;
+  paginationProps: TablePagination2Props;
+  data: T[] | undefined;
+  onEdit: (item: T) => any;
+  onDelete: (item: T) => any;
+  loading: boolean;
+}) => {
+  const [dialogWarning, setDialogWarning] = useState<T | undefined>();
+
   return (
     <>
       <TableToolbar2
-        title="form.users"
+        title={title}
         //
         filters={filters}
         onSearchSubmit={onSearchSubmit}
@@ -46,9 +58,10 @@ function UserList({
         //
         onAddClick={onAddClick}
         //
-        onFilterClick={onFilterClick}
         initFilters={initFilters}
+        onFilterClick={onFilterClick}
       />
+
       <TableContainer2
         headerProps={{
           columnData,
@@ -60,25 +73,46 @@ function UserList({
           onChangePage,
           onChangeRowsPerPage,
         }}
+        loading={loading}
       >
-        {data.map((user) => {
-          return (
-            <TableRow
-              style={{
-                cursor: "pointer",
-              }}
-              key={user.userId}
-              onClick={(event) => onEdit(event, user.userId)}
-              hover={true}
-            >
-              <TableCell>{user.surname + " " + user.name}</TableCell>
-              <TableCell>{user.email}</TableCell>
-            </TableRow>
-          );
-        })}
+        {data &&
+          data.map((item: any) => {
+            return (
+              <TableRow
+                key={item.userId}
+                onClick={() => onEdit(item)}
+                hover={true}
+              >
+                <TableCell>{item.surname + " " + item.name}</TableCell>
+                <TableCell>{item.email}</TableCell>
+                <TableCell className="nostretch">
+                  <TableActions2
+                    actions={[
+                      {
+                        label: "general.edit",
+                        Icon: Edit,
+                        onClick: () => onEdit(item),
+                      },
+                      {
+                        label: "general.delete",
+                        Icon: Delete,
+                        onClick: () => setDialogWarning(item),
+                      },
+                    ]}
+                  />
+                </TableCell>
+              </TableRow>
+            );
+          })}
       </TableContainer2>
+
+      <DialogDelete2
+        data={dialogWarning}
+        onSubmit={onDelete}
+        onClose={() => setDialogWarning(undefined)}
+      />
     </>
   );
-}
+};
 
 export default UserList;

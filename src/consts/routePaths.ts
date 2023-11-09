@@ -10,26 +10,20 @@ export const submenu2 = adminRoot + "/submenu2";
 
 // USERS
 export const userModule = adminRoot + "/user-module";
-export const users = userModule + "/users/:page?/:rowsPerPage?";
-export const getUsersPath = (page: any, rowsPerPage: any) => {
-  return users.replace(":page?", page).replace(":rowsPerPage?", rowsPerPage);
+
+export const users = userModule + "/users/";
+export const getUsersPath = (page: number, rowsPerPage?: number) => {
+  return `${users}${page}/${rowsPerPage ?? ""}`;
 };
 
-export const user = adminRoot + "/user/details/:id";
-export const getUserDetailsPath = (id: string) => {
-  return user.replace(":id", id);
+export const userGroups = userModule + "/user-groups/";
+export const getUserGroupsPath = (page: number, rowsPerPage?: number) => {
+  return `${userGroups}${page}/${rowsPerPage ?? ""}`;
 };
 
-export const userGroups = userModule + "/user-groups/:page?/:rowsPerPage?";
-export const getUserGroupsPath = (page: any, rowsPerPage: any) => {
-  return userGroups
-    .replace(":page?", page)
-    .replace(":rowsPerPage?", rowsPerPage);
-};
-
-export const roles = userModule + "/roles/:page?/:rowsPerPage?";
-export const getUserRolesPath = (page: any, rowsPerPage: any) => {
-  return roles.replace(":page?", page).replace(":rowsPerPage?", rowsPerPage);
+export const roles = userModule + "/roles/";
+export const getUserRolesPath = (page: number, rowsPerPage?: number) => {
+  return `${roles}${page}/${rowsPerPage ?? ""}`;
 };
 
 // SUPPORT CENTER

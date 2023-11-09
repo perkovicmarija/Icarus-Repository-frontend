@@ -101,7 +101,6 @@ const SupportSoftwareLogList = <T,>({
           data.map((item: any) => {
             return (
               <TableRow
-                style={{ cursor: "pointer" }}
                 key={item.supportSoftwareLogId}
                 hover={true}
               >

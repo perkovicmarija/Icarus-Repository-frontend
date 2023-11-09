@@ -23,6 +23,7 @@ import IcarusDocumentationFile from "./support/icarusDocs/file/icarusDocumentati
 import IcarusDocumentationFolder from "./support/icarusDocs/folder/icarusDocumentationFolderReducer";
 import settingsSlice from "./settings/settingsSlice";
 import versionsSlice from "./setting/versionsSlice";
+import usersSlice from "./user/usersSlice";
 
 export default (history) =>
   combineReducers({
@@ -32,6 +33,7 @@ export default (history) =>
     Message,
     Progress,
     User,
+    Users: usersSlice.reducer,
     UserRole,
     UserGroup,
     Authority,

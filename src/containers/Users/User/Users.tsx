@@ -1,99 +1,120 @@
-import { useState, useEffect } from "react";
-
-import { connect } from "react-redux";
-import { bindActionCreators } from "redux";
-import { Paper } from "@mui/material";
-
-import UserList from "./UserList";
-import DialogFormFrame from "../../../components/core/Dialog/DialogFormFrame";
-import DialogFormUserFilters from "../../../components/user/DialogFormUserFilters";
-import * as userActions from "../../../redux/user/userActions";
-import * as userRoleActions from "../../../redux/user/role/userRoleActions";
-import { getUsersPath, getUserDetailsPath } from "../../../consts/routePaths";
+import { useEffect, useLayoutEffect, useMemo, useState } from "react";
+import { useAppDispatch, useAppSelector } from "../../../redux/store";
+import { usePagination } from "../../../helpers/pagination";
 import { useHistory } from "react-router-dom";
+import DialogFormFrame from "../../../components/core/Dialog/DialogFormFrame";
+//
+import UserList from "./UserList";
+import DialogFormUserFilters from "../../../components/user/DialogFormUserFilters";
+import { getUsersPath } from "../../../consts/routePaths";
+import {
+  FiltersType,
+  User,
+  usersActions,
+} from "../../../redux/user/usersSlice";
+import * as userRoleActions from "../../../redux/user/role/userRoleActions";
+import UserRoleApi from "../../../api/UserRoleApi";
+import UserForm from "../../../components/user/UserForm";
 
-function Users({
-  filters,
-  page,
-  rowsPerPage,
-  userActions,
-  userRoles,
-  userRoleActions,
-  users,
-  totalCount,
-}: any) {
-  const [dialogFilterOpen, setDialogFilterOpen] = useState(false);
+function Users() {
+  const dispatch = useAppDispatch();
   const history = useHistory();
 
-  useEffect(() => {
-    const viewModel = {
+  const data = useAppSelector((state) => state.Users.data);
+  const totalCount = useAppSelector((state) => state.Users.meta.totalCount);
+  const filters = useAppSelector((state) => state.Users.filters);
+
+  const [dialogAddEdit, setDialogAddEdit] = useState<User | {} | undefined>();
+  const [dialogFilters, setDialogFilters] = useState();
+
+  const { page, rowsPerPage, storeRowsPerPage } = usePagination("users");
+
+  const [loading, setLoading] = useState(false);
+
+  const meta = useMemo(
+    () => ({
       filters,
       pagination: {
         page,
         rowsPerPage,
       },
-    };
+    }),
+    [filters, page, rowsPerPage]
+  );
 
-    userActions.loadAllPagination(viewModel);
+  useLayoutEffect(() => {
+    setLoading(true);
+    dispatch(usersActions.getData(meta)).finally(() => setLoading(false));
+  }, [meta]);
 
-    if (userRoles.length === 0) {
-      userRoleActions.loadAll();
-    }
+  //
+  const [userRoles, setUserRoles] = useState<any[]>([]);
+  useEffect(() => {
+    UserRoleApi.getAll().then((response) => setUserRoles(response.data));
   }, []);
+  //
 
-  const onChangePage = (event, page) => {
-    history.push(getUsersPath(page, rowsPerPage));
+  const handleSubmitFilters = (newFilters: FiltersType) => {
+    dispatch(usersActions.setFilters({ ...filters, ...newFilters }));
+    history.push(getUsersPath(0));
   };
-
-  const onChangeRowsPerPage = (event) => {
-    history.push(getUsersPath(page, event.target.value));
+  // PAGINATION
+  const onChangePage = (newValue: number) => {
+    history.push(getUsersPath(newValue, rowsPerPage));
   };
-
-  const handleFilterSubmit = (newFilters) => {
-    const viewModel = {
-      filters: { ...filters, ...newFilters },
-      pagination: {
-        page,
-        rowsPerPage,
-      },
-    };
-    userActions.loadAllPagination(viewModel);
-    userActions.setFilters({ ...filters, ...newFilters });
-  };
-
-  const handleUserClick = (event, id) => {
-    history.push(getUserDetailsPath(id));
-  };
-
-  const handleUserNewClick = (event, route) => {
-    history.push(getUserDetailsPath("-1"));
+  const onChangeRowsPerPage = (newValue: number) => {
+    storeRowsPerPage(newValue);
+    history.push(getUsersPath(page, newValue));
   };
 
   return (
     <>
-      <UserList
-        data={users}
-        totalCount={totalCount}
-        onEdit={handleUserClick}
-        onAddClick={handleUserNewClick}
-        onSearchSubmit={handleFilterSubmit}
-        onChangePage={onChangePage}
-        onChangeRowsPerPage={onChangeRowsPerPage}
-        onFilterClick={() => setDialogFilterOpen(filters)}
-        filters={filters}
-        page={page}
-        rowsPerPage={rowsPerPage}
+      <UserList<User>
+        data={data}
+        onEdit={setDialogAddEdit}
+        onDelete={(payload) => dispatch(usersActions.deleteItem(payload))}
+        //
+        toolbarProps={{
+          onAddClick: () => setDialogAddEdit({}),
+          title: "form.users",
+          filters,
+          onFilterClick: setDialogFilters,
+          onSearchSubmit: handleSubmitFilters,
+        }}
+        paginationProps={{
+          totalCount,
+          page,
+          rowsPerPage,
+          onChangePage,
+          onChangeRowsPerPage,
+        }}
+        loading={loading}
       />
 
       <DialogFormFrame
-        onClose={() => setDialogFilterOpen(false)}
-        title="Select filters"
-        open={dialogFilterOpen}
+        onClose={() => setDialogAddEdit(undefined)}
+        title={"form.user"}
+        open={dialogAddEdit}
+      >
+        <UserForm
+          initialData={dialogAddEdit!}
+          onClose={() => setDialogAddEdit(undefined)}
+          onSubmit={(payload) => {
+            return dispatch(usersActions.addEditItem({ payload, meta }));
+          }}
+          userRoles={userRoles}
+        />
+      </DialogFormFrame>
+
+      <DialogFormFrame
+        onClose={() => setDialogFilters(undefined)}
+        title="general.selectFilters"
+        open={dialogFilters}
       >
         <DialogFormUserFilters
-          initialData={dialogFilterOpen}
-          onClose={() => setDialogFilterOpen(false)}
-          onSubmit={handleFilterSubmit}
+          initialData={dialogFilters}
+          onClose={() => setDialogFilters(undefined)}
+          onSubmit={handleSubmitFilters}
           userRoles={userRoles}
         />
       </DialogFormFrame>
@@ -101,30 +122,4 @@ function Users({
   );
 }
 
-function mapStateToProps(state, ownProps) {
-  let page = 0;
-  let rowsPerPage = 25;
-  if (ownProps.match.params.page) {
-    page = parseInt(ownProps.match.params.page);
-  }
-  if (ownProps.match.params.rowsPerPage) {
-    rowsPerPage = parseInt(ownProps.match.params.rowsPerPage);
-  }
-  return {
-    users: state.User.usersPagination,
-    userRoles: state.UserRole.userRoles,
-    totalCount: state.User.totalCount,
-    filters: state.User.filters,
-    page: page,
-    rowsPerPage: rowsPerPage,
-  };
-}
-
-function mapDispatchToProps(dispatch) {
-  return {
-    userActions: bindActionCreators(userActions, dispatch),
-    userRoleActions: bindActionCreators(userRoleActions, dispatch),
-  };
-}
-
-export default connect(mapStateToProps, mapDispatchToProps)(Users);
+export default Users;

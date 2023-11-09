@@ -11,6 +11,7 @@ const defaultState = {
     supportRequests: 25,
     clients: 25,
     versions: 25,
+    users: 25,
   },
 };
 

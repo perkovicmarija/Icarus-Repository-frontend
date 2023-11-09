@@ -11,6 +11,7 @@ import {
   getUsersPath,
   icarusDocs,
   supportLogs,
+  users,
 } from "../../consts/routePaths";
 
 const sidebarRoutes = [
@@ -22,7 +23,7 @@ const sidebarRoutes = [
     sidebar: true,
   },
   {
-    path: getUsersPath(0, 25),
+    path: users,
     name: "Users",
     icon: Group,
     key: "user-module",
