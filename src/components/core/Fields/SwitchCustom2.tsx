@@ -39,7 +39,7 @@ function SwitchCustom2({
   const error = formState.errors[name];
 
   return (
-    <>
+    <div style={{ display: "flex", flexDirection: "column" }}>
       {label && (
         <TypographyReportField
           title={label}
@@ -59,7 +59,7 @@ function SwitchCustom2({
         labelPlacement="end"
         {...props}
       />
-    </>
+    </div>
   );
 }
 
