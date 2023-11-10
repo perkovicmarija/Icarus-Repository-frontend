@@ -93,7 +93,7 @@ const AuditChecklistOverview = () => {
 
   //Dialogs
   const [dialogNewVersionOpen, setDialogNewVersionOpen] = useState(false);
-  const [dialogRevisionsOpen, setDialogRevisionsOpen] = useState(false);
+  const [dialogRevisions, setDialogRevisions] = useState<AuditChecklist>();
 
   /* const handleChecklistNewVersion = (event, item) => {
     setDialogNewVersionOpen(true);
@@ -124,10 +124,6 @@ const AuditChecklistOverview = () => {
     setDialogNewVersionOpen(false);
   }; */
 
-  /* const onChecklistRevisionView = (item) => {
-    props.history.push("/admin/audit-checklists/" + item.auditChecklistId);
-  }; */
-
   return (
     <>
       <AuditChecklistsList<AuditChecklist>
@@ -135,7 +131,7 @@ const AuditChecklistOverview = () => {
         onItemClick={(id) => history.push("/admin/audit-checklists/" + id)}
         onEdit={setDialogAddEdit}
         onNewVersion={() => alert("TODO")}
-        onShowRevisions={() => alert("TODO")}
+        onShowRevisions={setDialogRevisions}
         onDelete={(payload) =>
           dispatch(auditChecklistsActions.deleteItem(payload))
         }
@@ -196,18 +192,21 @@ const AuditChecklistOverview = () => {
           checklist={checklist}
         />
       </DialogFormFrame>
+      */}
 
       <DialogFormFrame
-        onClose={handleDialogRevisionsClose}
-        title={labelChecklist}
-        open={dialogRevisionsOpen}
+        onClose={() => setDialogRevisions(undefined)}
+        title={"general.revisions"}
+        open={dialogRevisions}
       >
         <DialogFormRevisions
-          onClose={handleDialogRevisionsClose}
-          handleViewChecklist={onChecklistRevisionView}
-          revisions={checklist.checklistRevisions}
+          onClose={() => setDialogRevisions(undefined)}
+          handleViewChecklist={(item) =>
+            history.push("/admin/audit-checklists/" + item.auditChecklistId)
+          }
+          auditChecklist={dialogRevisions!}
         />
-      </DialogFormFrame> */}
+      </DialogFormFrame>
 
       <DialogFormFrame
         onClose={() => setDialogFilters(undefined)}

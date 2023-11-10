@@ -23,8 +23,12 @@ export interface AuditChecklist {
   title: string;
   version: string;
   type: AuditChecklistType;
+  effective: string;
   effectiveDate: string;
   published: boolean;
+  checklistRevisions: AuditChecklist[];
+  active: boolean;
+  abbreviation: string;
 }
 
 const initialState = {
