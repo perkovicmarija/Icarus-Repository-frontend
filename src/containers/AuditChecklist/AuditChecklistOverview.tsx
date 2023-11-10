@@ -160,13 +160,11 @@ const AuditChecklistOverview = () => {
         open={dialogNewVersion}
       >
         <DialogFormNewChecklistVersion
-          initialData={dialogNewVersion}
+          initialData={dialogNewVersion!}
           onClose={() => setDialogNewVersion(undefined)}
-          onSubmit={(payload) => {
-            dispatch(
-              auditChecklistsActions.createNewVersion({ payload, meta })
-            );
-          }}
+          onSubmit={(payload) =>
+            dispatch(auditChecklistsActions.createNewVersion({ payload, meta }))
+          }
           //
           domains={auditChecklistDomains}
         />
