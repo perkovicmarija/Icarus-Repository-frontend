@@ -61,7 +61,11 @@ export const getSupportBugAttachmentsPath = (id: string) => {
   return supportBugAttachments.replace(":id", id);
 };
 
-export const auditChecklistOverview = adminRoot + "/audit-checklists";
+// AUDIT CHECKLISTS
+export const auditChecklistOverview = adminRoot + "/audit-checklists-pagination/";
+export const getAuditChecklistOverviewPath = (page: number, rowsPerPage?: number) => {
+  return `${auditChecklistOverview}${page}/${rowsPerPage ?? ""}`;
+};
 
 export const auditChecklist = adminRoot + "/audit-checklists/:id";
 

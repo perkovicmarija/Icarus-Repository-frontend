@@ -13,6 +13,7 @@ export const defaultState = {
     versions: 25,
     users: 25,
     userGroups: 25,
+    auditChecklists: 25,
   },
 };
 

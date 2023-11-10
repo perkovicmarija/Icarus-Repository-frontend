@@ -25,6 +25,7 @@ import settingsSlice from "./settings/settingsSlice";
 import versionsSlice from "./setting/versionsSlice";
 import usersSlice from "./user/usersSlice";
 import userGroupsSlice from "./user/userGroupsSlice";
+import auditChecklistsSlice from "./auditChecklistsSlice";
 
 export default (history) =>
   combineReducers({
@@ -45,6 +46,7 @@ export default (history) =>
     SupportRequests: supportRequestsSlice.reducer,
     LanguageSwitcher,
     AuditChecklist,
+    AuditChecklists: auditChecklistsSlice.reducer,
     AuditChecklistItem,
     AuditChecklistSubArea,
     Client,

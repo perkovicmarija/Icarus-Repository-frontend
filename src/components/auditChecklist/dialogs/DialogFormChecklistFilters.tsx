@@ -1,23 +1,25 @@
-import React from "react";
-import PropTypes from "prop-types";
-import Button from "@mui/material/Button";
-import { DialogActions, DialogContent } from "@mui/material";
-import IntlMessages from "../../../components/core/IntlMessages";
-import TypographyFieldTitle from "../../core/TypographyFieldTitle";
-import DateTimePickerCustom from "../../core/DatePicker/DateTimePickerCustom";
-import SelectMultipleCustom from "../../core/Select/SelectMultipleCustom";
-import Grid from "@mui/material/Grid";
-import { initFilters } from "../../../redux/auditChecklist/auditChecklistReducer";
+import { Button, DialogActions, DialogContent, Grid } from "@mui/material";
+import IntlMessages from "../../core/IntlMessages";
 import { useForm } from "react-hook-form";
 import DateTimePickerCustom2 from "../../core/Fields/DateTimePickerCustom2";
 import AutocompleteMultiLargeDataset2 from "../../core/Fields/AutocompleteMultiLargeDataset2";
+//
+import {
+  AuditChecklistType,
+  FiltersType,
+  initFilters,
+} from "../../../redux/auditChecklistsSlice";
 
 const DialogFormChecklistFilters = ({
   initialData,
   onClose,
   onSubmit,
   checklistTypes,
-  checklistTypeId,
+}: {
+  initialData: FiltersType;
+  onClose: () => void;
+  onSubmit: (payload: FiltersType) => void;
+  checklistTypes: AuditChecklistType[];
 }) => {
   const { handleSubmit, control, reset } = useForm({
     defaultValues: initialData,
@@ -55,7 +57,7 @@ const DialogFormChecklistFilters = ({
               label="general.type"
               name="checklistTypes"
               options={checklistTypes}
-              keyProp="checklistTypeId"
+              keyProp="auditChecklistTypeId"
               labelProp="name"
             />
           </Grid>

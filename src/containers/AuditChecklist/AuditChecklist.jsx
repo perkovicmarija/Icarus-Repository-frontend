@@ -2,29 +2,29 @@ import React, { useEffect, useState } from "react";
 import { makeStyles } from "@mui/styles";
 import Paper from "@mui/material/Paper";
 import { useDispatch, useSelector } from "react-redux";
-import FormTitleSubtitleBar from "../../../components/core/Form/FormTitleSubtitleBar";
+import FormTitleSubtitleBar from "../../components/core/Form/FormTitleSubtitleBar";
 import Grid from "@mui/material/Grid";
-import { auditChecklistActions } from "../../../redux/auditChecklist/auditChecklistReducer";
-import IntlMessages from "../../../components/core/IntlMessages";
-import TextFieldMultiline from "../../../components/core/TextField/TextFieldMultiline";
-import * as Protected from "../../../protectedAuth";
+import { auditChecklistActions } from "../../redux/auditChecklist/auditChecklistReducer";
+import IntlMessages from "../../components/core/IntlMessages";
+import TextFieldMultiline from "../../components/core/TextField/TextFieldMultiline";
+import * as Protected from "../../protectedAuth";
 import Button from "@mui/material/Button";
 import NoteAdd from "@mui/icons-material/NoteAdd";
 import SwapVert from "@mui/icons-material/SwapVert";
 import PlaylistAddIcon from "@mui/icons-material/PlaylistAdd";
-import DialogFormFrame from "../../../components/core/Dialog/DialogFormFrame";
+import DialogFormFrame from "../../components/core/Dialog/DialogFormFrame";
 import { cloneDeep } from "lodash";
-import ChecklistItemCreateForm from "../../../components/auditItem/ChecklistItemCreateForm";
-import ChecklistSubAreaCreateForm from "../../../components/auditSubArea/ChecklistSubAreaCreateForm";
-import DialogDeleteWarning from "../../../components/core/Dialog/DialogDeleteWarning";
-import DialogFormSubAreaNew from "../../../components/auditSubArea/dialogs/DialogFormSubAreaNew";
-import ChecklistDnDTree from "../../../components/auditChecklist/dnd/ChecklistDnDTree";
-import DialogFormExportData from "../../../components/core/Dialog/DialogFormExportData";
-import DialogFormUploadCSVFile from "../../../components/core/Dialog/DialogFormUploadCSVFile";
+import ChecklistItemCreateForm from "../../components/auditItem/ChecklistItemCreateForm";
+import ChecklistSubAreaCreateForm from "../../components/auditSubArea/ChecklistSubAreaCreateForm";
+import DialogDeleteWarning from "../../components/core/Dialog/DialogDeleteWarning";
+import DialogFormSubAreaNew from "../../components/auditSubArea/dialogs/DialogFormSubAreaNew";
+import ChecklistDnDTree from "../../components/auditChecklist/dnd/ChecklistDnDTree";
+import DialogFormExportData from "../../components/core/Dialog/DialogFormExportData";
+import DialogFormUploadCSVFile from "../../components/core/Dialog/DialogFormUploadCSVFile";
 
-import { auditChecklistSubAreaActions } from "../../../redux/auditChecklistSubArea/auditChecklistSubAreaReducer";
-import { auditChecklistItemActions } from "../../../redux/auditChecklistItem/auditChecklistItemReducer";
-import { auditorActionLocationType } from "../../../redux/auditorActionLocationType/AuditorActionLocationTypeReducer";
+import { auditChecklistSubAreaActions } from "../../redux/auditChecklistSubArea/auditChecklistSubAreaReducer";
+import { auditChecklistItemActions } from "../../redux/auditChecklistItem/auditChecklistItemReducer";
+import { auditorActionLocationType } from "../../redux/auditorActionLocationType/AuditorActionLocationTypeReducer";
 
 const useStyles = makeStyles((theme) => ({
   root: {

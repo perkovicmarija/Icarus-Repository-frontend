@@ -28,8 +28,8 @@ import {
   supportRoadmap,
   userModule,
 } from "../../consts/routePaths";
-import AuditChecklistOverview from "../Audit/AuditChecklist/AuditChecklistOverview";
-import AuditChecklist from "../Audit/AuditChecklist/AuditChecklist";
+import AuditChecklistOverview from "../AuditChecklist/AuditChecklistOverview";
+import AuditChecklist from "../AuditChecklist/AuditChecklist";
 import IcarusDocs from "../SupportCenter/IcarusDocs/IcarusDocs";
 import FileDetailsWrapperNew from "../SupportCenter/IcarusDocs/FileDetailsWrapperNew";
 import IcarusDocsFileView from "../SupportCenter/IcarusDocs/IcarusDocsFileView";
@@ -41,6 +41,19 @@ const AdminRouter = () => {
       <Route path={dashboard} component={Dashboard} key="dashboard" />
       <Route path={submenu1} component={SubmenuComp1} key="rates-hourly" />
       <Route path={submenu2} component={SubmenuComp2} key="rates-drilling" />
+
+      <Route
+        exact
+        path={auditChecklistOverview + ":page?/:rowsPerPage?"}
+        component={AuditChecklistOverview}
+        key="auditChecklistOverview"
+      />
+      <Route
+        exact
+        path={auditChecklist}
+        component={AuditChecklist}
+        key="auditChecklist"
+      />
 
       <ProtectedRoute
         protectedAuthorities={[
@@ -126,21 +139,6 @@ const AdminRouter = () => {
         key="setting-module"
       />
 
-      {/**
-       * Custom routes
-       */}
-      <Route
-        exact
-        path={auditChecklistOverview}
-        component={AuditChecklistOverview}
-        key="auditChecklistOverview"
-      />
-      <Route
-        exact
-        path={auditChecklist}
-        component={AuditChecklist}
-        key="auditChecklist"
-      />
       <Redirect from={root} to={dashboard} />
     </Switch>
   );
