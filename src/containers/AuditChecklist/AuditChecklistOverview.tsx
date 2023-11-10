@@ -92,7 +92,7 @@ const AuditChecklistOverview = () => {
   };
 
   //Dialogs
-  const [dialogNewVersionOpen, setDialogNewVersionOpen] = useState(false);
+  const [dialogNewVersion, setDialogNewVersion] = useState<AuditChecklist>();
   const [dialogRevisions, setDialogRevisions] = useState<AuditChecklist>();
 
   /* const handleChecklistNewVersion = (event, item) => {
@@ -100,29 +100,7 @@ const AuditChecklistOverview = () => {
     let checklistEdit = cloneDeep(item);
     checklistEdit.abbreviationOld = item.abbreviation;
     setChecklist(checklistEdit);
-  };
-
-  const handleDialogNewChecklistVersionSubmit = () => {
-    let viewModelChecklist = cloneDeep(checklist);
-    viewModelChecklist.version = viewModelChecklist.versionNew;
-    viewModelChecklist.abbreviation = viewModelChecklist.abbreviationNew;
-
-    if (viewModelChecklist.auditChecklistId) {
-      const viewModel = {
-        pagination: {
-          filters: filters,
-          pagination: {
-            page,
-            rowsPerPage,
-          },
-        },
-        checklist: viewModelChecklist,
-      };
-      dispatch(auditChecklistActions.createNewVersionRequest(viewModel));
-    }
-
-    setDialogNewVersionOpen(false);
-  }; */
+  };*/
 
   return (
     <>
@@ -130,7 +108,7 @@ const AuditChecklistOverview = () => {
         data={data}
         onItemClick={(id) => history.push("/admin/audit-checklists/" + id)}
         onEdit={setDialogAddEdit}
-        onNewVersion={() => alert("TODO")}
+        onNewVersion={setDialogNewVersion}
         onShowRevisions={setDialogRevisions}
         onDelete={(payload) =>
           dispatch(auditChecklistsActions.deleteItem(payload))
@@ -176,23 +154,23 @@ const AuditChecklistOverview = () => {
         />
       </DialogFormFrame>
 
-      {/* <DialogFormFrame
-        onClose={handleChecklistNewVersionClose}
+      <DialogFormFrame
+        onClose={() => setDialogNewVersion(undefined)}
         title="qms.checklist.newVersion"
-        open={dialogNewVersionOpen}
+        open={dialogNewVersion}
       >
         <DialogFormNewChecklistVersion
-          onClose={handleChecklistNewVersionClose}
-          onSubmit={handleDialogNewChecklistVersionSubmit}
-          onInputChange={handleInputChange}
-          onSelectChange={handleSelectChange}
-          onDateTimeChange={handleDateTimeChange}
-          domains={domains}
-          isEdit={isEditChecklist}
-          checklist={checklist}
+          initialData={dialogNewVersion}
+          onClose={() => setDialogNewVersion(undefined)}
+          onSubmit={(payload) => {
+            dispatch(
+              auditChecklistsActions.createNewVersion({ payload, meta })
+            );
+          }}
+          //
+          domains={auditChecklistDomains}
         />
       </DialogFormFrame>
-      */}
 
       <DialogFormFrame
         onClose={() => setDialogRevisions(undefined)}

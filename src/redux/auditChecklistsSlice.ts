@@ -23,8 +23,8 @@ export interface AuditChecklist {
   title: string;
   version: string;
   type: AuditChecklistType;
-  effective: string;
-  effectiveDate: string;
+  effective: string | null;
+  effectiveDate: string | null;
   published: boolean;
   checklistRevisions: AuditChecklist[];
   active: boolean;
@@ -69,6 +69,17 @@ const addEditItem = createAsyncThunk(
   }
 );
 
+const createNewVersion = createAsyncThunk(
+  "auditChecklists/createNewVersion",
+  async ({ payload, meta }: { payload: AuditChecklist; meta: any }) => {
+    const response = await AuditChecklistApi.createNewVersion({
+      payload,
+      meta,
+    });
+    return response;
+  }
+);
+
 const auditChecklistsSlice = createSlice({
   name: "auditChecklists",
   initialState,
@@ -90,5 +101,6 @@ export const auditChecklistsActions = {
   getData,
   addEditItem,
   deleteItem,
+  createNewVersion,
 };
 export default auditChecklistsSlice;
