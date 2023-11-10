@@ -15,10 +15,10 @@ function SupportCenter() {
         path={supportLogs + ":page?/:rowsPerPage?"}
         component={SupportSoftwareLog}
       />
-      <Route
+      {/* <Route
         path={supportBugs + ":page?/:rowsPerPage?"}
         component={SupportRequests}
-      />
+      /> */}
       <Route path={supportRoadmap} component={Roadmap} />
     </Switch>
   );

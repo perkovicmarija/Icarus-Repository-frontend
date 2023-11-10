@@ -32,12 +32,12 @@ function SupportCenterFrame() {
     case "logs":
       tabSelected = 0;
       break;
-    case "bugs":
+    case "roadmap":
       tabSelected = 1;
       break;
-    case "roadmap":
+    /* case "bugs":
       tabSelected = 2;
-      break;
+      break; */
     default:
       throw new Error("wrong support center route");
   }
@@ -57,12 +57,12 @@ function SupportCenterFrame() {
             component={Link}
             to={supportLogs}
           />
-          <Tab
+          {/* <Tab
             label={<FormattedMessage id="support.bugs" />}
             className={classes.tabLink}
             component={Link}
             to={supportBugs}
-          />
+          /> */}
           <Tab
             label={<FormattedMessage id="support.roadmap" />}
             className={classes.tabLink}

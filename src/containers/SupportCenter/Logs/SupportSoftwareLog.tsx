@@ -13,10 +13,10 @@ import {
   FiltersType,
   SupportLog,
   supportLogsActions,
+  initFilters
 } from "../../../redux/support/supportLogs/supportLogsSlice";
 import { Client } from "../../../redux/setting/clientsSlice";
 import ClientApi from "../../../api/ClientApi";
-import { initFilters } from "../../../redux/support/supportLogs/supportLogsSlice";
 
 const SupportSoftwareLog = () => {
   const dispatch = useAppDispatch();
