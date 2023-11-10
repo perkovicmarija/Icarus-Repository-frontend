@@ -174,8 +174,6 @@ const UserForm = ({
               control={control}
               label="form.phone2"
               name="phone2"
-              rules={{ required: "general.required" }}
-              placeholder="form.phone2"
             />
           </Grid>
 
@@ -194,9 +192,7 @@ const UserForm = ({
         </Grid>
       </DialogContent>
 
-      {!("userId" in initialData) && (
-        <DialogActions2 onClose={onClose} loading={loading} />
-      )}
+      <DialogActions2 onClose={onClose} loading={loading} />
     </form>
   );
 };
