@@ -7,7 +7,7 @@ export type TableActions2Prop = {
   actions: {
     label: string;
     Icon: SvgIconComponent;
-    onClick: IconButtonProps["onClick"];
+    onClick: Exclude<IconButtonProps["onClick"], undefined>;
   }[];
 };
 
