@@ -56,17 +56,17 @@ const DialogFormNewChecklistVersion = ({
                 <label>CURRENT VERSION</label>
               </strong>
             </Grid>
-            <Grid item sm={4} xs={12}>
+            <Grid item xs={12}>
               <TypographyFieldTitle title="general.title" />
               <br />
               <label>{initialData.title}</label>
             </Grid>
-            <Grid item sm={4} xs={12}>
+            <Grid item sm={6} xs={12}>
               <TypographyFieldTitle title="qms.checklist.version" />
               <br />
               <label>{initialData.version}</label>
             </Grid>
-            <Grid item sm={4} xs={12}>
+            <Grid item sm={6} xs={12}>
               <TypographyFieldTitle title="general.abbreviation" />
               <br />
               <label>{initialData.abbreviation}</label>

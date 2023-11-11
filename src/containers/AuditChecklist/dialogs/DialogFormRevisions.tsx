@@ -24,7 +24,9 @@ const DialogFormRevisions = ({
   return (
     <>
       <DialogContent>
-        <div style={{ fontSize: "1.25rem", width: "100%", textAlign: "center" }}>
+        <div
+          style={{ fontSize: "1.25rem", width: "100%", textAlign: "center" }}
+        >
           {auditChecklist.title}
         </div>
         <Table>
@@ -49,31 +51,29 @@ const DialogFormRevisions = ({
             </TableRow>
           </TableHead>
           <TableBody>
-            {auditChecklist.checklistRevisions.map((item: AuditChecklist) => {
-              return (
-                <TableRow>
-                  <TableCell>
-                    {item.active ? (
-                      <strong>
-                        <IntlMessages id="general.yes" />
-                      </strong>
-                    ) : (
-                      <IntlMessages id="general.no" />
-                    )}
-                  </TableCell>
-                  <TableCell>{item.version}</TableCell>
-                  <TableCell>{item.abbreviation}</TableCell>
-                  <TableCell>
-                    <IconButton
-                      aria-label="View"
-                      onClick={() => handleViewChecklist(item)}
-                    >
-                      <Visibility />
-                    </IconButton>
-                  </TableCell>
-                </TableRow>
-              );
-            })}
+            {auditChecklist.checklistRevisions.map((item: AuditChecklist) => (
+              <TableRow key={item.auditChecklistId}>
+                <TableCell>
+                  {item.active ? (
+                    <strong>
+                      <IntlMessages id="general.yes" />
+                    </strong>
+                  ) : (
+                    <IntlMessages id="general.no" />
+                  )}
+                </TableCell>
+                <TableCell>{item.version}</TableCell>
+                <TableCell>{item.abbreviation}</TableCell>
+                <TableCell>
+                  <IconButton
+                    aria-label="View"
+                    onClick={() => handleViewChecklist(item)}
+                  >
+                    <Visibility />
+                  </IconButton>
+                </TableCell>
+              </TableRow>
+            ))}
           </TableBody>
         </Table>
       </DialogContent>
