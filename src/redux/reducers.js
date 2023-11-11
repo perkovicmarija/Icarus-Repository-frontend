@@ -5,7 +5,6 @@ import AjaxStatus from "./ajaxCall/ajaxStatusReducer";
 import Message from "./message/messageReducer";
 import User from "./user/userReducer";
 import UserRole from "./user/role/userRoleReducer";
-import UserGroup from "./user/group/userGroupReducer";
 import Authority from "./authority/authorityReducer";
 import SupportCenter from "./support/supportReducer";
 import supportLogsSlice from "./support/supportLogs/supportLogsSlice";
@@ -24,7 +23,6 @@ import IcarusDocumentationFolder from "./support/icarusDocs/folder/icarusDocumen
 import settingsSlice from "./settings/settingsSlice";
 import versionsSlice from "./setting/versionsSlice";
 import usersSlice from "./user/usersSlice";
-import userGroupsSlice from "./user/userGroupsSlice";
 import auditChecklistsSlice from "./auditChecklistsSlice";
 
 export default (history) =>
@@ -37,8 +35,6 @@ export default (history) =>
     User,
     Users: usersSlice.reducer,
     UserRole,
-    UserGroup,
-    UserGroups: userGroupsSlice.reducer,
     Authority,
     Settings: settingsSlice.reducer,
     SupportCenter,

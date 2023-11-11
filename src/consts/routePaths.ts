@@ -5,20 +5,12 @@ export const confirmationCode = "/confirmation-code";
 export const adminRoot = "/admin";
 export const dashboard = adminRoot + "/dashboard";
 
-export const submenu1 = adminRoot + "/submenu1";
-export const submenu2 = adminRoot + "/submenu2";
-
 // USERS
 export const userModule = adminRoot + "/user-module";
 
 export const users = userModule + "/users/";
 export const getUsersPath = (page: number, rowsPerPage?: number) => {
   return `${users}${page}/${rowsPerPage ?? ""}`;
-};
-
-export const userGroups = userModule + "/user-groups/";
-export const getUserGroupsPath = (page: number, rowsPerPage?: number) => {
-  return `${userGroups}${page}/${rowsPerPage ?? ""}`;
 };
 
 export const roles = userModule + "/roles/";
@@ -32,11 +24,6 @@ export const supportCenter = adminRoot + "/support-center";
 export const supportLogs = supportCenter + "/logs/";
 export const getSupportLogsPath = (page: number, rowsPerPage?: number) => {
   return `${supportLogs}${page}/${rowsPerPage ?? ""}`;
-};
-
-export const supportBugs = supportCenter + "/bugs/";
-export const getSupportBugsPath = (page: number, rowsPerPage?: number) => {
-  return `${supportBugs}${page}/${rowsPerPage ?? ""}`;
 };
 
 export const supportRoadmap = supportCenter + "/roadmap";

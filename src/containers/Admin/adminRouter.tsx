@@ -1,19 +1,15 @@
-import React from "react";
-
 import { Redirect, Route, Switch } from "react-router-dom";
 
-import User from "../Users/User/User";
 import SupportBugDetailsFrame from "../SupportCenter/Bug/Details/SupportBugDetailsFrame";
 import ProtectedRoute from "../../ProtectedRoute";
 import Dashboard from "../Dashboard/Dashboard";
-import SubmenuComp1 from "../SubmenuComp/SubmenuComp1";
-import SubmenuComp2 from "../SubmenuComp/SubmenuComp2";
 import UserRoleFrame from "../Users/UserRoleFrame";
 import SupportCenterFrame from "../SupportCenter/SupportCenterFrame";
 import SettingFrame from "../Setting/SettingFrame";
 import {
-  auditChecklist,
   auditChecklistOverview,
+  auditChecklist,
+  userModule,
   dashboard,
   icarusDocs,
   icarusDocsDetailsNew,
@@ -21,12 +17,8 @@ import {
   icarusDocsViewFile,
   root,
   settingModule,
-  submenu1,
-  submenu2,
   supportBug,
   supportCenter,
-  supportRoadmap,
-  userModule,
 } from "../../consts/routePaths";
 import AuditChecklistOverview from "../AuditChecklist/AuditChecklistOverview";
 import AuditChecklist from "../AuditChecklist/AuditChecklist";
@@ -39,8 +31,6 @@ const AdminRouter = () => {
   return (
     <Switch>
       <Route path={dashboard} component={Dashboard} key="dashboard" />
-      <Route path={submenu1} component={SubmenuComp1} key="rates-hourly" />
-      <Route path={submenu2} component={SubmenuComp2} key="rates-drilling" />
 
       <Route
         exact
@@ -53,6 +43,13 @@ const AdminRouter = () => {
         path={auditChecklist}
         component={AuditChecklist}
         key="auditChecklist"
+      />
+
+      <ProtectedRoute
+        protectedAuthorities={["PERM_USER_CRUD"]}
+        path={userModule + "/:tab?"}
+        component={UserRoleFrame}
+        key="user-module"
       />
 
       <ProtectedRoute
@@ -110,6 +107,7 @@ const AdminRouter = () => {
         component={IcarusDocsFileView}
         key="icarus-docs-view-file"
       />
+
       <ProtectedRoute
         protectedAuthorities={[
           "PERM_SUPPORT_BASIC",
@@ -119,13 +117,6 @@ const AdminRouter = () => {
         path={supportBug}
         component={SupportBugDetailsFrame}
         key="support-bug-details"
-      />
-
-      <ProtectedRoute
-        protectedAuthorities={["PERM_USER_CRUD"]}
-        path={userModule + "/:tab?"}
-        component={UserRoleFrame}
-        key="user-module"
       />
 
       <ProtectedRoute
@@ -139,7 +130,7 @@ const AdminRouter = () => {
         key="setting-module"
       />
 
-      <Redirect from={root} to={dashboard} />
+      <Redirect from={root} to={auditChecklistOverview} />
     </Switch>
   );
 };

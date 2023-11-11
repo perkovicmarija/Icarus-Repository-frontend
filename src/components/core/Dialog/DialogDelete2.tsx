@@ -18,7 +18,7 @@ function DialogDelete2<T>({
 }: {
   data: T;
   onClose: () => void;
-  onSubmit: (data: NonNullable<T>) => any;
+  onSubmit: (data: NonNullable<T>) => Promise<any>;
   text?: string;
   disabled?: boolean;
 }) {
@@ -45,7 +45,7 @@ function DialogDelete2<T>({
             setLoading(true);
             onSubmit(data!)
               .then(onClose)
-              .catch(() => setLoading(false));
+              .finally(() => setLoading(false));
           }}
           disabled={disabled || loading}
         >

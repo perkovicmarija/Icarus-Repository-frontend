@@ -21,7 +21,13 @@ const DialogFormUserGroup = ({
   users: User[];
 }) => {
   const { handleSubmit, control } = useForm({
-    defaultValues: initialData,
+    defaultValues:
+      "userGroupId" in initialData
+        ? {
+            ...initialData,
+            users: initialData.userGroupJoined.map((item) => item.user),
+          }
+        : {},
   });
   const [loading, setLoading] = useState(false);
 
@@ -60,6 +66,7 @@ const DialogFormUserGroup = ({
           </Grid>
         </Grid>
       </DialogContent>
+
       <DialogActions2 onClose={onClose} loading={loading} />
     </form>
   );

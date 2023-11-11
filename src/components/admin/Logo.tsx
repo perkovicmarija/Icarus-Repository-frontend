@@ -1,7 +1,7 @@
 import { Link } from "react-router-dom";
 import { Dashboard } from "@mui/icons-material";
 import banner from "../../assets/img/icarus-zlatno-banner.png";
-import { dashboard } from "../../consts/routePaths";
+import { auditChecklistOverview } from "../../consts/routePaths";
 import { Box } from "@mui/material";
 
 const Logo = ({ open }: { open: any }) => {
@@ -12,7 +12,7 @@ const Logo = ({ open }: { open: any }) => {
       }}
     >
       {open ? (
-        <Link to={dashboard}>
+        <Link to={auditChecklistOverview}>
           <img
             alt=""
             style={{
@@ -25,7 +25,7 @@ const Logo = ({ open }: { open: any }) => {
       ) : (
         <div>
           <h3>
-            <Link to={dashboard}>
+            <Link to={auditChecklistOverview}>
               <Dashboard color="secondary" />
             </Link>
           </h3>

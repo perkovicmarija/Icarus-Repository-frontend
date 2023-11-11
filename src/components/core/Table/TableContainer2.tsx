@@ -29,7 +29,7 @@ export const TableContainer2 = ({
         sx={{
           "& tbody": {
             "& tr": {
-              cursor: "pointer",
+              // cursor: "pointer",
             },
           },
         }}

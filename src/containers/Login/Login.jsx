@@ -9,7 +9,7 @@ import SignUpForm from "./SignUpForm";
 import ForgotPwdDialogForm from "./ForgotPwdDialogForm";
 import DialogFormFrame from "../../components/core/Dialog/DialogFormFrame";
 import authAction from "../../redux/auth/authActions";
-import { dashboard } from "../../consts/routePaths";
+import { adminRoot } from "../../consts/routePaths";
 import "../../assets/css/App.css";
 import { makeStyles } from "@mui/styles";
 import bgImage from "../../images/icarus_bg.jpg";
@@ -83,8 +83,9 @@ function Login(props) {
   }
 
   if (props.isLoggedIn) {
-    return <Redirect to={dashboard} />;
+    return <Redirect to={adminRoot} />;
   }
+
   return (
     <div className="App">
       <SnackbarSuccess />

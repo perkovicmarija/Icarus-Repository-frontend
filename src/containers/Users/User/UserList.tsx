@@ -55,7 +55,6 @@ const UserList = <T,>({
             return (
               <TableRow
                 key={item.userId}
-                onClick={() => onEdit(item)}
                 hover={true}
               >
                 <TableCell>{item.surname + " " + item.name}</TableCell>

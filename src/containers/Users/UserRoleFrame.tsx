@@ -6,7 +6,7 @@ import TabContainer from "../../components/core/TabContainer";
 import { FormattedMessage } from "react-intl";
 //
 import UserRouter from "./UserRouter";
-import { users, userGroups, roles } from "../../consts/routePaths";
+import { users, roles } from "../../consts/routePaths";
 
 const useStyles = makeStyles({
   tabLink: {
@@ -16,7 +16,7 @@ const useStyles = makeStyles({
   },
 });
 
-type Tabs = "users" | "user-groups" | "roles";
+type Tabs = "users" | "roles";
 
 function UserRoleFrame() {
   const classes = useStyles();
@@ -28,11 +28,8 @@ function UserRoleFrame() {
     case "users":
       tabSelected = 0;
       break;
-    case "user-groups":
-      tabSelected = 1;
-      break;
     case "roles":
-      tabSelected = 2;
+      tabSelected = 1;
       break;
     default:
       throw new Error("wrong settings route");
@@ -52,12 +49,6 @@ function UserRoleFrame() {
             className={classes.tabLink}
             component={Link}
             to={users}
-          />
-          <Tab
-            label={<FormattedMessage id="form.userGroups" />}
-            className={classes.tabLink}
-            component={Link}
-            to={userGroups}
           />
           <Tab
             label={<FormattedMessage id="form.roles" />}

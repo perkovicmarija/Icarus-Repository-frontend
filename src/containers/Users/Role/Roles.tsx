@@ -156,7 +156,7 @@ function Roles({
 
       <DialogFormFrame
         onClose={handleUserRoleDialogDetailsClose}
-        title="Roles"
+        title="userRole.role"
         open={dialogUserRoleDetails}
       >
         <DialogFormUserRole
