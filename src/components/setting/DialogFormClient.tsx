@@ -1,7 +1,8 @@
-import { Button, DialogActions, DialogContent, Grid } from "@mui/material";
+import { DialogContent, Grid } from "@mui/material";
 import { useForm } from "react-hook-form";
 import TextField2 from "../core/Fields/TextField2";
 import SwitchCustom2 from "../core/Fields/SwitchCustom2";
+import { DialogActions2 } from "../core/Dialog/DialogActions2";
 
 const DialogFormClient = ({ initialData, onClose, onSubmit }: any) => {
   const { handleSubmit, control } = useForm({
@@ -52,12 +53,7 @@ const DialogFormClient = ({ initialData, onClose, onSubmit }: any) => {
         </Grid>
       </DialogContent>
 
-      <DialogActions>
-        <Button onClick={onClose}>Cancel</Button>
-        <Button type="submit">
-          {!initialData.clientId ? "Add" : "Update"}
-        </Button>
-      </DialogActions>
+      <DialogActions2 onClose={onClose} submitText={!initialData.clientId ? "action.add" : "general.update"} />
     </form>
   );
 };

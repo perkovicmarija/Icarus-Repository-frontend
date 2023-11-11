@@ -1,14 +1,21 @@
-import React from "react";
-import { Button, DialogActions, DialogContent, Grid } from "@mui/material";
+import { DialogContent, Grid } from "@mui/material";
 import { initFilters } from "../../redux/support/supportReducer";
 import AutocompleteMultiLargeDataset2 from "../core/Fields/AutocompleteMultiLargeDataset2";
 import { useForm } from "react-hook-form";
+import { DialogActions2 } from "../core/Dialog/DialogActions2";
+import { FiltersType } from "../../redux/support/supportLogs/supportLogsSlice";
+import { Client } from "../../redux/setting/clientsSlice";
 
 function DialogFormSoftwareLogFilter({
   initialData,
   onClose,
   onSubmit,
   clients,
+}: {
+  initialData: FiltersType;
+  onClose: () => void;
+  onSubmit: (payload: FiltersType) => void;
+  clients: Client[];
 }) {
   const { handleSubmit, control, reset } = useForm({
     defaultValues: initialData,
@@ -38,11 +45,7 @@ function DialogFormSoftwareLogFilter({
           </Grid>
         </Grid>
       </DialogContent>
-      <DialogActions>
-        <Button onClick={() => reset(initFilters)}>Clear all</Button>
-        <Button onClick={onClose}>Cancel</Button>
-        <Button type="submit">Submit</Button>
-      </DialogActions>
+      <DialogActions2 onClose={onClose} onClear={() => reset(initFilters)} />
     </form>
   );
 }

@@ -1,10 +1,10 @@
-import { DialogActions, DialogContent, Button, Grid } from "@mui/material";
-import { FormattedMessage } from "react-intl";
+import { DialogContent, Grid } from "@mui/material";
 import DateTimePickerCustom2 from "../core/Fields/DateTimePickerCustom2";
 import AutocompleteMultiLargeDataset2 from "../core/Fields/AutocompleteMultiLargeDataset2";
 import { useForm } from "react-hook-form";
 //
 import { initFilters } from "../../redux/support/supportRequests/supportRequestsSlice";
+import { DialogActions2 } from "../core/Dialog/DialogActions2";
 
 function DialogFormSupportCenterFilters({
   initialData,
@@ -47,17 +47,7 @@ function DialogFormSupportCenterFilters({
           </Grid>
         </Grid>
       </DialogContent>
-      <DialogActions>
-        <Button onClick={() => reset(initFilters)}>
-          <FormattedMessage id="action.clearAll" />
-        </Button>
-        <Button onClick={onClose}>
-          <FormattedMessage id="action.cancel" />
-        </Button>
-        <Button type="submit">
-          <FormattedMessage id="action.submit" />
-        </Button>
-      </DialogActions>
+      <DialogActions2 onClose={onClose} onClear={() => reset(initFilters)} />
     </form>
   );
 }
