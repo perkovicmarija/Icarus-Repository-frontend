@@ -181,7 +181,9 @@ const AutocompleteMultiLargeDataset2 = <K extends string, L extends string>({
   translate = false,
   disabled,
   defaultValue = [],
-}: AutocompleteProps<K, L> & AutocompleteMultiProps & UseControllerProps) => {
+}: AutocompleteProps<K, L> &
+  AutocompleteMultiProps &
+  UseControllerProps<any>) => {
   const { field, formState } = useController({
     name,
     control,

@@ -12,20 +12,20 @@ const DateTimePickerCustom2 = ({
   rules,
   defaultValue = null,
   shouldUnregister,
-
+  //
   label,
-  titleProps,
+  labelProps,
   placeholder,
   hidePlaceholder,
   disabled,
-  ...props
-}: UseControllerProps &
-  DateTimePickerProps<Moment> & {
-    label?: string;
-    titleProps?: Omit<TypographyReportField2Props, "label">;
-    hidePlaceholder?: boolean;
-    placeholder?: string;
-  }) => {
+  dateTimePickerProps,
+}: UseControllerProps<any> & {
+  label?: string;
+  labelProps?: Omit<TypographyReportField2Props, "label">;
+  placeholder?: string;
+  hidePlaceholder?: boolean;
+  dateTimePickerProps?: DateTimePickerProps<Moment>;
+}) => {
   const intl = useIntl();
   const {
     field: { ref, ...field },
@@ -36,6 +36,7 @@ const DateTimePickerCustom2 = ({
     rules,
     defaultValue,
     shouldUnregister,
+    disabled,
   });
 
   const error = formState.errors[name];
@@ -46,11 +47,10 @@ const DateTimePickerCustom2 = ({
         <TypographyReportField2
           required={Boolean(rules?.required)}
           label={label}
-          {...titleProps}
+          {...labelProps}
         />
       )}
       <DateTimePicker
-        disabled={disabled}
         {...field}
         inputRef={ref}
         slotProps={{
@@ -72,7 +72,7 @@ const DateTimePickerCustom2 = ({
         }}
         format="DD-MMM-YYYY HH:mm"
         ampm={false}
-        {...props}
+        {...dateTimePickerProps}
       />
     </>
   );
