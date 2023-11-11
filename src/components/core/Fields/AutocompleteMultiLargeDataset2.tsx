@@ -63,7 +63,6 @@ const AutocompleteMultiLargeDataset = forwardRef(
             onChange(selectAllSelected ? options : newValue, event, name);
           }}
           disableListWrap
-          name={name}
           ListboxComponent={ListboxComponent}
           renderGroup={renderGroup}
           options={options}

@@ -52,7 +52,6 @@ const AutocompleteLargeDataset = forwardRef(
           disabled={Boolean(disabled)}
           value={value}
           onChange={(event, newValue) => onChange(newValue, event, name)}
-          name={name}
           ListboxComponent={ListboxComponent}
           renderGroup={renderGroup}
           options={options}

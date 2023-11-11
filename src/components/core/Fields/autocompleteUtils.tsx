@@ -50,8 +50,8 @@ function useResetCache(itemCount: number) {
 }
 
 // Adapter for react-window
-export const ListboxComponent = forwardRef<HTMLDivElement>(
-  ({ children, ...other }: any, ref) => {
+export const ListboxComponent = (
+  ({ children, ...other }: any) => {
     const theme = useTheme();
     const smUp = useMediaQuery(theme.breakpoints.up("sm"), { noSsr: true });
     const itemCount = children.length;
@@ -86,7 +86,6 @@ export const ListboxComponent = forwardRef<HTMLDivElement>(
             padding: 0,
           },
         }}
-        ref={ref}
       >
         <OuterElementContext.Provider value={other}>
           <VariableSizeList
