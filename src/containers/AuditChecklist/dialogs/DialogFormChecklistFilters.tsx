@@ -1,14 +1,14 @@
-import { Button, DialogActions, DialogContent, Grid } from "@mui/material";
-import IntlMessages from "../../core/IntlMessages";
+import { DialogContent, Grid } from "@mui/material";
 import { useForm } from "react-hook-form";
-import DateTimePickerCustom2 from "../../core/Fields/DateTimePickerCustom2";
-import AutocompleteMultiLargeDataset2 from "../../core/Fields/AutocompleteMultiLargeDataset2";
+import DateTimePickerCustom2 from "../../../components/core/Fields/DateTimePickerCustom2";
+import AutocompleteMultiLargeDataset2 from "../../../components/core/Fields/AutocompleteMultiLargeDataset2";
 //
 import {
   AuditChecklistType,
   FiltersType,
   initFilters,
 } from "../../../redux/auditChecklistsSlice";
+import { DialogActions2 } from "../../../components/core/Dialog/DialogActions2";
 
 const DialogFormChecklistFilters = ({
   initialData,
@@ -63,17 +63,7 @@ const DialogFormChecklistFilters = ({
           </Grid>
         </Grid>
       </DialogContent>
-      <DialogActions>
-        <Button onClick={() => reset(initFilters)}>
-          <IntlMessages id="action.clearAll" />
-        </Button>
-        <Button onClick={onClose}>
-          <IntlMessages id="action.cancel" />
-        </Button>
-        <Button type="submit">
-          <IntlMessages id="action.submit" />
-        </Button>
-      </DialogActions>
+      <DialogActions2 onClose={onClose} onClear={() => reset(initFilters)} />
     </form>
   );
 };

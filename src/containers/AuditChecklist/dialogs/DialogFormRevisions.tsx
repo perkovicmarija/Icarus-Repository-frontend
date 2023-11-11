@@ -6,10 +6,10 @@ import {
   TableRow,
   TableCell,
 } from "@mui/material";
-import IntlMessages from "../../core/IntlMessages";
 import IconButton from "@mui/material/IconButton";
 import Visibility from "@mui/icons-material/Visibility";
-import { DialogActions2 } from "../../core/Dialog/DialogActions2";
+import IntlMessages from "../../../components/core/IntlMessages";
+import { DialogActions2 } from "../../../components/core/Dialog/DialogActions2";
 import { AuditChecklist } from "../../../redux/auditChecklistsSlice";
 
 const DialogFormRevisions = ({

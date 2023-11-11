@@ -6,10 +6,10 @@ import DialogFormFrame from "../../components/core/Dialog/DialogFormFrame";
 import { isEmpty } from "lodash";
 //
 import AuditChecklistsList from "./AuditChecklistsList";
-import DialogFormChecklistFilters from "../../components/auditChecklist/dialogs/DialogFormChecklistFilters";
-import DialogFormRevisions from "../../components/auditChecklist/dialogs/DialogFormRevisions";
-import DialogFormNewChecklistVersion from "../../components/auditChecklist/dialogs/DialogFormNewChecklistVersion";
-import DialogFormNewChecklist from "../../components/auditChecklist/dialogs/DialogFormNewChecklist";
+import DialogFormChecklistFilters from "./dialogs/DialogFormChecklistFilters";
+import DialogFormRevisions from "./dialogs/DialogFormRevisions";
+import DialogFormNewChecklistVersion from "./dialogs/DialogFormNewChecklistVersion";
+import DialogFormNewChecklist from "./dialogs/DialogFormNewChecklist";
 import { getAuditChecklistOverviewPath } from "../../consts/routePaths";
 import {
   FiltersType,

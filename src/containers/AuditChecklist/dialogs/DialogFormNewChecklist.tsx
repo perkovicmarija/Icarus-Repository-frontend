@@ -1,10 +1,10 @@
 import { DialogContent, Grid } from "@mui/material";
-import { DialogActions2 } from "../../core/Dialog/DialogActions2";
+import { DialogActions2 } from "../../../components/core/Dialog/DialogActions2";
 import { useForm } from "react-hook-form";
-import TextField2 from "../../core/Fields/TextField2";
+import TextField2 from "../../../components/core/Fields/TextField2";
 import { useState } from "react";
-import AutocompleteLargeDataset2 from "../../core/Fields/AutocompleteLargeDataset2";
-import DateTimePickerCustom2 from "../../core/Fields/DateTimePickerCustom2";
+import AutocompleteLargeDataset2 from "../../../components/core/Fields/AutocompleteLargeDataset2";
+import DateTimePickerCustom2 from "../../../components/core/Fields/DateTimePickerCustom2";
 //
 import {
   AuditChecklist,

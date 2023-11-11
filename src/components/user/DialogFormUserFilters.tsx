@@ -1,9 +1,9 @@
-import { DialogActions, DialogContent, Button, Grid } from "@mui/material";
-import { FormattedMessage } from "react-intl";
+import { DialogContent, Grid } from "@mui/material";
 import { useForm } from "react-hook-form";
 import { initFilters } from "../../redux/user/userReducer";
 import AutocompleteMultiLargeDataset2 from "../core/Fields/AutocompleteMultiLargeDataset2";
 import SwitchCustom2 from "../core/Fields/SwitchCustom2";
+import { DialogActions2 } from "../core/Dialog/DialogActions2";
 
 function DialogFormUserFilters({
   initialData,
@@ -48,17 +48,7 @@ function DialogFormUserFilters({
         </Grid>
       </DialogContent>
 
-      <DialogActions>
-        <Button onClick={() => reset(initFilters)}>
-          <FormattedMessage id="action.clearAll" />
-        </Button>
-        <Button onClick={onClose}>
-          <FormattedMessage id="action.cancel" />
-        </Button>
-        <Button type="submit">
-          <FormattedMessage id="action.submit" />
-        </Button>
-      </DialogActions>
+      <DialogActions2 onClose={onClose} onClear={() => reset(initFilters)} />
     </form>
   );
 }
