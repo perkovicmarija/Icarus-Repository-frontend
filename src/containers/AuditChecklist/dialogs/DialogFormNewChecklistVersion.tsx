@@ -121,7 +121,7 @@ const DialogFormNewChecklistVersion = ({
               name="objectives"
               placeholder="qms.checklist.objectives"
               multiline
-              rows="5"
+              rows={5}
             />
           </Grid>
         </Grid>

@@ -19,7 +19,7 @@ export const initFilters = {
 
 export interface AuditChecklist {
   auditChecklistId: string;
-  domain: { name: string }[];
+  domain: { name: string } | null;
   title: string;
   version: string;
   type: AuditChecklistType;
