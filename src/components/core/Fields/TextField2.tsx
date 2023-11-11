@@ -1,18 +1,15 @@
 import { useIntl } from "react-intl";
 import { TextField, TextFieldProps } from "@mui/material";
-import { Control, UseControllerProps, useController } from "react-hook-form";
+import { UseControllerProps, useController } from "react-hook-form";
 import TypographyReportField from "../TypographyReportField";
 
-type TextField2Props = TextFieldProps & {
-  control: Control;
-  name: string;
+type TextField2Props = {
   label?: string;
-  rules?: UseControllerProps["rules"];
-  defaultValue?: string;
   placeholder?: string;
-  disabled?: boolean;
   multiline?: boolean;
+  rows?: number;
   info?: string;
+  textFieldProps?: TextFieldProps;
 };
 
 const TextField2 = ({
@@ -20,13 +17,15 @@ const TextField2 = ({
   control,
   rules,
   defaultValue = "",
+  disabled,
+  //
   label,
   placeholder,
-  disabled,
   multiline,
+  rows,
   info,
-  ...props
-}: TextField2Props) => {
+  textFieldProps,
+}: UseControllerProps<any> & TextField2Props) => {
   const {
     field: { ref, ...field },
     formState,
@@ -52,6 +51,8 @@ const TextField2 = ({
         />
       )}
       <TextField
+        {...field}
+        {...textFieldProps}
         error={Boolean(error)}
         helperText={
           error?.message && intl.formatMessage({ id: error.message as string })
@@ -59,14 +60,13 @@ const TextField2 = ({
         placeholder={placeholder && intl.formatMessage({ id: placeholder })}
         fullWidth
         multiline={multiline}
+        rows={rows}
         onKeyPress={(e) => {
           // to prevent accidental form submissions
           if (e.key === "Enter" && !multiline) {
             e.preventDefault();
           }
         }}
-        {...props}
-        {...field}
       />
     </>
   );
