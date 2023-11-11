@@ -61,7 +61,12 @@ export const TableContainer2 = ({
             display: "flex",
             alignItems: "center",
             justifyContent: "center",
-            background: loading === false ? "red" : "transparent",
+            fontWeight: "bold",
+            fontSize: "1.5rem",
+            background:
+              loading === false
+                ? "repeating-linear-gradient( 45deg, red 0px, red 2px, transparent 2px, transparent 30px)"
+                : "transparent",
           }}
         >
           {loading === false ? "Error" : <CircularProgress />}
