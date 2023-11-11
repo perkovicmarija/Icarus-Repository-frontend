@@ -85,7 +85,7 @@ function Clients() {
 
       <DialogFormFrame
         onClose={() => setDialogAddEdit(undefined)}
-        title="form.clients"
+        title="general.client"
         open={dialogAddEdit}
       >
         <DialogFormClient

@@ -53,7 +53,7 @@ const DialogFormClient = ({ initialData, onClose, onSubmit }: any) => {
         </Grid>
       </DialogContent>
 
-      <DialogActions2 onClose={onClose} submitText={!initialData.clientId ? "action.add" : "general.update"} />
+      <DialogActions2 onClose={onClose} />
     </form>
   );
 };
