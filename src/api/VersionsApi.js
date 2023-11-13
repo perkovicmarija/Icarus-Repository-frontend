@@ -9,7 +9,7 @@ const VersionsApi = {
     return RestApiGetWithParams.getData(viewModel, "/version-mobile");
   },
   getMobileVersionsPaginated(viewModel) {
-    return RestApiPost.postData("/version-mobile-paginated", viewModel);
+    return RestApiPost.postData("/version-mobile/paginate", viewModel);
   },
   createMobileVersion(viewModel) {
     return RestApiPost.postData("/version-mobile", viewModel);
