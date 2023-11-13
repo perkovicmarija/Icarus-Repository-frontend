@@ -33,8 +33,7 @@ const AdminRouter = () => {
       <Route path={dashboard} component={Dashboard} key="dashboard" />
 
       <Route
-        exact
-        path={auditChecklistOverview + ":page?/:rowsPerPage?"}
+        path={auditChecklistOverview}
         component={AuditChecklistOverview}
         key="auditChecklistOverview"
       />
