@@ -57,7 +57,7 @@ const SupportCenterApi = {
         return RestApiPutWithPathParams.putData('/support/software-log-clients-joined', viewModel);
     },
     deleteSoftwareLogClient(viewModel) {
-        return RestApiDelete.deleteData(viewModel,'/support/software-log-clients/:softwareLogId');
+        return RestApiDelete.deleteData(viewModel,'/support/software-log-clients/:supportSoftwareLogId');
     },
 
     ///////////////////////////   ROADMAP   ///////////////////////////////////////////////

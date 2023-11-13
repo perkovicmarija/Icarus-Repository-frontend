@@ -63,7 +63,9 @@ function Clients() {
       <ClientList<Client>
         data={data}
         onEdit={setDialogAddEdit}
-        onDelete={(payload) => dispatch(clientsActions.deleteItem(payload))}
+        onDelete={(payload) =>
+          dispatch(clientsActions.deleteItem({ payload, meta }))
+        }
         //
         toolbarProps={{
           onAddClick: () => setDialogAddEdit({}),
@@ -89,11 +91,11 @@ function Clients() {
         open={dialogAddEdit}
       >
         <DialogFormClient
-          initialData={dialogAddEdit}
+          initialData={dialogAddEdit!}
           onClose={() => setDialogAddEdit(undefined)}
-          onSubmit={(payload: any) => {
-            return dispatch(clientsActions.addEditItem({ payload, meta }));
-          }}
+          onSubmit={(payload: any) =>
+            dispatch(clientsActions.addEditItem({ payload, meta }))
+          }
         />
       </DialogFormFrame>
     </>

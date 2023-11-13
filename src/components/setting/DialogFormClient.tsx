@@ -3,19 +3,32 @@ import { useForm } from "react-hook-form";
 import TextField2 from "../core/Fields/TextField2";
 import SwitchCustom2 from "../core/Fields/SwitchCustom2";
 import { DialogActions2 } from "../core/Dialog/DialogActions2";
+import { useState } from "react";
+import { Client } from "../../redux/setting/clientsSlice";
 
-const DialogFormClient = ({ initialData, onClose, onSubmit }: any) => {
+const DialogFormClient = ({
+  initialData,
+  onClose,
+  onSubmit,
+}: {
+  initialData: Client | {};
+  onClose: () => void;
+  onSubmit: (payload: Client) => Promise<any>;
+}) => {
   const { handleSubmit, control } = useForm({
     defaultValues: initialData,
   });
+  const [loading, setLoading] = useState(false);
 
   return (
     <form
       onSubmit={(e) => {
         e.stopPropagation();
         handleSubmit((data) => {
-          onSubmit(data);
-          onClose();
+          setLoading(true);
+          onSubmit(data as Client)
+            .then(onClose)
+            .catch(() => setLoading(false));
         })(e);
       }}
     >
@@ -41,19 +54,17 @@ const DialogFormClient = ({ initialData, onClose, onSubmit }: any) => {
             />
           </Grid>
 
-          {!initialData.clientId && (
-            <Grid item xs={12}>
-              <SwitchCustom2
-                control={control}
-                label="client.deactivated"
-                name="deactivated"
-              />
-            </Grid>
-          )}
+          <Grid item xs={12}>
+            <SwitchCustom2
+              control={control}
+              label="client.deactivated"
+              name="deactivated"
+            />
+          </Grid>
         </Grid>
       </DialogContent>
 
-      <DialogActions2 onClose={onClose} />
+      <DialogActions2 onClose={onClose} loading={loading} />
     </form>
   );
 };

@@ -13,7 +13,7 @@ import {
   FiltersType,
   SupportLog,
   supportLogsActions,
-  initFilters
+  initFilters,
 } from "../../../redux/support/supportLogs/supportLogsSlice";
 import { Client } from "../../../redux/setting/clientsSlice";
 import ClientApi from "../../../api/ClientApi";
@@ -78,7 +78,9 @@ const SupportSoftwareLog = () => {
       <SupportSoftwareLogList<SupportLog>
         data={data}
         onEdit={setDialogAddEdit}
-        onDelete={(payload) => dispatch(supportLogsActions.deleteItem(payload))}
+        onDelete={(payload) =>
+          dispatch(supportLogsActions.deleteItem({ payload, meta }))
+        }
         //
         toolbarProps={{
           onAddClick: () => setDialogAddEdit({}),
@@ -123,7 +125,7 @@ const SupportSoftwareLog = () => {
         open={dialogFilters}
       >
         <DialogFormSoftwareLogFilter
-          initialData={dialogFilters}
+          initialData={dialogFilters!}
           onClose={() => setDialogFilters(undefined)}
           onSubmit={handleSubmitFilters}
           clients={clients}

@@ -31,19 +31,19 @@ const getData = createAsyncThunk(
 
 const deleteItem = createAsyncThunk(
   "versions/deleteItem",
-  async (viewModel: Version) => {
-    const response = await VersionsApi.deleteMobileVersion(viewModel);
-    return response.data;
+  async ({ payload, meta }: { payload: Version; meta: any }, thunkAPI) => {
+    await VersionsApi.deleteMobileVersion(payload);
+    return await thunkAPI.dispatch(getData(meta));
   }
 );
 
 const addEditItem = createAsyncThunk(
   "versions/addEditItem",
-  async ({ payload, meta }: { payload: Version; meta: any }) => {
-    const response = await (payload.versionMobileId
+  async ({ payload, meta }: { payload: Version; meta: any }, thunkAPI) => {
+    await (payload.versionMobileId
       ? VersionsApi.updateMobileVersion
-      : VersionsApi.createMobileVersion)({ payload, meta });
-    return response.data;
+      : VersionsApi.createMobileVersion)(payload);
+    return await thunkAPI.dispatch(getData(meta));
   }
 );
 

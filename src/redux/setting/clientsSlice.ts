@@ -23,28 +23,26 @@ export type FiltersType = (typeof initialState)["filters"];
 const getData = createAsyncThunk(
   "clients/getData",
   async (viewModel: any /*, thunkAPI */) => {
-    const response = await ClientApi.getAllClientsPagination(
-      viewModel
-    );
+    const response = await ClientApi.getAllClientsPagination(viewModel);
     return response;
   }
 );
 
 const deleteItem = createAsyncThunk(
   "clients/deleteItem",
-  async (viewModel: Client) => {
-    const response = await ClientApi.deleteClient(viewModel);
-    return response.data;
+  async ({ payload, meta }: { payload: Client; meta: any }, thunkAPI) => {
+    await ClientApi.deleteClient(payload);
+    return await thunkAPI.dispatch(getData(meta));
   }
 );
 
 const addEditItem = createAsyncThunk(
   "clients/addEditItem",
-  async ({ payload, meta }: { payload: Client; meta: any }) => {
-    const response = await (payload.clientId
+  async ({ payload, meta }: { payload: Client; meta: any }, thunkAPI) => {
+    await (payload.clientId
       ? ClientApi.updateClient
-      : ClientApi.createClient)({ payload, meta });
-    return response.data;
+      : ClientApi.createClient)(payload);
+    return await thunkAPI.dispatch(getData(meta));
   }
 );
 

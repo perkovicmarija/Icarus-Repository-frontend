@@ -54,7 +54,7 @@ function DialogFormSupportItem({
               label="general.description"
               name="bug"
               rules={{ required: "general.required" }}
-              rows="5"
+              rows={5}
               multiline
             />
           </Grid>
