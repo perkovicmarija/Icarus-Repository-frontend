@@ -47,7 +47,7 @@ const addEditItem = createAsyncThunk(
   async ({ payload, meta }: { payload: SupportLog; meta: any }) => {
     const response = await (payload.supportSoftwareLogId
       ? SupportCenterApi.updateSoftwareLogClient
-      : SupportCenterApi.createSoftwareLogClient)({ payload, meta });
+      : SupportCenterApi.createSoftwareLogClient)(payload);
     return response.data;
   }
 );
