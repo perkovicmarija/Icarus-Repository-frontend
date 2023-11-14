@@ -80,7 +80,7 @@ const SupportSoftwareLogList = <T,>({
                 <TableCell>{item.description}</TableCell>
                 <TableCell>
                   {item.selectedClients
-                    .map((x: any) => x.client.name)
+                    .map((item: any) => item.name)
                     .join(", ")}
                 </TableCell>
                 <TableCell sx={{ width: "150px" }}>
