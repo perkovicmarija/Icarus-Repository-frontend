@@ -32,27 +32,23 @@ const getData = createAsyncThunk(
   "users/getData",
   async (viewModel: any /*, thunkAPI */) => {
     const response = await UserApi.getAllPagination(viewModel);
-    console.log(response);
     return response;
   }
 );
 
 const deleteItem = createAsyncThunk(
   "users/deleteItem",
-  async (viewModel: User) => {
-    const response = await UserApi.delete(viewModel);
-    return response.data;
+  async ({ payload, meta }: { payload: User; meta: any }, thunkAPI) => {
+    await UserApi.delete(payload);
+    return await thunkAPI.dispatch(getData(meta));
   }
 );
 
 const addEditItem = createAsyncThunk(
   "users/addEditItem",
-  async ({ payload, meta }: { payload: User; meta: any }) => {
-    const response = await (payload.userId ? UserApi.update : UserApi.create)({
-      payload,
-      meta,
-    });
-    return response.data;
+  async ({ payload, meta }: { payload: User; meta: any }, thunkAPI) => {
+    await (payload.userId ? UserApi.update : UserApi.create)(payload);
+    return await thunkAPI.dispatch(getData(meta));
   }
 );
 

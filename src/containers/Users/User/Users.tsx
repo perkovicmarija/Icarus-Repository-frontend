@@ -72,7 +72,9 @@ function Users() {
       <UserList<User>
         data={data}
         onEdit={setDialogAddEdit}
-        onDelete={(payload) => dispatch(usersActions.deleteItem(payload))}
+        onDelete={(payload) =>
+          dispatch(usersActions.deleteItem({ payload, meta }))
+        }
         //
         toolbarProps={{
           onAddClick: () => setDialogAddEdit({}),
