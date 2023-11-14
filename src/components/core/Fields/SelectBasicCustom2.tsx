@@ -2,38 +2,40 @@ import { forwardRef } from "react";
 import { MenuItem, TextField, TextFieldProps } from "@mui/material";
 import TypographyReportField from "../TypographyReportField";
 import {
-  Controller,
+  ControllerRenderProps,
   FieldValues,
   UseControllerProps,
-  UseFormStateReturn,
+  useController,
 } from "react-hook-form";
 import { useIntl } from "react-intl";
 
 type SelectCustomProps = {
+  field: ControllerRenderProps<FieldValues, string>;
   options: string[];
-  formState: UseFormStateReturn<FieldValues>;
-  name: string;
-} & TextFieldProps;
+  label?: string;
+  required?: boolean;
+  error: string | undefined;
+  selectProps?: TextFieldProps;
+};
 
 const SelectCustom = forwardRef<HTMLInputElement, SelectCustomProps>(
-  ({ name, options, label, disabled, required, formState, ...props }, ref) => {
+  (
+    { field: { ref, ...field }, options, label, required, error, selectProps },
+    ref2
+  ) => {
     const intl = useIntl();
-    const error = formState.errors[name];
 
     return (
       <>
         {label && <TypographyReportField title={label} required={required} />}
         <TextField
+          {...field}
+          {...selectProps}
           select
-          disabled={disabled}
           fullWidth
           inputRef={ref}
           error={Boolean(error)}
-          helperText={
-            error?.message &&
-            intl.formatMessage({ id: error.message as string })
-          }
-          {...props}
+          helperText={error && intl.formatMessage({ id: error })}
         >
           {options.map((item) => (
             <MenuItem key={item} value={item}>
@@ -52,25 +54,28 @@ const SelectBasicCustom2 = ({
   rules,
   label,
   options,
-  defaultValue,
-  ...props
+  defaultValue = "",
+  disabled,
 }: { label?: string; options: string[] } & UseControllerProps) => {
+  const { field, formState } = useController({
+    name,
+    control,
+    rules,
+    defaultValue,
+    disabled,
+  });
+
+  const error = formState.errors[name];
+
+  console.log(error);
+
   return (
-    <Controller
-      name={name}
-      control={control}
-      rules={rules}
-      defaultValue={defaultValue}
-      {...props}
-      render={({ field, formState }) => (
-        <SelectCustom
-          {...field}
-          formState={formState}
-          label={label}
-          options={options}
-          required={Boolean(rules?.required)}
-        />
-      )}
+    <SelectCustom
+      field={field}
+      error={error?.message as string | undefined}
+      label={label}
+      options={options}
+      required={Boolean(rules?.required)}
     />
   );
 };
