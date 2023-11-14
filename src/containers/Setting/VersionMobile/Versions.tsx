@@ -96,7 +96,7 @@ function Versions() {
         }
         //
         toolbarProps={{
-          onAddClick: () => setDialogAddEdit({}),
+          onAddClick: setDialogAddEdit,
           title: "general.versionsMobile",
           searchPlaceholder: "search.byClientName",
           searchTextPropKey: "clientName",

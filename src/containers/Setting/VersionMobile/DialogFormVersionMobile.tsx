@@ -1,12 +1,5 @@
 import { useState } from "react";
-import {
-  Alert,
-  Button,
-  DialogActions,
-  DialogContent,
-  Grid,
-} from "@mui/material";
-import IntlMessages from "../../../components/core/IntlMessages";
+import { DialogContent, Grid } from "@mui/material";
 import { useForm } from "react-hook-form";
 import TextField2 from "../../../components/core/Fields/TextField2";
 import SelectBasicCustom2 from "../../../components/core/Fields/SelectBasicCustom2";
@@ -38,10 +31,10 @@ const DialogFormVersionMobile = ({
       onSubmit={(e) => {
         e.stopPropagation();
         handleSubmit((data) => {
-          try {
-            onSubmit(data as Version);
-            onClose();
-          } catch (e) {}
+          setLoading(true);
+          onSubmit(data as Version)
+            .then(onClose)
+            .catch(() => setLoading(false));
         })(e);
       }}
     >
@@ -59,26 +52,27 @@ const DialogFormVersionMobile = ({
               control={control}
               label="general.versionMobile"
               name="versionMin"
-              defaultValue=""
               rules={{ required: "general.required" }}
             />
           </Grid>
 
           <Grid item xs={12}>
             <SelectBasicCustom2
-              disabled={"versionMobileId" in initialData && true}
+              disabled={"versionMobileId" in initialData}
               control={control}
               label="general.platform"
               name="platform"
-              rules={{ required: "general.required" }}
+              rules={{
+                required:
+                  "versionMobileId" in initialData ? false : "general.required",
+              }}
               options={["iOS", "Android"]}
-              defaultValue=""
             />
           </Grid>
 
           <Grid item xs={12}>
             <AutocompleteMultiLargeDataset2
-              disabled={"versionMobileId" in initialData && true}
+              disabled={"versionMobileId" in initialData}
               control={control}
               name="selectedClients"
               label="general.companies"
