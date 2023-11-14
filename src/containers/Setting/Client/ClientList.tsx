@@ -59,7 +59,6 @@ const ClientList = <T,>({
           data.map((item: any) => {
             return (
               <TableRow
-                style={{ cursor: "pointer" }}
                 key={item.clientId}
                 hover={true}
               >

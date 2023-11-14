@@ -67,7 +67,9 @@ function Versions() {
   //
   const [clients, setClients] = useState<Client[]>([]);
   useEffect(() => {
-    ClientApi.getAllClients().then((response) => setClients(response.data));
+    ClientApi.getAllClients().then((response) =>
+      setClients(response.data.filter((item: Client) => !item.deactivated))
+    );
   }, []);
   //
 

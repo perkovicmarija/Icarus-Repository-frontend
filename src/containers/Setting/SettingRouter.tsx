@@ -7,13 +7,11 @@ function SettingRouter() {
   return (
     <Switch>
       <Route
-        exact
-        path={clients + ":page?/:rowsPerPage?"}
+        path={clients}
         component={Clients}
       />
       <Route
-        exact
-        path={versionsMobile + ":page?/:rowsPerPage?"}
+        path={versionsMobile}
         component={Versions}
       />
     </Switch>
