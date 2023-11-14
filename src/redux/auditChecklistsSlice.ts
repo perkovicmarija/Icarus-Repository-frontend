@@ -75,12 +75,9 @@ const addEditItem = createAsyncThunk(
 
 const createNewVersion = createAsyncThunk(
   "auditChecklists/createNewVersion",
-  async ({ payload, meta }: { payload: AuditChecklist; meta: any }) => {
-    const response = await AuditChecklistApi.createNewVersion({
-      payload,
-      meta,
-    });
-    return response;
+  async ({ payload, meta }: { payload: AuditChecklist; meta: any }, thunkAPI) => {
+    await AuditChecklistApi.createNewVersion(payload);
+    return await thunkAPI.dispatch(getData(meta));
   }
 );
 
