@@ -79,7 +79,7 @@ const SupportSoftwareLogList = <T,>({
                 <TableCell>{item.title}</TableCell>
                 <TableCell>{item.description}</TableCell>
                 <TableCell>
-                  {item.supportSoftwareLogClientJoinedList
+                  {item.selectedClients
                     .map((x: any) => x.client.name)
                     .join(", ")}
                 </TableCell>

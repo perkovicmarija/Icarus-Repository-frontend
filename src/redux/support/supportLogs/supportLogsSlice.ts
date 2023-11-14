@@ -29,8 +29,7 @@ const getData = createAsyncThunk(
     const response = await SupportCenterApi.getAllSoftwareLogClientsPagination(
       viewModel
     );
-    console.log(response);
-    return response.data;
+    return response;
   }
 );
 

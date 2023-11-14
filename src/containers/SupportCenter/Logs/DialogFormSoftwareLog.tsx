@@ -1,15 +1,15 @@
 import { DialogContent, Grid } from "@mui/material";
-import { DialogActions2 } from "../core/Dialog/DialogActions2";
+import { DialogActions2 } from "../../../components/core/Dialog/DialogActions2";
 import { useForm } from "react-hook-form";
-import TextField2 from "../core/Fields/TextField2";
-import AutocompleteMultiLargeDataset2 from "../core/Fields/AutocompleteMultiLargeDataset2";
-import SwitchCustom2 from "../core/Fields/SwitchCustom2";
+import TextField2 from "../../../components/core/Fields/TextField2";
+import AutocompleteMultiLargeDataset2 from "../../../components/core/Fields/AutocompleteMultiLargeDataset2";
+import SwitchCustom2 from "../../../components/core/Fields/SwitchCustom2";
 import { useState } from "react";
 //
-import { SupportLog } from "../../redux/support/supportLogs/supportLogsSlice";
-import { Client } from "../../redux/setting/clientsSlice";
+import { SupportLog } from "../../../redux/support/supportLogs/supportLogsSlice";
+import { Client } from "../../../redux/setting/clientsSlice";
 
-function DialogFormComment({
+function DialogFormSoftwareLog({
   initialData,
   onClose,
   onSubmit,
@@ -101,4 +101,4 @@ function DialogFormComment({
   );
 }
 
-export default DialogFormComment;
+export default DialogFormSoftwareLog;

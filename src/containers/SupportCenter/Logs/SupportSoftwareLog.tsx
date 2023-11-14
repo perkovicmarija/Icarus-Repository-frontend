@@ -6,7 +6,7 @@ import { isEmpty } from "lodash";
 import DialogFormFrame from "../../../components/core/Dialog/DialogFormFrame";
 //
 import SupportSoftwareLogList from "./SupportSoftwareLogList";
-import DialogFormSoftwareLog from "../../../components/support/DialogFormSoftwareLog";
+import DialogFormSoftwareLog from "./DialogFormSoftwareLog";
 import DialogFormSoftwareLogFilter from "../../../components/support/DialogFormSoftwareLogFilter";
 import { getSupportLogsPath } from "../../../consts/routePaths";
 import {
@@ -56,7 +56,9 @@ const SupportSoftwareLog = () => {
   //
   const [clients, setClients] = useState<Client[]>([]);
   useEffect(() => {
-    ClientApi.getAllClients().then((response) => setClients(response.data));
+    ClientApi.getAllClients().then((response) =>
+      setClients(response.data.filter((item: Client) => !item.deactivated))
+    );
   }, []);
   //
 
@@ -83,7 +85,7 @@ const SupportSoftwareLog = () => {
         }
         //
         toolbarProps={{
-          onAddClick: () => setDialogAddEdit({}),
+          onAddClick: setDialogAddEdit,
           title: "support.softwareLogs",
           searchPlaceholder: "search.search",
           searchTextPropKey: "softwareLogSearch",
