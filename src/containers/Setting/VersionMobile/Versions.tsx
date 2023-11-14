@@ -89,7 +89,9 @@ function Versions() {
       <VersionList<Version>
         data={data}
         onEdit={setDialogAddEdit}
-        onDelete={(payload) => dispatch(versionsActions.deleteItem(payload))}
+        onDelete={(payload) =>
+          dispatch(versionsActions.deleteItem({ payload, meta }))
+        }
         //
         toolbarProps={{
           onAddClick: () => setDialogAddEdit({}),

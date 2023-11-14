@@ -33,7 +33,7 @@ const getData = createAsyncThunk(
   "supportRequests/getData",
   async (viewModel: any /* thunkAPI */) => {
     const response = await SupportCenterApi.getAll(viewModel);
-    return Promise.resolve({ data: response.data, meta: response.meta });
+    return response;
   }
 );
 

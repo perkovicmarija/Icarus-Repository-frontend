@@ -51,21 +51,25 @@ const getData = createAsyncThunk(
 
 const deleteItem = createAsyncThunk(
   "auditChecklists/deleteItem",
-  async (viewModel: AuditChecklist) => {
-    const response = await AuditChecklistApi.delete({
-      id: viewModel.auditChecklistId,
-    });
-    return response.data;
+  async (
+    { payload, meta }: { payload: AuditChecklist; meta: any },
+    thunkAPI
+  ) => {
+    await AuditChecklistApi.delete(payload);
+    return await thunkAPI.dispatch(getData(meta));
   }
 );
 
 const addEditItem = createAsyncThunk(
   "auditChecklists/addEditItem",
-  async ({ payload, meta }: { payload: AuditChecklist; meta: any }) => {
-    const response = await (payload.auditChecklistId
+  async (
+    { payload, meta }: { payload: AuditChecklist; meta: any },
+    thunkAPI
+  ) => {
+    await (payload.auditChecklistId
       ? AuditChecklistApi.put
-      : AuditChecklistApi.create)({ payload, meta });
-    return response.data;
+      : AuditChecklistApi.create)(payload);
+    return await thunkAPI.dispatch(getData(meta));
   }
 );
 

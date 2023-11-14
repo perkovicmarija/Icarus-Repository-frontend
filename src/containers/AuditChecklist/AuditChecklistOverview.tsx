@@ -111,7 +111,7 @@ const AuditChecklistOverview = () => {
         onNewVersion={setDialogNewVersion}
         onShowRevisions={setDialogRevisions}
         onDelete={(payload) =>
-          dispatch(auditChecklistsActions.deleteItem(payload))
+          dispatch(auditChecklistsActions.deleteItem({ payload, meta }))
         }
         //
         toolbarProps={{

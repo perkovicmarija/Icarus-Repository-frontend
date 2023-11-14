@@ -24,7 +24,7 @@ function User(props) {
   const [dialogDeleteWarningOpen, setDialogDeleteWarningOpen] = useState(false);
   const [dialogReactivateWarningOpen, setDialogReactivateWarningOpen] =
     useState(false);
-  const [generatePassword, setGeneratePassword] = useState(true);
+  const [generatePassword, setGeneratePassword] = useState(false);
   const [newPassword, setNewPassword] = useState(false);
 
   useEffect(() => {

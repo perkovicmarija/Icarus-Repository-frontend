@@ -16,7 +16,7 @@ const AuditChecklistApi = {
         return RestApiPut.putData('/audit-checklists', viewModel);
     },
     delete(viewModel) {
-        return RestApiDelete.deleteData(null,'/audit-checklists/' + viewModel.id, null);
+        return RestApiDelete.deleteData(viewModel,'/audit-checklists/:auditChecklistId');
     },
     getAllActive(viewModel) {
         return RestApiPost.postData('/audit-checklists/all-active', viewModel);
