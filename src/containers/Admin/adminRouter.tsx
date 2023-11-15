@@ -22,10 +22,10 @@ import {
 } from "../../consts/routePaths";
 import AuditChecklistOverview from "../AuditChecklist/AuditChecklistOverview";
 import AuditChecklist from "../AuditChecklist/AuditChecklist";
-import IcarusDocs from "../SupportCenter/IcarusDocs/IcarusDocs";
-import FileDetailsWrapperNew from "../SupportCenter/IcarusDocs/FileDetailsWrapperNew";
-import IcarusDocsFileView from "../SupportCenter/IcarusDocs/IcarusDocsFileView";
-import FileDetailsWrapperEdit from "../SupportCenter/IcarusDocs/FileDetailsWrapperEdit";
+import IcarusDocs from "../IcarusDocs/IcarusDocs";
+import FileDetailsWrapperNew from "../IcarusDocs/FileDetailsWrapperNew";
+import IcarusDocsFileView from "../IcarusDocs/IcarusDocsFileView";
+import FileDetailsWrapperEdit from "../IcarusDocs/FileDetailsWrapperEdit";
 
 const AdminRouter = () => {
   return (

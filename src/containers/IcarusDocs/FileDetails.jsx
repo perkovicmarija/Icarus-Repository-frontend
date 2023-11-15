@@ -3,16 +3,16 @@ import {makeStyles} from "@mui/styles";
 import {useDeepCompareEffectNoCheck} from "use-deep-compare-effect";
 import {cloneDeep} from "lodash";
 import {Paper} from "@mui/material";
-import FileDetailsForm from "../../../components/documentation/FileDetailsForm";
-import DialogNoCloseFrame from "../../../components/core/Dialog/DialogNoCloseFrame";
-import DialogProgress from "../../../components/core/Dialog/DialogProgress";
+import FileDetailsForm from "../../components/documentation/FileDetailsForm";
+import DialogNoCloseFrame from "../../components/core/Dialog/DialogNoCloseFrame";
+import DialogProgress from "../../components/core/Dialog/DialogProgress";
 import {connect} from "react-redux";
 import {withRouter} from "react-router-dom";
 import PropTypes from "prop-types";
-import {icarusDocs} from "../../../consts/routePaths";
+import {icarusDocs} from "../../consts/routePaths";
 import {bindActionCreators} from "redux";
-import * as icarusDocumentationFileActions from '../../../redux/support/icarusDocs/file/icarusDocumentationFileActions';
-import * as clientActions from '../../../redux/setting/client/clientActions';
+import * as icarusDocumentationFileActions from '../../redux/support/icarusDocs/file/icarusDocumentationFileActions';
+import * as clientActions from '../../redux/setting/client/clientActions';
 
 const useStyles = makeStyles(theme => ({
     root: {

@@ -1,18 +1,16 @@
-import React, {useEffect, useState} from 'react';
-import {connect} from 'react-redux';
-import * as userRoleActions from '../../../redux/user/role/userRoleActions';
-import * as icarusDocumentationFileActions from '../../../redux/support/icarusDocs/file/icarusDocumentationFileActions';
-import {bindActionCreators} from 'redux';
-import FileDetails from './FileDetails';
+import React, { useEffect } from 'react';
+import {connect} from "react-redux";
+import FileDetails from "./FileDetails";
+import {bindActionCreators} from "redux";
+import * as userRoleActions from '../../redux/user/role/userRoleActions';
+import * as icarusDocumentationFileActions from '../../redux/support/icarusDocs/file/icarusDocumentationFileActions';
 
-function FileDetailsWrapperEdit(props) {
-    const [icarusDocumentationFile, setIcarusDocumentationFile] = useState({
-        protectedFile: false,
-        uncontrolledCopy: false,
-    })
+function FileDetailsWrapperNew(props) {
 
     useEffect(() => {
-        setIcarusDocumentationFile(props.icarusDocumentationFile);
+        if (props.userRoles.length === 0) {
+            props.userRoleActions.loadAll();
+        }
     }, [])
 
     const handleDocumentationFileSave = (icarusDocumentationFile, icarusDocumentationFolder, selectedClients, file) => {
@@ -22,9 +20,9 @@ function FileDetailsWrapperEdit(props) {
             selectedClients
         }
         let path = "/";
-        if (props.icarusDocumentationFolderPath?.length > 0) {
+        if (props.icarusDocumentationFolderPath.length > 0) {
             let currentFolder = props.icarusDocumentationFolderPath.slice(-1)[0];
-            data.icarusDocumentationFolder = currentFolder;
+            data.documentationFolder = currentFolder;
             path = currentFolder.path + currentFolder.folderName + "/";
         }
 
@@ -33,12 +31,13 @@ function FileDetailsWrapperEdit(props) {
             path: path,
             data: JSON.stringify(data)
         }
-        props.icarusDocumentationFileActions.editFile(viewModel);
+        props.icarusDocumentationFileActions.upload(viewModel);
     }
 
+    const {userRoles} = props;
     return (
         <FileDetails
-            icarusDocumentationFile={icarusDocumentationFile}
+            userRoles={userRoles}
             onDocumentationFileSave={handleDocumentationFileSave}
         />
     );
@@ -46,7 +45,6 @@ function FileDetailsWrapperEdit(props) {
 
 function mapStateToProps(state, ownProps) {
     return {
-        icarusDocumentationFile: state.IcarusDocumentationFile.icarusDocumentationFile,
         icarusDocumentationFolderPath: state.IcarusDocumentationFolder.icarusDocumentationFolderPath,
         userRoles: state.UserRole.userRoles
     }
@@ -59,4 +57,4 @@ function mapDispatchToProps(dispatch) {
     };
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(FileDetailsWrapperEdit);
+export default connect(mapStateToProps, mapDispatchToProps)(FileDetailsWrapperNew);

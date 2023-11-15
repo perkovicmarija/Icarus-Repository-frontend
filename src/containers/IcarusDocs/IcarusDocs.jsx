@@ -1,31 +1,31 @@
 import React, { useEffect, useState } from "react";
 import { makeStyles } from "@mui/styles";
 import { Paper } from "@mui/material";
-import DocumentationEnhancedTableToolbar from "../../../components/support/icarusDocs/DocumentationEnhancedTableToolbar";
-import IcarusDocumentationTable from "../../../components/support/icarusDocs/IcarusDocumentationTable";
-import DialogDeleteWarning from "../../../components/core/Dialog/DialogDeleteWarning";
-import DialogFormFrame from "../../../components/core/Dialog/DialogFormFrame";
+import DocumentationEnhancedTableToolbar from "../../components/support/icarusDocs/DocumentationEnhancedTableToolbar";
+import IcarusDocumentationTable from "../../components/support/icarusDocs/IcarusDocumentationTable";
+import DialogDeleteWarning from "../../components/core/Dialog/DialogDeleteWarning";
+import DialogFormFrame from "../../components/core/Dialog/DialogFormFrame";
 import { cloneDeep } from "lodash";
-import * as Protected from "../../../protectedAuth";
+import * as Protected from "../../protectedAuth";
 import { bindActionCreators } from "redux";
 import { connect } from "react-redux";
-import DialogProgress from "../../../components/core/Dialog/DialogProgress";
-import DialogNoCloseFrame from "../../../components/core/Dialog/DialogNoCloseFrame";
-import DialogFormNewFolder from "../../../components/support/icarusDocs/DialogFormNewFolder";
-import DialogFormFileMove from "../../../components/support/icarusDocs/DialogFormFileMove";
-import DialogFormFileHistory from "../../../components/support/icarusDocs/DialogFormFileHistory";
-import * as icarusDocumentationFileActions from "../../../redux/support/icarusDocs/file/icarusDocumentationFileActions";
-import * as icarusDocumentationFolderActions from "../../../redux/support/icarusDocs/folder/icarusDocumentationFolderActions";
-import * as userActions from "../../../redux/user/userActions";
+import DialogProgress from "../../components/core/Dialog/DialogProgress";
+import DialogNoCloseFrame from "../../components/core/Dialog/DialogNoCloseFrame";
+import DialogFormNewFolder from "../../components/support/icarusDocs/DialogFormNewFolder";
+import DialogFormFileMove from "../../components/support/icarusDocs/DialogFormFileMove";
+import DialogFormFileHistory from "../../components/support/icarusDocs/DialogFormFileHistory";
+import * as icarusDocumentationFileActions from "../../redux/support/icarusDocs/file/icarusDocumentationFileActions";
+import * as icarusDocumentationFolderActions from "../../redux/support/icarusDocs/folder/icarusDocumentationFolderActions";
+import * as userActions from "../../redux/user/userActions";
 import {
   icarusDocsDetailsNew,
   icarusDocsEditFile,
   icarusDocsViewFile,
-} from "../../../consts/routePaths";
-import DialogFormDocumentationFilters from "../../../components/support/icarusDocs/DialogFormDocumentationFilters";
-import DialogFormStorageInfo from "../../../components/support/icarusDocs/DialogFormStorageInfo";
-import * as clientActions from "../../../redux/setting/client/clientActions";
-import DocumentationFolderPath from "../../../components/support/icarusDocs/DocumentationFolderPath";
+} from "../../consts/routePaths";
+import DialogFormDocumentationFilters from "../../components/support/icarusDocs/DialogFormDocumentationFilters";
+import DialogFormStorageInfo from "../../components/support/icarusDocs/DialogFormStorageInfo";
+import * as clientActions from "../../redux/setting/client/clientActions";
+import DocumentationFolderPath from "../../components/support/icarusDocs/DocumentationFolderPath";
 
 const useStyles = makeStyles((theme) => ({
   root: {
