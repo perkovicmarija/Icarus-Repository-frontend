@@ -1,6 +1,6 @@
 import { Redirect, Route, Switch } from "react-router-dom";
 
-import SupportBugDetailsFrame from "../SupportCenter/Bug/Details/SupportBugDetailsFrame";
+import SupportBugDetailsFrame from "../SupportCenter/Bug_OBSOLETE/Details/SupportBugDetailsFrame";
 import ProtectedRoute from "../../ProtectedRoute";
 import Dashboard from "../Dashboard/Dashboard";
 import UserRoleFrame from "../Users/UserRoleFrame";
@@ -46,7 +46,7 @@ const AdminRouter = () => {
 
       <ProtectedRoute
         protectedAuthorities={["PERM_USER_CRUD"]}
-        path={userModule + "/:tab?"}
+        path={userModule}
         component={UserRoleFrame}
         key="user-module"
       />
@@ -57,7 +57,7 @@ const AdminRouter = () => {
           "PERM_SUPPORT_CRUD",
           "PERM_SUPPORT_ADMIN",
         ]}
-        path={supportCenter + "/:tab?"}
+        path={supportCenter}
         component={SupportCenterFrame}
         key="supportCenter"
       />
@@ -124,7 +124,7 @@ const AdminRouter = () => {
           "PERM_SUPPORT_CRUD",
           "PERM_SUPPORT_ADMIN",
         ]}
-        path={settingModule + "/:tab?"}
+        path={settingModule}
         component={SettingFrame}
         key="setting-module"
       />
