@@ -1,5 +1,4 @@
 import { Redirect, Route, Switch } from "react-router-dom";
-
 import SupportBugDetailsFrame from "../SupportCenter/Bug_OBSOLETE/Details/SupportBugDetailsFrame";
 import ProtectedRoute from "../../ProtectedRoute";
 import Dashboard from "../Dashboard/Dashboard";

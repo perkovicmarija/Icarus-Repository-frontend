@@ -1,48 +1,43 @@
-import React, {Component} from 'react';
-import { connect } from 'react-redux';
-import {
-    Route,
-    Redirect
-} from "react-router-dom";
-import authAction from './redux/auth/authActions';
-import * as Protected from './protectedAuth';
+import { Route, Redirect } from "react-router-dom";
+import authAction from "./redux/auth/authActions";
+import * as Protected from "./protectedAuth";
+import { useAppDispatch } from "./redux/store";
 
-const { logout } = authAction;
+const ProtectedRoute = ({
+  component: Component,
+  protectedAuthorities,
+  ...rest
+}: any) => {
+  const dispatch = useAppDispatch();
 
-class ProtectedRoute extends Component {
-
-    hasAuthority =  (protectedAuthorities) => {
-        if(!localStorage.getItem('authorities')) {
-            return false;
-        }
-        if(Protected.protectedAuth(protectedAuthorities)) {
-            return true;
-        }
-        this.props.logout();
-        return false;
-    };
-
-    render() {
-        const { component: Component, protectedAuthorities, ...rest } = this.props;
-        return (
-            <Route
-                {...rest}
-                render={props =>
-                    this.hasAuthority(protectedAuthorities) ? (
-                        <Component {...props} />
-                    ) : (
-                        <Redirect
-                            to={{
-                                pathname: "/",
-                                state: { from: props.location }
-                            }}
-                        />
-                    )
-                }
-            />
-        )
+  const hasAuthority = (protectedAuthorities: any) => {
+    if (!localStorage.getItem("authorities")) {
+      return false;
     }
-}
+    if (Protected.protectedAuth(protectedAuthorities)) {
+      return true;
+    }
+    dispatch(authAction.logout());
+    return false;
+  };
 
+  return (
+    <Route
+      {...rest}
+      render={(props) =>
+        hasAuthority(protectedAuthorities) ? (
+          <Component {...props} />
+        ) : (
+          <Redirect
+            to={{
+              pathname: "/",
+              state: { from: props.location },
+            }}
+          />
+        )
+      }
+    />
+  );
+};
 
-export default connect(null, { logout })(ProtectedRoute);
+export default ProtectedRoute;

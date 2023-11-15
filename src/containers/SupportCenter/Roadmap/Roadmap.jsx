@@ -30,26 +30,8 @@ import TableToolbar2 from '../../../components/core/Table/TableToolbar2';
 import { initFilters } from '../../../redux/support/supportReducer';
 
 const useStyles = makeStyles(theme => ({
-    root: {
-        backgroundColor: theme.palette.background.paper,
-        width: "100%",
-    },
-    table: {
-    },
-    tableRow: {
-        cursor: 'pointer'
-    },
-    action:{
-        width:'20%',
-    },
-    selectCustomMargin:{
-        margin:'10px'
-    },
     paper: {
         padding: '6px 16px',
-    },
-    secondaryTail: {
-        backgroundColor: theme.palette.secondary.main,
     },
     timelineSuccess:{
         background: "green"
