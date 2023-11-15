@@ -1,8 +1,6 @@
 import { Link, useRouteMatch } from "react-router-dom";
-import { useTheme } from "@mui/styles";
 import { AppBar, Paper, Tab, Tabs } from "@mui/material";
 import FormTitleBarRich from "../../components/core/Form/FormTitleBarRich";
-import TabContainer from "../../components/core/TabContainer";
 import { FormattedMessage } from "react-intl";
 //
 import SupportCenterRouter from "./SupportCenterRouter";
@@ -15,7 +13,6 @@ import {
 type Tabs = "logs" | "bugs" | "roadmap";
 
 function SupportCenterFrame() {
-  const theme = useTheme();
   const match = useRouteMatch<{ tab: Tabs }>();
 
   let tabSelected;
@@ -59,9 +56,7 @@ function SupportCenterFrame() {
           />
         </Tabs>
       </AppBar>
-      <TabContainer dir={theme.direction}>
-        <SupportCenterRouter />
-      </TabContainer>
+      <SupportCenterRouter />
     </Paper>
   );
 }

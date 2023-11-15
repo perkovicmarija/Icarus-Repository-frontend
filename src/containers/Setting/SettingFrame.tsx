@@ -1,8 +1,6 @@
 import { Link, useRouteMatch } from "react-router-dom";
-import { useTheme } from "@mui/styles";
 import { AppBar, Paper, Tab, Tabs } from "@mui/material";
 import FormTitleBarRich from "../../components/core/Form/FormTitleBarRich";
-import TabContainer from "../../components/core/TabContainer";
 import { FormattedMessage } from "react-intl";
 //
 import SettingRouter from "./SettingRouter";
@@ -11,7 +9,6 @@ import { clients, versionsMobile } from "../../consts/routePaths";
 type Tabs = "clients" | "version-mobile";
 
 function SettingFrame() {
-  const theme = useTheme();
   const match = useRouteMatch<{ tab: Tabs }>();
 
   let tabSelected;
@@ -47,9 +44,7 @@ function SettingFrame() {
           />
         </Tabs>
       </AppBar>
-      <TabContainer dir={theme.direction}>
-        <SettingRouter />
-      </TabContainer>
+      <SettingRouter />
     </Paper>
   );
 }

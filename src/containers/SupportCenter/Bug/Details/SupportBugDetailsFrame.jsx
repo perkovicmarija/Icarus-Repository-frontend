@@ -14,7 +14,6 @@ import FormTitleSubtitleBarSupport from "../../../../components/support/FormTitl
 import DialogProgress from "../../../../components/core/Dialog/DialogProgress";
 import DialogNoCloseFrame from "../../../../components/core/Dialog/DialogNoCloseFrame";
 import DialogFormFrame from "../../../../components/core/Dialog/DialogFormFrame";
-import TabContainer from "../../../../components/core/TabContainer";
 import SupportBugDetailsRouter from "./SupportBugDetailsRouter";
 import * as supportActions from "../../../../redux/support/supportActions";
 import {
@@ -23,7 +22,7 @@ import {
 } from "../../../../consts/routePaths";
 import { LayoutWrapper } from "../../../../components/core/LayoutWrapper";
 
-const useStyles = makeStyles((theme) => ({
+const useStyles = makeStyles({
   statusCancelled: {
     color: "#000000",
     fontWeight: "bold",
@@ -51,11 +50,10 @@ const useStyles = makeStyles((theme) => ({
     margin: "0px",
     width: "100%",
   },
-}));
+});
 
 function SupportBugDetailsFrame(props) {
   const classes = useStyles();
-  const theme = useTheme();
 
   const [dialogItemAdminOpen, setDialogItemAdminOpen] = useState(false);
   const [value, setValue] = useState(0);
@@ -338,9 +336,7 @@ function SupportBugDetailsFrame(props) {
           </Tabs>
         </AppBar>
 
-        <TabContainer dir={theme.direction}>
-          <SupportBugDetailsRouter />
-        </TabContainer>
+        <SupportBugDetailsRouter />
       </Paper>
 
       <DialogFormFrame
