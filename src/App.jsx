@@ -12,7 +12,7 @@ import "moment/locale/en-gb";
 import PublicRoutes from "./publicRouter";
 import Boot from "./redux/boot";
 import { store, history } from "./redux/store";
-import AppLocale from "./helpers/LanguageProvider/index";
+import { AppLocale } from "./helpers/LanguageProvider";
 import { getDefaultLanguage } from "./helpers/LanguageProvider/config";
 import { AdapterMoment } from "@mui/x-date-pickers/AdapterMoment";
 
@@ -77,4 +77,3 @@ Boot()
   .catch((error) => console.error(error));
 
 export default App;
-export { AppLocale };

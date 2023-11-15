@@ -1,11 +1,18 @@
-import Enlang from './entries/en-US';
-import Hrlang from './entries/hr-HR';
-import HeLang from './entries/he_IL';
+import enMessages from "./locales/en_US.json";
+import hrMessages from "./locales/hr_HR.json";
+import heMessages from "./locales/he_IL.json";
 
-const AppLocale = {
-    en: Enlang,
-    hr: Hrlang,
-    he: HeLang
+export const AppLocale = {
+  en: {
+    messages: enMessages,
+    locale: "en-US",
+  },
+  hr: {
+    messages: hrMessages,
+    locale: "hr-HR",
+  },
+  he: {
+    messages: heMessages,
+    locale: "he-IL",
+  },
 };
-
-export default AppLocale;
