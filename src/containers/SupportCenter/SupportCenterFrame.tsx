@@ -1,5 +1,5 @@
 import { Link, useRouteMatch } from "react-router-dom";
-import { makeStyles, useTheme } from "@mui/styles";
+import { useTheme } from "@mui/styles";
 import { AppBar, Paper, Tab, Tabs } from "@mui/material";
 import FormTitleBarRich from "../../components/core/Form/FormTitleBarRich";
 import TabContainer from "../../components/core/TabContainer";
@@ -7,23 +7,14 @@ import { FormattedMessage } from "react-intl";
 //
 import SupportCenterRouter from "./SupportCenterRouter";
 import {
-  supportBugs,
+  //supportBugs,
   supportLogs,
   supportRoadmap,
 } from "../../consts/routePaths";
 
-const useStyles = makeStyles({
-  tabLink: {
-    display: "flex",
-    alignItems: "center",
-    justifyContent: "center",
-  },
-});
-
 type Tabs = "logs" | "bugs" | "roadmap";
 
 function SupportCenterFrame() {
-  const classes = useStyles();
   const theme = useTheme();
   const match = useRouteMatch<{ tab: Tabs }>();
 
@@ -53,19 +44,16 @@ function SupportCenterFrame() {
         >
           <Tab
             label={<FormattedMessage id="support.logs" />}
-            className={classes.tabLink}
             component={Link}
             to={supportLogs}
           />
           {/* <Tab
             label={<FormattedMessage id="support.bugs" />}
-            className={classes.tabLink}
             component={Link}
             to={supportBugs}
           /> */}
           <Tab
             label={<FormattedMessage id="support.roadmap" />}
-            className={classes.tabLink}
             component={Link}
             to={supportRoadmap}
           />

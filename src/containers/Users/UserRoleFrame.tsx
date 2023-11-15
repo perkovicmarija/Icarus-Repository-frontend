@@ -1,5 +1,5 @@
 import { Link, useRouteMatch } from "react-router-dom";
-import { makeStyles, useTheme } from "@mui/styles";
+import { useTheme } from "@mui/styles";
 import { AppBar, Paper, Tab, Tabs } from "@mui/material";
 import FormTitleBarRich from "../../components/core/Form/FormTitleBarRich";
 import TabContainer from "../../components/core/TabContainer";
@@ -8,18 +8,9 @@ import { FormattedMessage } from "react-intl";
 import UserRouter from "./UserRouter";
 import { users, roles } from "../../consts/routePaths";
 
-const useStyles = makeStyles({
-  tabLink: {
-    display: "flex",
-    alignItems: "center",
-    justifyContent: "center",
-  },
-});
-
 type Tabs = "users" | "roles";
 
 function UserRoleFrame() {
-  const classes = useStyles();
   const theme = useTheme();
   const match = useRouteMatch<{ tab: Tabs }>();
 
@@ -46,13 +37,11 @@ function UserRoleFrame() {
         >
           <Tab
             label={<FormattedMessage id="form.users" />}
-            className={classes.tabLink}
             component={Link}
             to={users}
           />
           <Tab
             label={<FormattedMessage id="form.roles" />}
-            className={classes.tabLink}
             component={Link}
             to={roles}
           />

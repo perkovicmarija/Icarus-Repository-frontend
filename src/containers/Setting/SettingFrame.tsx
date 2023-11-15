@@ -1,5 +1,5 @@
 import { Link, useRouteMatch } from "react-router-dom";
-import { makeStyles, useTheme } from "@mui/styles";
+import { useTheme } from "@mui/styles";
 import { AppBar, Paper, Tab, Tabs } from "@mui/material";
 import FormTitleBarRich from "../../components/core/Form/FormTitleBarRich";
 import TabContainer from "../../components/core/TabContainer";
@@ -8,18 +8,9 @@ import { FormattedMessage } from "react-intl";
 import SettingRouter from "./SettingRouter";
 import { clients, versionsMobile } from "../../consts/routePaths";
 
-const useStyles = makeStyles({
-  tabLink: {
-    display: "flex",
-    alignItems: "center",
-    justifyContent: "center",
-  },
-});
-
 type Tabs = "clients" | "version-mobile";
 
 function SettingFrame() {
-  const classes = useStyles();
   const theme = useTheme();
   const match = useRouteMatch<{ tab: Tabs }>();
 
@@ -46,13 +37,11 @@ function SettingFrame() {
         >
           <Tab
             label={<FormattedMessage id="form.clients" />}
-            className={classes.tabLink}
             component={Link}
             to={clients}
           />
           <Tab
             label={<FormattedMessage id="general.versionsMobile" />}
-            className={classes.tabLink}
             component={Link}
             to={versionsMobile}
           />
