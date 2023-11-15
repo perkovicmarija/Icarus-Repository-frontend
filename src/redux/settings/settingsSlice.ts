@@ -12,6 +12,7 @@ export const defaultState = {
     clients: 25,
     versions: 25,
     users: 25,
+    userRoles: 25,
     auditChecklists: 25,
   },
 };

@@ -1,6 +1,5 @@
 import React, {useEffect, useState} from 'react';
 import {connect} from 'react-redux';
-import * as userRoleActions from '../../redux/user/role/userRoleActions';
 import * as icarusDocumentationFileActions from '../../redux/support/icarusDocs/file/icarusDocumentationFileActions';
 import {bindActionCreators} from 'redux';
 import FileDetails from './FileDetails';
@@ -48,13 +47,11 @@ function mapStateToProps(state, ownProps) {
     return {
         icarusDocumentationFile: state.IcarusDocumentationFile.icarusDocumentationFile,
         icarusDocumentationFolderPath: state.IcarusDocumentationFolder.icarusDocumentationFolderPath,
-        userRoles: state.UserRole.userRoles
     }
 }
 
 function mapDispatchToProps(dispatch) {
     return {
-        userRoleActions: bindActionCreators(userRoleActions, dispatch),
         icarusDocumentationFileActions: bindActionCreators(icarusDocumentationFileActions, dispatch)
     };
 }

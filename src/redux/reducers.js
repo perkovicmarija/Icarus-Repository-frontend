@@ -4,7 +4,6 @@ import { connectRouter } from "connected-react-router";
 import AjaxStatus from "./ajaxCall/ajaxStatusReducer";
 import Message from "./message/messageReducer";
 import User from "./user/userReducer";
-import UserRole from "./user/role/userRoleReducer";
 import Authority from "./authority/authorityReducer";
 import SupportCenter from "./support/supportReducer";
 import supportLogsSlice from "./support/supportLogs/supportLogsSlice";
@@ -23,6 +22,7 @@ import settingsSlice from "./settings/settingsSlice";
 import versionsSlice from "./setting/versionsSlice";
 import usersSlice from "./user/usersSlice";
 import auditChecklistsSlice from "./auditChecklistsSlice";
+import rolesSlice from "./user/rolesSlice";
 
 export default (history) =>
   combineReducers({
@@ -33,7 +33,7 @@ export default (history) =>
     Progress,
     User,
     Users: usersSlice.reducer,
-    UserRole,
+    UserRoles: rolesSlice.reducer,
     Authority,
     Settings: settingsSlice.reducer,
     SupportCenter,

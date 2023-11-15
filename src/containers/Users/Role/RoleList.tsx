@@ -1,18 +1,18 @@
-import { TableRow, IconButton, TableCell, Tooltip } from "@mui/material";
-import { Edit, Delete } from "@mui/icons-material";
+import { useState } from "react";
+import { TableCell, TableRow } from "@mui/material";
 import { TableContainer2 } from "../../../components/core/Table/TableContainer2";
 import TableToolbar2, {
   TableToolbar2Props,
 } from "../../../components/core/Table/TableToolbar2";
-import {
-  ColumnDefinition,
-  TableHeaderProps,
-} from "../../../components/core/Table/TableHeader";
+import { ColumnDefinition } from "../../../components/core/Table/TableHeader";
 import { TablePagination2Props } from "../../../components/core/Table/TablePagination2";
+import { TableActions2 } from "../../../components/core/Table/TableActions2";
+import { Delete, Edit } from "@mui/icons-material";
+import { DialogDelete2 } from "../../../components/core/Dialog/DialogDelete2";
+//
 
 const columnData: ColumnDefinition[] = [
   { id: "name", numeric: false, disablePadding: false, label: "general.name" },
-
   {
     id: "actions",
     label: "general.actions",
@@ -20,82 +20,68 @@ const columnData: ColumnDefinition[] = [
   },
 ];
 
-function RoleList({
+const RoleList = <T,>({
   data,
-  title,
-  totalCount,
-  page,
-  rowsPerPage,
-  onChangePage,
-  onChangeRowsPerPage,
-  onAddClick,
   onEdit,
   onDelete,
-}: TableToolbar2Props &
-  Omit<TableHeaderProps, "columnData"> &
-  TablePagination2Props & {
-    data: any[];
-    onEdit: any;
-    onDelete: any;
-  }) {
+  //
+  toolbarProps,
+  paginationProps,
+  loading,
+}: {
+  toolbarProps: TableToolbar2Props;
+  paginationProps: TablePagination2Props;
+  data: T[] | undefined;
+  onEdit: (item: T) => any;
+  onDelete: (item: T) => any;
+  loading: boolean;
+}) => {
+  const [dialogWarning, setDialogWarning] = useState<T | undefined>();
+
   return (
-    <div>
-      <TableToolbar2
-        title={title}
-        //
-        onAddClick={onAddClick}
-      />
+    <>
+      <TableToolbar2 {...toolbarProps} />
 
       <TableContainer2
         headerProps={{
           columnData,
         }}
-        paginationProps={{
-          totalCount,
-          rowsPerPage,
-          page,
-          onChangePage,
-          onChangeRowsPerPage,
-        }}
+        paginationProps={paginationProps}
+        loading={loading}
       >
-        {data.map((role) => {
-          return (
-            <TableRow
-              style={{ cursor: "pointer" }}
-              key={role.userRoleId}
-              hover={true}
-            >
-              <TableCell>{role.name}</TableCell>
-              <TableCell className="nostretch">
-                <Tooltip title="Edit">
-                  <div className="d-inline">
-                    <IconButton
-                      aria-label="Edit"
-                      onClick={(event) => onEdit(event, role)}
-                    >
-                      <Edit />
-                    </IconButton>
-                  </div>
-                </Tooltip>
-                <Tooltip title="Delete">
-                  <>
-                    <div className="d-inline">
-                      <IconButton
-                        aria-label="Delete"
-                        onClick={(event) => onDelete(event, role)}
-                      >
-                        <Delete />
-                      </IconButton>
-                    </div>
-                  </>
-                </Tooltip>
-              </TableCell>
-            </TableRow>
-          );
-        })}
+        {data &&
+          data.map((item: any) => {
+            return (
+              <TableRow key={item.userRoleId} hover={true}>
+                <TableCell>{item.name}</TableCell>
+                <TableCell className="nostretch">
+                  <TableActions2
+                    actions={[
+                      {
+                        label: "general.edit",
+                        Icon: Edit,
+                        onClick: () => onEdit(item),
+                      },
+                      {
+                        label: "general.delete",
+                        Icon: Delete,
+                        onClick: () => setDialogWarning(item),
+                      },
+                    ]}
+                  />
+                </TableCell>
+              </TableRow>
+            );
+          })}
       </TableContainer2>
-    </div>
+
+      <DialogDelete2
+        data={dialogWarning}
+        onSubmit={onDelete}
+        onClose={() => setDialogWarning(undefined)}
+      />
+    </>
   );
-}
+};
 
 export default RoleList;
