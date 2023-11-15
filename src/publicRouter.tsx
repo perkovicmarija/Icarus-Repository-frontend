@@ -1,7 +1,5 @@
-import { Route, Redirect } from "react-router-dom";
+import { Route, Redirect, useHistory } from "react-router-dom";
 import { ConnectedRouter } from "connected-react-router";
-import { connect } from "react-redux";
-
 import Admin from "./containers/Admin/Admin";
 import FourZeroFour from "./containers/404/FourZeroFour";
 import Login from "./containers/Login/Login";
@@ -14,8 +12,13 @@ import {
   confirmationCode,
   auditChecklistOverview,
 } from "./consts/routePaths";
+import { useAppSelector } from "./redux/store";
 
-const RestrictedRoute = ({ component: Component, isLoggedIn, ...rest }) => (
+const RestrictedRoute = ({
+  component: Component,
+  isLoggedIn,
+  ...rest
+}: any) => (
   <Route
     {...rest}
     render={(props) =>
@@ -32,7 +35,10 @@ const RestrictedRoute = ({ component: Component, isLoggedIn, ...rest }) => (
     }
   />
 );
-const PublicRoutes = ({ history, isLoggedIn }) => {
+const PublicRoutes = () => {
+  const history = useHistory();
+  const isLoggedIn = useAppSelector((state) => state.Auth.token !== null);
+
   return (
     <ConnectedRouter history={history}>
       <div>
@@ -54,10 +60,4 @@ const PublicRoutes = ({ history, isLoggedIn }) => {
   );
 };
 
-function mapStateToProps(state, ownProps) {
-  return {
-    isLoggedIn: state.Auth.token !== null,
-  };
-}
-
-export default connect(mapStateToProps)(PublicRoutes);
+export default PublicRoutes;

@@ -20,7 +20,7 @@ function Roles({
   authorityActions,
   roles,
   totalCount,
-}) {
+}: any) {
   const history = useHistory();
   const [userRole, setUserRole] = useState({
     userRoleAuthorityJoined: [],
