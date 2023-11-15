@@ -35,8 +35,7 @@ const RestrictedRoute = ({
     }
   />
 );
-const PublicRoutes = () => {
-  const history = useHistory();
+const PublicRoutes = ({ history }: any) => {
   const isLoggedIn = useAppSelector((state) => state.Auth.token !== null);
 
   return (
