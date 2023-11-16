@@ -1,5 +1,6 @@
-import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
+import { createSlice } from "@reduxjs/toolkit";
 import ClientApi from "../../api/ClientApi";
+import { createAsyncThunk2 } from "../utils";
 
 export const initFilters = {};
 
@@ -20,7 +21,7 @@ const initialState = {
 
 export type FiltersType = (typeof initialState)["filters"];
 
-const getData = createAsyncThunk(
+const getData = createAsyncThunk2(
   "clients/getData",
   async (viewModel: any /*, thunkAPI */) => {
     const response = await ClientApi.getAllClientsPagination(viewModel);
@@ -28,7 +29,7 @@ const getData = createAsyncThunk(
   }
 );
 
-const deleteItem = createAsyncThunk(
+const deleteItem = createAsyncThunk2(
   "clients/deleteItem",
   async ({ payload, meta }: { payload: Client; meta: any }, thunkAPI) => {
     await ClientApi.deleteClient(payload);
@@ -36,7 +37,7 @@ const deleteItem = createAsyncThunk(
   }
 );
 
-const addEditItem = createAsyncThunk(
+const addEditItem = createAsyncThunk2(
   "clients/addEditItem",
   async ({ payload, meta }: { payload: Client; meta: any }, thunkAPI) => {
     await (payload.clientId

@@ -22,7 +22,7 @@ const RestApiPostMultipartArray = {
         })
             .then(statusHelper)
             .then(response => response.json())
-            .catch(error => error)
+            //.catch(error => error)
             .then(data => {
                 console.log(data) // The data does log!
                 return data

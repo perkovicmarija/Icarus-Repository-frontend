@@ -38,7 +38,7 @@ const RestApiPostMultipartArrayAxios = {
                 })
             })
                 .then(statusHelper)
-                .catch(error => error)
+                //.catch(error => error)
                 .then(response => {
                     emitter({success: true, data: response.data});
                     emitter(END);

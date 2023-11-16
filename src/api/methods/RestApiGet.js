@@ -29,7 +29,7 @@ const RestApiGet = {
     })
       .then(statusHelper)
       .then((response) => response.json())
-      .catch((error) => {
+      /* .catch((error) => {
         let status = error.status;
         if (status) {
           return error.json().then((response) => {
@@ -38,7 +38,7 @@ const RestApiGet = {
         } else {
           return { status: 500, message: "Server error" };
         }
-      })
+      }) */
       .then((data) => {
         toastMessage && toast.dismiss(toastInProgress);
         if (data.status && data.status !== 200) {

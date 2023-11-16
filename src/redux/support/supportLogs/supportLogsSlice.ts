@@ -1,5 +1,6 @@
-import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
+import { createSlice } from "@reduxjs/toolkit";
 import SupportCenterApi from "../../../api/SupportCenterApi";
+import { createAsyncThunk2 } from "../../utils";
 
 export const initFilters = {
   selectedClients: [],
@@ -23,7 +24,7 @@ const initialState = {
 
 export type FiltersType = (typeof initialState)["filters"];
 
-const getData = createAsyncThunk(
+const getData = createAsyncThunk2(
   "supportLogs/getData",
   async (viewModel: any /*, thunkAPI */) => {
     const response = await SupportCenterApi.getAllSoftwareLogClientsPagination(
@@ -33,7 +34,7 @@ const getData = createAsyncThunk(
   }
 );
 
-const deleteItem = createAsyncThunk(
+const deleteItem = createAsyncThunk2(
   "supportLogs/deleteItem",
   async ({ payload, meta }: { payload: SupportLog; meta: any }, thunkAPI) => {
     await SupportCenterApi.deleteSoftwareLogClient(payload);
@@ -41,7 +42,7 @@ const deleteItem = createAsyncThunk(
   }
 );
 
-const addEditItem = createAsyncThunk(
+const addEditItem = createAsyncThunk2(
   "supportLogs/addEditItem",
   async ({ payload, meta }: { payload: SupportLog; meta: any }, thunkAPI) => {
     await (payload.supportSoftwareLogId

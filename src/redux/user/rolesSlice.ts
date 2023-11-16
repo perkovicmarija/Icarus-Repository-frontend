@@ -1,5 +1,6 @@
-import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
+import { createSlice } from "@reduxjs/toolkit";
 import UserRoleApi from "../../api/UserRoleApi";
+import { createAsyncThunk2 } from "../utils";
 
 export const initFilters = {};
 
@@ -18,7 +19,7 @@ const initialState = {
 
 export type FiltersType = (typeof initialState)["filters"];
 
-const getData = createAsyncThunk(
+const getData = createAsyncThunk2(
   "roles/getData",
   async (viewModel: any /*, thunkAPI */) => {
     const response = await UserRoleApi.getAllPagination(viewModel.pagination);
@@ -26,7 +27,7 @@ const getData = createAsyncThunk(
   }
 );
 
-const deleteItem = createAsyncThunk(
+const deleteItem = createAsyncThunk2(
   "roles/deleteItem",
   async ({ payload, meta }: { payload: Role; meta: any }, thunkAPI) => {
     await UserRoleApi.delete(payload);
@@ -34,7 +35,7 @@ const deleteItem = createAsyncThunk(
   }
 );
 
-const addEditItem = createAsyncThunk(
+const addEditItem = createAsyncThunk2(
   "roles/addEditItem",
   async ({ payload, meta }: { payload: Role; meta: any }, thunkAPI) => {
     await (payload.userRoleId ? UserRoleApi.update : UserRoleApi.create)(payload);

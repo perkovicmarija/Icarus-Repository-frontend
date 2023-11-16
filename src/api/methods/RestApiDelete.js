@@ -26,7 +26,7 @@ const RestApiDelete = {
         })
             .then(statusHelper)
             .then(response => response.json())
-            .catch(error => {
+            /* .catch(error => {
                 let status = error.status;
                 if(status) {
                     return error.json().then(response => {
@@ -35,7 +35,7 @@ const RestApiDelete = {
                 } else {
                     return {status : 500, message: "Server error"}
                 }
-            })
+            }) */
             .then(data => {
                 if(data.status && data.status !== 200) {
                     throw new Error(data.message);

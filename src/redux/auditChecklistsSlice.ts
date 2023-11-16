@@ -1,5 +1,6 @@
-import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
+import { createSlice } from "@reduxjs/toolkit";
 import AuditChecklistApi from "../api/auditChecklist/AuditChecklistApi";
+import { createAsyncThunk2 } from "./utils";
 
 export interface AuditChecklistType {
   auditChecklistTypeId: string;
@@ -41,7 +42,7 @@ const initialState = {
 
 export type FiltersType = (typeof initialState)["filters"];
 
-const getData = createAsyncThunk(
+const getData = createAsyncThunk2(
   "auditChecklists/getData",
   async (viewModel: any /*, thunkAPI */) => {
     const response = await AuditChecklistApi.getAllActive(viewModel);
@@ -49,7 +50,7 @@ const getData = createAsyncThunk(
   }
 );
 
-const deleteItem = createAsyncThunk(
+const deleteItem = createAsyncThunk2(
   "auditChecklists/deleteItem",
   async (
     { payload, meta }: { payload: AuditChecklist; meta: any },
@@ -60,7 +61,7 @@ const deleteItem = createAsyncThunk(
   }
 );
 
-const addEditItem = createAsyncThunk(
+const addEditItem = createAsyncThunk2(
   "auditChecklists/addEditItem",
   async (
     { payload, meta }: { payload: AuditChecklist; meta: any },
@@ -73,7 +74,7 @@ const addEditItem = createAsyncThunk(
   }
 );
 
-const createNewVersion = createAsyncThunk(
+const createNewVersion = createAsyncThunk2(
   "auditChecklists/createNewVersion",
   async ({ payload, meta }: { payload: AuditChecklist; meta: any }, thunkAPI) => {
     await AuditChecklistApi.createNewVersion(payload);
