@@ -4,8 +4,8 @@ import RestApiPostWithPathParams from './methods/RestApiPostWithPathParams';
 import RestApiDelete from "./methods/RestApiDelete";
 
 const UserRoleApi = {
-    getAll(viewModel) {
-        return RestApiGet.getData('/userRole/getAll', viewModel);
+    getAll() {
+        return RestApiGet.getData('/userRole/getAll');
     },
     getAllPagination(viewModel) {
         return RestApiPost.postData('/userRole/getAllPagination', viewModel);

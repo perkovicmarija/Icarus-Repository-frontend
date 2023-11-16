@@ -19,6 +19,11 @@ const initialState = {
 
 export type FiltersType = (typeof initialState)["filters"];
 
+const getAll = createAsyncThunk2("roles/getAll", async () => {
+  const response = await UserRoleApi.getAll();
+  return response;
+});
+
 const getData = createAsyncThunk2(
   "roles/getData",
   async (viewModel: any /*, thunkAPI */) => {
@@ -38,7 +43,9 @@ const deleteItem = createAsyncThunk2(
 const addEditItem = createAsyncThunk2(
   "roles/addEditItem",
   async ({ payload, meta }: { payload: Role; meta: any }, thunkAPI) => {
-    await (payload.userRoleId ? UserRoleApi.update : UserRoleApi.create)(payload);
+    await (payload.userRoleId ? UserRoleApi.update : UserRoleApi.create)(
+      payload
+    );
     return await thunkAPI.dispatch(getData(meta));
   }
 );
@@ -53,7 +60,7 @@ const rolesSlice = createSlice({
   },
   extraReducers: (builder) => {
     builder.addCase(getData.fulfilled, (state, action) => {
-      state.data = action.payload.data;
+    state.data = action.payload.data;
       state.meta = action.payload.meta;
     });
   },
@@ -61,6 +68,7 @@ const rolesSlice = createSlice({
 
 export const rolesActions = {
   ...rolesSlice.actions,
+  getAll,
   getData,
   addEditItem,
   deleteItem,

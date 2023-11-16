@@ -9,8 +9,9 @@ export const createAsyncThunk2 = (
     try {
       response = await method(viewModel, thunkAPI);
       return response as any;
-    } catch (e) {
-      if (e === "Unauthorized") {
+    } catch (e: any) {
+      console.log("rafa", e);
+      if (e.status === 401) {
         thunkAPI.dispatch({ type: "LOGOUT" });
       }
       throw e;

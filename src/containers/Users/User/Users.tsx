@@ -12,9 +12,9 @@ import {
   User,
   usersActions,
 } from "../../../redux/user/usersSlice";
-import UserRoleApi from "../../../api/UserRoleApi";
 import UserForm from "../../../components/user/UserForm";
 import { initFilters } from "../../../redux/user/usersSlice";
+import { rolesActions } from "../../../redux/user/rolesSlice";
 
 function Users() {
   const dispatch = useAppDispatch();
@@ -50,7 +50,9 @@ function Users() {
   //
   const [userRoles, setUserRoles] = useState<any[]>([]);
   useEffect(() => {
-    UserRoleApi.getAll().then((response) => setUserRoles(response.data));
+    dispatch(rolesActions.getAll(undefined)).then((response) => {
+      setUserRoles(response.payload.data);
+    });
   }, []);
   //
 
