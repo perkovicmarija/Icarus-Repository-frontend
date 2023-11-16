@@ -1,5 +1,5 @@
 import { getServerPath } from "../../consts/ServerInfo";
-import * as ApiStatus from "./RestApiStatus";
+import {statusHelper} from "./utils";
 import { getToken } from "../../helpers/utility";
 import { toast } from "react-toastify";
 
@@ -27,7 +27,7 @@ const RestApiGet = {
         "Content-Type": "application/json",
       },
     })
-      .then(ApiStatus.statusHelper)
+      .then(statusHelper)
       .then((response) => response.json())
       .catch((error) => {
         let status = error.status;

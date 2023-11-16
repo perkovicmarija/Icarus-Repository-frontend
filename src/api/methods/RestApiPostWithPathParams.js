@@ -1,5 +1,5 @@
 import {getServerPath} from '../../consts/ServerInfo';
-import * as ApiStatus from './RestApiStatus';
+import {statusHelper} from './utils';
 import { getToken } from '../../helpers/utility';
 
 const RestApiPostWithPathParams = {
@@ -18,7 +18,7 @@ const RestApiPostWithPathParams = {
             },
             body: JSON.stringify(data)
         })
-            .then(ApiStatus.statusHelper)
+            .then(statusHelper)
             .then(response => response.json())
             .catch(error => {
                 let status = error.status;

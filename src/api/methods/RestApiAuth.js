@@ -10,7 +10,7 @@ const RestApiAuth = {
             }),
             body: 'username=' + data.username + '&password=' + data.password + '&grant_type=password'
         })
-            //.then(ApiStatus.statusHelper)
+            //.then(statusHelper)
             .then(response => response.json())
             .catch(error => error)
             .then(data => {

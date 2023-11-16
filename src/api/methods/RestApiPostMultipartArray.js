@@ -1,5 +1,5 @@
 import {getServerPath} from '../../consts/ServerInfo';
-import * as ApiStatus from './RestApiStatus';
+import {statusHelper} from './utils';
 import { getToken } from '../../helpers/utility';
 
 const RestApiPostMultipartArray = {
@@ -20,7 +20,7 @@ const RestApiPostMultipartArray = {
             method: 'POST',
             body: formData
         })
-            .then(ApiStatus.statusHelper)
+            .then(statusHelper)
             .then(response => response.json())
             .catch(error => error)
             .then(data => {

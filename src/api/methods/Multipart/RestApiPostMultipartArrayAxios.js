@@ -1,5 +1,5 @@
 import {getServerPath} from '../../../consts/ServerInfo';
-import * as ApiStatus from '../RestApiStatus';
+import {statusHelper} from '../utils';
 import { getToken } from '../../../helpers/utility';
 import axios from 'axios';
 import { eventChannel, END } from 'redux-saga'
@@ -37,7 +37,7 @@ const RestApiPostMultipartArrayAxios = {
                     cancel = c;
                 })
             })
-                .then(ApiStatus.statusHelper)
+                .then(statusHelper)
                 .catch(error => error)
                 .then(response => {
                     emitter({success: true, data: response.data});
