@@ -14,8 +14,6 @@ export default function DialogFormRoadmap({
   onSubmit,
   initialData,
 }: any) {
-  console.log("rafa", initialData);
-
   const { handleSubmit, control } = useForm({
     defaultValues: initialData,
   });

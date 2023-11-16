@@ -21,8 +21,11 @@ import "react-toastify/dist/ReactToastify.css";
 
 const currentAppLocale = AppLocale[getDefaultLanguage().locale];
 
-import utc from "dayjs/plugin/utc";
 import dayjs from "dayjs";
+import utc from "dayjs/plugin/utc";
+dayjs.extend(utc);
+/* import timezone from "dayjs/plugin/timezone";
+dayjs.extend(timezone); */
 
 const theme = createTheme({
   palette: {
@@ -43,8 +46,6 @@ const theme = createTheme({
 });
 
 function App() {
-  dayjs.extend(utc);
-
   return (
     <IntlProvider
       locale={currentAppLocale.locale}

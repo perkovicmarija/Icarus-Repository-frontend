@@ -53,6 +53,7 @@ const DateTimePickerCustom2 = ({
       <DateTimePicker
         {...field}
         value={dayjs(field.value)}
+        timezone="UTC"
         inputRef={ref}
         slotProps={{
           textField: {

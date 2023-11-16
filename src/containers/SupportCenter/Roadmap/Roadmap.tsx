@@ -135,7 +135,7 @@ function Roadmap() {
         </IconButton>
       </Tooltip>
 
-      <Timeline position="alternate">
+      <Timeline position="alternate" style={{ opacity: loading ? 0.25 : 1 }}>
         {data &&
           data.map((item: RoadmapType) => {
             return (
