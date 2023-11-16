@@ -23,6 +23,7 @@ import versionsSlice from "./setting/versionsSlice";
 import usersSlice from "./user/usersSlice";
 import auditChecklistsSlice from "./auditChecklistsSlice";
 import rolesSlice from "./user/rolesSlice";
+import roadmapSlice from "./support/roadmapSlice";
 
 export default (history) =>
   combineReducers({
@@ -38,6 +39,7 @@ export default (history) =>
     Settings: settingsSlice.reducer,
     SupportCenter,
     SupportLogs: supportLogsSlice.reducer,
+    Roadmap: roadmapSlice.reducer,
     LanguageSwitcher,
     AuditChecklist,
     AuditChecklists: auditChecklistsSlice.reducer,

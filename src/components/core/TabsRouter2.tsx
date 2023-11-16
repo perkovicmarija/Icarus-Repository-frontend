@@ -16,9 +16,9 @@ export type TabsType = {
 
 export const TabsRouter2 = ({ tabs }: { tabs: TabsType }) => {
   const { url } = useRouteMatch();
-  console.log(url);
+  //console.log(url);
   const { params } = useRouteMatch<{ tab: any }>({ path: url + "/:tab" })!;
-  console.log(params);
+  //console.log(params);
   const tabSelected = params.tab;
 
   return (

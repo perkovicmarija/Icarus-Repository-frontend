@@ -67,8 +67,6 @@ const SelectBasicCustom2 = ({
 
   const error = formState.errors[name];
 
-  console.log(error);
-
   return (
     <SelectCustom
       field={field}
