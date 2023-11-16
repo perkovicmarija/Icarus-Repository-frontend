@@ -41,8 +41,10 @@ const TextField2 = ({
 
   const error = formState.errors[name];
 
+  console.log(error);
+
   return (
-    <>
+    <div>
       {label && (
         <TypographyReportField
           title={label}
@@ -53,6 +55,7 @@ const TextField2 = ({
       <TextField
         {...field}
         {...textFieldProps}
+        variant="standard"
         error={Boolean(error)}
         helperText={
           error?.message && intl.formatMessage({ id: error.message as string })
@@ -68,7 +71,7 @@ const TextField2 = ({
           }
         }}
       />
-    </>
+    </div>
   );
 };
 
