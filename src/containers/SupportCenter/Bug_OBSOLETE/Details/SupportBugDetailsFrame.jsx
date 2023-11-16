@@ -6,7 +6,6 @@ import { bindActionCreators } from "redux";
 import { cloneDeep } from "lodash";
 import { Paper, Grid, AppBar, Tabs, Tab } from "@mui/material";
 import { makeStyles, useTheme } from "@mui/styles";
-import Moment from "moment";
 
 import IntlMessages from "../../../../components/core/IntlMessages";
 import DialogFormSupportItemAdmin from "../../../../components/support/DialogFormSupportItemAdmin";
@@ -139,8 +138,8 @@ function SupportBugDetailsFrame(props) {
   const handleDateTimeChange = (name) => (dateTime) => {
     let supportBugClone = cloneDeep(supportBug);
     supportBugClone[name] = dateTime;
-    Moment.locale("en");
-    supportBugClone.dueDate = Moment(dateTime).format("YYYY-MM-DD HH:mm");
+    /* Moment.locale("en");
+    supportBugClone.dueDate = Moment(dateTime).format("YYYY-MM-DD HH:mm"); */
     setSupportBug(supportBugClone);
   };
 

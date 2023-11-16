@@ -4,7 +4,7 @@ import TypographyReportField2, {
 import { UseControllerProps, useController } from "react-hook-form";
 import { DateTimePicker, DateTimePickerProps } from "@mui/x-date-pickers";
 import { useIntl } from "react-intl";
-import { Moment } from "moment";
+import dayjs, { Dayjs } from "dayjs";
 
 const DateTimePickerCustom2 = ({
   name,
@@ -24,7 +24,7 @@ const DateTimePickerCustom2 = ({
   labelProps?: Omit<TypographyReportField2Props, "label">;
   placeholder?: string;
   hidePlaceholder?: boolean;
-  dateTimePickerProps?: DateTimePickerProps<Moment>;
+  dateTimePickerProps?: DateTimePickerProps<Dayjs>;
 }) => {
   const intl = useIntl();
   const {
@@ -52,6 +52,7 @@ const DateTimePickerCustom2 = ({
       )}
       <DateTimePicker
         {...field}
+        value={dayjs(field.value)}
         inputRef={ref}
         slotProps={{
           textField: {

@@ -5,16 +5,14 @@ import {
   StyledEngineProvider,
 } from "@mui/material/styles";
 import { red, brown, grey } from "@mui/material/colors";
-import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { IntlProvider } from "react-intl";
-import moment from "moment-timezone";
-import "moment/locale/en-gb";
 import PublicRoutes from "./publicRouter";
 import Boot from "./redux/boot";
 import { store, history } from "./redux/store";
 import { AppLocale } from "./helpers/LanguageProvider";
 import { getDefaultLanguage } from "./helpers/LanguageProvider/config";
-import { AdapterMoment } from "@mui/x-date-pickers/AdapterMoment";
+import { LocalizationProvider } from "@mui/x-date-pickers";
+import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 
 import { DndProvider } from "react-dnd";
 import { getBackendOptions, MultiBackend } from "@minoru/react-dnd-treeview";
@@ -23,10 +21,10 @@ import "react-toastify/dist/ReactToastify.css";
 
 const currentAppLocale = AppLocale[getDefaultLanguage().locale];
 
+import utc from "dayjs/plugin/utc";
+import dayjs from "dayjs";
+
 const theme = createTheme({
-  typography: {
-    useNextVariants: true,
-  },
   palette: {
     primary: {
       light: grey[300],
@@ -45,7 +43,7 @@ const theme = createTheme({
 });
 
 function App() {
-  moment.tz.setDefault("UTC");
+  dayjs.extend(utc);
 
   return (
     <IntlProvider
@@ -56,8 +54,8 @@ function App() {
         <ThemeProvider theme={theme}>
           <StyledEngineProvider injectFirst>
             <LocalizationProvider
-              dateAdapter={AdapterMoment}
-              dateLibInstance={moment}
+              dateAdapter={AdapterDayjs}
+              // dateLibInstance={moment}
               adapterLocale="en-gb"
             >
               <Provider store={store}>
