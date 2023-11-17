@@ -25,13 +25,10 @@ const getAll = createAsyncThunk2("roles/getAll", async () => {
   return response;
 });
 
-const getData = createAsyncThunk2(
-  "roles/getData",
-  async (meta: Meta) => {
-    const response = await UserRoleApi.getAllPagination(meta.pagination);
-    return response;
-  }
-);
+const getData = createAsyncThunk2("roles/getData", async (meta: Meta) => {
+  const response = await UserRoleApi.getAllPagination(meta.pagination);
+  return response;
+});
 
 const deleteItem = createAsyncThunk2(
   "roles/deleteItem",
@@ -61,7 +58,7 @@ const rolesSlice = createSlice({
   },
   extraReducers: (builder) => {
     builder.addCase(getData.fulfilled, (state, action) => {
-    state.data = action.payload.data;
+      state.data = action.payload.data;
       state.meta = action.payload.meta;
     });
   },
