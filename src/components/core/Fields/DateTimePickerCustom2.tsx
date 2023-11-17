@@ -58,6 +58,7 @@ const DateTimePickerCustom2 = ({
         slotProps={{
           textField: {
             fullWidth: true,
+            variant: "standard",
             placeholder: hidePlaceholder
               ? ""
               : intl.formatMessage({

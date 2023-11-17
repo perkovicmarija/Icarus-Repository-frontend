@@ -31,6 +31,7 @@ const SelectCustom = forwardRef<HTMLInputElement, SelectCustomProps>(
         <TextField
           {...field}
           {...selectProps}
+          variant="standard"
           select
           fullWidth
           inputRef={ref}
