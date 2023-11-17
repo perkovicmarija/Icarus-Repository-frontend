@@ -3,7 +3,7 @@ import { Redirect } from "react-router-dom";
 import SnackbarSuccess from "../../components/core/Snackbar/SnackbarSuccess";
 import SnackbarFailed from "../../components/core/Snackbar/SnackbarFailed";
 import LoginForm from "./LoginForm";
-import SignUpForm from "./SignUpForm";
+//import SignUpForm from "./SignUpForm";
 import ForgotPwdDialogForm from "./ForgotPwdDialogForm";
 import DialogFormFrame from "../../components/core/Dialog/DialogFormFrame";
 import authAction from "../../redux/auth/authActions";
@@ -27,7 +27,7 @@ function Login() {
 
   const isLoggedIn = useAppSelector((state) => state.Auth.token !== null);
 
-  const [showLogin, setShowLogin] = useState(true);
+  const [showLogin, /* setShowLogin */] = useState(true);
 
   const [dialogForgotPassword, setDialogForgotPassword] = useState<any>();
 

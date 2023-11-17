@@ -25,7 +25,7 @@ export type FiltersType = (typeof initialState)["filters"];
 const getData = createAsyncThunk2(
   "clients/getData",
   async (meta: Meta) => {
-    const response = await ClientApi.getAllClientsPagination(meta.pagination);
+    const response = await ClientApi.getAllClientsPagination(meta);
     return response;
   }
 );

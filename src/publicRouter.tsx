@@ -1,4 +1,4 @@
-import { Route, Redirect, useHistory } from "react-router-dom";
+import { Route, Redirect } from "react-router-dom";
 import { ConnectedRouter } from "connected-react-router";
 import Admin from "./containers/Admin/Admin";
 import FourZeroFour from "./containers/404/FourZeroFour";

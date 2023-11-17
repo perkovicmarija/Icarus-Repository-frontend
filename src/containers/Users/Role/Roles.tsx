@@ -8,7 +8,7 @@ import RoleList from "./RoleList";
 import DialogFormUserRole from "../../../components/user/DialogFormUserRole";
 import { getUserRolesPath } from "../../../consts/routePaths";
 import {
-  FiltersType,
+  // FiltersType,
   Role,
   rolesActions,
 } from "../../../redux/user/rolesSlice";
