@@ -71,7 +71,9 @@ function Users() {
         data={data}
         onEdit={setDialogAddEdit}
         onDelete={(payload) =>
-          dispatch(usersActions.deleteItem({ payload, meta }))
+          dispatch(usersActions.deleteItem({ payload, meta })).then(() =>
+            dispatch(usersActions.getData(meta))
+          )
         }
         //
         toolbarProps={{
@@ -102,9 +104,11 @@ function Users() {
         <UserForm
           initialData={dialogAddEdit!}
           onClose={() => setDialogAddEdit(undefined)}
-          onSubmit={(payload) => {
-            return dispatch(usersActions.addEditItem({ payload, meta }));
-          }}
+          onSubmit={(payload) =>
+            dispatch(usersActions.addEditItem({ payload, meta })).then(() =>
+              dispatch(usersActions.getData(meta))
+            )
+          }
           userRoles={userRoles}
         />
       </DialogFormFrame>

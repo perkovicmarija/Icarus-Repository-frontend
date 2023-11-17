@@ -57,8 +57,8 @@ const deleteItem = createAsyncThunk2(
     { payload, meta }: { payload: AuditChecklist; meta: any },
     thunkAPI
   ) => {
-    await AuditChecklistApi.delete(payload);
-    return await thunkAPI.dispatch(getData(meta));
+    return await AuditChecklistApi.delete(payload);
+    //return await thunkAPI.dispatch(getData(meta));
   }
 );
 
@@ -68,10 +68,10 @@ const addEditItem = createAsyncThunk2(
     { payload, meta }: { payload: AuditChecklist; meta: any },
     thunkAPI
   ) => {
-    await (payload.auditChecklistId
+    return await (payload.auditChecklistId
       ? AuditChecklistApi.put
       : AuditChecklistApi.create)(payload);
-    return await thunkAPI.dispatch(getData(meta));
+    //return await thunkAPI.dispatch(getData(meta));
   }
 );
 
@@ -81,8 +81,8 @@ const createNewVersion = createAsyncThunk2(
     { payload, meta }: { payload: AuditChecklist; meta: any },
     thunkAPI
   ) => {
-    await AuditChecklistApi.createNewVersion(payload);
-    return await thunkAPI.dispatch(getData(meta));
+    return await AuditChecklistApi.createNewVersion(payload);
+    // return await thunkAPI.dispatch(getData(meta));
   }
 );
 

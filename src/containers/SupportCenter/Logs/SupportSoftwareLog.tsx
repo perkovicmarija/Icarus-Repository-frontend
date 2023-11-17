@@ -81,7 +81,9 @@ const SupportSoftwareLog = () => {
         data={data}
         onEdit={setDialogAddEdit}
         onDelete={(payload) =>
-          dispatch(supportLogsActions.deleteItem({ payload, meta }))
+          dispatch(supportLogsActions.deleteItem({ payload, meta })).then(() =>
+            dispatch(supportLogsActions.getData(meta))
+          )
         }
         //
         toolbarProps={{
@@ -115,7 +117,9 @@ const SupportSoftwareLog = () => {
           initialData={dialogAddEdit!}
           onClose={() => setDialogAddEdit(undefined)}
           onSubmit={(payload) => {
-            return dispatch(supportLogsActions.addEditItem({ payload, meta }));
+            return dispatch(
+              supportLogsActions.addEditItem({ payload, meta })
+            ).then(() => dispatch(supportLogsActions.getData(meta)));
           }}
           clients={clients}
         />

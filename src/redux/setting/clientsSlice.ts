@@ -33,18 +33,18 @@ const getData = createAsyncThunk2(
 const deleteItem = createAsyncThunk2(
   "clients/deleteItem",
   async ({ payload, meta }: { payload: Client; meta: any }, thunkAPI) => {
-    await ClientApi.deleteClient(payload);
-    return await thunkAPI.dispatch(getData(meta));
+    return await ClientApi.deleteClient(payload);
+    //return await thunkAPI.dispatch(getData(meta));
   }
 );
 
 const addEditItem = createAsyncThunk2(
   "clients/addEditItem",
   async ({ payload, meta }: { payload: Client; meta: any }, thunkAPI) => {
-    await (payload.clientId
+    return await (payload.clientId
       ? ClientApi.updateClient
       : ClientApi.createClient)(payload);
-    return await thunkAPI.dispatch(getData(meta));
+    //return await thunkAPI.dispatch(getData(meta));
   }
 );
 

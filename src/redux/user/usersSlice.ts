@@ -38,16 +38,16 @@ const getData = createAsyncThunk2("users/getData", async (meta: Meta) => {
 const deleteItem = createAsyncThunk2(
   "users/deleteItem",
   async ({ payload, meta }: { payload: User; meta: any }, thunkAPI) => {
-    await UserApi.delete(payload);
-    return await thunkAPI.dispatch(getData(meta));
+    return await UserApi.delete(payload);
+    //return await thunkAPI.dispatch(getData(meta));
   }
 );
 
 const addEditItem = createAsyncThunk2(
   "users/addEditItem",
   async ({ payload, meta }: { payload: User; meta: any }, thunkAPI) => {
-    await (payload.userId ? UserApi.update : UserApi.create)(payload);
-    return await thunkAPI.dispatch(getData(meta));
+    return await (payload.userId ? UserApi.update : UserApi.create)(payload);
+    //return await thunkAPI.dispatch(getData(meta));
   }
 );
 

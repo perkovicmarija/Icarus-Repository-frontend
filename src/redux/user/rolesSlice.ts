@@ -36,18 +36,18 @@ const getData = createAsyncThunk2(
 const deleteItem = createAsyncThunk2(
   "roles/deleteItem",
   async ({ payload, meta }: { payload: Role; meta: any }, thunkAPI) => {
-    await UserRoleApi.delete(payload);
-    return await thunkAPI.dispatch(getData(meta));
+    return await UserRoleApi.delete(payload);
+    //return await thunkAPI.dispatch(getData(meta));
   }
 );
 
 const addEditItem = createAsyncThunk2(
   "roles/addEditItem",
   async ({ payload, meta }: { payload: Role; meta: any }, thunkAPI) => {
-    await (payload.userRoleId ? UserRoleApi.update : UserRoleApi.create)(
+    return await (payload.userRoleId ? UserRoleApi.update : UserRoleApi.create)(
       payload
     );
-    return await thunkAPI.dispatch(getData(meta));
+    //return await thunkAPI.dispatch(getData(meta));
   }
 );
 

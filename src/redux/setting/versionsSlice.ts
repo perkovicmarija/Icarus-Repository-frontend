@@ -31,18 +31,18 @@ const getData = createAsyncThunk2("versions/getData", async (meta: Meta) => {
 const deleteItem = createAsyncThunk2(
   "versions/deleteItem",
   async ({ payload, meta }: { payload: Version; meta: any }, thunkAPI) => {
-    await VersionsApi.deleteMobileVersion(payload);
-    return await thunkAPI.dispatch(getData(meta));
+    return await VersionsApi.deleteMobileVersion(payload);
+    //return await thunkAPI.dispatch(getData(meta));
   }
 );
 
 const addEditItem = createAsyncThunk2(
   "versions/addEditItem",
   async ({ payload, meta }: { payload: Version; meta: any }, thunkAPI) => {
-    await (payload.versionMobileId
+    return await (payload.versionMobileId
       ? VersionsApi.updateMobileVersion
       : VersionsApi.createMobileVersion)(payload);
-    return await thunkAPI.dispatch(getData(meta));
+    //return await thunkAPI.dispatch(getData(meta));
   }
 );
 

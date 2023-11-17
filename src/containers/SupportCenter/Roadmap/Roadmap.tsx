@@ -46,9 +46,7 @@ function Roadmap() {
 
   useLayoutEffect(() => {
     setLoading(true);
-    dispatch(roadmapActions.getData(meta)).finally(() =>
-      setLoading(false)
-    );
+    dispatch(roadmapActions.getData(meta)).finally(() => setLoading(false));
   }, [meta]);
 
   const handleSubmitFilters = (newFilters: FiltersType) => {
@@ -80,7 +78,9 @@ function Roadmap() {
         data={data}
         onEdit={setDialogAddEdit}
         onDelete={(payload) =>
-          dispatch(roadmapActions.deleteItem({ payload, meta }))
+          dispatch(roadmapActions.deleteItem({ payload, meta })).then(() =>
+            dispatch(roadmapActions.getData(meta))
+          )
         }
         loading={loading}
       />
@@ -107,7 +107,9 @@ function Roadmap() {
             initialData={dialogAddEdit}
             onClose={() => setDialogAddEdit(undefined)}
             onSubmit={(payload: any) =>
-              dispatch(roadmapActions.addEditItem({ payload, meta }))
+              dispatch(roadmapActions.addEditItem({ payload, meta })).then(() =>
+                dispatch(roadmapActions.getData(meta))
+              )
             }
           />
         </DialogFormFrame>

@@ -111,7 +111,9 @@ const AuditChecklistOverview = () => {
         onNewVersion={setDialogNewVersion}
         onShowRevisions={setDialogRevisions}
         onDelete={(payload) =>
-          dispatch(auditChecklistsActions.deleteItem({ payload, meta }))
+          dispatch(auditChecklistsActions.deleteItem({ payload, meta })).then(
+            () => dispatch(auditChecklistsActions.getData(meta))
+          )
         }
         //
         toolbarProps={{
@@ -144,11 +146,11 @@ const AuditChecklistOverview = () => {
         <DialogFormNewChecklist
           initialData={dialogAddEdit!}
           onClose={() => setDialogAddEdit(undefined)}
-          onSubmit={(payload) => {
-            return dispatch(
+          onSubmit={(payload) =>
+            dispatch(
               auditChecklistsActions.addEditItem({ payload, meta })
-            );
-          }}
+            ).then(() => dispatch(auditChecklistsActions.getData(meta)))
+          }
           domains={auditChecklistDomains}
           types={auditChecklistTypes}
         />
@@ -163,7 +165,9 @@ const AuditChecklistOverview = () => {
           initialData={dialogNewVersion!}
           onClose={() => setDialogNewVersion(undefined)}
           onSubmit={(payload) =>
-            dispatch(auditChecklistsActions.createNewVersion({ payload, meta }))
+            dispatch(
+              auditChecklistsActions.createNewVersion({ payload, meta })
+            ).then(() => dispatch(auditChecklistsActions.getData(meta)))
           }
           //
           domains={auditChecklistDomains}

@@ -43,18 +43,18 @@ const getData = createAsyncThunk2(
 const deleteItem = createAsyncThunk2(
   "roadmap/deleteItem",
   async ({ payload, meta }: { payload: RoadmapType; meta: any }, thunkAPI) => {
-    await SupportCenterApi.deleteRoadmapLog(payload);
-    return await thunkAPI.dispatch(getData(meta.pagination));
+    return await SupportCenterApi.deleteRoadmapLog(payload);
+    //return await thunkAPI.dispatch(getData(meta.pagination));
   }
 );
 
 const addEditItem = createAsyncThunk2(
   "roadmap/addEditItem",
   async ({ payload, meta }: { payload: RoadmapType; meta: any }, thunkAPI) => {
-    await (payload.icarusRoadmapLogId
+    return await (payload.icarusRoadmapLogId
       ? SupportCenterApi.updateRoadmapLog
       : SupportCenterApi.createRoadmapLog)(payload);
-    return await thunkAPI.dispatch(getData(meta.pagination));
+    //return await thunkAPI.dispatch(getData(meta.pagination));
   }
 );
 

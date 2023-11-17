@@ -109,7 +109,9 @@ function Roles() {
         data={data}
         onEdit={setDialogAddEdit}
         onDelete={(payload) =>
-          dispatch(rolesActions.deleteItem({ payload, meta }))
+          dispatch(rolesActions.deleteItem({ payload, meta })).then(() =>
+            dispatch(rolesActions.getData(meta))
+          )
         }
         //
         toolbarProps={{
@@ -134,9 +136,11 @@ function Roles() {
         <DialogFormUserRole
           initialData={dialogAddEdit!}
           onClose={() => setDialogAddEdit(undefined)}
-          onSubmit={(payload) => {
-            return dispatch(rolesActions.addEditItem({ payload, meta }));
-          }}
+          onSubmit={(payload) =>
+            dispatch(rolesActions.addEditItem({ payload, meta })).then(() =>
+              dispatch(rolesActions.getData(meta))
+            )
+          }
           authorities={authorities}
         />
       </DialogFormFrame>

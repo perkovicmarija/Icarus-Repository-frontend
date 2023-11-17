@@ -92,7 +92,9 @@ function Versions() {
         data={data}
         onEdit={setDialogAddEdit}
         onDelete={(payload) =>
-          dispatch(versionsActions.deleteItem({ payload, meta }))
+          dispatch(versionsActions.deleteItem({ payload, meta })).then(() =>
+            dispatch(versionsActions.getData(meta))
+          )
         }
         //
         toolbarProps={{
@@ -122,13 +124,13 @@ function Versions() {
           initialData={dialogAddEdit!}
           onClose={() => setDialogAddEdit(undefined)}
           onSubmit={(payload) => {
-            // return dispatch(supportLogsActions.addEditItem({ payload, meta }));
-
             const duplicate = checkForExistingCombination(data!, payload);
 
             //Do not allow creating of duplicates
             if (!duplicate) {
-              return dispatch(versionsActions.addEditItem({ payload, meta }));
+              return dispatch(
+                versionsActions.addEditItem({ payload, meta })
+              ).then(() => dispatch(versionsActions.getData(meta)));
             } else {
               toast("Duplicate", { type: "error" });
               throw new Error("duplicate");

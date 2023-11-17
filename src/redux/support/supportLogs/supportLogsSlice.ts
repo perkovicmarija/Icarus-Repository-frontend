@@ -35,18 +35,18 @@ const getData = createAsyncThunk2("supportLogs/getData", async (meta: Meta) => {
 const deleteItem = createAsyncThunk2(
   "supportLogs/deleteItem",
   async ({ payload, meta }: { payload: SupportLog; meta: any }, thunkAPI) => {
-    await SupportCenterApi.deleteSoftwareLogClient(payload);
-    return await thunkAPI.dispatch(getData(meta));
+    return await SupportCenterApi.deleteSoftwareLogClient(payload);
+    //return await thunkAPI.dispatch(getData(meta));
   }
 );
 
 const addEditItem = createAsyncThunk2(
   "supportLogs/addEditItem",
   async ({ payload, meta }: { payload: SupportLog; meta: any }, thunkAPI) => {
-    await (payload.supportSoftwareLogId
+    return await (payload.supportSoftwareLogId
       ? SupportCenterApi.updateSoftwareLogClient
       : SupportCenterApi.createSoftwareLogClient)(payload);
-    return await thunkAPI.dispatch(getData(meta));
+    //return await thunkAPI.dispatch(getData(meta));
   }
 );
 
