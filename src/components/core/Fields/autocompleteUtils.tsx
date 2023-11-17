@@ -156,4 +156,5 @@ export interface AutocompleteProps<K extends string, L extends string> {
   keyProp: K;
   labelProp: L;
   options: Array<Record<K, string> & Record<L, string>>;
+  readOnly?: boolean;
 }

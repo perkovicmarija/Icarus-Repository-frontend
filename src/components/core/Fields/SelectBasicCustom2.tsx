@@ -15,12 +15,12 @@ type SelectCustomProps = {
   label?: string;
   required?: boolean;
   error: string | undefined;
-  selectProps?: TextFieldProps;
+  textFieldProps?: TextFieldProps;
 };
 
 const SelectCustom = forwardRef<HTMLInputElement, SelectCustomProps>(
   (
-    { field: { ref, ...field }, options, label, required, error, selectProps },
+    { field: { ref, ...field }, options, label, required, error, textFieldProps },
     ref2
   ) => {
     const intl = useIntl();
@@ -30,7 +30,7 @@ const SelectCustom = forwardRef<HTMLInputElement, SelectCustomProps>(
         {label && <TypographyReportField title={label} required={required} />}
         <TextField
           {...field}
-          {...selectProps}
+          {...textFieldProps}
           variant="standard"
           select
           fullWidth
@@ -57,7 +57,8 @@ const SelectBasicCustom2 = ({
   options,
   defaultValue = "",
   disabled,
-}: { label?: string; options: string[] } & UseControllerProps<any>) => {
+  textFieldProps,
+}: { label?: string; options: string[], textFieldProps?: TextFieldProps } & UseControllerProps<any>) => {
   const { field, formState } = useController({
     name,
     control,
@@ -75,6 +76,7 @@ const SelectBasicCustom2 = ({
       label={label}
       options={options}
       required={Boolean(rules?.required)}
+      textFieldProps={textFieldProps}
     />
   );
 };

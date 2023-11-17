@@ -38,6 +38,7 @@ const AutocompleteMultiLargeDataset = forwardRef(
       hidePlaceholder,
       hasSelectAll = false,
       error,
+      readOnly,
       translate,
     }: AutocompleteProps<K, L> &
       AutocompleteMultiProps & {
@@ -54,6 +55,7 @@ const AutocompleteMultiLargeDataset = forwardRef(
         <Autocomplete
           multiple
           fullWidth
+          readOnly={readOnly}
           disabled={Boolean(disabled)}
           value={value}
           onChange={(event, newValue) => {
@@ -183,6 +185,7 @@ const AutocompleteMultiLargeDataset2 = <K extends string, L extends string>({
   hasSelectAll = false,
   translate = false,
   disabled,
+  readOnly,
   defaultValue = [],
 }: AutocompleteProps<K, L> &
   AutocompleteMultiProps &
@@ -208,6 +211,7 @@ const AutocompleteMultiLargeDataset2 = <K extends string, L extends string>({
       required={Boolean(rules?.required)}
       hasSelectAll={hasSelectAll}
       translate={translate}
+      readOnly={readOnly}
       {...field}
       error={error?.message as string | undefined}
     />

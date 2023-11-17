@@ -28,6 +28,7 @@ const AutocompleteLargeDataset = forwardRef(
       required,
       placeholder,
       hidePlaceholder,
+      readOnly,
       error,
     }: AutocompleteProps<K, L> & {
       required: boolean;
@@ -50,6 +51,7 @@ const AutocompleteLargeDataset = forwardRef(
         <Autocomplete
           fullWidth
           disabled={Boolean(disabled)}
+          readOnly={readOnly}
           value={value}
           onChange={(event, newValue) => onChange(newValue, event, name)}
           ListboxComponent={ListboxComponent}
@@ -115,6 +117,7 @@ const AutocompleteLargeDataset2 = <K extends string, L extends string>({
   hidePlaceholder,
   translate = false,
   disabled,
+  readOnly,
   defaultValue = null,
 }: AutocompleteProps<K, L> & UseControllerProps<any>) => {
   const { field, formState } = useController({
@@ -137,6 +140,7 @@ const AutocompleteLargeDataset2 = <K extends string, L extends string>({
       hidePlaceholder={hidePlaceholder}
       required={Boolean(rules?.required)}
       translate={translate}
+      readOnly={readOnly}
       {...field}
       error={error?.message as string | undefined}
     />
