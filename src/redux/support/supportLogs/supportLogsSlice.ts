@@ -1,6 +1,7 @@
 import { createSlice } from "@reduxjs/toolkit";
 import SupportCenterApi from "../../../api/SupportCenterApi";
 import { createAsyncThunk2 } from "../../utils";
+import { Meta } from "../../../components/core/commonTypes";
 
 export const initFilters = {
   selectedClients: [],
@@ -24,15 +25,12 @@ const initialState = {
 
 export type FiltersType = (typeof initialState)["filters"];
 
-const getData = createAsyncThunk2(
-  "supportLogs/getData",
-  async (viewModel: any /*, thunkAPI */) => {
-    const response = await SupportCenterApi.getAllSoftwareLogClientsPagination(
-      viewModel
-    );
-    return response;
-  }
-);
+const getData = createAsyncThunk2("supportLogs/getData", async (meta: Meta) => {
+  const response = await SupportCenterApi.getAllSoftwareLogClientsPagination(
+    meta
+  );
+  return response;
+});
 
 const deleteItem = createAsyncThunk2(
   "supportLogs/deleteItem",

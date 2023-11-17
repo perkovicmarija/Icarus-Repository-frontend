@@ -1,6 +1,7 @@
 import { createSlice } from "@reduxjs/toolkit";
 import UserApi from "../../api/UserApi";
 import { createAsyncThunk2 } from "../utils";
+import { Meta } from "../../components/core/commonTypes";
 
 export const initFilters = {
   companies: [],
@@ -29,13 +30,10 @@ const initialState = {
 
 export type FiltersType = (typeof initialState)["filters"];
 
-const getData = createAsyncThunk2(
-  "users/getData",
-  async (viewModel: any /*, thunkAPI */) => {
-    const response = await UserApi.getAllPagination(viewModel);
-    return response;
-  }
-);
+const getData = createAsyncThunk2("users/getData", async (meta: Meta) => {
+  const response = await UserApi.getAllPagination(meta);
+  return response;
+});
 
 const deleteItem = createAsyncThunk2(
   "users/deleteItem",

@@ -1,6 +1,7 @@
 import { createSlice } from "@reduxjs/toolkit";
 import ClientApi from "../../api/ClientApi";
 import { createAsyncThunk2 } from "../utils";
+import { Meta } from "../../components/core/commonTypes";
 
 export const initFilters = {};
 
@@ -23,8 +24,8 @@ export type FiltersType = (typeof initialState)["filters"];
 
 const getData = createAsyncThunk2(
   "clients/getData",
-  async (viewModel: any /*, thunkAPI */) => {
-    const response = await ClientApi.getAllClientsPagination(viewModel);
+  async (meta: Meta) => {
+    const response = await ClientApi.getAllClientsPagination(meta);
     return response;
   }
 );

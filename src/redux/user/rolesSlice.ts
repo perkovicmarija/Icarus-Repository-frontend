@@ -1,6 +1,7 @@
 import { createSlice } from "@reduxjs/toolkit";
 import UserRoleApi from "../../api/UserRoleApi";
 import { createAsyncThunk2 } from "../utils";
+import { Meta } from "../../components/core/commonTypes";
 
 export const initFilters = {};
 
@@ -26,8 +27,8 @@ const getAll = createAsyncThunk2("roles/getAll", async () => {
 
 const getData = createAsyncThunk2(
   "roles/getData",
-  async (viewModel: any /*, thunkAPI */) => {
-    const response = await UserRoleApi.getAllPagination(viewModel.pagination);
+  async (meta: Meta) => {
+    const response = await UserRoleApi.getAllPagination(meta.pagination);
     return response;
   }
 );

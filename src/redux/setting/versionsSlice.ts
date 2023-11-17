@@ -2,6 +2,7 @@ import { createSlice } from "@reduxjs/toolkit";
 import VersionsApi from "../../api/VersionsApi";
 import { Client } from "./clientsSlice";
 import { createAsyncThunk2 } from "../utils";
+import { Meta } from "../../components/core/commonTypes";
 
 export const initFilters = {};
 
@@ -22,13 +23,10 @@ const initialState = {
 
 export type FiltersType = (typeof initialState)["filters"];
 
-const getData = createAsyncThunk2(
-  "versions/getData",
-  async (viewModel: any /*, thunkAPI */) => {
-    const response = await VersionsApi.getMobileVersionsPaginated(viewModel);
-    return response;
-  }
-);
+const getData = createAsyncThunk2("versions/getData", async (meta: Meta) => {
+  const response = await VersionsApi.getMobileVersionsPaginated(meta);
+  return response;
+});
 
 const deleteItem = createAsyncThunk2(
   "versions/deleteItem",
