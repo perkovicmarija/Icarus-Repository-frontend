@@ -4,13 +4,20 @@ import { initFilters } from "../../redux/user/userReducer";
 import AutocompleteMultiLargeDataset2 from "../core/Fields/AutocompleteMultiLargeDataset2";
 import SwitchCustom2 from "../core/Fields/SwitchCustom2";
 import { DialogActions2 } from "../core/Dialog/DialogActions2";
+import { FiltersType } from "../../redux/user/usersSlice";
+import { Role } from "../../redux/user/rolesSlice";
 
 function DialogFormUserFilters({
   initialData,
   onClose,
   onSubmit,
   userRoles,
-}: any) {
+}: {
+  initialData: FiltersType;
+  onClose: () => void;
+  onSubmit: (payload: FiltersType) => void;
+  userRoles: Role[];
+}) {
   const { handleSubmit, control, reset } = useForm({
     defaultValues: initialData,
   });

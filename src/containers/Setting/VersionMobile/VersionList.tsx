@@ -49,8 +49,8 @@ const VersionList = <T,>({
   toolbarProps: TableToolbar2Props;
   paginationProps: TablePagination2Props;
   data: T[] | undefined;
-  onEdit: (item: T) => any;
-  onDelete: (item: T) => any;
+  onEdit: (item: T) => void;
+  onDelete: (item: T) => Promise<any>;
   loading: boolean;
 }) => {
   const [dialogWarning, setDialogWarning] = useState<T | undefined>();

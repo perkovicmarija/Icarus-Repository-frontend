@@ -74,11 +74,11 @@ const AuditChecklistsList = <T,>({
   data: T[] | undefined;
   loading: boolean;
   //
-  onEdit: (item: T) => any;
-  onDelete: (item: T) => any;
-  onItemClick: (item: T) => any;
-  onNewVersion: (item: T) => any;
-  onShowRevisions: (item: T) => any;
+  onEdit: (item: T) => void;
+  onDelete: (item: T) => Promise<any>;
+  onItemClick: (item: T) => void;
+  onNewVersion: (item: T) => void;
+  onShowRevisions: (item: T) => void;
 }) => {
   const [dialogWarning, setDialogWarning] = useState<T | undefined>();
 

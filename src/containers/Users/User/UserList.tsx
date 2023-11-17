@@ -33,8 +33,8 @@ const UserList = <T,>({
   toolbarProps: TableToolbar2Props;
   paginationProps: TablePagination2Props;
   data: T[] | undefined;
-  onEdit: (item: T) => any;
-  onDelete: (item: T) => any;
+  onEdit: (item: T) => void;
+  onDelete: (item: T) => Promise<any>;
   loading: boolean;
 }) => {
   const [dialogWarning, setDialogWarning] = useState<T | undefined>();
@@ -53,10 +53,7 @@ const UserList = <T,>({
         {data &&
           data.map((item: any) => {
             return (
-              <TableRow
-                key={item.userId}
-                hover={true}
-              >
+              <TableRow key={item.userId} hover={true}>
                 <TableCell>{item.surname + " " + item.name}</TableCell>
                 <TableCell>{item.email}</TableCell>
                 <TableCell className="nostretch">

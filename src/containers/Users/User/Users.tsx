@@ -119,7 +119,7 @@ function Users() {
         open={dialogFilters}
       >
         <DialogFormUserFilters
-          initialData={dialogFilters}
+          initialData={dialogFilters!}
           onClose={() => setDialogFilters(undefined)}
           onSubmit={handleSubmitFilters}
           userRoles={userRoles}
