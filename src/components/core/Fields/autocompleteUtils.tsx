@@ -132,6 +132,7 @@ export const AutocompleteInputField = ({
   return (
     <TextField
       value={value}
+      variant="standard"
       error={Boolean(errorMessage)}
       helperText={errorMessage && intl.formatMessage({ id: errorMessage })}
       placeholder={
@@ -147,7 +148,7 @@ export const AutocompleteInputField = ({
   );
 };
 
-export interface AutocompleteProps<K extends string, L extends string>{
+export interface AutocompleteProps<K extends string, L extends string> {
   translate?: boolean;
   hidePlaceholder?: boolean;
   placeholder?: string;

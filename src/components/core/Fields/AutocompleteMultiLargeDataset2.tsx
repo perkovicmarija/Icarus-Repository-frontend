@@ -67,7 +67,11 @@ const AutocompleteMultiLargeDataset = forwardRef(
           renderGroup={renderGroup}
           options={options}
           ChipProps={{
-            style: { margin: "0 3px 3px 0px", height: "28px" },
+            style: {
+              margin: "0 3px 3px 0px",
+              height: "28px",
+              fontSize: "0.9125rem",
+            },
           }}
           getOptionLabel={(option) => {
             return translate

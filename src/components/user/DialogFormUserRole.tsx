@@ -38,7 +38,7 @@ const DialogFormUserRole = ({
     >
       <DialogContent>
         <Grid container spacing={2}>
-          <Grid item sm={6} xs={12}>
+          <Grid item xs={12}>
             <TextField2
               control={control}
               label="form.name"
