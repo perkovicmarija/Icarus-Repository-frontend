@@ -10,6 +10,7 @@ import { getVersionMobilePath } from "../../../consts/routePaths";
 import {
   FiltersType,
   Version,
+  VersionForAddEdit,
   versionsActions,
 } from "../../../redux/setting/versionsSlice";
 import { Client } from "../../../redux/setting/clientsSlice";
@@ -19,13 +20,13 @@ import { toast } from "react-toastify";
 // Check if a version with the same client name, platform and version already exists
 const checkForExistingCombination = (
   versionsMobile: Version[],
-  versionMobile: Version
+  newVersion: VersionForAddEdit
 ) => {
   return versionsMobile.some(
-    (vm) =>
-      versionMobile.versionMin === vm.versionMin &&
-      versionMobile.platform === vm.platform &&
-      versionMobile.selectedClients[0].name === vm.selectedClients[0].name
+    (item) =>
+      newVersion.versionMin === item.versionMin &&
+      newVersion.platform === item.platform &&
+      newVersion.selectedClients[0].clientId === item.client.clientId
   );
 };
 

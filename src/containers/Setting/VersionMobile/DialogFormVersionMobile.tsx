@@ -4,7 +4,10 @@ import { useForm } from "react-hook-form";
 import TextField2 from "../../../components/core/Fields/TextField2";
 import SelectBasicCustom2 from "../../../components/core/Fields/SelectBasicCustom2";
 import AutocompleteMultiLargeDataset2 from "../../../components/core/Fields/AutocompleteMultiLargeDataset2";
-import { Version } from "../../../redux/setting/versionsSlice";
+import {
+  Version,
+  VersionForAddEdit,
+} from "../../../redux/setting/versionsSlice";
 //
 import { Client } from "../../../redux/setting/clientsSlice";
 import { DialogActions2 } from "../../../components/core/Dialog/DialogActions2";
@@ -18,11 +21,18 @@ const DialogFormVersionMobile = ({
 }: {
   initialData: Version | {};
   onClose: () => void;
-  onSubmit: (payload: Version) => Promise<any>;
+  onSubmit: (payload: VersionForAddEdit) => Promise<any>;
   clients: Client[];
 }) => {
   const { handleSubmit, control } = useForm({
-    defaultValues: initialData,
+    defaultValues:
+      "client" in initialData
+        ? {
+            ...initialData,
+            selectedClients: [initialData.client],
+            client: undefined,
+          }
+        : {},
   });
   const [loading, setLoading] = useState(false);
 
@@ -32,7 +42,7 @@ const DialogFormVersionMobile = ({
         e.stopPropagation();
         handleSubmit((data) => {
           setLoading(true);
-          onSubmit(data as Version)
+          onSubmit(data as VersionForAddEdit)
             .then(onClose)
             .catch(() => setLoading(false));
         })(e);
@@ -40,13 +50,6 @@ const DialogFormVersionMobile = ({
     >
       <DialogContent>
         <Grid container spacing={2}>
-          {/* <Grid item xs={12}>
-            {entryExistsFlag && (
-              <Alert severity="error">
-                <IntlMessages id="form.entryExists" />
-              </Alert>
-            )}
-          </Grid> */}
           <Grid item xs={12}>
             <TextField2
               control={control}
@@ -58,13 +61,16 @@ const DialogFormVersionMobile = ({
 
           <Grid item xs={12}>
             <SelectBasicCustom2
-              disabled={"versionMobileId" in initialData}
+              textFieldProps={{
+                InputProps: {
+                  readOnly: "versionMobileId" in initialData,
+                },
+              }}
               control={control}
               label="general.platform"
               name="platform"
               rules={{
-                required:
-                  "versionMobileId" in initialData ? false : "general.required",
+                required: "general.required",
               }}
               options={["iOS", "Android"]}
             />
@@ -72,13 +78,13 @@ const DialogFormVersionMobile = ({
 
           <Grid item xs={12}>
             <AutocompleteMultiLargeDataset2
-              disabled={"versionMobileId" in initialData}
               control={control}
               name="selectedClients"
               label="general.companies"
               keyProp="clientId"
               labelProp="name"
               options={clients}
+              readOnly={"versionMobileId" in initialData}
             />
           </Grid>
         </Grid>

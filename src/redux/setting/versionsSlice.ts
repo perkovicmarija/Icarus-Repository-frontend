@@ -10,8 +10,12 @@ export interface Version {
   versionMobileId: string;
   versionMin: string;
   platform: "";
-  selectedClients: Client[];
+  client: Client;
 }
+
+export type VersionForAddEdit = Omit<Version, "client"> & {
+  selectedClients: Client[];
+};
 
 const initialState = {
   data: undefined as Version[] | undefined,
