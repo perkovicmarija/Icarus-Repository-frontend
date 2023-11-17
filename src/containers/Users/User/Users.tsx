@@ -1,8 +1,9 @@
-import { useEffect, useLayoutEffect, useMemo, useState } from "react";
+import { useLayoutEffect, useMemo, useState } from "react";
 import { useAppDispatch, useAppSelector } from "../../../redux/store";
 import { usePagination } from "../../../helpers/pagination";
 import { useHistory } from "react-router-dom";
 import DialogFormFrame from "../../../components/core/Dialog/DialogFormFrame";
+import { useSimpleGetAll } from "../../../redux/utils";
 //
 import UserList from "./UserList";
 import DialogFormUserFilters from "../../../components/user/DialogFormUserFilters";
@@ -48,12 +49,7 @@ function Users() {
   }, [meta]);
 
   //
-  const [userRoles, setUserRoles] = useState<any[]>([]);
-  useEffect(() => {
-    dispatch(rolesActions.getAll(undefined)).then((response) => {
-      setUserRoles(response.payload.data);
-    });
-  }, []);
+  const userRoles = useSimpleGetAll(rolesActions.getAll);
   //
 
   const handleSubmitFilters = (newFilters: FiltersType) => {

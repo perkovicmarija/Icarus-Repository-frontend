@@ -32,7 +32,7 @@ const config = {
   ],
 };
 
-export function getCurrentLanguage(lang) {
+export function getCurrentLanguage(lang: string) {
   let selectedLanguage = config.options[0];
   config.options.forEach((language) => {
     if (language.languageId === lang) {
@@ -44,7 +44,7 @@ export function getCurrentLanguage(lang) {
 
 export function getDefaultLanguage() {
   const languageCode = localStorage.getItem("languageCode");
-  let lang = null;
+  let lang: (typeof config)["options"][number] | null = null;
   if (languageCode !== null) {
     config.options.forEach((language) => {
       if (language.locale === languageCode) {
@@ -53,12 +53,7 @@ export function getDefaultLanguage() {
     });
   }
   if (lang === null) {
-    let langEn = config.options[0];
-    config.options.forEach((language) => {
-      if (language.languageId === langEn.languageId) {
-        lang = language;
-      }
-    });
+    lang = config.options.find((item) => item.languageId === "english")!;
   }
   return lang;
 }

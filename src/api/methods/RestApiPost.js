@@ -1,5 +1,5 @@
 import { getServerPath } from "../../consts/ServerInfo";
-import {statusHelper} from "./utils";
+import { statusHelper } from "./utils";
 import { getToken } from "../../helpers/utility";
 import { toast } from "react-toastify";
 
@@ -22,18 +22,9 @@ const RestApiPost = {
       body: JSON.stringify(data),
     })
       .then(statusHelper)
-      .then((response) => response.json())
-      /* .catch((error) => {
-        let status = error.status;
-        if (status) {
-          return error.json().then((response) => {
-            return { status, message: response.error };
-          });
-        } else {
-          return { status: 500, message: "Server error" };
-        }
-      }) */
-      .then((data) => {
+      .then((response) => response.json());
+
+    /* then((data) => {
         if (data.status && data.status !== 200) {
           toastInProgress
             ? toast.update(toastInProgress, {
@@ -56,7 +47,8 @@ const RestApiPost = {
           });
         console.log(data); // The data does log!
         return data;
-      });
+      }); 
+      */
   },
 };
 

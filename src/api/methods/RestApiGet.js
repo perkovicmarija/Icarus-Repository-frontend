@@ -28,27 +28,7 @@ const RestApiGet = {
       },
     })
       .then(statusHelper)
-      .then((response) => response.json())
-      /* .catch((error) => {
-        let status = error.status;
-        if (status) {
-          return error.json().then((response) => {
-            return { status, message: response.error };
-          });
-        } else {
-          return { status: 500, message: "Server error" };
-        }
-      }) */
-      .then((data) => {
-        toastMessage && toast.dismiss(toastInProgress);
-        if (data.status && data.status !== 200) {
-          toast(`Error: ${data.message}`);
-          throw new Error(data.message);
-        }
-        toastMessage && toast("Data fetched");
-        console.log(data); // The data does log!
-        return data;
-      });
+      .then((response) => response.json());
   },
 };
 

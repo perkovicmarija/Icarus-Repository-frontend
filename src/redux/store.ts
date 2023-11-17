@@ -18,11 +18,8 @@ import { TypedUseSelectorHook, useDispatch, useSelector } from "react-redux";
 const history = createHashHistory();
 const sagaMiddleware = createSagaMiddleware();
 const routeMiddleware = routerMiddleware(history);
-const middlewares = [
-  sagaMiddleware,
-  routeMiddleware,
-  ...getDefaultMiddleware(),
-];
+
+const middleware = [...getDefaultMiddleware(), sagaMiddleware, routeMiddleware];
 
 //used for lading state from local storage - unnecessary for now
 //const persistedState = loadState();
@@ -31,7 +28,7 @@ const reducers = createRootReducer(history);
 
 const store = configureStore({
   reducer: reducers,
-  middleware: middlewares,
+  middleware,
 });
 
 /*const store = createStore(
