@@ -56,7 +56,7 @@ const SelectBasicCustom2 = ({
   options,
   defaultValue = "",
   disabled,
-}: { label?: string; options: string[] } & UseControllerProps) => {
+}: { label?: string; options: string[] } & UseControllerProps<any>) => {
   const { field, formState } = useController({
     name,
     control,

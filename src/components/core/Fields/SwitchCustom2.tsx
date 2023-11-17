@@ -1,17 +1,11 @@
-import { FormControlLabel, FormControlLabelProps, Switch } from "@mui/material";
-import { Control, UseControllerProps, useController } from "react-hook-form";
+import { FormControlLabel, Switch } from "@mui/material";
+import { UseControllerProps, useController } from "react-hook-form";
 import TypographyReportField from "../TypographyReportField";
 import IntlMessages from "../IntlMessages";
 
-interface SwitchCustom2Props
-  extends Omit<FormControlLabelProps, "control" | "defaultValue" | "label"> {
-  control: Control;
-  name: string;
+interface SwitchCustom2Props {
   label?: string;
-  rules?: UseControllerProps["rules"];
-  defaultValue?: boolean;
   inlineLabel?: string;
-  disabled?: boolean;
   info?: string;
 }
 
@@ -24,8 +18,7 @@ function SwitchCustom2({
   inlineLabel,
   disabled,
   info,
-  ...props
-}: SwitchCustom2Props) {
+}: UseControllerProps<any> & SwitchCustom2Props) {
   const {
     field: { ref, ...field },
     formState,
@@ -34,6 +27,7 @@ function SwitchCustom2({
     control,
     rules,
     defaultValue,
+    disabled,
   });
 
   const error = formState.errors[name];
@@ -50,14 +44,13 @@ function SwitchCustom2({
       <FormControlLabel
         control={
           <Switch
-            disabled={disabled}
+            disabled={field.disabled}
             onChange={(e: any) => field.onChange(e.target.checked)}
             checked={field.value}
           />
         }
         label={inlineLabel && <IntlMessages id={inlineLabel} />}
         labelPlacement="end"
-        {...props}
       />
     </div>
   );
