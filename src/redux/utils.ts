@@ -35,7 +35,13 @@ export const createAsyncThunk2 = (
 
       toast(
         `Error:\n${
-          typeof e === "object" ? JSON.stringify(e, undefined, 2) : e
+          typeof e === "object"
+            ? JSON.stringify(
+                { status: e.status, message: e.message },
+                undefined,
+                2
+              )
+            : e
         }`,
         {
           autoClose: false,
