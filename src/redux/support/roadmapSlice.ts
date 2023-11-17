@@ -1,6 +1,7 @@
 import { createSlice } from "@reduxjs/toolkit";
 import SupportCenterApi from "../../api/SupportCenterApi";
 import { createAsyncThunk2 } from "../utils";
+import { Meta } from "../../components/core/commonTypes";
 
 export const initFilters = {
   title: "",
@@ -30,8 +31,11 @@ export type FiltersType = (typeof initialState)["filters"];
 
 const getData = createAsyncThunk2(
   "roadmap/getData",
-  async (viewModel: any /*, thunkAPI */) => {
-    const response = await SupportCenterApi.getRoadmapLogsPaginateFilter(viewModel);
+  async (meta: Meta /*, thunkAPI */) => {
+    const response = await SupportCenterApi.getRoadmapLogsPaginateFilter({
+      ...meta.pagination,
+      ...meta.filters,
+    });
     return response;
   }
 );

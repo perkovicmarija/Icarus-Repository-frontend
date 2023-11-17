@@ -46,7 +46,7 @@ function Roadmap() {
 
   useLayoutEffect(() => {
     setLoading(true);
-    dispatch(roadmapActions.getData(meta.pagination)).finally(() =>
+    dispatch(roadmapActions.getData(meta)).finally(() =>
       setLoading(false)
     );
   }, [meta]);
