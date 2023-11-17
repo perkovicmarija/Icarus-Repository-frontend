@@ -19,7 +19,8 @@ import { getBackendOptions, MultiBackend } from "@minoru/react-dnd-treeview";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
-const currentAppLocale = AppLocale[getDefaultLanguage().locale];
+const currentAppLocale =
+  AppLocale[getDefaultLanguage().locale as keyof typeof AppLocale];
 
 import dayjs from "dayjs";
 import utc from "dayjs/plugin/utc";
@@ -67,7 +68,14 @@ function App() {
           </StyledEngineProvider>
         </ThemeProvider>
       </DndProvider>
-      <ToastContainer position="top-center" autoClose={3000} hideProgressBar />
+      <ToastContainer
+        position="top-center"
+        autoClose={3000}
+        hideProgressBar
+        closeOnClick={false}
+        draggable={false}
+        style={{ width: "600px", maxWidth: "100%", whiteSpace: "pre-wrap" }}
+      />
     </IntlProvider>
   );
 }
