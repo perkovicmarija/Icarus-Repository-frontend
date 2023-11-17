@@ -1,5 +1,4 @@
-import React, { useEffect, useState } from "react";
-import { makeStyles } from "@mui/styles";
+import { useEffect, useState } from "react";
 import { Paper } from "@mui/material";
 import DocumentationEnhancedTableToolbar from "../../components/support/icarusDocs/DocumentationEnhancedTableToolbar";
 import IcarusDocumentationTable from "../../components/support/icarusDocs/IcarusDocumentationTable";
@@ -22,25 +21,15 @@ import {
   icarusDocsEditFile,
   icarusDocsViewFile,
 } from "../../consts/routePaths";
-import DialogFormDocumentationFilters from "../../components/support/icarusDocs/DialogFormDocumentationFilters";
-import DialogFormStorageInfo from "../../components/support/icarusDocs/DialogFormStorageInfo";
 import * as clientActions from "../../redux/setting/client/clientActions";
 import DocumentationFolderPath from "../../components/support/icarusDocs/DocumentationFolderPath";
-
-const useStyles = makeStyles((theme) => ({
-  root: {
-    flexGrow: 1,
-    margin: theme.spacing(3),
-  },
-}));
+import { DocumentationTableToolbar2 } from "./DocumentationTableToolbar2";
 
 const initFilters = {
   selectedClients: [],
 };
 
 function IcarusDocs(props) {
-  const classes = useStyles();
-
   const [order, setOrder] = useState("asc");
   const [orderBy, setOrderBy] = useState("name");
   const [searchValue, setSearchValue] = useState("");
@@ -77,13 +66,10 @@ function IcarusDocs(props) {
     icarusDocumentationFolderIdForDelete,
     setIcarusDocumentationFolderIdForDelete,
   ] = useState(undefined);
-  const [dialogNewFolderOpen, setDialogNewFolderOpen] = useState(false);
+  const [dialogAddEditFolder, setDialogAddEditFolder] = useState();
   const [dialogHistoryOpen, setDialogHistoryOpen] = useState(false);
   const [dialogMoveFileOpen, setDialogMoveFileOpen] = useState(false);
   const [dialogMoveFolderOpen, setDialogMoveFolderOpen] = useState(false);
-  const [dialogDocumentationFilterOpen, setDialogDocumentationFilterOpen] =
-    useState(false);
-  const [dialogStorageInfoOpen, setDialogStorageInfoOpen] = useState(false);
 
   const [selectedClients, setSelectedClients] = useState([]);
 
@@ -91,7 +77,6 @@ function IcarusDocs(props) {
 
   useEffect(() => {
     updateFilesAndFoldersOPath(props.icarusDocumentationFolderPath);
-    props.icarusDocumentationFolderActions.loadStorageInfo();
     if (props.clients.length === 0) {
       props.clientActions.loadAllClients();
     }
@@ -120,18 +105,6 @@ function IcarusDocs(props) {
 
   const handleNewFileClick = () => {
     props.history.push(icarusDocsDetailsNew);
-  };
-
-  const handleNewFolderClick = () => {
-    setIcarusDocumentationFolder({
-      folderName: undefined,
-      icarusDocumentationFolderUserRoleJoined: [],
-    });
-    setDialogNewFolderOpen(true);
-  };
-
-  const handleFolderDetailsClose = (event) => {
-    setDialogNewFolderOpen(false);
   };
 
   const handleHistoryClose = (event) => {
@@ -213,15 +186,7 @@ function IcarusDocs(props) {
     setDialogFolderDeleteWarningOpen(false);
   };
 
-  const handleInputFolderChange = ({ target: { name, value } }) => {
-    let icarusDocumentationFolderClone = cloneDeep(icarusDocumentationFolder);
-    icarusDocumentationFolderClone[name] = value;
-    setIcarusDocumentationFolder(icarusDocumentationFolderClone);
-  };
-
-  const handleFolderSubmit = () => {
-    setDialogNewFolderOpen(false);
-
+  const handleFolderSubmit = (payload) => {
     let icarusDocumentationFolderClone = cloneDeep(icarusDocumentationFolder);
 
     let viewModel = {
@@ -240,12 +205,6 @@ function IcarusDocs(props) {
       }
       props.icarusDocumentationFolderActions.create(viewModel);
     }
-  };
-
-  const handleEditFolder = (event, icarusDocumentationFolder) => {
-    setIcarusDocumentationFolder(icarusDocumentationFolder);
-    setSelectedClients(icarusDocumentationFolder.clients);
-    setDialogNewFolderOpen(true);
   };
 
   const handleFolderDoubleClick = (event, icarusDocumentationFolder) => {
@@ -384,20 +343,7 @@ function IcarusDocs(props) {
     props.icarusDocumentationFileActions.exportToExcel(viewModel);
   };
 
-  const handleFilterClick = () => {
-    setDialogDocumentationFilterOpen(true);
-  };
-
-  const handleDocumentationFiltersClose = () => {
-    setDialogDocumentationFilterOpen(false);
-  };
-
-  const handleDocumentationFilterSubmit = () => {
-    setDialogDocumentationFilterOpen(false);
-    handleFilterSubmit();
-  };
-
-  const handleFilterSubmit = () => {
+  /* const handleFilterSubmit = () => {
     if (icarusDocumentationFilters.selectedClients.length > 0) {
       let path;
       let icarusDocumentationFolderId;
@@ -416,43 +362,7 @@ function IcarusDocs(props) {
     } else {
       updateFilesAndFoldersOPath(props.icarusDocumentationFolderPath);
     }
-  };
-
-  const handleClearAll = () => {
-    setIcarusDocumentationFilters(initFilters);
-  };
-
-  const handleStorageInfoClick = () => {
-    setDialogStorageInfoOpen(true);
-  };
-
-  const handleStorageInfoClose = () => {
-    setDialogStorageInfoOpen(false);
-  };
-
-  const handleMultiSelectChange = (event) => {
-    const selectedIds = event.target.value;
-    let selected = [];
-    for (let i = 0, l = selectedIds.length; i < l; i++) {
-      const client = props.clients.find(
-        (type) => type.clientId === selectedIds[i]
-      );
-      selected.push(client);
-    }
-    setSelectedClients(selected);
-  };
-
-  const handleMultiSelectChangeFilters = (event) => {
-    const selectedIds = event.target.value;
-    let selected = [];
-    for (let i = 0, l = selectedIds.length; i < l; i++) {
-      const client = props.clients.find(
-        (type) => type.clientId === selectedIds[i]
-      );
-      selected.push(client);
-    }
-    setIcarusDocumentationFilters((x) => ({ ...x, selectedClients: selected }));
-  };
+  }; */
 
   const {
     icarusDocumentationFiles,
@@ -462,23 +372,25 @@ function IcarusDocs(props) {
     icarusDocumentationFolderTree,
     progress,
     progressBarOpened,
-    storageInfo,
     clients,
   } = props;
 
   return (
     <Paper>
+      <DocumentationTableToolbar2
+        onNewFileClick={handleNewFileClick}
+        onNewFolderClick={setDialogAddEditFolder}
+        clients={clients}
+      />
+
       <DocumentationEnhancedTableToolbar
         onNewFileClick={handleNewFileClick}
-        onNewFolderClick={handleNewFolderClick}
         searchValue={searchValue}
         onInputSearchChange={handleInputSearchChange}
         onSearchSubmit={handleSearchSubmit}
         searchPlaceholder="general.search.files.name"
         titleLabel="support.icarusDocs"
         showAddNew={Protected.protectedAuth(["PERM_SUPPORT_ADMIN"])}
-        onFilterClick={handleFilterClick}
-        onStorageInfoClick={handleStorageInfoClick}
         filtersActive={icarusDocumentationFilters.selectedClients.length > 0}
       />
       <DocumentationFolderPath
@@ -486,6 +398,7 @@ function IcarusDocs(props) {
         onDocumentationFolderPathClick={handleDocumentationFolderPathClick}
         onDocumentationFolderRootClick={handleDocumentationFolderRootClick}
       />
+
       <IcarusDocumentationTable
         order={order}
         orderBy={orderBy}
@@ -499,7 +412,7 @@ function IcarusDocs(props) {
         onFolderDoubleTap={handleFolderDoubleTap}
         onBackDoubleClick={handleBackDoubleClick}
         onBackDoubleTap={handleBackDoubleTap}
-        onEditFolder={handleEditFolder}
+        onEditFolder={setDialogAddEditFolder}
         onDownloadFile={handleDownloadFile}
         onViewFile={handleViewFile}
         onEditFile={handleEditFile}
@@ -507,6 +420,7 @@ function IcarusDocs(props) {
         onMoveFile={handleMoveFile}
         onMoveFolder={handleMoveFolder}
       />
+
       <DialogDeleteWarning
         open={dialogFileDeleteWarningOpen}
         text="documentation.file.delete"
@@ -522,83 +436,59 @@ function IcarusDocs(props) {
       />
 
       <DialogFormFrame
-        onClose={handleFolderDetailsClose}
+        onClose={() => setDialogAddEditFolder(undefined)}
         title="documentation.folder.details"
-        open={dialogNewFolderOpen}
-        >
-          <DialogFormNewFolder
-            onClose={handleFolderDetailsClose}
-            onSubmit={handleFolderSubmit}
-            onInputChange={handleInputFolderChange}
-            icarusDocumentationFolder={icarusDocumentationFolder}
-            onMultiSelectChange={handleMultiSelectChange}
-            clients={clients}
-            selectedClients={selectedClients}
-          />
-        </DialogFormFrame>
+        open={dialogAddEditFolder}
+      >
+        <DialogFormNewFolder
+          onClose={() => setDialogAddEditFolder(undefined)}
+          onSubmit={handleFolderSubmit}
+          initialData={dialogAddEditFolder}
+          clients={clients}
+        />
+      </DialogFormFrame>
+
       <DialogFormFrame
         onClose={handleHistoryClose}
         title="documentation.file.history"
         open={dialogHistoryOpen}
-        >
-          <DialogFormFileHistory
-            onClose={handleHistoryClose}
-            icarusDocumentationFileHistory={icarusDocumentationFileHistory}
-            onExportClick={handleExportClick}
-          />
+      >
+        <DialogFormFileHistory
+          onClose={handleHistoryClose}
+          icarusDocumentationFileHistory={icarusDocumentationFileHistory}
+          onExportClick={handleExportClick}
+        />
       </DialogFormFrame>
+
       <DialogFormFrame
         onClose={handleMoveFileClose}
         title="documentation.file.move"
         open={dialogMoveFileOpen}
-        >
-          <DialogFormFileMove
-            onClose={handleMoveFileClose}
-            onSubmit={handleMoveFileSubmit}
-            icarusDocumentationFolderTree={icarusDocumentationFolderTree}
-            icarusDocumentationFolderDestinationMove={
-              icarusDocumentationFolderDestinationMove
-            }
-            onFolderSelected={handleFolderMoveSelected}
-          />
-      </DialogFormFrame>
-      <DialogFormFrame
-        onClose={handleDocumentationFiltersClose}
-        title="general.selectFilters"
-        open={dialogDocumentationFilterOpen}
       >
-        <DialogFormDocumentationFilters
-          filters={icarusDocumentationFilters}
-          onClose={handleDocumentationFiltersClose}
-          onSubmit={handleDocumentationFilterSubmit}
-          onClearAll={handleClearAll}
-          onMultiSelectChange={handleMultiSelectChangeFilters}
-          clients={clients}
+        <DialogFormFileMove
+          onClose={handleMoveFileClose}
+          onSubmit={handleMoveFileSubmit}
+          icarusDocumentationFolderTree={icarusDocumentationFolderTree}
+          icarusDocumentationFolderDestinationMove={
+            icarusDocumentationFolderDestinationMove
+          }
+          onFolderSelected={handleFolderMoveSelected}
         />
       </DialogFormFrame>
+
       <DialogFormFrame
         onClose={handleMoveFolderClose}
         title="documentation.folder.move"
         open={dialogMoveFolderOpen}
-        >
-          <DialogFormFileMove
-            onClose={handleMoveFolderClose}
-            onSubmit={handleMoveFolderSubmit}
-            icarusDocumentationFolderTree={icarusDocumentationFolderTree}
-            icarusDocumentationFolderDestinationMove={
-              icarusDocumentationFolderDestinationMove
-            }
-            onFolderSelected={handleFolderMoveSelected}
-          />
-      </DialogFormFrame>
-      <DialogFormFrame
-        onClose={handleStorageInfoClose}
-        title="documentation.storageInfo"
-        open={dialogStorageInfoOpen}
       >
-        <DialogFormStorageInfo
-          onClose={handleStorageInfoClose}
-          storageInfo={storageInfo}
+        <DialogFormFileMove
+          onClose={handleMoveFolderClose}
+          onSubmit={handleMoveFolderSubmit}
+          icarusDocumentationFolderTree={icarusDocumentationFolderTree}
+          icarusDocumentationFolderDestinationMove={
+            icarusDocumentationFolderDestinationMove
+          }
+          onFolderSelected={handleFolderMoveSelected}
         />
       </DialogFormFrame>
 
@@ -629,7 +519,6 @@ function mapStateToProps(state, ownProps) {
       state.IcarusDocumentationFolder.icarusDocumentationFolderPath,
     icarusDocumentationFolderTree:
       state.IcarusDocumentationFolder.icarusDocumentationFolderTree,
-    storageInfo: state.IcarusDocumentationFolder.storageInfo,
     users: state.User.usersSimple,
     progress: state.Progress.progress,
     progressBarOpened: state.Progress.progressOpened,

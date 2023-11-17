@@ -69,6 +69,8 @@ export interface TableToolbar2Props {
   onFilterClick?: any;
   initFilters?: any;
   //
+  customItems?: any[];
+  //
   toolbarStyle?: any;
 }
 
@@ -104,6 +106,8 @@ function TableToolbar2({
   //
   onFilterClick,
   initFilters,
+  //
+  customItems,
   //
   toolbarStyle,
 }: TableToolbar2Props) {
@@ -288,6 +292,17 @@ function TableToolbar2({
               </IconButton>
             </Tooltip>
           )}
+
+          {customItems?.map(({ tooltip, component: Component, onClick }) => (
+            <Tooltip key={tooltip} title={<FormattedMessage id={tooltip} />}>
+              <IconButton
+                style={{ padding: "0.5rem" }}
+                onClick={onClick}
+              >
+                <Component />
+              </IconButton>
+            </Tooltip>
+          ))}
 
           {onFilterClick && (
             <Tooltip title={<FormattedMessage id="action.filter" />}>

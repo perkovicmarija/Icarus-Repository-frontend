@@ -203,7 +203,7 @@ const IcarusDocumentationTable = ({
                     <MenuItem
                       onClick={(event) => {
                         handleFolderActionClose();
-                        onEditFolder(event, folder);
+                        onEditFolder(folder);
                       }}
                     >
                       <ListItemIcon>
