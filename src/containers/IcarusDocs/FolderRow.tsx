@@ -24,7 +24,7 @@ export const FolderRow = ({
   onMoveFolder,
   onDeleteFolder,
   //
-  onEnterFolder,
+  onNavigate,
 }: any) => {
   const [anchorElFile, setAnchorElFile] = useState<
     HTMLButtonElement | undefined
@@ -52,7 +52,7 @@ export const FolderRow = ({
     <TableRow
       key={folder.icarusDocumentationFolderId}
       hover={true}
-      onDoubleClick={() => onEnterFolder(folder)}
+      onDoubleClick={() => onNavigate(folder.path + folder.folderName + "/")}
       style={{ cursor: "pointer" }}
     >
       <TableCell>

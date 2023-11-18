@@ -76,8 +76,8 @@ const icarusDocsSlice = createSlice({
     setFilters(state, action) {
       state.filters = action.payload;
     },
-    enterFolder(state, action) {
-      state.currentPath = action.payload.path + action.payload.folderName;
+    setPath(state, action) {
+      state.currentPath = action.payload;
     },
   },
   extraReducers: (builder) => {

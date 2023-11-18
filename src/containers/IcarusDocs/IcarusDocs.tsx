@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useLayoutEffect, useState } from "react";
 import { Paper } from "@mui/material";
 import IcarusDocumentationTable, {
   columnData,
@@ -21,16 +21,6 @@ import DialogAddEditFile from "./dialogs/DialogAddEditFile";
 import IcarusDocumentationFileApi from "../../api/IcarusDocumentationFileApi";
 import DialogFileView from "./dialogs/DialogFileView";
 import { FiltersType, icarusDocsActions } from "../../redux/icarusDocsSlice";
-
-const constructCurrentPath = (icarusDocumentationFolderPath: any[]) => {
-  if (icarusDocumentationFolderPath.length === 0) {
-    return "/";
-  } else {
-    const currentFolderData =
-      icarusDocumentationFolderPath[icarusDocumentationFolderPath.length - 1];
-    return currentFolderData.path + currentFolderData.folderName;
-  }
-};
 
 function IcarusDocs() {
   const history = useHistory();
@@ -62,17 +52,25 @@ function IcarusDocs() {
   const currentPath = useAppSelector((state) => state.IcarusDocs.currentPath);
   const filters = useAppSelector((state) => state.IcarusDocs.filters);
 
-  useEffect(() => {
-    dispatch(
-      icarusDocsActions.getFilesData({
-        path: currentPath,
-      })
-    );
-    dispatch(
-      icarusDocsActions.getFoldersData({
-        path: currentPath,
-      })
-    );
+  const [loading, setLoading] = useState(true);
+
+  useLayoutEffect(() => {
+    setLoading(true);
+    const loadPromise = Promise.all([
+      dispatch(
+        icarusDocsActions.getFilesData({
+          path: currentPath,
+        })
+      ),
+      dispatch(
+        icarusDocsActions.getFoldersData({
+          path: currentPath,
+        })
+      ),
+    ]);
+    loadPromise.finally(() => {
+      setLoading(false);
+    });
   }, [currentPath, filters]);
 
   /* useEffect(() => {
@@ -103,18 +101,6 @@ function IcarusDocs() {
       uncontrolledCopy: icarusDocumentationFile.uncontrolledCopy,
     };
     dispatch(icarusDocumentationFileActions.download(viewModel));
-  };
-
-  const handleDocumentationFolderPathClick = (
-    icarusDocumentationFolder: any
-  ) => {
-    dispatch(
-      icarusDocumentationFolderActions.goBackToFolder(icarusDocumentationFolder)
-    );
-  };
-
-  const handleDocumentationFolderRootClick = () => {
-    dispatch(icarusDocumentationFolderActions.goBackToRootFolder());
   };
 
   /* const handleSearchSubmit = ({ searchText }: { searchText: string }) => {
@@ -165,6 +151,9 @@ function IcarusDocs() {
     (state) => state.Progress.progressOpened
   );
 
+  const onNavigate = (path: string) =>
+    dispatch(icarusDocsActions.setPath(path));
+
   return (
     <Paper>
       <DocumentationTableToolbar2
@@ -178,25 +167,19 @@ function IcarusDocs() {
 
       <DocumentationFolderPath
         currentPath={currentPath}
-        onDocumentationFolderPathClick={handleDocumentationFolderPathClick}
-        onDocumentationFolderRootClick={handleDocumentationFolderRootClick}
+        onNavigate={onNavigate}
       />
 
       <IcarusDocumentationTable
         headerProps={{
           columnData,
         }}
+        loading={loading}
         files={icarusDocumentationFiles}
         folders={icarusDocumentationFolders}
         currentPath={currentPath}
-        // BACK NAVIGATION
-        onBackNavigation={() =>
-          dispatch(icarusDocumentationFolderActions.exitFolder())
-        }
         // FOLDER ACTIONS
-        onEnterFolder={(folder: any) =>
-          dispatch(icarusDocsActions.enterFolder(folder))
-        }
+        onNavigate={onNavigate}
         onDeleteFolder={(folder: any) => {
           dispatch(
             icarusDocumentationFolderActions.deleteAction({

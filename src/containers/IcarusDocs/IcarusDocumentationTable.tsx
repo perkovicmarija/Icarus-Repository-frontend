@@ -42,12 +42,12 @@ export const columnData: ColumnDefinition[] = [
 
 const IcarusDocumentationTable = ({
   headerProps,
+  loading,
   files,
   folders,
   currentPath,
   //
-  onEnterFolder,
-  onBackNavigation,
+  onNavigate,
   onMove,
   //
   onDeleteFolder,
@@ -60,12 +60,12 @@ const IcarusDocumentationTable = ({
   onHistoryFile,
 }: {
   headerProps: TableContainer2Props["headerProps"];
+  loading: boolean;
   files: any[] | undefined;
   folders: any[] | undefined;
   currentPath: string;
   //
-  onEnterFolder: (folder: any) => void;
-  onBackNavigation: () => void;
+  onNavigate: (path: string) => void;
   onMove: (file: any) => void;
   //
   onDeleteFolder: (folder: any) => Promise<void>;
@@ -84,14 +84,22 @@ const IcarusDocumentationTable = ({
 
   return (
     <>
-      <TableContainer2 headerProps={headerProps} loading={!files || !folders}>
-        {files && folders && (
+      <TableContainer2 headerProps={headerProps} loading={loading}>
+        {!loading && (
           <>
             {currentPath !== "/" && (
               <TableRow
                 style={{ cursor: "pointer" }}
                 hover={true}
-                onDoubleClick={onBackNavigation}
+                onDoubleClick={() => {
+                  const pathSegments = currentPath.split("/");
+                  //last path segment will be "",
+                  //so we need to remove it and also previous segment
+                  //finally we need to append back the ending "/"
+                  pathSegments.pop();
+                  pathSegments.pop();
+                  onNavigate(pathSegments.join("/").concat("/"));
+                }}
               >
                 <TableCell>
                   <ArrowBack />
@@ -103,7 +111,7 @@ const IcarusDocumentationTable = ({
               </TableRow>
             )}
 
-            {folders.map((folder) => (
+            {folders!.map((folder) => (
               <FolderRow
                 key={folder.icarusDocumentationFolderId}
                 folder={folder}
@@ -111,11 +119,11 @@ const IcarusDocumentationTable = ({
                 onMoveFolder={setDialogMove}
                 onDeleteFolder={setDialogFolderDeleteWarning}
                 //
-                onEnterFolder={onEnterFolder}
+                onNavigate={onNavigate}
               />
             ))}
 
-            {files.map((file) => (
+            {files!.map((file) => (
               <FileRow
                 key={file.icarusDocumentationFileId}
                 file={file}
