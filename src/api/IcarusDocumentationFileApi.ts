@@ -6,6 +6,7 @@ import RestApiPostViewAxios from './methods/Download/RestApiPostViewAxios';
 import RestApiGet from "./methods/RestApiGet";
 import RestApiDelete from "./methods/RestApiDelete";
 import RestApiGetDownloadAxios from "./methods/Download/RestApiGetDownloadAxios";
+import { RestApiArrayBuffer2 } from './methods/RestApiArrayBuffer2';
 
 const IcarusDocumentationFileApi = {
     getAll(viewModel) {
@@ -50,7 +51,9 @@ const IcarusDocumentationFileApi = {
     view(viewModel) {
         return RestApiPostViewAxios.postData(viewModel, '/support/icarus-documentation-file/download')
     },
-
+    view2(viewModel, onProgress){
+        return RestApiArrayBuffer2.postData('/support/icarus-documentation-file/download', viewModel, onProgress)
+    },
 }
 
 export default IcarusDocumentationFileApi;

@@ -1,41 +1,36 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import DialogGenericWarning from "../../../components/core/Dialog/DialogGenericWarning";
 import DialogNoCloseFrame from "../../../components/core/Dialog/DialogNoCloseFrame";
 import DialogProgress from "../../../components/core/Dialog/DialogProgress";
 import { useHistory } from "react-router-dom";
 import DialogPdfFullView from "../../FileView/PdfViewer/DialogPdfFullView";
-import * as icarusDocumentationFileActions from "../../../redux/support/icarusDocs/file/icarusDocumentationFileActions";
-import { TODO } from "../../../components/core/TODO";
-import { useAppDispatch, useAppSelector } from "../../../redux/store";
+import IcarusDocumentationFileApi from "../../../api/IcarusDocumentationFileApi";
 
 function DialogFileView({ match }: any) {
   const history = useHistory();
-  const dispatch = useAppDispatch();
 
   const icarusDocumentationFileId = match.params.id;
 
-  const file = useAppSelector((state) => state.IcarusDocumentationFile.file);
-  const progress = useAppSelector((state) => state.Progress.progress);
-  const progressBarOpened = useAppSelector(
-    (state) => state.Progress.progressOpened
-  );
+  const [progress, setProgress] = useState(0);
+  const [file, setFile] = useState<any>();
 
   useEffect(() => {
-    dispatch(
-      icarusDocumentationFileActions.viewFile({
+    const specialRequest = IcarusDocumentationFileApi.view2(
+      {
         icarusDocumentationFileId,
         viewFile: true,
-      })
+      },
+      setProgress
     );
 
-    () => console.log("rafa unmount");
+    specialRequest.axiosPromise.then((response) => setFile(response));
   }, []);
 
   const onClose = () => {
     history.goBack();
   };
 
-  if (file.headers) {
+  if (file) {
     let filename = "";
     const disposition = file.headers["content-disposition"];
     if (disposition && disposition.indexOf("attachment") !== -1) {
@@ -49,9 +44,7 @@ function DialogFileView({ match }: any) {
 
     const fileExt = filename.split(".").pop();
 
-    return <TODO />;
-
-    /* if (fileExt?.toLowerCase() === "pdf") {
+    if (fileExt?.toLowerCase() === "pdf") {
       return (
         <DialogPdfFullView
           open={true}
@@ -68,10 +61,10 @@ function DialogFileView({ match }: any) {
           text="general.file.view.notSupported"
         />
       );
-    } */
+    }
   } else {
     return (
-      <DialogNoCloseFrame title="general.loading" open={progressBarOpened}>
+      <DialogNoCloseFrame title="general.loading" open={true}>
         <DialogProgress progress={progress} />
       </DialogNoCloseFrame>
     );

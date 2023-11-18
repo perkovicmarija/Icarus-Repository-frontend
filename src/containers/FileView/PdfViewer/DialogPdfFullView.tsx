@@ -21,7 +21,7 @@ function DialogPdfFullView({
   filename,
   showDownload,
   onDownloadClick,
-}) {
+}: any) {
   return (
     <Dialog
       fullScreen

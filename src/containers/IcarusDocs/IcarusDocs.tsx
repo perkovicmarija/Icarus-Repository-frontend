@@ -26,21 +26,9 @@ function IcarusDocs() {
   const history = useHistory();
   const dispatch = useAppDispatch();
 
-  /* const icarusDocumentationFiles = useAppSelector(
-    (state) => state.IcarusDocumentationFile.icarusDocumentationFiles
-  );
-  const icarusDocumentationFolders = useAppSelector(
-    (state) => state.IcarusDocumentationFolder.icarusDocumentationFolders
-  );
-  const icarusDocumentationFolderPath = useAppSelector(
-    (state) => state.IcarusDocumentationFolder.icarusDocumentationFolderPath
-  ); */
-
   const [dialogAddEditFolder, setDialogAddEditFolder] = useState<any>();
   const [dialogAddEditFile, setDialogAddEditFile] = useState<any>();
   const [dialogHistory, setDialogHistory] = useState<any>();
-
-  const clients: Client[] = useSimpleGetAll(clientsActions.getAll);
 
   const icarusDocumentationFiles = useAppSelector(
     (state) => state.IcarusDocs.files
@@ -48,7 +36,6 @@ function IcarusDocs() {
   const icarusDocumentationFolders = useAppSelector(
     (state) => state.IcarusDocs.folders
   );
-
   const currentPath = useAppSelector((state) => state.IcarusDocs.currentPath);
   const filters = useAppSelector((state) => state.IcarusDocs.filters);
 
@@ -72,6 +59,10 @@ function IcarusDocs() {
       setLoading(false);
     });
   }, [currentPath, filters]);
+
+  //
+  const clients: Client[] = useSimpleGetAll(clientsActions.getAll);
+  //
 
   /* useEffect(() => {
     updateFilesAndFoldersOPath(icarusDocumentationFolderPath);
