@@ -21,6 +21,8 @@ export const DocumentationTableToolbar2 = ({
   onNewFileClick,
   onNewFolderClick,
   clients,
+  onSearchSubmit,
+  onFilterSubmit,
 }: any) => {
   const dispatch = useAppDispatch();
   const [dialogStorageInfoOpen, setDialogStorageInfoOpen] = useState(false);
@@ -47,8 +49,8 @@ export const DocumentationTableToolbar2 = ({
         title="support.icarusDocs"
         //
         searchPlaceholder="general.search.files.name"
-        searchTextPropKey="textSearch"
-        onSearchSubmit={handleSubmitFilters}
+        searchTextPropKey="searchText"
+        onSearchSubmit={onSearchSubmit}
         //
         customItems={[
           {
@@ -115,7 +117,7 @@ export const DocumentationTableToolbar2 = ({
         <DialogFormDocumentationFilters
           initialData={dialogFilters!}
           onClose={() => setDialogFilters(undefined)}
-          onSubmit={handleSubmitFilters}
+          onSubmit={onFilterSubmit}
           clients={clients}
         />
       </DialogFormFrame>

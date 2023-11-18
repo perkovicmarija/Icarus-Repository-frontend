@@ -34,11 +34,6 @@ export default function icarusDocumentationFileReducer(state = initState, action
                 ...state,
                 icarusDocumentationFile: action.icarusDocumentationFile
             };
-        case types.LOAD_ICARUS_DOCUMENTATION_FILE_HISTORY_REQUEST:
-            return {
-                ...state,
-                icarusDocumentationFileHistory: []
-            };
         case types.LOAD_ICARUS_DOCUMENTATION_FILE_HISTORY_SUCCESS:
             return {
                 ...state,

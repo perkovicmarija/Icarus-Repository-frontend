@@ -15,13 +15,6 @@ export function load(viewModel) {
     }
 }
 
-export function loadHistory(viewModel) {
-    return {
-        type: types.LOAD_ICARUS_DOCUMENTATION_FILE_HISTORY_REQUEST,
-        viewModel
-    }
-}
-
 export function exportToExcel(viewModel) {
     return {
         type: types.CREATE_ICARUS_DOCUMENTATION_FILE_DOWNLOAD_LIST_EXCEL_REQUEST,

@@ -64,33 +64,6 @@ export function* icarusDocumentationFileRequest() {
     });
 }
 
-export function* loadHistoryRequest() {
-    yield takeLatest(types.LOAD_ICARUS_DOCUMENTATION_FILE_HISTORY_REQUEST, function*(action) {
-        try {
-            const response = yield call(IcarusDocumentationFileApi.getHistory, action.viewModel);
-            if (response.code === "200") {
-                const data = response.data;
-                yield put({
-                    type: types.LOAD_ICARUS_DOCUMENTATION_FILE_HISTORY_SUCCESS,
-                    icarusDocumentationFileHistory: data
-                });
-            } else {
-                yield put({
-                    type: types.AJAX_FAILED,
-                    message: "Failed to fetch file download history"
-                });
-            }
-        } catch (e) {
-            yield put({
-                type: types.AJAX_FAILED,
-                message: "Failed to fetch file download history"
-            });
-        } finally {
-            yield put({type: types.AJAX_FINISHED})
-        }
-    });
-}
-
 export function* createDownloadExcelListRequest() {
     yield takeLatest(types.CREATE_ICARUS_DOCUMENTATION_FILE_DOWNLOAD_LIST_EXCEL_REQUEST, function*(action) {
         try {
@@ -510,7 +483,6 @@ export default function* rootSaga() {
         fork(viewFileRequest),
         fork(cancelViewFile),
         fork(editRequest),
-        fork(loadHistoryRequest),
         fork(createDownloadExcelListRequest),
         fork(moveRequest)
     ]);

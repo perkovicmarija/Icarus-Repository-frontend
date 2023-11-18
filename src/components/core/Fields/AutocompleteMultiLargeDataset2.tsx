@@ -54,6 +54,7 @@ const AutocompleteMultiLargeDataset = forwardRef(
         {label && <TypographyReportField title={label} required={required} />}
         <Autocomplete
           multiple
+          disableCloseOnSelect
           fullWidth
           readOnly={readOnly}
           disabled={Boolean(disabled)}
