@@ -384,6 +384,7 @@
   "documentation.uncontrolledCopy.warning": "Make sure that the file is not locked for this function to work",
   "documentation.download.user": "User downloaded",
   "documentation.storageInfo": "Storage info",
+  "documentation.noFilesAdded": "No files added",
 
   "users.title": "Users",
   "users.roles": "Roles",

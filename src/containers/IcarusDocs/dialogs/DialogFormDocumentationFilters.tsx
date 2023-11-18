@@ -2,14 +2,9 @@ import { DialogContent } from "@mui/material";
 import Grid from "@mui/material/Grid";
 import { Client } from "../../../redux/setting/clientsSlice";
 import { useForm } from "react-hook-form";
-import { DialogActions2 } from "../../core/Dialog/DialogActions2";
-import AutocompleteMultiLargeDataset2 from "../../core/Fields/AutocompleteMultiLargeDataset2";
-
-export const initFilters = {
-  selectedClients: [],
-};
-
-export type FiltersType = typeof initFilters;
+import { DialogActions2 } from "../../../components/core/Dialog/DialogActions2";
+import AutocompleteMultiLargeDataset2 from "../../../components/core/Fields/AutocompleteMultiLargeDataset2";
+import { FiltersType, initFilters } from "../../../redux/icarusDocsSlice";
 
 function DialogFormDocumentationFilters({
   initialData,
@@ -42,7 +37,7 @@ function DialogFormDocumentationFilters({
             <AutocompleteMultiLargeDataset2
               control={control}
               label="general.companies"
-              name="selectedClients"
+              name="companies"
               options={clients}
               keyProp="clientId"
               labelProp="name"

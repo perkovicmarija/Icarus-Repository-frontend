@@ -20,7 +20,6 @@ import { Client, clientsActions } from "../../redux/setting/clientsSlice";
 import DialogAddEditFile from "./dialogs/DialogAddEditFile";
 import IcarusDocumentationFileApi from "../../api/IcarusDocumentationFileApi";
 import DialogFileView from "./dialogs/DialogFileView";
-import { FiltersType, icarusDocsActions } from "../../redux/icarusDocsSlice";
 
 const constructCurrentPath = (icarusDocumentationFolderPath: any[]) => {
   if (icarusDocumentationFolderPath.length === 0) {
@@ -36,7 +35,7 @@ function IcarusDocs() {
   const history = useHistory();
   const dispatch = useAppDispatch();
 
-  /* const icarusDocumentationFiles = useAppSelector(
+  const icarusDocumentationFiles = useAppSelector(
     (state) => state.IcarusDocumentationFile.icarusDocumentationFiles
   );
   const icarusDocumentationFolders = useAppSelector(
@@ -44,7 +43,7 @@ function IcarusDocs() {
   );
   const icarusDocumentationFolderPath = useAppSelector(
     (state) => state.IcarusDocumentationFolder.icarusDocumentationFolderPath
-  ); */
+  );
 
   const [dialogAddEditFolder, setDialogAddEditFolder] = useState<any>();
   const [dialogAddEditFile, setDialogAddEditFile] = useState<any>();
@@ -52,30 +51,7 @@ function IcarusDocs() {
 
   const clients: Client[] = useSimpleGetAll(clientsActions.getAll);
 
-  const icarusDocumentationFiles = useAppSelector(
-    (state) => state.IcarusDocs.files
-  );
-  const icarusDocumentationFolders = useAppSelector(
-    (state) => state.IcarusDocs.folders
-  );
-
-  const currentPath = useAppSelector((state) => state.IcarusDocs.currentPath);
-  const filters = useAppSelector((state) => state.IcarusDocs.filters);
-
   useEffect(() => {
-    dispatch(
-      icarusDocsActions.getFilesData({
-        path: currentPath,
-      })
-    );
-    dispatch(
-      icarusDocsActions.getFoldersData({
-        path: currentPath,
-      })
-    );
-  }, [currentPath, filters]);
-
-  /* useEffect(() => {
     updateFilesAndFoldersOPath(icarusDocumentationFolderPath);
   }, [icarusDocumentationFolderPath.length]);
 
@@ -93,7 +69,7 @@ function IcarusDocs() {
     }
     dispatch(icarusDocumentationFolderActions.loadOnPath(viewModel));
     dispatch(icarusDocumentationFileActions.loadInFolder(viewModel));
-  }; */
+  };
 
   const onDownloadFile = (icarusDocumentationFile: any) => {
     let viewModel = {
@@ -117,15 +93,18 @@ function IcarusDocs() {
     dispatch(icarusDocumentationFolderActions.goBackToRootFolder());
   };
 
-  /* const handleSearchSubmit = ({ searchText }: { searchText: string }) => {
+  const handleSearchSubmit = ({ searchText }: { searchText: string }) => {
     if (!!searchText.trim()) {
+      let path;
       let icarusDocumentationFolderId;
-      if (currentPath !== "/") {
+      if (icarusDocumentationFolderPath.length > 0) {
+        let currentFolder = icarusDocumentationFolderPath.slice(-1)[0];
+        path = currentFolder.path + currentFolder.folderName;
         icarusDocumentationFolderId = currentFolder.icarusDocumentationFolderId;
       }
       let viewModel = {
         searchText,
-        path: currentPath,
+        path,
         icarusDocumentationFolderId,
       };
       dispatch(icarusDocumentationFileActions.loadBySearch(viewModel));
@@ -154,10 +133,6 @@ function IcarusDocs() {
     } else {
       updateFilesAndFoldersOPath(icarusDocumentationFolderPath);
     }
-  }; */
-
-  const handleSubmitFilters = (newFilters: Partial<FiltersType>) => {
-    dispatch(icarusDocsActions.setFilters({ ...filters, ...newFilters }));
   };
 
   const progress = useAppSelector((state) => state.Progress.progress);
@@ -171,13 +146,12 @@ function IcarusDocs() {
         onNewFileClick={setDialogAddEditFile}
         onNewFolderClick={setDialogAddEditFolder}
         clients={clients}
-        onSearchSubmit={handleSubmitFilters}
-        filters={filters}
-        onFilterSubmit={handleSubmitFilters}
+        onSearchSubmit={handleSearchSubmit}
+        onFilterSubmit={onFilterSubmit}
       />
 
       <DocumentationFolderPath
-        currentPath={currentPath}
+        documentationFolderPath={icarusDocumentationFolderPath}
         onDocumentationFolderPathClick={handleDocumentationFolderPathClick}
         onDocumentationFolderRootClick={handleDocumentationFolderRootClick}
       />
@@ -188,14 +162,18 @@ function IcarusDocs() {
         }}
         files={icarusDocumentationFiles}
         folders={icarusDocumentationFolders}
-        currentPath={currentPath}
+        icarusDocumentationFolderPath={icarusDocumentationFolderPath}
         // BACK NAVIGATION
         onBackNavigation={() =>
           dispatch(icarusDocumentationFolderActions.exitFolder())
         }
         // FOLDER ACTIONS
-        onEnterFolder={(folder: any) =>
-          dispatch(icarusDocsActions.enterFolder(folder))
+        onEnterFolder={(icarusDocumentationFolder: any) =>
+          dispatch(
+            icarusDocumentationFolderActions.enterFolder(
+              icarusDocumentationFolder
+            )
+          )
         }
         onDeleteFolder={(folder: any) => {
           dispatch(
@@ -229,7 +207,14 @@ function IcarusDocs() {
           )
         }
         onEditFile={setDialogAddEditFile}
-        onDeleteFile={(item) => dispatch(icarusDocsActions.deleteItem(item))}
+        onDeleteFile={(file: any) => {
+          dispatch(
+            icarusDocumentationFileActions.deleteAction({
+              id: file.icarusDocumentationFileId,
+            })
+          );
+          return Promise.resolve();
+        }}
         onHistoryFile={(file) => setDialogHistory(file)}
       />
 
@@ -247,7 +232,7 @@ function IcarusDocs() {
             const { files, ...data } = payload;
             const networkModel = {
               file: files[0],
-              path: currentPath,
+              path: constructCurrentPath(icarusDocumentationFolderPath),
               data: JSON.stringify(data),
             };
             if ("icarusDocumentationFileId" in dialogAddEditFile) {
@@ -270,15 +255,17 @@ function IcarusDocs() {
           onClose={() => setDialogAddEditFolder(undefined)}
           onSubmit={(payload) => {
             if (payload.icarusDocumentationFolderId) {
-              return dispatch(icarusDocsActions.updateFolder(payload));
+              dispatch(icarusDocumentationFolderActions.update(payload));
             } else {
-              return dispatch(
-                icarusDocsActions.createFolder({
-                  folder: {
-                    folderName: payload.folderName,
-                    path: currentPath,
-                  },
-                  selectedClients: payload.clients,
+              let path = "/";
+              if (icarusDocumentationFolderPath.length > 0) {
+                let currentFolder = icarusDocumentationFolderPath.slice(-1)[0];
+                path = currentFolder.path + currentFolder.folderName + "/";
+              }
+              dispatch(
+                icarusDocumentationFolderActions.create({
+                  ...payload,
+                  path,
                 })
               );
             }

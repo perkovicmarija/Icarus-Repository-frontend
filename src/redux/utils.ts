@@ -15,6 +15,7 @@ export const createAsyncThunk2 = (
     let response;
     try {
       response = (await method(viewModel, thunkAPI)) as any;
+      console.log("rafa1", response);
       if (
         String(response.status) !== "200" &&
         String(response.code) !== "200"

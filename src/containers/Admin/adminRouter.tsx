@@ -11,9 +11,6 @@ import {
   userModule,
   dashboard,
   icarusDocs,
-  icarusDocsDetailsNew,
-  icarusDocsEditFile,
-  icarusDocsViewFile,
   root,
   settingModule,
   supportBug,
@@ -22,9 +19,6 @@ import {
 import AuditChecklistOverview from "../AuditChecklist/AuditChecklistOverview";
 import AuditChecklist from "../AuditChecklist/AuditChecklist";
 import IcarusDocs from "../IcarusDocs/IcarusDocs";
-import FileDetailsWrapperNew from "../IcarusDocs/FileDetailsWrapperNew";
-import IcarusDocsFileView from "../IcarusDocs/IcarusDocsFileView";
-import FileDetailsWrapperEdit from "../IcarusDocs/FileDetailsWrapperEdit";
 
 const AdminRouter = () => {
   return (
@@ -62,7 +56,6 @@ const AdminRouter = () => {
       />
 
       <ProtectedRoute
-        exact
         protectedAuthorities={[
           "PERM_SUPPORT_BASIC",
           "PERM_SUPPORT_CRUD",
@@ -71,39 +64,6 @@ const AdminRouter = () => {
         path={icarusDocs}
         component={IcarusDocs}
         key="icarusDocs"
-      />
-      <ProtectedRoute
-        exact
-        protectedAuthorities={[
-          "PERM_SUPPORT_BASIC",
-          "PERM_SUPPORT_CRUD",
-          "PERM_SUPPORT_ADMIN",
-        ]}
-        path={icarusDocsDetailsNew}
-        component={FileDetailsWrapperNew}
-        key="icarus-docs-details-new"
-      />
-      <ProtectedRoute
-        exact
-        protectedAuthorities={[
-          "PERM_SUPPORT_BASIC",
-          "PERM_SUPPORT_CRUD",
-          "PERM_SUPPORT_ADMIN",
-        ]}
-        path={icarusDocsEditFile}
-        component={FileDetailsWrapperEdit}
-        key="icarus-docs-details-edit"
-      />
-      <ProtectedRoute
-        exact
-        protectedAuthorities={[
-          "PERM_SUPPORT_BASIC",
-          "PERM_SUPPORT_CRUD",
-          "PERM_SUPPORT_ADMIN",
-        ]}
-        path={icarusDocsViewFile + ":id"}
-        component={IcarusDocsFileView}
-        key="icarus-docs-view-file"
       />
 
       <ProtectedRoute

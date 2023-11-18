@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import IntlMessages from "../../core/IntlMessages";
+import IntlMessages from "../../../components/core/IntlMessages";
 import {
   DialogContent,
   Table,
@@ -8,11 +8,11 @@ import {
   TableHead,
   TableRow,
 } from "@mui/material";
-import DialogTitleWithExport from "../../core/Dialog/DialogTitleWithExport";
+import DialogTitleWithExport from "../../../components/core/Dialog/DialogTitleWithExport";
 import IcarusDocumentationFileApi from "../../../api/IcarusDocumentationFileApi";
-import { DialogActions2 } from "../../core/Dialog/DialogActions2";
+import { DialogActions2 } from "../../../components/core/Dialog/DialogActions2";
 
-export default function DialogFormNewFolder({
+export default function DialogFormFileHistory({
   file,
   onClose,
   onExportClick,

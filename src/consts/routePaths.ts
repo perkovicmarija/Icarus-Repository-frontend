@@ -31,10 +31,6 @@ export const supportRoadmap = supportCenter + "/roadmap";
 // DOCS
 export const icarusDocs = adminRoot + "/icarus-docs";
 
-export const icarusDocsDetailsNew = icarusDocs + "/details/new";
-export const icarusDocsViewFile = icarusDocs + "/view/";
-export const icarusDocsEditFile = icarusDocs + "/details/edit";
-
 export const supportBug = adminRoot + "/request/:id";
 export const getSupportBugPath = (id: string) => {
   return supportBug.replace(":id", id);

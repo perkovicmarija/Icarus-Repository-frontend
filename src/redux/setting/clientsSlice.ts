@@ -22,13 +22,15 @@ const initialState = {
 
 export type FiltersType = (typeof initialState)["filters"];
 
-const getData = createAsyncThunk2(
-  "clients/getData",
-  async (meta: Meta) => {
-    const response = await ClientApi.getAllClientsPagination(meta);
-    return response;
-  }
-);
+const getAll = createAsyncThunk2("clients/getAll", async () => {
+  const response = await ClientApi.getAllClients();
+  return response;
+});
+
+const getData = createAsyncThunk2("clients/getData", async (meta: Meta) => {
+  const response = await ClientApi.getAllClientsPagination(meta);
+  return response;
+});
 
 const deleteItem = createAsyncThunk2(
   "clients/deleteItem",
@@ -66,6 +68,7 @@ const clientsSlice = createSlice({
 
 export const clientsActions = {
   ...clientsSlice.actions,
+  getAll,
   getData,
   addEditItem,
   deleteItem,

@@ -1,12 +1,12 @@
 import { useState } from "react";
 import { DialogContent } from "@mui/material";
 import Grid from "@mui/material/Grid";
-import { DialogActions2 } from "../../core/Dialog/DialogActions2";
+import { DialogActions2 } from "../../../components/core/Dialog/DialogActions2";
 import { useForm } from "react-hook-form";
-import TextField2 from "../../core/Fields/TextField2";
-import AutocompleteMultiLargeDataset2 from "../../core/Fields/AutocompleteMultiLargeDataset2";
+import TextField2 from "../../../components/core/Fields/TextField2";
+import AutocompleteMultiLargeDataset2 from "../../../components/core/Fields/AutocompleteMultiLargeDataset2";
 
-const DialogFormNewFolder = ({
+const DialogAddEditFolder = ({
   initialData,
   onClose,
   onSubmit,
@@ -63,4 +63,4 @@ const DialogFormNewFolder = ({
   );
 };
 
-export default DialogFormNewFolder;
+export default DialogAddEditFolder;

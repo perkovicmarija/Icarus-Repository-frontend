@@ -7,28 +7,33 @@ import {
 import TableToolbar2 from "../../components/core/Table/TableToolbar2";
 import DialogFormFrame from "../../components/core/Dialog/DialogFormFrame";
 import { useEffect, useState } from "react";
-import DialogFormStorageInfo from "../../components/support/icarusDocs/DialogFormStorageInfo";
+import DialogFormStorageInfo from "./dialogs/DialogFormStorageInfo";
 import { useAppDispatch, useAppSelector } from "../../redux/store";
 import * as icarusDocumentationFolderActions from "../../redux/support/icarusDocs/folder/icarusDocumentationFolderActions";
 import { MenuItem, ListItemIcon, ListItemText, Menu } from "@mui/material";
 import IntlMessages from "../../components/core/IntlMessages";
-import DialogFormDocumentationFilters, {
-  FiltersType,
-  initFilters,
-} from "../../components/support/icarusDocs/DialogFormDocumentationFilters";
+import DialogFormDocumentationFilters from "./dialogs/DialogFormDocumentationFilters";
+import { Client } from "../../redux/setting/clientsSlice";
+import { FiltersType, initFilters } from "../../redux/icarusDocsSlice";
 
 export const DocumentationTableToolbar2 = ({
   onNewFileClick,
   onNewFolderClick,
   clients,
   onSearchSubmit,
+  filters,
   onFilterSubmit,
-}: any) => {
+}: {
+  onNewFileClick: (item: {}) => void;
+  onNewFolderClick: (item: {}) => void;
+  clients: Client[];
+  onSearchSubmit: ({ searchText }: { searchText: string }) => void;
+  filters: FiltersType;
+  onFilterSubmit: (filters: FiltersType) => void;
+}) => {
   const dispatch = useAppDispatch();
   const [dialogStorageInfoOpen, setDialogStorageInfoOpen] = useState(false);
   const [anchorEl, setAnchorEl] = useState<any>();
-
-  const [filters, setFilters] = useState<FiltersType>(initFilters);
 
   const [dialogFilters, setDialogFilters] = useState<FiltersType | undefined>();
 
@@ -38,10 +43,6 @@ export const DocumentationTableToolbar2 = ({
   useEffect(() => {
     dispatch(icarusDocumentationFolderActions.loadStorageInfo());
   }, []);
-
-  const handleSubmitFilters = (newFilters: FiltersType) => {
-    setFilters({ ...filters, ...newFilters });
-  };
 
   return (
     <>
@@ -86,7 +87,12 @@ export const DocumentationTableToolbar2 = ({
         open={Boolean(anchorEl)}
         onClose={() => setAnchorEl(undefined)}
       >
-        <MenuItem onClick={onNewFileClick}>
+        <MenuItem
+          onClick={() => {
+            setAnchorEl(undefined);
+            onNewFileClick({});
+          }}
+        >
           <ListItemIcon>
             <NoteAdd />
           </ListItemIcon>

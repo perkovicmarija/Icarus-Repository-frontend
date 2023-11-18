@@ -33,7 +33,7 @@
     "react-dnd": "^16.0.1",
     "react-dnd-html5-backend": "^16.0.1",
     "react-dom": "^18.2.0",
-    "react-dropzone": "^10.2.2",
+    "react-dropzone": "^14.2.3",
     "react-hook-form": "^7.47.0",
     "react-intl": "^6.5.1",
     "react-material-ui-form-validator": "3.0.0",

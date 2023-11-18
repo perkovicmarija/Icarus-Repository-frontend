@@ -1,21 +1,21 @@
 import React, { useEffect } from "react";
-import DialogGenericWarning from "../../components/core/Dialog/DialogGenericWarning";
-import DialogNoCloseFrame from "../../components/core/Dialog/DialogNoCloseFrame";
-import DialogProgress from "../../components/core/Dialog/DialogProgress";
+import DialogGenericWarning from "../../../components/core/Dialog/DialogGenericWarning";
+import DialogNoCloseFrame from "../../../components/core/Dialog/DialogNoCloseFrame";
+import DialogProgress from "../../../components/core/Dialog/DialogProgress";
 import { bindActionCreators } from "redux";
 import { connect } from "react-redux";
-import { withRouter } from "react-router-dom";
-import DialogPdfFullView from "../FileView/PdfViewer/DialogPdfFullView";
-import * as icarusDocumentationFileActions from "../../redux/support/icarusDocs/file/icarusDocumentationFileActions";
+import { useHistory, withRouter } from "react-router-dom";
+import DialogPdfFullView from "../../FileView/PdfViewer/DialogPdfFullView";
+import * as icarusDocumentationFileActions from "../../../redux/support/icarusDocs/file/icarusDocumentationFileActions";
 
-function FileView({
+function DialogFileView({
   progressBarOpened,
   progress,
   file,
   icarusDocumentationFileActions,
-  history,
   icarusDocumentationFileId,
 }) {
+  const history = useHistory();
   useEffect(() => {
     icarusDocumentationFileActions.viewFile({
       icarusDocumentationFileId,
@@ -106,4 +106,4 @@ function mapDispatchToProps(dispatch) {
 export default connect(
   mapStateToProps,
   mapDispatchToProps
-)(withRouter(FileView));
+)(withRouter(DialogFileView));

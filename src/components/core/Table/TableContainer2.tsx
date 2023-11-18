@@ -6,12 +6,12 @@ import {
 } from "@mui/material";
 import TableHeader, { TableHeaderProps } from "./TableHeader";
 import { TablePagination2, TablePagination2Props } from "./TablePagination2";
-import { ReactNode } from "react";
+import { ReactElement } from "react";
 import { TableNoItems } from "./TableNoItems";
 import { Box } from "@mui/system";
 
 export interface TableContainer2Props {
-  children: ReactNode[] | undefined;
+  children: ReactElement | undefined;
   headerProps: TableHeaderProps;
   paginationProps?: TablePagination2Props;
   loading?: boolean;

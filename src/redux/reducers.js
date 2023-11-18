@@ -24,6 +24,7 @@ import usersSlice from "./user/usersSlice";
 import auditChecklistsSlice from "./auditChecklistsSlice";
 import rolesSlice from "./user/rolesSlice";
 import roadmapSlice from "./support/roadmapSlice";
+import icarusDocsSlice from "./icarusDocsSlice";
 
 export default (history) =>
   combineReducers({
@@ -49,6 +50,7 @@ export default (history) =>
     Clients: clientsSlice.reducer,
     IcarusDocumentationFile,
     IcarusDocumentationFolder,
+    IcarusDocs: icarusDocsSlice.reducer,
     AuditorActionLocationType,
     VersionMobile,
     Versions: versionsSlice.reducer,

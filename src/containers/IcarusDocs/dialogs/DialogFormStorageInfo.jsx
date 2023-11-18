@@ -2,9 +2,9 @@ import React from 'react';
 import {Box, DialogActions, DialogContent} from "@mui/material";
 import Grid from "@mui/material/Grid";
 import Button from "@mui/material/Button";
-import IntlMessages from "../../core/IntlMessages";
+import IntlMessages from "../../../components/core/IntlMessages";
 import PropTypes from "prop-types";
-import LinearProgressWithLabel from "./LinearProgressWithLabel";
+import LinearProgressWithLabel from "../../../components/support/icarusDocs/LinearProgressWithLabel";
 
 export default function DialogFormStorageInfo ({onClose, storageInfo}) {
 
