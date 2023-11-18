@@ -40,10 +40,16 @@ const getFilesData = createAsyncThunk2(
 
 const deleteItem = createAsyncThunk2(
   "icarusDocs/deleteItem",
-  async (file: any) => {
-    return await IcarusDocumentationFileApi.delete({
-      id: file.icarusDocumentationFileId,
-    });
+  async (item: any) => {
+    if (item.icarusDocumentationFileId) {
+      return await IcarusDocumentationFileApi.delete({
+        id: item.icarusDocumentationFileId,
+      });
+    } else {
+      return await IcarusDocumentationFolderApi.delete({
+        id: item.icarusDocumentationFolderId,
+      });
+    }
   }
 );
 

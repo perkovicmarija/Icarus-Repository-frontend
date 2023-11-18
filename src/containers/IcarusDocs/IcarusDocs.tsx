@@ -180,14 +180,9 @@ function IcarusDocs() {
         currentPath={currentPath}
         // FOLDER ACTIONS
         onNavigate={onNavigate}
-        onDeleteFolder={(folder: any) => {
-          dispatch(
-            icarusDocumentationFolderActions.deleteAction({
-              id: folder.icarusDocumentationFolderId,
-            })
-          );
-          return Promise.resolve();
-        }}
+        onDeleteFolder={(folder: any) =>
+          dispatch(icarusDocsActions.deleteItem(folder))
+        }
         onEditFolder={setDialogAddEditFolder}
         onMove={(payload) => {
           if ("icarusDocumentationFileId" in payload) {
