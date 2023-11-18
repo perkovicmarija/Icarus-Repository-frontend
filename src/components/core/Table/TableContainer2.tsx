@@ -11,7 +11,7 @@ import { TableNoItems } from "./TableNoItems";
 import { Box } from "@mui/system";
 
 export interface TableContainer2Props {
-  children: ReactElement | undefined;
+  children: ReactElement | boolean | undefined;
   headerProps: TableHeaderProps;
   paginationProps?: TablePagination2Props;
   loading?: boolean;
@@ -53,7 +53,7 @@ export const TableContainer2 = ({
 
       {paginationProps?.totalCount === 0 && <TableNoItems />}
 
-      {children === undefined && (
+      {(children === undefined || children === false) && (
         <div
           style={{
             height: "6rem",
