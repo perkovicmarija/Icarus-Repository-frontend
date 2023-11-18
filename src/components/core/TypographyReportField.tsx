@@ -37,7 +37,14 @@ const TypographyReportField = ({
           title={<IntlMessages id={info} />}
           //classes={{ tooltip: classes.noMaxWidth }}
         >
-          <Info style={{ verticalAlign: "middle" }} />
+          <Info
+            style={{
+              verticalAlign: "top",
+              width: "22px",
+              height: "22px",
+              cursor: "pointer",
+            }}
+          />
         </Tooltip>
       )}
     </Typography>

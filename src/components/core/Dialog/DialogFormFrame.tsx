@@ -7,11 +7,13 @@ const DialogFormFrame = ({
   title,
   open,
   children,
+  maxWidth,
 }: {
   onClose: DialogProps["onClose"];
   title: string;
   open: Record<string, any> | boolean | undefined;
   children: ReactElement;
+  maxWidth?: DialogProps["maxWidth"];
 }) => {
   if (!open) {
     return null;
@@ -20,6 +22,7 @@ const DialogFormFrame = ({
   return (
     <Dialog
       fullWidth={true}
+      maxWidth={maxWidth}
       open={Boolean(open)}
       onClose={onClose}
       aria-labelledby="form-dialog-title"
