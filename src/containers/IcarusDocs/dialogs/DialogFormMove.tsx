@@ -1,25 +1,39 @@
-import Grid from "@mui/material/Grid";
-import { DialogContent, IconButton, Typography } from "@mui/material";
+import { Box, DialogContent } from "@mui/material";
 import IntlMessages from "../../../components/core/IntlMessages";
-import { ChevronRight, ExpandMore, Remove } from "@mui/icons-material";
-import TreeNode from "../../../components/support/icarusDocs/TreeNode";
+import TreeNode, {
+  FolderType,
+} from "../../../components/support/icarusDocs/TreeNode";
 import { DialogActions2 } from "../../../components/core/Dialog/DialogActions2";
 import { useEffect, useState } from "react";
 import IcarusDocumentationFolderApi from "../../../api/IcarusDocumentationFolderApi";
+import { ProgressCustom } from "../../../components/core/ProgressCustom";
 
-const DialogFormMove = ({ initialData, onClose, onSubmit }: any) => {
-  const isOpen = true;
-  const onExpandClick = (event) => {
-    //this.setState({ isOpen: !this.state.isOpen });
-  };
+const DialogFormMove = ({
+  initialData,
+  onClose,
+  onSubmit,
+}: {
+  initialData: any;
+  onClose: () => void;
+  onSubmit: (payload: any) => Promise<void>;
+}) => {
+  const [destination, setDestination] = useState<
+    FolderType["icarusDocumentationFolder"] | undefined
+  >();
 
-  const [destination, setDestination] = useState<{ folderName: string }>();
+  const [loading, setLoading] = useState(false);
 
-  const [icarusDocumentationFolderTree, setIcarusDocumentationFolderTree] =
-    useState([]);
+  const [folderTree, setFolderTree] = useState<FolderType | undefined>();
   useEffect(() => {
     IcarusDocumentationFolderApi.getFolderTree().then((response) =>
-      setIcarusDocumentationFolderTree(response.data)
+      setFolderTree({
+        ...response.data,
+        icarusDocumentationFolder: {
+          folderName: "ROOT",
+          icarusDocumentationFolderId: "",
+          path: "",
+        },
+      })
     );
   }, []);
 
@@ -28,52 +42,51 @@ const DialogFormMove = ({ initialData, onClose, onSubmit }: any) => {
       onSubmit={(e) => {
         e.stopPropagation();
         e.preventDefault();
-        onSubmit();
+        setLoading(true);
+        onSubmit({
+          icarusDocumentationFile: initialData,
+          icarusDocumentationFolder:
+            destination!.path === "" ? undefined : destination,
+        })
+          .then(onClose)
+          .catch(() => setLoading(false));
       }}
     >
       <DialogContent>
-        <Grid container className="p-b-10">
-          <Grid item xl={12} lg={12} md={12} sm={12} xs={12}>
-            <Typography variant="button">
+        {folderTree ? (
+          <>
+            <Box>
               <IntlMessages id="documentation.folder.selected" />:{" "}
-              {destination ? destination.folderName : "ROOT"}
-            </Typography>
-          </Grid>
-        </Grid>
-        <Grid container>
-          <Grid item xl={12} lg={12} md={12} sm={12} xs={12}>
-            <div className="tree-node">
-              {icarusDocumentationFolderTree.children.length > 0 ? (
-                <IconButton aria-label="Delete" onClick={onExpandClick}>
-                  {isOpen ? <ExpandMore /> : <ChevronRight />}
-                </IconButton>
-              ) : (
-                <IconButton disabled>
-                  <Remove />
-                </IconButton>
-              )}
-
-              <span
-                className={
-                  destination ? "pointer" : "tree-node-selected pointer"
-                }
-                onClick={(event) => onFolderSelected(event, undefined)}
-              >
-                ROOT
+              <span style={{ fontWeight: "bold" }}>
+                {destination ? destination.path + destination.folderName : "-"}
               </span>
-            </div>
-            {icarusDocumentationFolderTree.children.map((childNode) => (
+            </Box>
+            <Box
+              sx={{
+                marginTop: "1rem",
+                "& svg": {
+                  marginBottom: "3px",
+                  marginRight: "2px",
+                },
+              }}
+            >
               <TreeNode
-                key={childNode.level}
-                onFolderSelected={(...props) => console.log(props)}
-                icarusDocumentationFolderTree={childNode}
-                icarusDocumentationFolderDestinationMove={destination}
+                key={"ROOT"}
+                onFolderSelected={setDestination}
+                folderTree={folderTree}
+                destinationFolder={destination}
               />
-            ))}
-          </Grid>
-        </Grid>
+            </Box>
+          </>
+        ) : (
+          <ProgressCustom />
+        )}
       </DialogContent>
-      <DialogActions2 onClose={onClose} />
+      <DialogActions2
+        onClose={onClose}
+        submitDisabled={!destination}
+        loading={loading}
+      />
     </form>
   );
 };

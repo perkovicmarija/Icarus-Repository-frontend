@@ -75,6 +75,10 @@ const updateFolder = createAsyncThunk2(
   }
 );
 
+const move = createAsyncThunk2("icarusDocs/move", async (payload: any) => {
+  return await IcarusDocumentationFileApi.moveFile(payload);
+});
+
 /* const addEditItem = createAsyncThunk2(
   "icarusDocs/addEditItem",
   async ({ payload, meta }: { payload: User; meta: any }, thunkAPI) => {
@@ -123,6 +127,9 @@ const icarusDocsSlice = createSlice({
       .addCase(createFolder.fulfilled, (state, action) => {
         console.log(action);
         state.folders = action.payload.data;
+      })
+      .addCase(move.fulfilled, (state, action) => {
+        state.files = action.payload.data;
       });
   },
 });
@@ -136,5 +143,6 @@ export const icarusDocsActions = {
   deleteItem,
   createFolder,
   updateFolder,
+  move,
 };
 export default icarusDocsSlice;

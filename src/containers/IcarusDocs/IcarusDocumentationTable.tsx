@@ -66,7 +66,7 @@ const IcarusDocumentationTable = ({
   currentPath: string;
   //
   onNavigate: (path: string) => void;
-  onMove: (file: any) => void;
+  onMove: (payload: any) => Promise<any>;
   //
   onDeleteFolder: (folder: any) => Promise<any>;
   onEditFolder: (folder: any) => void;

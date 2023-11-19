@@ -154,14 +154,10 @@ function IcarusDocs() {
         files={icarusDocumentationFiles}
         folders={icarusDocumentationFolders}
         currentPath={currentPath}
-        // FOLDER ACTIONS
-        onNavigate={onNavigate}
-        onDeleteFolder={(folder: any) =>
-          dispatch(icarusDocsActions.deleteItem(folder))
-        }
-        onEditFolder={setDialogAddEditFolder}
         onMove={(payload) => {
-          if ("icarusDocumentationFileId" in payload) {
+          console.log(payload);
+          return dispatch(icarusDocsActions.move(payload));
+          /* if ("icarusDocumentationFileId" in payload) {
             let viewModel = {
               icarusDocumentationFile: payload.source,
               icarusDocumentationFolder: payload.destination,
@@ -173,8 +169,14 @@ function IcarusDocs() {
               icarusDocumentationFolderDest: payload.destination,
             };
             dispatch(icarusDocumentationFolderActions.move(viewModel));
-          }
+          } */
         }}
+        // FOLDER ACTIONS
+        onNavigate={onNavigate}
+        onDeleteFolder={(folder: any) =>
+          dispatch(icarusDocsActions.deleteItem(folder))
+        }
+        onEditFolder={setDialogAddEditFolder}
         // FILE ACTIONS
         onDownloadFile={(icarusDocumentationFile: any) => {
           const abortController = new AbortController();
