@@ -107,9 +107,7 @@ export const RoadmapList = ({
                         </IconButton>
                         <IconButton
                           size="small"
-                          sx={{
-                            color: "#d32f2f",
-                          }}
+                          color="error"
                           onClick={() => setDialogWarning(item)}
                         >
                           <Delete />

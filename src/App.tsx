@@ -4,7 +4,7 @@ import {
   ThemeProvider,
   StyledEngineProvider,
 } from "@mui/material/styles";
-import { red, brown, grey } from "@mui/material/colors";
+import { amber } from "@mui/material/colors";
 import { IntlProvider } from "react-intl";
 import PublicRoutes from "./publicRouter";
 import Boot from "./redux/boot";
@@ -32,18 +32,20 @@ dayjs.extend(timezone); */
 const theme = createTheme({
   palette: {
     primary: {
-      light: grey[300],
-      main: grey[800],
-      dark: grey[900],
+      light: "#021b43",
+      main: "#021b43",
+      dark: "#001432",
       contrastText: "#FFFFFF",
     },
     secondary: {
-      light: brown[400],
-      main: brown[600],
-      dark: brown[800],
+      light: amber[400],
+      main: amber[600],
+      dark: amber[800],
       contrastText: "#FFFFFF",
     },
-    error: red,
+    error: {
+      main: "#811818",
+    },
   },
 });
 

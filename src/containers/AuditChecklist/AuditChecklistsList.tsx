@@ -160,6 +160,7 @@ const AuditChecklistsList = <T,>({
                           label: "general.delete",
                           Icon: Delete,
                           onClick: () => setDialogWarning(item),
+                          color: "error",
                         },
                       ]}
                     />

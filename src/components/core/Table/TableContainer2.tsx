@@ -11,7 +11,7 @@ import { TableNoItems } from "./TableNoItems";
 import { Box } from "@mui/system";
 
 export interface TableContainer2Props {
-  children: ReactElement | boolean | undefined;
+  children: ReactElement | ReactElement[] | boolean | undefined;
   headerProps: TableHeaderProps;
   paginationProps?: TablePagination2Props;
   loading?: boolean;

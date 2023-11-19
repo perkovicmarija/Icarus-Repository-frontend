@@ -4,23 +4,22 @@ import { FormattedMessage } from "react-intl";
 import { SvgIconComponent } from "@mui/icons-material";
 
 export type TableActions2Prop = {
-  actions: {
+  actions: (IconButtonProps & {
     label: string;
     Icon: SvgIconComponent;
-    onClick: Exclude<IconButtonProps["onClick"], undefined>;
-  }[];
+  })[];
 };
 
 export const TableActions2 = ({ actions }: TableActions2Prop) => {
   return actions
     .filter((i) => i)
-    .map(({ label, Icon, onClick }) => (
+    .map(({ label, Icon, ...props }) => (
       <Tooltip key={label} title={<FormattedMessage id={label} />}>
-        <div className="d-inline">
-          <IconButton aria-label={label} onClick={onClick}>
+        <span>
+          <IconButton aria-label={label} {...props}>
             <Icon />
           </IconButton>
-        </div>
+        </span>
       </Tooltip>
     ));
 };

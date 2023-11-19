@@ -68,9 +68,9 @@ function ToolbarSearch({
       sx={{
         position: "relative",
         borderRadius: theme.shape.borderRadius,
-        backgroundColor: alpha(theme.palette.secondary.main, 0.25),
-        "&:hover": {
-          backgroundColor: alpha(theme.palette.secondary.main, 0.35),
+        backgroundColor: alpha(theme.palette.primary.main, 0.15),
+        "&:hover, &:focus-within": {
+          backgroundColor: alpha(theme.palette.primary.main, 0.25),
         },
         marginRight: theme.spacing(2),
         marginLeft: 0,
@@ -107,7 +107,11 @@ function ToolbarSearch({
           }}
           endAdornment={
             <InputAdornment position="end" style={{ margin: 0 }}>
-              <IconButton onClick={onSearchSubmit} style={{ padding: "6px" }}>
+              <IconButton
+                onClick={onSearchSubmit}
+                style={{ padding: "6px" }}
+                tabIndex={-1}
+              >
                 <SearchIcon />
               </IconButton>
             </InputAdornment>
