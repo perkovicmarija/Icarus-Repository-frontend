@@ -13,6 +13,7 @@ import "react-pdf/dist/Page/TextLayer.css";
 import { Box, Button, SxProps } from "@mui/material";
 import { useTheme } from "@emotion/react";
 import { display } from "@mui/system";
+import { downloadFile } from "../../../api/methods/utils";
 
 pdfjs.GlobalWorkerOptions.workerSrc = `//unpkg.com/pdfjs-dist@${pdfjs.version}/build/pdf.worker.min.js`;
 
@@ -58,10 +59,10 @@ const sx: Record<string, SxProps> = {
 
 const PdfFrame = ({
   file,
-  showDownload,
+  showDownloadButton,
 }: {
   file: any;
-  showDownload?: boolean;
+  showDownloadButton?: boolean;
 }) => {
   const [numPages, setNumPages] = useState<number>(1);
 
@@ -71,21 +72,26 @@ const PdfFrame = ({
 
   const pages = [];
 
-  for (let i = 1; i <= numPages; i++) {
+  for (let i = 0; i < numPages; i++) {
     pages.push(
       <Box
+        key={i + 1}
         sx={
           {
             /* border: "1px solid gray" */
           }
         }
       >
-        <Page key={i} pageNumber={i} scale={1.5} />
+        <Page pageNumber={i + 1} scale={1.5} />
       </Box>
     );
   }
 
   const [showThumbnails, setShowThumbnails] = useState(true);
+
+  const onDownloadClick = (data: ArrayBuffer) => {
+    downloadFile({ data, name: "test" });
+  };
 
   return (
     <Box
@@ -104,14 +110,25 @@ const PdfFrame = ({
         },
       }}
     >
-      <Box sx={{ background: "white", borderBottom: "1px solid black" }}>
+      <Box
+        sx={{
+          background: "white",
+          borderBottom: "1px solid black",
+          display: "flex",
+          justifyContent: "space-between",
+        }}
+      >
         <Button
           variant="text"
           onClick={() => setShowThumbnails(!showThumbnails)}
         >
           Thumbnails
         </Button>
-        Toolbar TODO
+        {showDownloadButton && (
+          <Button variant="text" onClick={() => onDownloadClick(file.data)}>
+            Download
+          </Button>
+        )}
       </Box>
       <Document
         file={file.data}

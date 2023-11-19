@@ -1,14 +1,18 @@
 import { getServerPath } from "../../consts/ServerInfo";
-import axios, { Canceler } from "axios";
+import axios from "axios";
 import { getToken } from "../../helpers/utility";
+import { downloadFile } from "./utils";
 
 export const RestApiArrayBuffer2 = {
-  postData(resourcePath: string, data: any, onProgress: any) {
+  get(
+    resourcePath: string,
+    data: any,
+    onProgress: (value: number) => void,
+    abortController?: AbortController
+  ) {
     const token = getToken();
-    const CancelToken = axios.CancelToken;
-    let cancel: Canceler;
 
-    const axiosPromise = axios({
+    return axios({
       url: getServerPath() + resourcePath + "?access_token=" + token,
       method: "POST",
       data: JSON.stringify(data),
@@ -18,25 +22,24 @@ export const RestApiArrayBuffer2 = {
       responseType: "arraybuffer",
       //responseType: 'blob', // important
       onDownloadProgress: (progressEvent) => {
-        let progress = Math.floor(
-          (progressEvent.loaded * 100) / progressEvent.total
-        );
+        let progress = progressEvent.total
+          ? Math.floor((progressEvent.loaded * 100) / progressEvent.total)
+          : 0;
         onProgress(progress);
       },
-      cancelToken: new CancelToken(function executor(c) {
-        // An executor function receives a cancel function as a parameter
-        cancel = c;
-      }),
+      signal: abortController?.signal,
     }).then((response) => {
       return response;
     });
-
-    // The returned method can be called to cancel the request
-    return {
-      axiosPromise,
-      cancel: () => {
-        cancel();
-      },
-    };
+  },
+  download(
+    resourcePath: string,
+    data: any,
+    onProgress: (value: number) => void,
+    abortController: AbortController
+  ) {
+    this.get(resourcePath, data, onProgress, abortController).then(
+      downloadFile
+    );
   },
 };

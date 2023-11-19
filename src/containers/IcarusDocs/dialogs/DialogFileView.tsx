@@ -15,15 +15,13 @@ function DialogFileView({ match }: any) {
   const [file, setFile] = useState<any>();
 
   useEffect(() => {
-    const specialRequest = IcarusDocumentationFileApi.view2(
+    IcarusDocumentationFileApi.view2(
       {
         icarusDocumentationFileId,
         viewFile: true,
       },
       setProgress
-    );
-
-    specialRequest.axiosPromise.then((response) => setFile(response));
+    ).then((response) => setFile(response));
   }, []);
 
   const onClose = () => {
@@ -51,6 +49,7 @@ function DialogFileView({ match }: any) {
           onClose={onClose}
           file={file}
           filename={filename}
+          showDownloadButton={true}
         />
       );
     } else {

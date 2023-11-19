@@ -74,8 +74,7 @@ function FileView(props) {
                         onClose={handleFullViewDialogClose}
                         file={props.file}
                         filename={filename}
-                        showDownload={!protectedFromDownload}
-                        onDownloadClick={handleDownloadClick}
+                        onDownloadClick={!protectedFromDownload && handleDownloadClick}
                     />
                     <DialogNoCloseFrame
                         title="general.loading"
