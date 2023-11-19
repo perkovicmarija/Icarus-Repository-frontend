@@ -7,10 +7,12 @@ export const RestApiArrayBuffer2 = {
   get(
     resourcePath: string,
     data: any,
-    onProgress: (value: number) => void,
+    onProgress: (value: number | undefined) => void,
     abortController?: AbortController
   ) {
     const token = getToken();
+
+    onProgress(0);
 
     return axios({
       url: getServerPath() + resourcePath + "?access_token=" + token,
@@ -28,18 +30,31 @@ export const RestApiArrayBuffer2 = {
         onProgress(progress);
       },
       signal: abortController?.signal,
-    }).then((response) => {
-      return response;
-    });
+    })
+      .then((response) => {
+        console.log(response);
+        onProgress(undefined);
+        return response;
+      })
+      .catch((e) => {
+        console.log("error", e);
+        onProgress(undefined);
+        throw e;
+      });
   },
   download(
     resourcePath: string,
     data: any,
-    onProgress: (value: number) => void,
+    onProgress: (value: number | undefined) => void,
     abortController: AbortController
   ) {
-    this.get(resourcePath, data, onProgress, abortController).then(
-      downloadFile
+    const getPromise = this.get(
+      resourcePath,
+      data,
+      onProgress,
+      abortController
     );
+    getPromise.then(downloadFile);
+    return getPromise;
   },
 };

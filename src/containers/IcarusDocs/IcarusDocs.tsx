@@ -15,7 +15,7 @@ import DocumentationFolderPath from "./DocumentationFolderPath";
 import { DocumentationTableToolbar2 } from "./DocumentationTableToolbar2";
 import { Route, Switch, useHistory } from "react-router-dom";
 import { useAppDispatch, useAppSelector } from "../../redux/store";
-import { useSimpleGetAll } from "../../redux/utils";
+import { fetchArrayBufferFile, useSimpleGetAll } from "../../redux/utils";
 import { Client, clientsActions } from "../../redux/setting/clientsSlice";
 import DialogAddEditFile from "./dialogs/DialogAddEditFile";
 import IcarusDocumentationFileApi from "../../api/IcarusDocumentationFileApi";
@@ -64,11 +64,7 @@ function IcarusDocs() {
   const clients: Client[] = useSimpleGetAll(clientsActions.getAll);
   //
 
-  /* useEffect(() => {
-    updateFilesAndFoldersOPath(icarusDocumentationFolderPath);
-  }, [icarusDocumentationFolderPath.length]);
-
-  const updateFilesAndFoldersOPath = (icarusDocumentationFolderPath) => {
+  /* const updateFilesAndFoldersOPath = (icarusDocumentationFolderPath) => {
     let viewModel = {
       icarusDocumentationFolderId: undefined,
       path: "/",
@@ -83,16 +79,6 @@ function IcarusDocs() {
     dispatch(icarusDocumentationFolderActions.loadOnPath(viewModel));
     dispatch(icarusDocumentationFileActions.loadInFolder(viewModel));
   }; */
-
-  const onDownloadFile = (icarusDocumentationFile: any) => {
-    let viewModel = {
-      icarusDocumentationFileId:
-        icarusDocumentationFile.icarusDocumentationFileId,
-      viewFile: false,
-      uncontrolledCopy: icarusDocumentationFile.uncontrolledCopy,
-    };
-    dispatch(icarusDocumentationFileActions.download(viewModel));
-  };
 
   /* const handleSearchSubmit = ({ searchText }: { searchText: string }) => {
     if (!!searchText.trim()) {
@@ -137,10 +123,10 @@ function IcarusDocs() {
     dispatch(icarusDocsActions.setFilters({ ...filters, ...newFilters }));
   };
 
-  const progress = useAppSelector((state) => state.Progress.progress);
-  const progressBarOpened = useAppSelector(
-    (state) => state.Progress.progressOpened
-  );
+  const [progress, setProgress] = useState<number | undefined>();
+  const [abortController, setAbortController] = useState<
+    AbortController | undefined
+  >();
 
   const onNavigate = (path: string) =>
     dispatch(icarusDocsActions.setPath(path));
@@ -191,7 +177,32 @@ function IcarusDocs() {
           }
         }}
         // FILE ACTIONS
-        onDownloadFile={onDownloadFile}
+        onDownloadFile={(icarusDocumentationFile: any) => {
+          const abortController = new AbortController();
+          setAbortController(abortController);
+          dispatch(
+            fetchArrayBufferFile(
+              IcarusDocumentationFileApi.download2(
+                {
+                  icarusDocumentationFileId:
+                    icarusDocumentationFile.icarusDocumentationFileId,
+                  viewFile: false,
+                  uncontrolledCopy: icarusDocumentationFile.uncontrolledCopy,
+                },
+                setProgress,
+                abortController
+              )
+            )
+          );
+          /* dispatch(
+            icarusDocsActions.downloadFile({
+              icarusDocumentationFileId:
+                icarusDocumentationFile.icarusDocumentationFileId,
+              viewFile: false,
+              uncontrolledCopy: icarusDocumentationFile.uncontrolledCopy,
+            })
+          ); */
+        }}
         onViewFile={(icarusDocumentationFile: any) =>
           history.push(
             icarusDocs + `/${icarusDocumentationFile.icarusDocumentationFileId}`
@@ -274,9 +285,10 @@ function IcarusDocs() {
         />
       </DialogFormFrame>
 
-      <DialogNoCloseFrame title="general.downloading" open={progressBarOpened}>
-        <DialogProgress progress={progress} />
-      </DialogNoCloseFrame>
+      <DialogProgress
+        progress={progress}
+        onClose={() => abortController!.abort()}
+      />
 
       <Switch>
         <Route path={icarusDocs + "/:id"} component={DialogFileView} />

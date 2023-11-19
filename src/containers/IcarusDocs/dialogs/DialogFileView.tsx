@@ -5,23 +5,37 @@ import DialogProgress from "../../../components/core/Dialog/DialogProgress";
 import { useHistory } from "react-router-dom";
 import DialogPdfFullView from "../../FileView/PdfViewer/DialogPdfFullView";
 import IcarusDocumentationFileApi from "../../../api/IcarusDocumentationFileApi";
+import { fetchArrayBufferFile } from "../../../redux/utils";
+import { useAppDispatch } from "../../../redux/store";
 
 function DialogFileView({ match }: any) {
   const history = useHistory();
+  const dispatch = useAppDispatch();
 
   const icarusDocumentationFileId = match.params.id;
 
-  const [progress, setProgress] = useState(0);
+  const [progress, setProgress] = useState<number | undefined>();
+  const [abortController, setAbortController] = useState<
+    AbortController | undefined
+  >();
+
   const [file, setFile] = useState<any>();
 
   useEffect(() => {
-    IcarusDocumentationFileApi.view2(
-      {
-        icarusDocumentationFileId,
-        viewFile: true,
-      },
-      setProgress
-    ).then((response) => setFile(response));
+    const abortController = new AbortController();
+    setAbortController(abortController);
+    dispatch(
+      fetchArrayBufferFile(
+        IcarusDocumentationFileApi.view2(
+          {
+            icarusDocumentationFileId,
+            viewFile: true,
+          },
+          setProgress,
+          abortController
+        )
+      )
+    ).then(setFile);
   }, []);
 
   const onClose = () => {
@@ -63,9 +77,13 @@ function DialogFileView({ match }: any) {
     }
   } else {
     return (
-      <DialogNoCloseFrame title="general.loading" open={true}>
-        <DialogProgress progress={progress} />
-      </DialogNoCloseFrame>
+      <DialogProgress
+        progress={progress}
+        onClose={() => {
+          abortController!.abort();
+          onClose();
+        }}
+      />
     );
   }
 }

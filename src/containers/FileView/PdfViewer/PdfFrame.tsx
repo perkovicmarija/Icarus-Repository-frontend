@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import BookmarkItem from "./BookmarkItem";
 import {
   Document,
@@ -89,9 +89,14 @@ const PdfFrame = ({
 
   const [showThumbnails, setShowThumbnails] = useState(true);
 
-  const onDownloadClick = (data: ArrayBuffer) => {
-    downloadFile({ data, name: "test" });
-  };
+  const ref = useRef<ArrayBuffer>();
+  useEffect(() => {
+    const newBuffer = new ArrayBuffer(file.data.byteLength);
+    const originalView = new Uint8Array(file.data);
+    const newView = new Uint8Array(newBuffer);
+    newView.set(originalView);
+    ref.current = newBuffer;
+  }, [file]);
 
   return (
     <Box
@@ -125,7 +130,10 @@ const PdfFrame = ({
           Thumbnails
         </Button>
         {showDownloadButton && (
-          <Button variant="text" onClick={() => onDownloadClick(file.data)}>
+          <Button
+            variant="text"
+            onClick={() => downloadFile({ ...file, data: ref.current })}
+          >
             Download
           </Button>
         )}

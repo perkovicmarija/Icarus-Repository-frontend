@@ -38,6 +38,13 @@ const getFilesData = createAsyncThunk2(
   }
 );
 
+const downloadFile = createAsyncThunk2(
+  "icarusDocs/downloadFile",
+  async (payload) => {
+    return await IcarusDocumentationFileApi.download2(payload, () => {});
+  }
+);
+
 const deleteItem = createAsyncThunk2(
   "icarusDocs/deleteItem",
   async (item: any) => {
@@ -124,6 +131,7 @@ export const icarusDocsActions = {
   ...icarusDocsSlice.actions,
   getFilesData,
   getFoldersData,
+  downloadFile,
   // addEditItem,
   deleteItem,
   createFolder,
