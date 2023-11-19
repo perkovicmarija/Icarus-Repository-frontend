@@ -1,6 +1,5 @@
 import { useEffect, useState } from "react";
 import DialogGenericWarning from "../../../components/core/Dialog/DialogGenericWarning";
-import DialogNoCloseFrame from "../../../components/core/Dialog/DialogNoCloseFrame";
 import DialogProgress from "../../../components/core/Dialog/DialogProgress";
 import { useHistory } from "react-router-dom";
 import DialogPdfFullView from "../../FileView/PdfViewer/DialogPdfFullView";

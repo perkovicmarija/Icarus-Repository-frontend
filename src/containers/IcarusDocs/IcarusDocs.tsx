@@ -5,7 +5,6 @@ import IcarusDocumentationTable, {
 } from "./IcarusDocumentationTable";
 import DialogFormFrame from "../../components/core/Dialog/DialogFormFrame";
 import DialogProgress from "../../components/core/Dialog/DialogProgress";
-import DialogNoCloseFrame from "../../components/core/Dialog/DialogNoCloseFrame";
 import DialogAddEditFolder from "./dialogs/DialogAddEditFolder";
 import DialogFormFileHistory from "./dialogs/DialogFormFileHistory";
 import * as icarusDocumentationFileActions from "../../redux/support/icarusDocs/file/icarusDocumentationFileActions";
