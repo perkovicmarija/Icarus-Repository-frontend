@@ -76,7 +76,18 @@ const updateFolder = createAsyncThunk2(
 );
 
 const move = createAsyncThunk2("icarusDocs/move", async (payload: any) => {
-  return await IcarusDocumentationFileApi.moveFile(payload);
+  console.log(payload);
+  if ("icarusDocumentationFolderId" in payload.source) {
+    return await IcarusDocumentationFolderApi.moveFolder({
+      icarusDocumentationFolder: payload.source,
+      icarusDocumentationFolderDest: payload.destination,
+    });
+  } else {
+    return await IcarusDocumentationFileApi.moveFile({
+      icarusDocumentationFile: payload.source,
+      icarusDocumentationFolder: payload.destination,
+    });
+  }
 });
 
 /* const addEditItem = createAsyncThunk2(
@@ -129,7 +140,12 @@ const icarusDocsSlice = createSlice({
         state.folders = action.payload.data;
       })
       .addCase(move.fulfilled, (state, action) => {
-        state.files = action.payload.data;
+        const payload = action.meta.arg;
+        if ("icarusDocumentationFolderId" in payload.source) {
+          state.folders = action.payload.data;
+        } else {
+          state.files = action.payload.data;
+        }
       });
   },
 });

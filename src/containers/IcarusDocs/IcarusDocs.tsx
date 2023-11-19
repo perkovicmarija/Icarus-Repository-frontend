@@ -154,23 +154,7 @@ function IcarusDocs() {
         files={icarusDocumentationFiles}
         folders={icarusDocumentationFolders}
         currentPath={currentPath}
-        onMove={(payload) => {
-          console.log(payload);
-          return dispatch(icarusDocsActions.move(payload));
-          /* if ("icarusDocumentationFileId" in payload) {
-            let viewModel = {
-              icarusDocumentationFile: payload.source,
-              icarusDocumentationFolder: payload.destination,
-            };
-            dispatch(icarusDocumentationFileActions.move(viewModel));
-          } else {
-            let viewModel = {
-              icarusDocumentationFolder: payload.source,
-              icarusDocumentationFolderDest: payload.destination,
-            };
-            dispatch(icarusDocumentationFolderActions.move(viewModel));
-          } */
-        }}
+        onMove={(payload) => dispatch(icarusDocsActions.move(payload))}
         // FOLDER ACTIONS
         onNavigate={onNavigate}
         onDeleteFolder={(folder: any) =>
@@ -195,14 +179,6 @@ function IcarusDocs() {
               )
             )
           );
-          /* dispatch(
-            icarusDocsActions.downloadFile({
-              icarusDocumentationFileId:
-                icarusDocumentationFile.icarusDocumentationFileId,
-              viewFile: false,
-              uncontrolledCopy: icarusDocumentationFile.uncontrolledCopy,
-            })
-          ); */
         }}
         onViewFile={(icarusDocumentationFile: any) =>
           history.push(

@@ -44,9 +44,8 @@ const DialogFormMove = ({
         e.preventDefault();
         setLoading(true);
         onSubmit({
-          icarusDocumentationFile: initialData,
-          icarusDocumentationFolder:
-            destination!.path === "" ? undefined : destination,
+          source: initialData,
+          destination: destination!.path === "" ? undefined : destination,
         })
           .then(onClose)
           .catch(() => setLoading(false));

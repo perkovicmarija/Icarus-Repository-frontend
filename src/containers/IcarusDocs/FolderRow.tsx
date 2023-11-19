@@ -40,7 +40,6 @@ export const FolderRow = ({
       label: "general.move",
       Icon: ExitToApp,
       onClick: onMoveFolder,
-      disabled: true,
     },
     protectedAuth(["PERM_SUPPORT_ADMIN"]) && {
       label: "general.delete",
@@ -87,7 +86,6 @@ export const FolderRow = ({
                       label,
                       Icon,
                       onClick,
-                      disabled,
                     }: any /* Exclude<(typeof menuOptions)[number], boolean> */
                   ) => (
                     <MenuItem
@@ -96,7 +94,6 @@ export const FolderRow = ({
                         setAnchorElFile(undefined);
                         onClick(folder);
                       }}
-                      disabled={disabled}
                     >
                       <ListItemIcon>
                         <Icon />
