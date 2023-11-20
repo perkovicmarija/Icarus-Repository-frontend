@@ -29,6 +29,8 @@ export default function ajaxStatusReducer(state = initState, action) {
     } else if(action.type === types.AJAX_FINISHED) {
         if(state.ajaxCallsInProgress > 0) {
             return Object.assign({}, state, {ajaxCallsInProgress: state.ajaxCallsInProgress - 1});
+        } else {
+            return state;
         }
     } else {
         return state;
