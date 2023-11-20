@@ -5,17 +5,21 @@ import { DialogActions2 } from "../../../components/core/Dialog/DialogActions2";
 import { useForm } from "react-hook-form";
 import TextField2 from "../../../components/core/Fields/TextField2";
 import AutocompleteMultiLargeDataset2 from "../../../components/core/Fields/AutocompleteMultiLargeDataset2";
+import { Client } from "../../../redux/setting/clientsSlice";
+import { toast } from "react-toastify";
 
 const DialogAddEditFolder = ({
   initialData,
   onClose,
   onSubmit,
   clients,
+  folders,
 }: {
   initialData: any;
   onClose: () => void;
   onSubmit: (payload: any) => Promise<any>;
-  clients: any[];
+  clients: Client[];
+  folders: any[];
 }) => {
   const { handleSubmit, control } = useForm({
     defaultValues: initialData,
@@ -27,6 +31,14 @@ const DialogAddEditFolder = ({
       onSubmit={(e) => {
         e.stopPropagation();
         handleSubmit((data) => {
+          if (
+            data.folderName !== initialData.folderName &&
+            folders!.some((folder) => folder.folderName === data.folderName)
+          ) {
+            toast("Duplicate", { type: "error", autoClose: false });
+            return;
+          }
+
           setLoading(true);
           onSubmit(data as any)
             .then(onClose)

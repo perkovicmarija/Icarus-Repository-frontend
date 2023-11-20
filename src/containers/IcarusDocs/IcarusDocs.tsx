@@ -245,6 +245,7 @@ function IcarusDocs() {
             }
           }}
           clients={clients}
+          folders={icarusDocumentationFolders!}
         />
       </DialogFormFrame>
 
