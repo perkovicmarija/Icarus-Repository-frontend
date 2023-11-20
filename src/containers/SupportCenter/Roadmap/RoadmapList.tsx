@@ -90,6 +90,7 @@ export const RoadmapList = ({
                         sx={{
                           marginBottom: "0.5rem",
                           marginTop: "0.5rem",
+                          whiteSpace: "pre-wrap",
                         }}
                       >
                         {item.description}
