@@ -54,7 +54,10 @@ export const RoadmapList = ({
 
   return (
     <>
-      <Timeline position="alternate" style={{ opacity: loading ? 0.25 : 1 }}>
+      <Timeline
+        position="alternate"
+        style={{ opacity: loading ? 0.25 : 1, paddingBottom: "1rem" }}
+      >
         {data &&
           [...data]
             .sort((a, b) => {
