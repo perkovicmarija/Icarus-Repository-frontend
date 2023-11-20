@@ -69,6 +69,7 @@ export const FolderRow = ({
               aria-owns={anchorElFile ? "simple-menu" : undefined}
               aria-haspopup="true"
               onClick={(e) => setAnchorElFile(e.currentTarget)}
+              onDoubleClick={(e) => e.stopPropagation()}
             >
               <MoreHoriz />
             </IconButton>
@@ -77,6 +78,10 @@ export const FolderRow = ({
               anchorEl={anchorElFile}
               open={Boolean(anchorElFile)}
               onClose={() => setAnchorElFile(undefined)}
+              onDoubleClick={
+                (e) => e.stopPropagation()
+                /* need to stop propagation here also because this opens on menu click and triggers parent row doubleclick */
+              }
             >
               {menuOptions
                 .filter((i) => i)
