@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { makeStyles } from "@mui/styles";
 import Paper from "@mui/material/Paper";
 import { useDispatch, useSelector } from "react-redux";
@@ -25,28 +25,9 @@ import DialogFormUploadCSVFile from "../../components/core/Dialog/DialogFormUplo
 import { auditChecklistSubAreaActions } from "../../redux/auditChecklistSubArea/auditChecklistSubAreaReducer";
 import { auditChecklistItemActions } from "../../redux/auditChecklistItem/auditChecklistItemReducer";
 import { auditorActionLocationType } from "../../redux/auditorActionLocationType/AuditorActionLocationTypeReducer";
+import { AuditChecklistInfo } from "./AuditChecklistInfo";
 
 const useStyles = makeStyles((theme) => ({
-  root: {
-    flexGrow: 1,
-    margin: theme.spacing(3),
-  },
-  labelCustom: {
-    marginLeft: "10px",
-    fontWeight: "bold",
-  },
-  labelCustomValue: {
-    paddingLeft: "10px",
-  },
-  labelCustomValuePublished: {
-    paddingLeft: "10px",
-    fontWeight: "bold",
-    color: "green",
-  },
-  labelCustomValueDraft: {
-    paddingLeft: "10px",
-    fontWeight: "bold",
-  },
   rightIcon: {
     marginLeft: theme.spacing(1),
   },
@@ -55,10 +36,6 @@ const useStyles = makeStyles((theme) => ({
   },
   container: {
     marginTop: theme.spacing(2),
-  },
-  treeScrolls: {
-    maxHeight: "450px",
-    overflow: "auto",
   },
   objectives: {
     paddingLeft: "10px",
@@ -643,7 +620,7 @@ const AuditChecklist = (props) => {
   const { clientName } = props;
 
   return (
-    <div className={classes.root}>
+    <div>
       <Paper>
         <FormTitleSubtitleBar
           title="qms.checklist"
@@ -655,69 +632,10 @@ const AuditChecklist = (props) => {
           showPublish={checklistDnd.auditChecklist.published}
           onPublishSelect={onPublishSelect}
         />
-        <Grid container spacing={2}>
-          <Grid item sm={2} xs={12}>
-            <label className={classes.labelCustom}>
-              <IntlMessages id="general.id" />:
-            </label>
-            <label className={classes.labelCustomValue}>
-              {checklistDnd.auditChecklist.abbreviation}
-            </label>
-          </Grid>
-          <Grid item sm={2} xs={12}>
-            <label className={classes.labelCustom}>
-              <IntlMessages id="qms.checklist.domain" />:
-            </label>
-            <label className={classes.labelCustomValue}>
-              {checklistDnd.auditChecklist.domain !== null
-                ? checklistDnd.auditChecklist.domain.name
-                : "-"}
-            </label>
-          </Grid>
-          <Grid item sm={2} xs={12}>
-            <label className={classes.labelCustom}>
-              <IntlMessages id="qms.checklist.version" />:
-            </label>
-            <label className={classes.labelCustomValue}>
-              {checklistDnd.auditChecklist.version}
-            </label>
-          </Grid>
-          <Grid item sm={2} xs={12}>
-            <label className={classes.labelCustom}>
-              <IntlMessages id="qms.checklist.effectiveDate" />:
-            </label>
-            <label className={classes.labelCustomValue}>
-              {checklistDnd.auditChecklist.effectiveDate}
-            </label>
-          </Grid>
-          <Grid item sm={2} xs={12}>
-            <label className={classes.labelCustom}>
-              <IntlMessages id="qms.checklist.createdBy" />:
-            </label>
-            <label className={classes.labelCustomValue}>
-              {checklistDnd.auditChecklist.userCreated !== null
-                ? checklistDnd.auditChecklist.userCreated.surname +
-                  " " +
-                  checklistDnd.auditChecklist.userCreated.name
-                : "-"}
-            </label>
-          </Grid>
-          <Grid item sm={2} xs={12}>
-            <label className={classes.labelCustom}>
-              <IntlMessages id="general.status" />:
-            </label>
-            {checklistDnd.auditChecklist.published ? (
-              <label className={classes.labelCustomValuePublished}>
-                PUBLISHED
-              </label>
-            ) : (
-              <label className={classes.labelCustomValueDraft}>DRAFT</label>
-            )}
-          </Grid>
-        </Grid>
+        <AuditChecklistInfo checklistDnd={checklistDnd} />
       </Paper>
       <Grid container className={classes.container} spacing={2}>
-        <Grid item sm={4} xs={12}>
+        <Grid item md={4} xs={12}>
           <Grid item sm={12} xs={12}>
             <Paper className={classes.objectives}>
               <TextFieldMultiline
@@ -790,7 +708,7 @@ const AuditChecklist = (props) => {
             </Paper>
           </Grid>
         </Grid>
-        <Grid item sm={8} xs={12}>
+        <Grid item md={8} xs={12}>
           <Paper>
             <div>
               {itemVisible ? (
@@ -848,6 +766,7 @@ const AuditChecklist = (props) => {
           </Paper>
         </Grid>
       </Grid>
+
       <DialogFormFrame
         onClose={handleNewSubAreaClose}
         title="qms.checklist.subArea"
@@ -863,24 +782,28 @@ const AuditChecklist = (props) => {
           handleError={handleError}
         />
       </DialogFormFrame>
+
       <DialogDeleteWarning
         onDelete={handlePublish}
         text="qms.checklist.publish"
         onClose={handleDialogPublishClose}
         open={dialogPublish}
       />
+
       <DialogDeleteWarning
         onClose={handleDeleteSubareaClose}
         onDelete={handleDeleteSubArea}
         open={dialogDeleteSubareaOpen}
         text="qms.checklist.deleteSubarea"
       />
+
       <DialogDeleteWarning
         onClose={handleDeleteItemClose}
         onDelete={handleDeleteItem}
         open={dialogDeleteItemOpen}
         text="qms.audit.deleteItem"
       />
+
       <DialogFormFrame
         onClose={handleUploadCSVClose}
         title="general.import"
@@ -891,6 +814,7 @@ const AuditChecklist = (props) => {
           onSubmit={handleAttachmentNewSubmit}
         />
       </DialogFormFrame>
+      
       <DialogFormFrame
         onClose={handleExportDialogClose}
         title="general.export"
