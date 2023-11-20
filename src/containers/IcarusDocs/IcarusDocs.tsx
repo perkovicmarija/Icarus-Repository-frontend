@@ -13,7 +13,7 @@ import DocumentationFolderPath from "./DocumentationFolderPath";
 import { DocumentationTableToolbar2 } from "./DocumentationTableToolbar2";
 import { Route, Switch, useHistory } from "react-router-dom";
 import { useAppDispatch, useAppSelector } from "../../redux/store";
-import { fetchArrayBufferFile, useSimpleGetAll } from "../../redux/utils";
+import { networkHelper, useSimpleGetAll } from "../../redux/utils";
 import { Client, clientsActions } from "../../redux/setting/clientsSlice";
 import DialogAddEditFile from "./dialogs/DialogAddEditFile";
 import IcarusDocumentationFileApi from "../../api/IcarusDocumentationFileApi";
@@ -123,7 +123,9 @@ function IcarusDocs() {
   };
 
   const [progressUpload, setProgressUpload] = useState<number | undefined>();
-  const [progressDownload, setProgressDownload] = useState<number | undefined>();
+  const [progressDownload, setProgressDownload] = useState<
+    number | undefined
+  >();
   const [abortController, setAbortController] = useState<
     AbortController | undefined
   >();
@@ -167,7 +169,7 @@ function IcarusDocs() {
           const abortController = new AbortController();
           setAbortController(abortController);
           dispatch(
-            fetchArrayBufferFile(
+            networkHelper(
               IcarusDocumentationFileApi.download2(
                 {
                   icarusDocumentationFileId:
@@ -216,12 +218,18 @@ function IcarusDocs() {
             const abortController = new AbortController();
             setAbortController(abortController);
             if ("icarusDocumentationFileId" in dialogAddEditFile) {
-              return IcarusDocumentationFileApi.edit(networkModel);
+              return dispatch(
+                networkHelper(IcarusDocumentationFileApi.edit(networkModel))
+              );
             } else {
-              return IcarusDocumentationFileApi.upload2(
-                networkModel,
-                setProgressUpload,
-                abortController
+              return dispatch(
+                networkHelper(
+                  IcarusDocumentationFileApi.upload2(
+                    networkModel,
+                    setProgressUpload,
+                    abortController
+                  )
+                )
               );
             }
           }}

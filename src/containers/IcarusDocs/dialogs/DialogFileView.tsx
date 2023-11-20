@@ -4,7 +4,7 @@ import DialogProgress from "../../../components/core/Dialog/DialogProgress";
 import { useHistory } from "react-router-dom";
 import DialogPdfFullView from "../../FileView/PdfViewer/DialogPdfFullView";
 import IcarusDocumentationFileApi from "../../../api/IcarusDocumentationFileApi";
-import { fetchArrayBufferFile } from "../../../redux/utils";
+import { networkHelper } from "../../../redux/utils";
 import { useAppDispatch } from "../../../redux/store";
 
 function DialogFileView({ match }: any) {
@@ -24,7 +24,7 @@ function DialogFileView({ match }: any) {
     const abortController = new AbortController();
     setAbortController(abortController);
     dispatch(
-      fetchArrayBufferFile(
+      networkHelper(
         IcarusDocumentationFileApi.view2(
           {
             icarusDocumentationFileId,

@@ -77,7 +77,6 @@ export const useSimpleGetAll = (
   return responseData;
 };
 
-export const fetchArrayBufferFile =
-  (networkPromise: any) => (dispatch, thunkAPI) => {
-    return networkPromise;
-  };
+export const networkHelper = (networkPromise: any) => (dispatch, thunkAPI) => {
+  return networkPromise;
+};
