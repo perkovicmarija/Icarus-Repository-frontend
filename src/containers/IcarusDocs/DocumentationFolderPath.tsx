@@ -43,10 +43,11 @@ function DocumentationFolderPath({
           fontWeight: "500",
           fontSize: "1.1em",
           color: "white",
+          textTransform: "none",
         }}
         onClick={() => onNavigate("/")}
       >
-        <IntlMessages id="general.homeFolder" />
+        <IntlMessages id="general.rootFolder" />
       </Button>
       {pathSegments.map((pathSegment, index) => {
         return (
@@ -59,6 +60,7 @@ function DocumentationFolderPath({
                 fontWeight: "500",
                 fontSize: "1.1em",
                 color: "white",
+                textTransform: "none",
               }}
               onClick={() => onNavigate(computePath(pathSegments, index))}
             >

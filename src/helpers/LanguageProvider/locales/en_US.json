@@ -184,7 +184,7 @@
   "general.status.none": "None",
   "general.graph.add": "Add new graph",
   "general.language": "Language",
-  "general.homeFolder": "Home",
+  "general.rootFolder": "ROOT",
   "general.hrs": "Hrs",
   "general.min": "Min",
   "general.flightDetails": "Flight Details",
