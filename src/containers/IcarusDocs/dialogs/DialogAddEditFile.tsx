@@ -116,7 +116,7 @@ const DialogAddEditFile = ({
             <AutocompleteMultiLargeDataset2
               control={control}
               label="general.companies"
-              name="selectedClients"
+              name="clients"
               options={clients}
               keyProp="clientId"
               labelProp="name"

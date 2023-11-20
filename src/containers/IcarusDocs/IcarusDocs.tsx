@@ -20,6 +20,7 @@ import DialogAddEditFile from "./dialogs/DialogAddEditFile";
 import IcarusDocumentationFileApi from "../../api/IcarusDocumentationFileApi";
 import DialogFileView from "./dialogs/DialogFileView";
 import { FiltersType, icarusDocsActions } from "../../redux/icarusDocsSlice";
+import { splitPathToPathAndName } from "../../api/methods/utils";
 
 function IcarusDocs() {
   const history = useHistory();
@@ -205,7 +206,8 @@ function IcarusDocs() {
             const networkModel = {
               file: files[0],
               path: currentPath,
-              data: JSON.stringify(data),
+              ...splitPathToPathAndName(currentPath),
+              data: JSON.stringify({ ...data, filename: files[0].path }),
             };
             if ("icarusDocumentationFileId" in dialogAddEditFile) {
               return IcarusDocumentationFileApi.edit(networkModel);
@@ -227,13 +229,17 @@ function IcarusDocs() {
           onClose={() => setDialogAddEditFolder(undefined)}
           onSubmit={(payload) => {
             if (payload.icarusDocumentationFolderId) {
-              return dispatch(icarusDocsActions.updateFolder(payload));
+              return dispatch(
+                icarusDocsActions.updateFolder({
+                  folder: { ...payload, path: currentPath },
+                  selectedClients: payload.clients,
+                })
+              );
             } else {
               return dispatch(
                 icarusDocsActions.createFolder({
-                  folderName: payload.folderName,
-                  path: currentPath,
-                  clients: payload.clients,
+                  folder: { ...payload, path: currentPath },
+                  selectedClients: payload.clients,
                 })
               );
             }

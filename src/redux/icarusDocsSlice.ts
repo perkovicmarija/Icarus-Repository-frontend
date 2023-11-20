@@ -35,9 +35,11 @@ const getFoldersData = createAsyncThunk2(
 const getFilesData = createAsyncThunk2(
   "icarusDocs/getFilesData",
   async (meta: { path: string }) => {
-    
     const pathSplit = splitPathToPathAndName(meta.path);
-    return await IcarusDocumentationFileApi.getAllInFolder({...meta, ...pathSplit });
+    return await IcarusDocumentationFileApi.getAllInFolder({
+      ...meta,
+      ...pathSplit,
+    });
   }
 );
 
@@ -138,6 +140,10 @@ const icarusDocsSlice = createSlice({
         }
       })
       .addCase(createFolder.fulfilled, (state, action) => {
+        console.log(action);
+        state.folders = action.payload.data;
+      })
+      .addCase(updateFolder.fulfilled, (state, action) => {
         console.log(action);
         state.folders = action.payload.data;
       })
