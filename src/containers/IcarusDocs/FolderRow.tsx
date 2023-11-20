@@ -80,7 +80,7 @@ export const FolderRow = ({
               onClose={() => setAnchorElFile(undefined)}
               onDoubleClick={
                 (e) => e.stopPropagation()
-                /* need to stop propagation here also because this opens on menu click and triggers parent row doubleclick */
+                /* need to stop propagation here also because on menu click opens this menu and triggers parent row doubleclick */
               }
             >
               {menuOptions
