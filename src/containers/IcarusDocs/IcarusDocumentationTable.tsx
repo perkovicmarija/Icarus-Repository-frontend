@@ -93,8 +93,8 @@ const IcarusDocumentationTable = ({
                 style={{ cursor: "pointer" }}
                 hover={true}
                 onDoubleClick={() => {
-                  const { folderName } = splitPathToPathAndName(currentPath);
-                  onNavigate(folderName!);
+                  const { folderPath } = splitPathToPathAndName(currentPath);
+                  onNavigate(folderPath!);
                 }}
               >
                 <TableCell>
