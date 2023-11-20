@@ -1,12 +1,11 @@
 import RestApiPost from "./methods/RestApiPost";
 import RestApiPostMultipart from "./methods/Multipart/RestApiPostMultipart";
 import RestApiPostDownloadAxios from "./methods/Download/RestApiPostDownloadAxios";
-import RestApiPostMultipartAxios from "./methods/Multipart/RestApiPostMultipartAxios";
 import RestApiPostViewAxios from "./methods/Download/RestApiPostViewAxios";
 import RestApiGet from "./methods/RestApiGet";
 import RestApiDelete from "./methods/RestApiDelete";
 import RestApiGetDownloadAxios from "./methods/Download/RestApiGetDownloadAxios";
-import { RestApiArrayBuffer2 } from "./methods/RestApiArrayBuffer2";
+import { RestApiFile2 } from "./methods/RestApiFile2";
 
 const IcarusDocumentationFileApi = {
   getAll(viewModel) {
@@ -60,12 +59,6 @@ const IcarusDocumentationFileApi = {
       viewModel
     );
   },
-  uploadFile(viewModel) {
-    return RestApiPostMultipartAxios.postData(
-      viewModel,
-      "/support/icarus-documentation-file/upload"
-    );
-  },
   edit(viewModel) {
     return RestApiPostMultipart.postData(
       viewModel,
@@ -91,7 +84,7 @@ const IcarusDocumentationFileApi = {
     );
   },
   view2(viewModel, onProgress, abortController?: any) {
-    return RestApiArrayBuffer2.get(
+    return RestApiFile2.get(
       "/support/icarus-documentation-file/download",
       viewModel,
       onProgress,
@@ -99,8 +92,16 @@ const IcarusDocumentationFileApi = {
     );
   },
   download2(viewModel, onProgress, abortController?: any) {
-    return RestApiArrayBuffer2.download(
+    return RestApiFile2.download(
       "/support/icarus-documentation-file/download",
+      viewModel,
+      onProgress,
+      abortController
+    );
+  },
+  upload2(viewModel, onProgress, abortController?: any) {
+    return RestApiFile2.upload(
+      "/support/icarus-documentation-file/upload",
       viewModel,
       onProgress,
       abortController

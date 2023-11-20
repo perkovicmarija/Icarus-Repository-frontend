@@ -8,7 +8,6 @@ import DialogProgress from "../../components/core/Dialog/DialogProgress";
 import DialogAddEditFolder from "./dialogs/DialogAddEditFolder";
 import DialogFormFileHistory from "./dialogs/DialogFormFileHistory";
 import * as icarusDocumentationFileActions from "../../redux/support/icarusDocs/file/icarusDocumentationFileActions";
-import * as icarusDocumentationFolderActions from "../../redux/support/icarusDocs/folder/icarusDocumentationFolderActions";
 import { icarusDocs } from "../../consts/routePaths";
 import DocumentationFolderPath from "./DocumentationFolderPath";
 import { DocumentationTableToolbar2 } from "./DocumentationTableToolbar2";
@@ -123,7 +122,8 @@ function IcarusDocs() {
     dispatch(icarusDocsActions.setFilters({ ...filters, ...newFilters }));
   };
 
-  const [progress, setProgress] = useState<number | undefined>();
+  const [progressUpload, setProgressUpload] = useState<number | undefined>();
+  const [progressDownload, setProgressDownload] = useState<number | undefined>();
   const [abortController, setAbortController] = useState<
     AbortController | undefined
   >();
@@ -175,7 +175,7 @@ function IcarusDocs() {
                   viewFile: false,
                   uncontrolledCopy: icarusDocumentationFile.uncontrolledCopy,
                 },
-                setProgress,
+                setProgressDownload,
                 abortController
               )
             )
@@ -212,10 +212,17 @@ function IcarusDocs() {
                 selectedClients: data.clients,
               }),
             };
+
+            const abortController = new AbortController();
+            setAbortController(abortController);
             if ("icarusDocumentationFileId" in dialogAddEditFile) {
               return IcarusDocumentationFileApi.edit(networkModel);
             } else {
-              return IcarusDocumentationFileApi.uploadFile(networkModel);
+              return IcarusDocumentationFileApi.upload2(
+                networkModel,
+                setProgressUpload,
+                abortController
+              );
             }
           }}
           clients={clients}
@@ -271,7 +278,14 @@ function IcarusDocs() {
       </DialogFormFrame>
 
       <DialogProgress
-        progress={progress}
+        type={"upload"}
+        progress={progressUpload}
+        onClose={() => abortController!.abort()}
+      />
+
+      <DialogProgress
+        type={"download"}
+        progress={progressDownload}
         onClose={() => abortController!.abort()}
       />
 

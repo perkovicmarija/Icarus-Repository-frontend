@@ -77,6 +77,7 @@ function DialogFileView({ match }: any) {
   } else {
     return (
       <DialogProgress
+        type="download"
         progress={progress}
         onClose={() => {
           abortController!.abort();

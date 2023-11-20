@@ -5,9 +5,11 @@ import DialogNoCloseFrame from "./DialogNoCloseFrame";
 export default function DialogProgress({
   progress,
   onClose,
+  type,
 }: {
   progress: number | undefined;
   onClose: () => void;
+  type: "upload" | "download";
 }) {
   if (progress === undefined) {
     return null;
@@ -15,7 +17,7 @@ export default function DialogProgress({
 
   return (
     <DialogNoCloseFrame
-      title="general.downloading"
+      title={type === "upload" ? "general.uploading" : "general.downloading"}
       open={progress !== undefined}
     >
       <DialogContent>
