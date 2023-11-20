@@ -231,11 +231,9 @@ function IcarusDocs() {
             } else {
               return dispatch(
                 icarusDocsActions.createFolder({
-                  folder: {
-                    folderName: payload.folderName,
-                    path: currentPath,
-                  },
-                  selectedClients: payload.clients,
+                  folderName: payload.folderName,
+                  path: currentPath,
+                  clients: payload.clients,
                 })
               );
             }
