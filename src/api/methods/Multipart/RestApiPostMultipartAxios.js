@@ -8,8 +8,7 @@ const RestApiPostMultipart = {
     postData (data, resourcePath) {
         const token = getToken();
 
-        let formData = new FormData();
-
+        const formData = new FormData();
         for(let name in data) {
             formData.append(name, data[name]);
         }

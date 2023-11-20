@@ -207,7 +207,10 @@ function IcarusDocs() {
               file: files[0],
               path: currentPath,
               ...splitPathToPathAndName(currentPath),
-              data: JSON.stringify({ ...data, filename: files[0].path }),
+              data: JSON.stringify({
+                icarusDocumentationFile: { ...data, filename: files[0].path },
+                selectedClients: data.clients,
+              }),
             };
             if ("icarusDocumentationFileId" in dialogAddEditFile) {
               return IcarusDocumentationFileApi.edit(networkModel);
