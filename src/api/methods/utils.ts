@@ -6,6 +6,23 @@ export function statusHelper(response: any) {
   }
 }
 
+export const splitPathToPathAndName = (path: string) => {
+  if (path === "/") {
+    return {};
+  }
+
+  const pathSegments = path.split("/");
+  //last path segment will be "",
+  //so we need to remove it and also previous segment
+  //finally we need to append back the ending "/"
+  pathSegments.pop();
+  const folderName = pathSegments.pop()!;
+  return {
+    folderPath: pathSegments.join("/").concat("/"),
+    folderName,
+  };
+};
+
 export const downloadFile = (file: any) => {
   console.log("rafa", file);
   const url = window.URL.createObjectURL(new Blob([file.data]));

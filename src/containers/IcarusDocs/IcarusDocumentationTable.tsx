@@ -12,6 +12,7 @@ import DialogFormFrame from "../../components/core/Dialog/DialogFormFrame";
 import DialogFormMove from "./dialogs/DialogFormMove";
 import { FileRow } from "./FileRow";
 import { FolderRow } from "./FolderRow";
+import { splitPathToPathAndName } from "../../api/methods/utils";
 
 export const columnData: ColumnDefinition[] = [
   {
@@ -92,13 +93,8 @@ const IcarusDocumentationTable = ({
                 style={{ cursor: "pointer" }}
                 hover={true}
                 onDoubleClick={() => {
-                  const pathSegments = currentPath.split("/");
-                  //last path segment will be "",
-                  //so we need to remove it and also previous segment
-                  //finally we need to append back the ending "/"
-                  pathSegments.pop();
-                  pathSegments.pop();
-                  onNavigate(pathSegments.join("/").concat("/"));
+                  const { folderName } = splitPathToPathAndName(currentPath);
+                  onNavigate(folderName!);
                 }}
               >
                 <TableCell>

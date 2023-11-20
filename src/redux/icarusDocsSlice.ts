@@ -2,6 +2,7 @@ import { createSlice } from "@reduxjs/toolkit";
 import { createAsyncThunk2 } from "./utils";
 import IcarusDocumentationFolderApi from "../api/IcarusDocumentationFolderApi";
 import IcarusDocumentationFileApi from "../api/IcarusDocumentationFileApi";
+import { splitPathToPathAndName } from "../api/methods/utils";
 
 export const initFilters = {
   companies: [],
@@ -34,7 +35,9 @@ const getFoldersData = createAsyncThunk2(
 const getFilesData = createAsyncThunk2(
   "icarusDocs/getFilesData",
   async (meta: { path: string }) => {
-    return await IcarusDocumentationFileApi.getAllInFolder(meta);
+    
+    const pathSplit = splitPathToPathAndName(meta.path);
+    return await IcarusDocumentationFileApi.getAllInFolder({...meta, ...pathSplit });
   }
 );
 
@@ -70,8 +73,7 @@ const createFolder = createAsyncThunk2(
 const updateFolder = createAsyncThunk2(
   "icarusDocs/updateFolder",
   async (payload: any) => {
-    //TODO
-    return await IcarusDocumentationFolderApi.create(payload);
+    return await IcarusDocumentationFolderApi.update(payload);
   }
 );
 
