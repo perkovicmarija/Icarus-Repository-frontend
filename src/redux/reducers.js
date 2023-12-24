@@ -12,10 +12,8 @@ import LanguageSwitcher from "./languageSwitcher/languageSwitcherReducer";
 import AuditChecklist from "./auditChecklist/auditChecklistReducer";
 import AuditChecklistItem from "./auditChecklistItem/auditChecklistItemReducer";
 import AuditChecklistSubArea from "./auditChecklistSubArea/auditChecklistSubAreaReducer";
-import Client from "./setting/client/clientReducer";
 import clientsSlice from "./setting/clientsSlice";
 import AuditorActionLocationType from "./auditorActionLocationType/AuditorActionLocationTypeReducer";
-import VersionMobile from "./setting/versionMobile/versionMobileReducer";
 import IcarusDocumentationFile from "./support/icarusDocs/file/icarusDocumentationFileReducer";
 import IcarusDocumentationFolder from "./support/icarusDocs/folder/icarusDocumentationFolderReducer";
 import settingsSlice from "./settings/settingsSlice";
@@ -46,12 +44,10 @@ export default (history) =>
     AuditChecklists: auditChecklistsSlice.reducer,
     AuditChecklistItem,
     AuditChecklistSubArea,
-    Client,
     Clients: clientsSlice.reducer,
     IcarusDocumentationFile,
     IcarusDocumentationFolder,
     IcarusDocs: icarusDocsSlice.reducer,
     AuditorActionLocationType,
-    VersionMobile,
     Versions: versionsSlice.reducer,
   });
