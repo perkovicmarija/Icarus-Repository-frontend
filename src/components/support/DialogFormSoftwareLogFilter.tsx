@@ -4,7 +4,7 @@ import AutocompleteMultiLargeDataset2 from "../core/Fields/AutocompleteMultiLarg
 import { useForm } from "react-hook-form";
 import { DialogActions2 } from "../core/Dialog/DialogActions2";
 import { FiltersType } from "../../redux/support/supportLogs/supportLogsSlice";
-import { Client } from "../../redux/setting/clientsSlice";
+import { Client } from "../../../api2/clientsApi";
 
 function DialogFormSoftwareLogFilter({
   initialData,

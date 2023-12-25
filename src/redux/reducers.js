@@ -23,6 +23,7 @@ import auditChecklistsSlice from "./auditChecklistsSlice";
 import rolesSlice from "./user/rolesSlice";
 import roadmapSlice from "./support/roadmapSlice";
 import icarusDocsSlice from "./icarusDocsSlice";
+import { clientsApi } from "../api2/clientsApi";
 
 export default (history) =>
   combineReducers({
@@ -50,4 +51,5 @@ export default (history) =>
     IcarusDocs: icarusDocsSlice.reducer,
     AuditorActionLocationType,
     Versions: versionsSlice.reducer,
+    [clientsApi.reducerPath]: clientsApi.reducer 
   });

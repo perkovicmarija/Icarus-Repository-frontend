@@ -13,13 +13,13 @@ import DocumentationFolderPath from "./DocumentationFolderPath";
 import { DocumentationTableToolbar2 } from "./DocumentationTableToolbar2";
 import { Route, Switch, useHistory } from "react-router-dom";
 import { useAppDispatch, useAppSelector } from "../../redux/store";
-import { networkHelper, useSimpleGetAll } from "../../redux/utils";
-import { Client, clientsActions } from "../../redux/setting/clientsSlice";
+import { networkHelper } from "../../redux/utils";
 import DialogAddEditFile from "./dialogs/DialogAddEditFile";
 import IcarusDocumentationFileApi from "../../api/IcarusDocumentationFileApi";
 import DialogFileView from "./dialogs/DialogFileView";
 import { FiltersType, icarusDocsActions } from "../../redux/icarusDocsSlice";
 import { splitPathToPathAndName } from "../../api/methods/utils";
+import { useGetClientsQuery } from "../../api2/clientsApi";
 
 function IcarusDocs() {
   const history = useHistory();
@@ -60,7 +60,8 @@ function IcarusDocs() {
   }, [currentPath, filters]);
 
   //
-  const clients: Client[] = useSimpleGetAll(clientsActions.getAll);
+  const { data: clients } = useGetClientsQuery();
+  //const clients: Client[] = useSimpleGetAll(clientsActions.getAll);
   //
 
   /* const updateFilesAndFoldersOPath = (icarusDocumentationFolderPath) => {
@@ -138,7 +139,7 @@ function IcarusDocs() {
       <DocumentationTableToolbar2
         onNewFileClick={setDialogAddEditFile}
         onNewFolderClick={setDialogAddEditFolder}
-        clients={clients}
+        clients={clients?.data ?? []}
         onSearchSubmit={handleSubmitFilters}
         filters={filters}
         onFilterSubmit={handleSubmitFilters}
@@ -262,7 +263,7 @@ function IcarusDocs() {
               );
             }
           }}
-          clients={clients}
+          clients={clients?.data ?? []}
           folders={icarusDocumentationFolders!}
         />
       </DialogFormFrame>

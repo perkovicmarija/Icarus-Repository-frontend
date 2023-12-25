@@ -10,6 +10,7 @@ import {
   getDefaultMiddleware,
 } from "@reduxjs/toolkit";
 import { TypedUseSelectorHook, useDispatch, useSelector } from "react-redux";
+import { clientsApi } from "../api2/clientsApi";
 //used for loading and saving state from local storage - unnecessary for now
 //import { loadState, saveState } from './localStorage';
 //import throttle from 'lodash/throttle';
@@ -19,7 +20,12 @@ const history = createHashHistory();
 const sagaMiddleware = createSagaMiddleware();
 const routeMiddleware = routerMiddleware(history);
 
-const middleware = [...getDefaultMiddleware(), sagaMiddleware, routeMiddleware];
+const middleware = [
+  ...getDefaultMiddleware(),
+  sagaMiddleware,
+  routeMiddleware,
+  clientsApi.middleware,
+];
 
 //used for lading state from local storage - unnecessary for now
 //const persistedState = loadState();

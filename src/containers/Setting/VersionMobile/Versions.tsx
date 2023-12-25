@@ -1,4 +1,4 @@
-import { useEffect, useLayoutEffect, useMemo, useState } from "react";
+import { useLayoutEffect, useMemo, useState } from "react";
 import { useAppDispatch, useAppSelector } from "../../../redux/store";
 import { usePagination } from "../../../helpers/pagination";
 import { useHistory } from "react-router-dom";
@@ -13,8 +13,7 @@ import {
   VersionForAddEdit,
   versionsActions,
 } from "../../../redux/setting/versionsSlice";
-import { Client } from "../../../redux/setting/clientsSlice";
-import ClientApi from "../../../api/ClientApi";
+import { useGetClientsQuery } from "../../../api2/clientsApi";
 import { toast } from "react-toastify";
 
 // Check if a version with the same client name, platform and version already exists
@@ -66,12 +65,17 @@ function Versions() {
   }, [meta]);
 
   //
-  const [clients, setClients] = useState<Client[]>([]);
+  const { data: clientsResponse } = useGetClientsQuery();
+  const activeClients = useMemo(
+    () => clientsResponse?.data.filter((item) => !item.deactivated) ?? [],
+    [clientsResponse]
+  );
+  /* const [clients, setClients] = useState<Client[]>([]);
   useEffect(() => {
     ClientApi.getAllClients().then((response) =>
       setClients(response.data.filter((item: Client) => !item.deactivated))
     );
-  }, []);
+  }, []); */
   //
 
   const handleSubmitFilters = (newFilters: FiltersType) => {
@@ -137,7 +141,7 @@ function Versions() {
               throw new Error("duplicate");
             }
           }}
-          clients={clients}
+          clients={activeClients}
         />
       </DialogFormFrame>
     </>
