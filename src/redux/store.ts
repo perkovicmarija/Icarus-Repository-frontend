@@ -5,12 +5,15 @@ import createRootReducer from "./reducers";
 import rootSaga from "../redux/sagas";
 import {
   Action,
+  Middleware,
   ThunkDispatch,
   configureStore,
   getDefaultMiddleware,
 } from "@reduxjs/toolkit";
 import { TypedUseSelectorHook, useDispatch, useSelector } from "react-redux";
-import { clientsApi } from "../api2/clientsApi";
+import { clientsApi } from "./clientsApi";
+import { toast } from "react-toastify";
+import { authApi } from "./authApi";
 //used for loading and saving state from local storage - unnecessary for now
 //import { loadState, saveState } from './localStorage';
 //import throttle from 'lodash/throttle';
@@ -20,11 +23,39 @@ const history = createHashHistory();
 const sagaMiddleware = createSagaMiddleware();
 const routeMiddleware = routerMiddleware(history);
 
+const customMiddleware: Middleware = (middlewareAPI) => {
+  // called at start, left to right
+  return function (next) {
+    // called at start, right to left
+    return function (action) {
+      // called per action
+      // code before `next` call runs
+      var ret = next(action);
+      // code after next call runs
+      if (action.meta?.baseQueryMeta?.response?.status === 401) {
+        console.log(
+          "rafa",
+          action.meta?.baseQueryMeta?.response?.status,
+          action
+        );
+        toast("Unauthorized", {
+          autoClose: false,
+          type: "error",
+        });
+        middlewareAPI.dispatch({ type: "LOGOUT" });
+      }
+      return ret;
+    };
+  };
+};
+
 const middleware = [
   ...getDefaultMiddleware(),
   sagaMiddleware,
   routeMiddleware,
   clientsApi.middleware,
+  authApi.middleware,
+  customMiddleware,
 ];
 
 //used for lading state from local storage - unnecessary for now

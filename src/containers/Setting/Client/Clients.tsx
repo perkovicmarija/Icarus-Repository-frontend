@@ -16,7 +16,7 @@ import {
   useAddEditClientMutation,
   useDeleteClientMutation,
   useGetClientsPaginatedQuery,
-} from "../../../api2/clientsApi";
+} from "../../../redux/clientsApi";
 
 function Clients() {
   const dispatch = useAppDispatch();

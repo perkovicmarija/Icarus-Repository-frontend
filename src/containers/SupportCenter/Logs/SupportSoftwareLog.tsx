@@ -16,7 +16,7 @@ import {
   initFilters,
 } from "../../../redux/support/supportLogs/supportLogsSlice";
 import ClientApi from "../../../api/ClientApi";
-import { Client } from "../../../api2/clientsApi";
+import { Client } from "../../../redux/clientsApi";
 
 const SupportSoftwareLog = () => {
   const dispatch = useAppDispatch();

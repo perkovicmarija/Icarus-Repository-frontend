@@ -13,6 +13,8 @@ import { makeStyles } from "@mui/styles";
 import bgImage from "../../images/icarus_bg.jpg";
 import { useAppDispatch, useAppSelector } from "../../redux/store";
 import { TODO } from "../../components/core/TODO";
+import { useLoginMutation } from "../../redux/authApi";
+import { LOGIN_SUCCESS } from "../../redux/actionTypes";
 
 const useStyles = makeStyles(() => ({
   background: {
@@ -27,7 +29,7 @@ function Login() {
 
   const isLoggedIn = useAppSelector((state) => state.Auth.token !== null);
 
-  const [showLogin, /* setShowLogin */] = useState(true);
+  const [showLogin /* setShowLogin */] = useState(true);
 
   const [dialogForgotPassword, setDialogForgotPassword] = useState<any>();
 
@@ -39,8 +41,21 @@ function Login() {
     setSignUpData(signUpDataClone);
   }; */
 
+  const [triggerAuth] = useLoginMutation();
+
   function handleLogin(payload: any) {
-    dispatch(authAction.login(payload));
+    return triggerAuth(payload)
+      .unwrap()
+      .then((response) => {
+        console.log("rafa", response);
+        Object.entries(response.user).forEach((entry) => {
+          localStorage.setItem(entry[0], JSON.stringify(entry[1]));
+        });
+        dispatch({ type: LOGIN_SUCCESS, token: response.access_token });
+      })
+      .catch((err) => {
+        throw err;
+      });
   }
 
   if (isLoggedIn) {

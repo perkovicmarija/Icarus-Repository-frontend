@@ -14,7 +14,7 @@ import { MenuItem, ListItemIcon, ListItemText, Menu } from "@mui/material";
 import IntlMessages from "../../components/core/IntlMessages";
 import DialogFormDocumentationFilters from "./dialogs/DialogFormDocumentationFilters";
 import { FiltersType, initFilters } from "../../redux/icarusDocsSlice";
-import { Client } from "../../api2/clientsApi";
+import { Client } from "../../redux/clientsApi";
 
 export const DocumentationTableToolbar2 = ({
   onNewFileClick,

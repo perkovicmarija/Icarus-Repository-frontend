@@ -13,7 +13,7 @@ import {
   VersionForAddEdit,
   versionsActions,
 } from "../../../redux/setting/versionsSlice";
-import { useGetClientsQuery } from "../../../api2/clientsApi";
+import { useGetClientsQuery } from "../../../redux/clientsApi";
 import { toast } from "react-toastify";
 
 // Check if a version with the same client name, platform and version already exists

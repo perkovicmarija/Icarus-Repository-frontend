@@ -19,7 +19,7 @@ import IcarusDocumentationFileApi from "../../api/IcarusDocumentationFileApi";
 import DialogFileView from "./dialogs/DialogFileView";
 import { FiltersType, icarusDocsActions } from "../../redux/icarusDocsSlice";
 import { splitPathToPathAndName } from "../../api/methods/utils";
-import { useGetClientsQuery } from "../../api2/clientsApi";
+import { useGetClientsQuery } from "../../redux/clientsApi";
 
 function IcarusDocs() {
   const history = useHistory();
