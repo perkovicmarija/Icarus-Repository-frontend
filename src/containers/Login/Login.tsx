@@ -1,5 +1,4 @@
 import { useState } from "react";
-import { Redirect } from "react-router-dom";
 import SnackbarSuccess from "../../components/core/Snackbar/SnackbarSuccess";
 import SnackbarFailed from "../../components/core/Snackbar/SnackbarFailed";
 import LoginForm from "./LoginForm";
@@ -7,11 +6,10 @@ import LoginForm from "./LoginForm";
 import ForgotPwdDialogForm from "./ForgotPwdDialogForm";
 import DialogFormFrame from "../../components/core/Dialog/DialogFormFrame";
 import authAction from "../../redux/auth/authActions";
-import { adminRoot } from "../../consts/routePaths";
 import "../../assets/css/App.css";
 import { makeStyles } from "@mui/styles";
 import bgImage from "../../images/icarus_bg.jpg";
-import { useAppDispatch, useAppSelector } from "../../redux/store";
+import { useAppDispatch } from "../../redux/store";
 import { TODO } from "../../components/core/TODO";
 import { useLoginMutation } from "../../redux/authApi";
 import { LOGIN_SUCCESS } from "../../redux/actionTypes";
@@ -26,8 +24,6 @@ const useStyles = makeStyles(() => ({
 function Login() {
   const dispatch = useAppDispatch();
   const classes = useStyles();
-
-  const isLoggedIn = useAppSelector((state) => state.Auth.token !== null);
 
   const [showLogin /* setShowLogin */] = useState(true);
 
@@ -56,10 +52,6 @@ function Login() {
       .catch((err) => {
         throw err;
       });
-  }
-
-  if (isLoggedIn) {
-    return <Redirect to={adminRoot} />;
   }
 
   return (

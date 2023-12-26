@@ -39,10 +39,11 @@ const customMiddleware: Middleware = (middlewareAPI) => {
           action
         );
         toast("Unauthorized", {
-          autoClose: false,
+          autoClose: 3000,
           type: "error",
         });
-        middlewareAPI.dispatch({ type: "LOGOUT" });
+        middlewareAPI.dispatch({ type: "LOGOUT_401" });
+        localStorage.removeItem("token");
       }
       return ret;
     };

@@ -1,6 +1,5 @@
 export const root = "/";
 export const fourZeroFour = "/404";
-export const signIn = "/signin";
 export const confirmationCode = "/confirmation-code";
 export const adminRoot = "/admin";
 export const dashboard = adminRoot + "/dashboard";
