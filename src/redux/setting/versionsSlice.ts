@@ -1,17 +1,11 @@
 import { createSlice } from "@reduxjs/toolkit";
 import VersionsApi from "../../api/VersionsApi";
-import { Client } from "./clientsSlice";
 import { createAsyncThunk2 } from "../utils";
 import { Meta } from "../../components/core/commonTypes";
+import { Client } from "../clientsApi";
+import { Version } from "../versionsApi";
 
 export const initFilters = {};
-
-export interface Version {
-  versionMobileId: string;
-  versionMin: string;
-  platform: "";
-  client: Client;
-}
 
 export type VersionForAddEdit = Omit<Version, "client"> & {
   selectedClients: Client[];

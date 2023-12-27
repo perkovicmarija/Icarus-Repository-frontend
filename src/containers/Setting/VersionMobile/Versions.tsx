@@ -9,13 +9,13 @@ import DialogFormVersionMobile from "./DialogFormVersionMobile";
 import { getVersionMobilePath } from "../../../consts/routePaths";
 import {
   FiltersType,
-  Version,
   VersionForAddEdit,
   versionsActions,
 } from "../../../redux/setting/versionsSlice";
 import { useGetClientsQuery } from "../../../redux/clientsApi";
 import { toast } from "react-toastify";
 import {
+  Version,
   useAddEditVersionMutation,
   useDeleteVersionMutation,
   useGetVersionsPaginatedQuery,

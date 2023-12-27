@@ -28,6 +28,7 @@ import { authApi } from "./authApi";
 import { versionsApi } from "./versionsApi";
 import { supportLogsApi } from "./support/supportLogsApi";
 import { roadmapApi } from "./support/roadmapApi";
+import { auditChecklistsApi } from "./auditChecklistsApi";
 
 export default (history) =>
   combineReducers({
@@ -55,6 +56,7 @@ export default (history) =>
     IcarusDocs: icarusDocsSlice.reducer,
     AuditorActionLocationType,
     Versions: versionsSlice.reducer,
+    [auditChecklistsApi.reducerPath]: auditChecklistsApi.reducer,
     [clientsApi.reducerPath]: clientsApi.reducer,
     [versionsApi.reducerPath]: versionsApi.reducer,
     [supportLogsApi.reducerPath]: supportLogsApi.reducer,
