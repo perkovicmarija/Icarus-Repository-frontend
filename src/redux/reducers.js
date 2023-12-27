@@ -25,6 +25,7 @@ import roadmapSlice from "./support/roadmapSlice";
 import icarusDocsSlice from "./icarusDocsSlice";
 import { clientsApi } from "./clientsApi";
 import { authApi } from "./authApi";
+import { versionsApi } from "./versionsApi";
 
 export default (history) =>
   combineReducers({
@@ -53,5 +54,6 @@ export default (history) =>
     AuditorActionLocationType,
     Versions: versionsSlice.reducer,
     [clientsApi.reducerPath]: clientsApi.reducer,
+    [versionsApi.reducerPath]: versionsApi.reducer,
     [authApi.reducerPath]: authApi.reducer,
   });

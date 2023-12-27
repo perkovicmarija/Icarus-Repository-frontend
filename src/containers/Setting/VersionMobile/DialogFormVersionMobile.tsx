@@ -4,13 +4,10 @@ import { useForm } from "react-hook-form";
 import TextField2 from "../../../components/core/Fields/TextField2";
 import SelectBasicCustom2 from "../../../components/core/Fields/SelectBasicCustom2";
 import AutocompleteMultiLargeDataset2 from "../../../components/core/Fields/AutocompleteMultiLargeDataset2";
-import {
-  Version,
-  VersionForAddEdit,
-} from "../../../redux/setting/versionsSlice";
 //
 import { Client } from "../../../redux/setting/clientsSlice";
 import { DialogActions2 } from "../../../components/core/Dialog/DialogActions2";
+import { Version, VersionForAddEdit } from "../../../redux/versionsApi";
 
 const DialogFormVersionMobile = ({
   initialData,

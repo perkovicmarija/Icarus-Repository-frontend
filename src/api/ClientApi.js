@@ -20,22 +20,6 @@ const ClientApi = {
   deleteClient(viewModel) {
     return RestApiDelete.deleteData(viewModel,'/client/:clientId');
   },
-
-  ///////////////////////////   VERSION MOBILE   ///////////////////////////////////////////////
-
-  getMobileVersions(viewModel) {
-    return RestApiGetWithParams.getData(viewModel, '/version-mobile');
-  },
-  createMobileVersion(viewModel) {
-    return RestApiPost.postData('/version-mobile', viewModel);
-  },
-  updateMobileVersion(viewModel) {
-    return RestApiPutWithPathParams.putData('/version-mobile', viewModel);
-  },
-  deleteMobileVersion(viewModel) {
-    return RestApiDelete.deleteData(viewModel,'/version-mobile/:versionMobileId');
-  },
-
 }
 
 export default ClientApi;
