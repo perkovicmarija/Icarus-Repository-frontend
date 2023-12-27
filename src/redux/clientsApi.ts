@@ -1,20 +1,13 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 import { getServerPath } from "../consts/ServerInfo";
 import { getToken } from "../helpers/utility";
-import { Meta } from "../components/core/commonTypes";
+import { Meta, ResponseWrapper } from "../components/core/commonTypes";
 
 export interface Client {
   clientId: string;
   name: string;
   abbreviation: string;
   deactivated: boolean;
-}
-
-interface ResponseWrapper<T> {
-  data: T;
-  meta: {
-    totalCount: number;
-  };
 }
 
 export const clientsApi = createApi({

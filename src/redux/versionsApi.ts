@@ -1,7 +1,7 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 import { getServerPath } from "../consts/ServerInfo";
 import { getToken } from "../helpers/utility";
-import { Meta } from "../components/core/commonTypes";
+import { Meta, ResponseWrapper } from "../components/core/commonTypes";
 import { Client } from "./clientsApi";
 
 export interface Version {
@@ -14,13 +14,6 @@ export interface Version {
 export type VersionForAddEdit = Omit<Version, "client"> & {
   selectedClients: Client[];
 };
-
-interface ResponseWrapper<T> {
-  data: T;
-  meta: {
-    totalCount: number;
-  };
-}
 
 export const versionsApi = createApi({
   reducerPath: "versionsApi",
