@@ -1,4 +1,4 @@
-import { useLayoutEffect, useMemo, useState } from "react";
+import { useMemo, useState } from "react";
 import { useAppDispatch, useAppSelector } from "../../../redux/store";
 import { usePagination } from "../../../helpers/pagination";
 import { useHistory } from "react-router-dom";
@@ -16,22 +16,21 @@ import {
 import UserForm from "../../../components/user/UserForm";
 import { initFilters } from "../../../redux/user/usersSlice";
 import { rolesActions } from "../../../redux/user/rolesSlice";
+import {
+  useAddEditUserMutation,
+  useDeleteUserMutation,
+  useGetUsersPaginatedQuery,
+} from "../../../redux/user/usersApi";
 
 function Users() {
   const dispatch = useAppDispatch();
   const history = useHistory();
 
-  const data = useAppSelector((state) => state.Users.data);
-  const totalCount = useAppSelector((state) => state.Users.meta.totalCount);
-  const filters = useAppSelector((state) => state.Users.filters);
-
   const [dialogAddEdit, setDialogAddEdit] = useState<User | {} | undefined>();
   const [dialogFilters, setDialogFilters] = useState();
 
   const { page, rowsPerPage, storeRowsPerPage } = usePagination("users");
-
-  const [loading, setLoading] = useState(false);
-
+  const filters = useAppSelector((state) => state.Users.filters);
   const meta = useMemo(
     () => ({
       filters,
@@ -42,11 +41,9 @@ function Users() {
     }),
     [filters, page, rowsPerPage]
   );
-
-  useLayoutEffect(() => {
-    setLoading(true);
-    dispatch(usersActions.getData(meta)).finally(() => setLoading(false));
-  }, [meta]);
+  const { data, isFetching } = useGetUsersPaginatedQuery(meta);
+  const [triggerDelete] = useDeleteUserMutation();
+  const [triggerAddEdit] = useAddEditUserMutation();
 
   //
   const userRoles = useSimpleGetAll(rolesActions.getAll);
@@ -68,13 +65,9 @@ function Users() {
   return (
     <>
       <UserList<User>
-        data={data}
+        data={data?.data}
         onEdit={setDialogAddEdit}
-        onDelete={(payload) =>
-          dispatch(usersActions.deleteItem({ payload, meta })).then(() =>
-            dispatch(usersActions.getData(meta))
-          )
-        }
+        onDelete={(payload) => triggerDelete(payload.userId).unwrap()}
         //
         toolbarProps={{
           onAddClick: () => setDialogAddEdit({}),
@@ -87,13 +80,13 @@ function Users() {
           onSearchSubmit: handleSubmitFilters,
         }}
         paginationProps={{
-          totalCount,
+          totalCount: data?.meta.totalCount,
           page,
           rowsPerPage,
           onChangePage,
           onChangeRowsPerPage,
         }}
-        loading={loading}
+        loading={isFetching}
       />
 
       <DialogFormFrame
@@ -104,11 +97,7 @@ function Users() {
         <UserForm
           initialData={dialogAddEdit!}
           onClose={() => setDialogAddEdit(undefined)}
-          onSubmit={(payload) =>
-            dispatch(usersActions.addEditItem({ payload, meta })).then(() =>
-              dispatch(usersActions.getData(meta))
-            )
-          }
+          onSubmit={(payload) => triggerAddEdit(payload).unwrap()}
           userRoles={userRoles}
         />
       </DialogFormFrame>
