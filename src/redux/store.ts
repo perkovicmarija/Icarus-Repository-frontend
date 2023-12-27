@@ -16,6 +16,7 @@ import { toast } from "react-toastify";
 import { authApi } from "./authApi";
 import { versionsApi } from "./versionsApi";
 import { supportLogsApi } from "./support/supportLogsApi";
+import { roadmapApi } from "./support/roadmapApi";
 //used for loading and saving state from local storage - unnecessary for now
 //import { loadState, saveState } from './localStorage';
 //import throttle from 'lodash/throttle';
@@ -60,6 +61,7 @@ const middleware = [
   clientsApi.middleware,
   versionsApi.middleware,
   supportLogsApi.middleware,
+  roadmapApi.middleware,
   customMiddleware,
 ];
 

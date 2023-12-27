@@ -27,6 +27,7 @@ import { clientsApi } from "./clientsApi";
 import { authApi } from "./authApi";
 import { versionsApi } from "./versionsApi";
 import { supportLogsApi } from "./support/supportLogsApi";
+import { roadmapApi } from "./support/roadmapApi";
 
 export default (history) =>
   combineReducers({
@@ -57,5 +58,6 @@ export default (history) =>
     [clientsApi.reducerPath]: clientsApi.reducer,
     [versionsApi.reducerPath]: versionsApi.reducer,
     [supportLogsApi.reducerPath]: supportLogsApi.reducer,
+    [roadmapApi.reducerPath]: roadmapApi.reducer,
     [authApi.reducerPath]: authApi.reducer,
   });
