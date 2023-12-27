@@ -6,8 +6,8 @@ import AutocompleteMultiLargeDataset2 from "../../../components/core/Fields/Auto
 import SwitchCustom2 from "../../../components/core/Fields/SwitchCustom2";
 import { useState } from "react";
 //
-import { SupportLog } from "../../../redux/support/supportLogs/supportLogsSlice";
 import { Client } from "../../../redux/setting/clientsSlice";
+import { SupportLog } from "../../../redux/support/supportLogsApi";
 
 function DialogFormSoftwareLog({
   initialData,

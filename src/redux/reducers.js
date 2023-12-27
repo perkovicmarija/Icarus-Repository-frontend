@@ -26,6 +26,7 @@ import icarusDocsSlice from "./icarusDocsSlice";
 import { clientsApi } from "./clientsApi";
 import { authApi } from "./authApi";
 import { versionsApi } from "./versionsApi";
+import { supportLogsApi } from "./support/supportLogsApi";
 
 export default (history) =>
   combineReducers({
@@ -55,5 +56,6 @@ export default (history) =>
     Versions: versionsSlice.reducer,
     [clientsApi.reducerPath]: clientsApi.reducer,
     [versionsApi.reducerPath]: versionsApi.reducer,
+    [supportLogsApi.reducerPath]: supportLogsApi.reducer,
     [authApi.reducerPath]: authApi.reducer,
   });
