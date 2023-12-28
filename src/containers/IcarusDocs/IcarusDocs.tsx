@@ -234,7 +234,7 @@ function IcarusDocs() {
               );
             }
           }}
-          clients={clients}
+          clients={clients?.data ?? []}
         />
       </DialogFormFrame>
 

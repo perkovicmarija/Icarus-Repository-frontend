@@ -9,6 +9,7 @@ import SwitchCustom2 from "../../../components/core/Fields/SwitchCustom2";
 import { FormattedMessage } from "react-intl";
 import AutocompleteMultiLargeDataset2 from "../../../components/core/Fields/AutocompleteMultiLargeDataset2";
 import { GridContainer2 } from "../../../components/core/GridContainer2";
+import { Client } from "../../../redux/clientsApi";
 
 const DialogAddEditFile = ({
   initialData,
@@ -17,7 +18,14 @@ const DialogAddEditFile = ({
   //
   editDisabled,
   clients,
-}: any) => {
+}: {
+  initialData: any;
+  onClose: () => void;
+  onSubmit: (data: any) => Promise<void>;
+  //
+  editDisabled?: boolean;
+  clients: Client[];
+}) => {
   const { handleSubmit, control } = useForm({
     defaultValues: initialData,
   });
