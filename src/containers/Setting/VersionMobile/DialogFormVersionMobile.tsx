@@ -60,7 +60,7 @@ const DialogFormVersionMobile = ({
             <SelectBasicCustom2
               textFieldProps={{
                 InputProps: {
-                  readOnly: "versionMobileId" in initialData,
+                  disabled: "versionMobileId" in initialData,
                 },
               }}
               control={control}
@@ -81,7 +81,7 @@ const DialogFormVersionMobile = ({
               keyProp="clientId"
               labelProp="name"
               options={clients}
-              readOnly={"versionMobileId" in initialData}
+              disabled={"versionMobileId" in initialData}
             />
           </Grid>
         </Grid>

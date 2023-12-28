@@ -7,7 +7,7 @@ import DialogFormFrame from "../../../components/core/Dialog/DialogFormFrame";
 //
 import SupportSoftwareLogList from "./SupportSoftwareLogList";
 import DialogFormSoftwareLog from "./DialogFormSoftwareLog";
-import DialogFormSoftwareLogFilter from "../../../components/support/DialogFormSoftwareLogFilter";
+import DialogFormSoftwareLogFilter from "./DialogFormSoftwareLogFilter";
 import { getSupportLogsPath } from "../../../consts/routePaths";
 import {
   FiltersType,
