@@ -5,8 +5,8 @@ import { DialogActions2 } from "../../../components/core/Dialog/DialogActions2";
 import { useForm } from "react-hook-form";
 import TextField2 from "../../../components/core/Fields/TextField2";
 import AutocompleteMultiLargeDataset2 from "../../../components/core/Fields/AutocompleteMultiLargeDataset2";
-import { Client } from "../../../redux/setting/clientsSlice";
 import { toast } from "react-toastify";
+import { Client } from "../../../redux/clientsApi";
 
 const DialogAddEditFolder = ({
   initialData,

@@ -13,8 +13,8 @@ import * as icarusDocumentationFolderActions from "../../redux/support/icarusDoc
 import { MenuItem, ListItemIcon, ListItemText, Menu } from "@mui/material";
 import IntlMessages from "../../components/core/IntlMessages";
 import DialogFormDocumentationFilters from "./dialogs/DialogFormDocumentationFilters";
-import { Client } from "../../redux/setting/clientsSlice";
 import { FiltersType, initFilters } from "../../redux/icarusDocsSlice";
+import { Client } from "../../redux/clientsApi";
 
 export const DocumentationTableToolbar2 = ({
   onNewFileClick,

@@ -16,10 +16,11 @@ import { DocumentationTableToolbar2 } from "./DocumentationTableToolbar2";
 import { Route, Switch, useHistory } from "react-router-dom";
 import { useAppDispatch, useAppSelector } from "../../redux/store";
 import { useSimpleGetAll } from "../../redux/utils";
-import { Client, clientsActions } from "../../redux/setting/clientsSlice";
+import { clientsActions } from "../../redux/setting/clientsSlice";
 import DialogAddEditFile from "./dialogs/DialogAddEditFile";
 import IcarusDocumentationFileApi from "../../api/IcarusDocumentationFileApi";
 import DialogFileView from "./dialogs/DialogFileView";
+import { Client } from "../../redux/clientsApi";
 
 const constructCurrentPath = (icarusDocumentationFolderPath: any[]) => {
   if (icarusDocumentationFolderPath.length === 0) {

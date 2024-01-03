@@ -1,4 +1,4 @@
-import { /* useEffect,*/ useLayoutEffect, useMemo, useState } from "react";
+import { useMemo, useState } from "react";
 import { useAppDispatch, useAppSelector } from "../../../redux/store";
 import { usePagination } from "../../../helpers/pagination";
 import { useHistory } from "react-router-dom";
@@ -9,25 +9,25 @@ import DialogFormClient from "../../../components/setting/DialogFormClient";
 import { getClientsPath } from "../../../consts/routePaths";
 import {
   FiltersType,
-  Client,
   clientsActions,
 } from "../../../redux/setting/clientsSlice";
+import {
+  Client,
+  useAddEditClientMutation,
+  useDeleteClientMutation,
+  useGetClientsPaginatedQuery,
+} from "../../../redux/clientsApi";
 
 function Clients() {
   const dispatch = useAppDispatch();
   const history = useHistory();
-
-  const data = useAppSelector((state) => state.Clients.data);
-  const totalCount = useAppSelector((state) => state.Clients.meta.totalCount);
-  const filters = useAppSelector((state) => state.Clients.filters);
 
   const [dialogAddEdit, setDialogAddEdit] = useState<Client | {} | undefined>();
   // const [dialogFilters, setDialogFilters] = useState();
 
   const { page, rowsPerPage, storeRowsPerPage } = usePagination("clients");
 
-  const [loading, setLoading] = useState(false);
-
+  const filters = useAppSelector((state) => state.Clients.filters);
   const meta = useMemo(
     () => ({
       filters,
@@ -38,12 +38,9 @@ function Clients() {
     }),
     [filters, page, rowsPerPage]
   );
-
-  useLayoutEffect(() => {
-    setLoading(true);
-    dispatch(clientsActions.getData(meta)).finally(() => setLoading(false));
-  }, [meta]);
-  //
+  const { data, isFetching } = useGetClientsPaginatedQuery(meta);
+  const [triggerDelete] = useDeleteClientMutation();
+  const [triggerAddEdit] = useAddEditClientMutation();
 
   const handleSubmitFilters = (newFilters: FiltersType) => {
     dispatch(clientsActions.setFilters({ ...filters, ...newFilters }));
@@ -55,18 +52,20 @@ function Clients() {
   };
   const onChangeRowsPerPage = (newValue: number) => {
     storeRowsPerPage(newValue);
-    history.push(getClientsPath(page, newValue));
+    history.push(getClientsPath(0, newValue));
   };
 
   return (
     <>
       <ClientList<Client>
-        data={data}
+        data={data?.data}
         onEdit={setDialogAddEdit}
-        onDelete={(payload) =>
-          dispatch(clientsActions.deleteItem({ payload, meta })).then(() =>
-            dispatch(clientsActions.getData(meta))
-          )
+        onDelete={
+          (payload) => triggerDelete(payload.clientId).unwrap()
+          //.then(() => refetch())
+          /* dispatch(clientsActions.deleteItem({ payload, meta })).then(() =>
+            refetch()
+          ) */
         }
         //
         toolbarProps={{
@@ -78,13 +77,13 @@ function Clients() {
           onSearchSubmit: handleSubmitFilters,
         }}
         paginationProps={{
-          totalCount,
+          totalCount: data?.meta.totalCount,
           page,
           rowsPerPage,
           onChangePage,
           onChangeRowsPerPage,
         }}
-        loading={loading}
+        loading={isFetching}
       />
 
       <DialogFormFrame
@@ -95,10 +94,11 @@ function Clients() {
         <DialogFormClient
           initialData={dialogAddEdit!}
           onClose={() => setDialogAddEdit(undefined)}
-          onSubmit={(payload: any) =>
-            dispatch(clientsActions.addEditItem({ payload, meta })).then(() =>
-            dispatch(clientsActions.getData(meta))
-            )
+          onSubmit={
+            (payload: any) => triggerAddEdit(payload).unwrap()
+            /* dispatch(clientsActions.addEditItem({ payload, meta })).then(() =>
+              refetch()
+            ) */
           }
         />
       </DialogFormFrame>

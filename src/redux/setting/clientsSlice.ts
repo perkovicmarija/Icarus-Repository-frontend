@@ -2,15 +2,9 @@ import { createSlice } from "@reduxjs/toolkit";
 import ClientApi from "../../api/ClientApi";
 import { createAsyncThunk2 } from "../utils";
 import { Meta } from "../../components/core/commonTypes";
+import { Client } from "../clientsApi";
 
 export const initFilters = {};
-
-export interface Client {
-  clientId: string;
-  name: string;
-  abbreviation: string;
-  deactivated: boolean;
-}
 
 const initialState = {
   data: undefined as Client[] | undefined,

@@ -5,3 +5,10 @@ export interface Meta {
     rowsPerPage: number;
   };
 }
+
+export interface ResponseWrapper<T> {
+  data: T;
+  meta: {
+    totalCount: number;
+  };
+}

@@ -4,13 +4,10 @@ import { useForm } from "react-hook-form";
 import TextField2 from "../../../components/core/Fields/TextField2";
 import SelectBasicCustom2 from "../../../components/core/Fields/SelectBasicCustom2";
 import AutocompleteMultiLargeDataset2 from "../../../components/core/Fields/AutocompleteMultiLargeDataset2";
-import {
-  Version,
-  VersionForAddEdit,
-} from "../../../redux/setting/versionsSlice";
 //
-import { Client } from "../../../redux/setting/clientsSlice";
 import { DialogActions2 } from "../../../components/core/Dialog/DialogActions2";
+import { Version, VersionForAddEdit } from "../../../redux/versionsApi";
+import { Client } from "../../../redux/clientsApi";
 
 const DialogFormVersionMobile = ({
   initialData,
@@ -63,7 +60,7 @@ const DialogFormVersionMobile = ({
             <SelectBasicCustom2
               textFieldProps={{
                 InputProps: {
-                  readOnly: "versionMobileId" in initialData,
+                  disabled: "versionMobileId" in initialData,
                 },
               }}
               control={control}
@@ -84,7 +81,7 @@ const DialogFormVersionMobile = ({
               keyProp="clientId"
               labelProp="name"
               options={clients}
-              readOnly={"versionMobileId" in initialData}
+              disabled={"versionMobileId" in initialData}
             />
           </Grid>
         </Grid>

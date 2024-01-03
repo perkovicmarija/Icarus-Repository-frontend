@@ -1,4 +1,4 @@
-import { useEffect, useLayoutEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { useAppDispatch, useAppSelector } from "../../redux/store";
 import { usePagination } from "../../helpers/pagination";
 import { useHistory } from "react-router-dom";
@@ -20,16 +20,16 @@ import {
   AuditChecklistDomain,
 } from "../../redux/auditChecklistsSlice";
 import AuditChecklistApi from "../../api/auditChecklist/AuditChecklistApi";
+import {
+  useAddEditAuditChecklistMutation,
+  useCreateAuditChecklistNewVersionMutation,
+  useDeleteAuditChecklistMutation,
+  useGetAuditChecklistsPaginatedQuery,
+} from "../../redux/auditChecklistsApi";
 
 const AuditChecklistOverview = () => {
   const dispatch = useAppDispatch();
   const history = useHistory();
-
-  const data = useAppSelector((state) => state.AuditChecklists.data);
-  const totalCount = useAppSelector(
-    (state) => state.AuditChecklists.meta.totalCount
-  );
-  const filters = useAppSelector((state) => state.AuditChecklists.filters);
 
   const [dialogAddEdit, setDialogAddEdit] = useState<
     AuditChecklist | {} | undefined
@@ -38,9 +38,7 @@ const AuditChecklistOverview = () => {
 
   const { page, rowsPerPage, storeRowsPerPage } =
     usePagination("auditChecklists");
-
-  const [loading, setLoading] = useState(false);
-
+  const filters = useAppSelector((state) => state.AuditChecklists.filters);
   const meta = useMemo(
     () => ({
       filters,
@@ -51,13 +49,10 @@ const AuditChecklistOverview = () => {
     }),
     [filters, page, rowsPerPage]
   );
-
-  useLayoutEffect(() => {
-    setLoading(true);
-    dispatch(auditChecklistsActions.getData(meta)).finally(() =>
-      setLoading(false)
-    );
-  }, [meta]);
+  const { data, isFetching } = useGetAuditChecklistsPaginatedQuery(meta);
+  const [triggerDelete] = useDeleteAuditChecklistMutation();
+  const [triggerAddEdit] = useAddEditAuditChecklistMutation();
+  const [triggerCreateNewVersion] = useCreateAuditChecklistNewVersionMutation();
 
   //
   const [auditChecklistTypes, setAuditChecklistTypes] = useState<
@@ -105,16 +100,12 @@ const AuditChecklistOverview = () => {
   return (
     <>
       <AuditChecklistsList<AuditChecklist>
-        data={data}
+        data={data?.data}
         onItemClick={(id) => history.push("/admin/audit-checklists/" + id)}
         onEdit={setDialogAddEdit}
         onNewVersion={setDialogNewVersion}
         onShowRevisions={setDialogRevisions}
-        onDelete={(payload) =>
-          dispatch(auditChecklistsActions.deleteItem({ payload, meta })).then(
-            () => dispatch(auditChecklistsActions.getData(meta))
-          )
-        }
+        onDelete={(payload) => triggerDelete(payload.auditChecklistId).unwrap()}
         //
         toolbarProps={{
           onAddClick: () => setDialogAddEdit({}),
@@ -127,13 +118,13 @@ const AuditChecklistOverview = () => {
           onSearchSubmit: handleSubmitFilters,
         }}
         paginationProps={{
-          totalCount,
+          totalCount: data?.meta.totalCount,
           page,
           rowsPerPage,
           onChangePage,
           onChangeRowsPerPage,
         }}
-        loading={loading}
+        loading={isFetching}
       />
 
       <DialogFormFrame
@@ -146,11 +137,7 @@ const AuditChecklistOverview = () => {
         <DialogFormNewChecklist
           initialData={dialogAddEdit!}
           onClose={() => setDialogAddEdit(undefined)}
-          onSubmit={(payload) =>
-            dispatch(
-              auditChecklistsActions.addEditItem({ payload, meta })
-            ).then(() => dispatch(auditChecklistsActions.getData(meta)))
-          }
+          onSubmit={(payload) => triggerAddEdit(payload).unwrap()}
           domains={auditChecklistDomains}
           types={auditChecklistTypes}
         />
@@ -164,11 +151,7 @@ const AuditChecklistOverview = () => {
         <DialogFormNewChecklistVersion
           initialData={dialogNewVersion!}
           onClose={() => setDialogNewVersion(undefined)}
-          onSubmit={(payload) =>
-            dispatch(
-              auditChecklistsActions.createNewVersion({ payload, meta })
-            ).then(() => dispatch(auditChecklistsActions.getData(meta)))
-          }
+          onSubmit={(payload) => triggerCreateNewVersion(payload).unwrap()}
           //
           domains={auditChecklistDomains}
         />

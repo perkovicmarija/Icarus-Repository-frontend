@@ -183,7 +183,7 @@ const AutocompleteMultiLargeDataset2 = <K extends string, L extends string>({
   label,
   placeholder,
   hidePlaceholder,
-  hasSelectAll = false,
+  hasSelectAll = true,
   translate = false,
   disabled,
   readOnly,

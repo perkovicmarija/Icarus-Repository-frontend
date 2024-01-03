@@ -1,10 +1,10 @@
 import { DialogContent, Grid } from "@mui/material";
-import { initFilters } from "../../redux/support/supportReducer";
-import AutocompleteMultiLargeDataset2 from "../core/Fields/AutocompleteMultiLargeDataset2";
+import { initFilters } from "../../../redux/support/supportReducer";
+import AutocompleteMultiLargeDataset2 from "../../../components/core/Fields/AutocompleteMultiLargeDataset2";
 import { useForm } from "react-hook-form";
-import { DialogActions2 } from "../core/Dialog/DialogActions2";
-import { FiltersType } from "../../redux/support/supportLogs/supportLogsSlice";
-import { Client } from "../../redux/setting/clientsSlice";
+import { DialogActions2 } from "../../../components/core/Dialog/DialogActions2";
+import { FiltersType } from "../../../redux/support/supportLogs/supportLogsSlice";
+import { Client } from "../../../redux/clientsApi";
 
 function DialogFormSoftwareLogFilter({
   initialData,

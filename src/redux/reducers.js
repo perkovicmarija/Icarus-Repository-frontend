@@ -12,10 +12,8 @@ import LanguageSwitcher from "./languageSwitcher/languageSwitcherReducer";
 import AuditChecklist from "./auditChecklist/auditChecklistReducer";
 import AuditChecklistItem from "./auditChecklistItem/auditChecklistItemReducer";
 import AuditChecklistSubArea from "./auditChecklistSubArea/auditChecklistSubAreaReducer";
-import Client from "./setting/client/clientReducer";
 import clientsSlice from "./setting/clientsSlice";
 import AuditorActionLocationType from "./auditorActionLocationType/AuditorActionLocationTypeReducer";
-import VersionMobile from "./setting/versionMobile/versionMobileReducer";
 import IcarusDocumentationFile from "./support/icarusDocs/file/icarusDocumentationFileReducer";
 import IcarusDocumentationFolder from "./support/icarusDocs/folder/icarusDocumentationFolderReducer";
 import settingsSlice from "./settings/settingsSlice";
@@ -25,6 +23,13 @@ import auditChecklistsSlice from "./auditChecklistsSlice";
 import rolesSlice from "./user/rolesSlice";
 import roadmapSlice from "./support/roadmapSlice";
 import icarusDocsSlice from "./icarusDocsSlice";
+import { clientsApi } from "./clientsApi";
+import { authApi } from "./authApi";
+import { versionsApi } from "./versionsApi";
+import { supportLogsApi } from "./support/supportLogsApi";
+import { roadmapApi } from "./support/roadmapApi";
+import { auditChecklistsApi } from "./auditChecklistsApi";
+import { usersApi } from "./user/usersApi";
 
 export default (history) =>
   combineReducers({
@@ -46,12 +51,17 @@ export default (history) =>
     AuditChecklists: auditChecklistsSlice.reducer,
     AuditChecklistItem,
     AuditChecklistSubArea,
-    Client,
     Clients: clientsSlice.reducer,
     IcarusDocumentationFile,
     IcarusDocumentationFolder,
     IcarusDocs: icarusDocsSlice.reducer,
     AuditorActionLocationType,
-    VersionMobile,
     Versions: versionsSlice.reducer,
+    [auditChecklistsApi.reducerPath]: auditChecklistsApi.reducer,
+    [usersApi.reducerPath]: usersApi.reducer,
+    [clientsApi.reducerPath]: clientsApi.reducer,
+    [versionsApi.reducerPath]: versionsApi.reducer,
+    [supportLogsApi.reducerPath]: supportLogsApi.reducer,
+    [roadmapApi.reducerPath]: roadmapApi.reducer,
+    [authApi.reducerPath]: authApi.reducer,
   });

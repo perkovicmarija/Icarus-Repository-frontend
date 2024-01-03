@@ -1,4 +1,4 @@
-import { useEffect, useLayoutEffect, useMemo, useState } from "react";
+import { useMemo, useState } from "react";
 import { useAppDispatch, useAppSelector } from "../../../redux/store";
 import { usePagination } from "../../../helpers/pagination";
 import { useHistory } from "react-router-dom";
@@ -9,13 +9,17 @@ import DialogFormVersionMobile from "./DialogFormVersionMobile";
 import { getVersionMobilePath } from "../../../consts/routePaths";
 import {
   FiltersType,
-  Version,
   VersionForAddEdit,
   versionsActions,
 } from "../../../redux/setting/versionsSlice";
-import { Client } from "../../../redux/setting/clientsSlice";
-import ClientApi from "../../../api/ClientApi";
+import { useGetClientsQuery } from "../../../redux/clientsApi";
 import { toast } from "react-toastify";
+import {
+  Version,
+  useAddEditVersionMutation,
+  useDeleteVersionMutation,
+  useGetVersionsPaginatedQuery,
+} from "../../../redux/versionsApi";
 
 // Check if a version with the same client name, platform and version already exists
 const checkForExistingCombination = (
@@ -34,10 +38,6 @@ function Versions() {
   const dispatch = useAppDispatch();
   const history = useHistory();
 
-  const data = useAppSelector((state) => state.Versions.data);
-  const totalCount = useAppSelector((state) => state.Versions.meta.totalCount);
-  const filters = useAppSelector((state) => state.Versions.filters);
-
   const [dialogAddEdit, setDialogAddEdit] = useState<
     Version | {} | undefined
   >();
@@ -45,8 +45,7 @@ function Versions() {
 
   const { page, rowsPerPage, storeRowsPerPage } = usePagination("versions");
 
-  const [loading, setLoading] = useState(false);
-
+  const filters = useAppSelector((state) => state.Versions.filters);
   const meta = useMemo(
     () => ({
       filters,
@@ -57,21 +56,22 @@ function Versions() {
     }),
     [filters, page, rowsPerPage]
   );
-
-  useLayoutEffect(() => {
-    setLoading(true);
-    dispatch(versionsActions.getData(meta)).finally(() => {
-      setLoading(false);
-    });
-  }, [meta]);
+  const { data, isFetching } = useGetVersionsPaginatedQuery(meta);
+  const [triggerDelete] = useDeleteVersionMutation();
+  const [triggerAddEdit] = useAddEditVersionMutation();
 
   //
-  const [clients, setClients] = useState<Client[]>([]);
+  const { data: clientsResponse } = useGetClientsQuery();
+  const activeClients = useMemo(
+    () => clientsResponse?.data.filter((item) => !item.deactivated) ?? [],
+    [clientsResponse]
+  );
+  /* const [clients, setClients] = useState<Client[]>([]);
   useEffect(() => {
     ClientApi.getAllClients().then((response) =>
       setClients(response.data.filter((item: Client) => !item.deactivated))
     );
-  }, []);
+  }, []); */
   //
 
   const handleSubmitFilters = (newFilters: FiltersType) => {
@@ -90,13 +90,9 @@ function Versions() {
   return (
     <>
       <VersionList<Version>
-        data={data}
+        data={data?.data}
         onEdit={setDialogAddEdit}
-        onDelete={(payload) =>
-          dispatch(versionsActions.deleteItem({ payload, meta })).then(() =>
-            dispatch(versionsActions.getData(meta))
-          )
-        }
+        onDelete={(payload) => triggerDelete(payload.versionMobileId).unwrap()}
         //
         toolbarProps={{
           onAddClick: setDialogAddEdit,
@@ -107,13 +103,13 @@ function Versions() {
           onSearchSubmit: handleSubmitFilters,
         }}
         paginationProps={{
-          totalCount,
+          totalCount: data?.meta.totalCount,
           page,
           rowsPerPage,
           onChangePage,
           onChangeRowsPerPage,
         }}
-        loading={loading}
+        loading={isFetching}
       />
 
       <DialogFormFrame
@@ -125,19 +121,17 @@ function Versions() {
           initialData={dialogAddEdit!}
           onClose={() => setDialogAddEdit(undefined)}
           onSubmit={(payload) => {
-            const duplicate = checkForExistingCombination(data!, payload);
+            const duplicate = checkForExistingCombination(data?.data!, payload);
 
             //Do not allow creating of duplicates
             if (!duplicate) {
-              return dispatch(
-                versionsActions.addEditItem({ payload, meta })
-              ).then(() => dispatch(versionsActions.getData(meta)));
+              return triggerAddEdit(payload).unwrap();
             } else {
               toast("Duplicate", { type: "error" });
               throw new Error("duplicate");
             }
           }}
-          clients={clients}
+          clients={activeClients}
         />
       </DialogFormFrame>
     </>

@@ -5,11 +5,20 @@ import createRootReducer from "./reducers";
 import rootSaga from "../redux/sagas";
 import {
   Action,
+  Middleware,
   ThunkDispatch,
   configureStore,
   getDefaultMiddleware,
 } from "@reduxjs/toolkit";
 import { TypedUseSelectorHook, useDispatch, useSelector } from "react-redux";
+import { clientsApi } from "./clientsApi";
+import { toast } from "react-toastify";
+import { authApi } from "./authApi";
+import { versionsApi } from "./versionsApi";
+import { supportLogsApi } from "./support/supportLogsApi";
+import { roadmapApi } from "./support/roadmapApi";
+import { auditChecklistsApi } from "./auditChecklistsApi";
+import { usersApi } from "./user/usersApi";
 //used for loading and saving state from local storage - unnecessary for now
 //import { loadState, saveState } from './localStorage';
 //import throttle from 'lodash/throttle';
@@ -19,7 +28,46 @@ const history = createHashHistory();
 const sagaMiddleware = createSagaMiddleware();
 const routeMiddleware = routerMiddleware(history);
 
-const middleware = [...getDefaultMiddleware(), sagaMiddleware, routeMiddleware];
+const customMiddleware: Middleware = (middlewareAPI) => {
+  // called at start, left to right
+  return function (next) {
+    // called at start, right to left
+    return function (action) {
+      // called per action
+      // code before `next` call runs
+      var ret = next(action);
+      // code after next call runs
+      if (action.meta?.baseQueryMeta?.response?.status === 401) {
+        console.log(
+          "rafa",
+          action.meta?.baseQueryMeta?.response?.status,
+          action
+        );
+        toast("Unauthorized", {
+          autoClose: 3000,
+          type: "error",
+        });
+        middlewareAPI.dispatch({ type: "LOGOUT_401" });
+        localStorage.removeItem("token");
+      }
+      return ret;
+    };
+  };
+};
+
+const middleware = [
+  ...getDefaultMiddleware(),
+  sagaMiddleware,
+  routeMiddleware,
+  authApi.middleware,
+  auditChecklistsApi.middleware,
+  usersApi.middleware,
+  clientsApi.middleware,
+  versionsApi.middleware,
+  supportLogsApi.middleware,
+  roadmapApi.middleware,
+  customMiddleware,
+];
 
 //used for lading state from local storage - unnecessary for now
 //const persistedState = loadState();

@@ -1,4 +1,4 @@
-import { useLayoutEffect, useMemo, useState } from "react";
+import { useMemo, useState } from "react";
 import { useAppDispatch, useAppSelector } from "../../../redux/store";
 //import { usePagination } from "../../../helpers/pagination";
 //import { useHistory } from "react-router-dom";
@@ -14,14 +14,15 @@ import {
   roadmapActions,
 } from "../../../redux/support/roadmapSlice";
 import { RoadmapList } from "./RoadmapList";
+import {
+  useAddEditRoadmapMutation,
+  useDeleteRoadmapMutation,
+  useGetRoadmapPaginatedQuery,
+} from "../../../redux/support/roadmapApi";
 
 function Roadmap() {
   const dispatch = useAppDispatch();
   //const history = useHistory();
-
-  const data = useAppSelector((state) => state.Roadmap.data);
-  //const totalCount = useAppSelector((state) => state.Roadmap.meta.totalCount);
-  const filters = useAppSelector((state) => state.Roadmap.filters);
 
   const [dialogAddEdit, setDialogAddEdit] = useState<
     RoadmapType | {} | undefined
@@ -31,8 +32,7 @@ function Roadmap() {
   const page = 0;
   const rowsPerPage = 50;
 
-  const [loading, setLoading] = useState(false);
-
+  const filters = useAppSelector((state) => state.Roadmap.filters);
   const meta = useMemo(
     () => ({
       filters,
@@ -43,11 +43,9 @@ function Roadmap() {
     }),
     [filters, page, rowsPerPage]
   );
-
-  useLayoutEffect(() => {
-    setLoading(true);
-    dispatch(roadmapActions.getData(meta)).finally(() => setLoading(false));
-  }, [meta]);
+  const { data, isFetching } = useGetRoadmapPaginatedQuery(meta);
+  const [triggerDelete] = useDeleteRoadmapMutation();
+  const [triggerAddEdit] = useAddEditRoadmapMutation();
 
   const handleSubmitFilters = (newFilters: FiltersType) => {
     dispatch(roadmapActions.setFilters({ ...filters, ...newFilters }));
@@ -75,14 +73,12 @@ function Roadmap() {
       />
 
       <RoadmapList
-        data={data}
+        data={data?.data}
         onEdit={setDialogAddEdit}
         onDelete={(payload) =>
-          dispatch(roadmapActions.deleteItem({ payload, meta })).then(() =>
-            dispatch(roadmapActions.getData(meta))
-          )
+          triggerDelete(payload.icarusRoadmapLogId).unwrap()
         }
-        loading={loading}
+        loading={isFetching}
       />
 
       <DialogFormFrame
@@ -106,10 +102,8 @@ function Roadmap() {
           <DialogFormRoadmap
             initialData={dialogAddEdit}
             onClose={() => setDialogAddEdit(undefined)}
-            onSubmit={(payload: any) =>
-              dispatch(roadmapActions.addEditItem({ payload, meta })).then(() =>
-                dispatch(roadmapActions.getData(meta))
-              )
+            onSubmit={(payload: RoadmapType) =>
+              triggerAddEdit(payload).unwrap()
             }
           />
         </DialogFormFrame>

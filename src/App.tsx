@@ -6,7 +6,7 @@ import {
 } from "@mui/material/styles";
 import { amber } from "@mui/material/colors";
 import { IntlProvider } from "react-intl";
-import PublicRoutes from "./publicRouter";
+import MainRouter from "./MainRouter";
 import Boot from "./redux/boot";
 import { store, history } from "./redux/store";
 import { AppLocale } from "./helpers/LanguageProvider";
@@ -64,7 +64,7 @@ function App() {
               adapterLocale="en-gb"
             >
               <Provider store={store}>
-                <PublicRoutes history={history} />
+                <MainRouter history={history} />
               </Provider>
             </LocalizationProvider>
           </StyledEngineProvider>

@@ -1,5 +1,5 @@
 import { makeStyles } from "@mui/styles";
-import { Grid, Button } from "@mui/material";
+import { Grid, Button, CircularProgress } from "@mui/material";
 import "../../assets/css/App.css";
 import bgImageLogo from "../../images/login/icarus-zlatno.png";
 import IntlMessages from "../../components/core/IntlMessages";
@@ -32,6 +32,7 @@ const LoginForm = ({ onSubmit, onForgotPasswordClick }: any) => {
     defaultValues: {},
   });
   const [loading, setLoading] = useState(false);
+  const [isError, setIsError] = useState(false);
 
   return (
     <>
@@ -48,9 +49,13 @@ const LoginForm = ({ onSubmit, onForgotPasswordClick }: any) => {
           e.stopPropagation();
           handleSubmit((data) => {
             setLoading(true);
+            setIsError(false);
             onSubmit(data as any)
               //.then(onClose)
-              .catch(() => setLoading(false));
+              .catch(() => {
+                setIsError(true);
+                setLoading(false);
+              });
           })(e);
         }}
       >
@@ -66,6 +71,7 @@ const LoginForm = ({ onSubmit, onForgotPasswordClick }: any) => {
               label="form.username"
               name="username"
               textFieldProps={{
+                autoComplete: "username",
                 InputProps: {
                   sx: {
                     "::before, ::after": {
@@ -92,6 +98,7 @@ const LoginForm = ({ onSubmit, onForgotPasswordClick }: any) => {
                 name="password"
                 textFieldProps={{
                   type: showPassword ? "text" : "password",
+                  autoComplete: "current-password",
                   InputProps: {
                     sx: {
                       "::before, ::after": {
@@ -126,10 +133,27 @@ const LoginForm = ({ onSubmit, onForgotPasswordClick }: any) => {
             </div>
           </Grid>
 
-          <Grid item xs={12} sx={{ textAlign: "center", marginTop: "1rem" }}>
-            <Button type="submit" sx={{ color: "#c3922e" }}>
-              <IntlMessages id="page.signInButton" />
-            </Button>
+          <Grid
+            item
+            xs={12}
+            sx={{
+              color: "red",
+              fontWeight: 300,
+              textAlign: "center",
+              visibility: isError ? "visible" : "hidden",
+            }}
+          >
+            Wrong username or password
+          </Grid>
+
+          <Grid item xs={12} sx={{ textAlign: "center", marginTop: "0rem" }}>
+            {loading ? (
+              <CircularProgress size="2rem" style={{ color: "#c3922e" }} />
+            ) : (
+              <Button type="submit" sx={{ color: "#c3922e" }}>
+                <IntlMessages id="page.signInButton" />
+              </Button>
+            )}
           </Grid>
 
           <Grid item xs={12} sx={{ textAlign: "center", marginTop: "2rem" }}>

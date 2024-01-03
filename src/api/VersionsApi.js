@@ -5,9 +5,6 @@ import RestApiPutWithPathParams from "./methods/RestApiPutWithPathParams";
 import RestApiGetWithParams from "./methods/RestApiGetWithParams";
 
 const VersionsApi = {
-  getMobileVersions(viewModel) {
-    return RestApiGetWithParams.getData(viewModel, "/version-mobile");
-  },
   getMobileVersionsPaginated(viewModel) {
     return RestApiPost.postData("/version-mobile/paginate", viewModel);
   },
