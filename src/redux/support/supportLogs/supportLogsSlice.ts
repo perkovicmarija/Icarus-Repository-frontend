@@ -13,6 +13,7 @@ export interface SupportLog {
   description: string;
   clients: any[];
   dateFormatted: string;
+  dateOfLogFormatted: string;
 }
 
 const initialState = {

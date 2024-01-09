@@ -84,7 +84,7 @@ const SupportSoftwareLogList = <T,>({
                     .join(", ")}
                 </TableCell>
                 <TableCell sx={{ width: "150px" }}>
-                  {item.dateFormatted}
+                  {item.dateOfLogFormatted}
                 </TableCell>
                 <TableCell className="nostretch">
                   <TableActions2
