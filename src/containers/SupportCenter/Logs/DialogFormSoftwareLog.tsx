@@ -8,6 +8,7 @@ import { useState } from "react";
 //
 import { SupportLog } from "../../../redux/support/supportLogsApi";
 import { Client } from "../../../redux/clientsApi";
+import DateTimePickerCustom2 from "../../../components/core/Fields/DateTimePickerCustom2";
 
 function DialogFormSoftwareLog({
   initialData,
@@ -68,6 +69,14 @@ function DialogFormSoftwareLog({
               name="selectedClients"
               keyProp="clientId"
               labelProp="name"
+            />
+          </Grid>
+
+          <Grid item sm={6} xs={12}>
+            <DateTimePickerCustom2
+                control={control}
+                label="support.dateOfLog"
+                name="dateOfLog"
             />
           </Grid>
 
