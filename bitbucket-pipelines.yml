@@ -6,7 +6,7 @@ pipelines:
         name: Build React Project
         script:
           - yarn install
-          - vite build
+          - yarn build_only
           - mkdir packaged
           - tar -czvf packaged/package-${BITBUCKET_BUILD_NUMBER}.tar.gz -C dist .
         artifacts:
