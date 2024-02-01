@@ -1,0 +1,26 @@
+image: node:20.9.0
+
+pipelines:
+  default:
+    - step:
+        name: Build React Project
+        script:
+          - yarn install
+          - vite build
+          - mkdir packaged
+          - tar -czvf packaged/package-${BITBUCKET_BUILD_NUMBER}.tar.gz -C dist .
+        artifacts:
+          - packaged/**
+    - step:
+        name: Deploy to Web
+        image: alpine
+        trigger: manual
+        deployment: production
+        script:
+          - mkdir upload
+          - tar -xf packaged/package-${BITBUCKET_BUILD_NUMBER}.tar.gz -C upload
+          - apk update && apk add openssh rsync
+          - rsync -a  -e "ssh -o StrictHostKeyChecking=no" --delete upload/ $USERNAME@$SERVER:html/temp/react-${BITBUCKET_BUILD_NUMBER}
+          - ssh -o StrictHostKeyChecking=no $USERNAME@$SERVER "rm -r html/www"
+          - ssh -o StrictHostKeyChecking=no $USERNAME@$SERVER "mv 'html/temp/react-${BITBUCKET_BUILD_NUMBER}' 'html/www'"
+          - ssh -o StrictHostKeyChecking=no $USERNAME@$SERVER "chmod -R u+rwX,go+rX,go-w html/www"
