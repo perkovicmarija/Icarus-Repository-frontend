@@ -97,7 +97,7 @@ const AutocompleteMultiLargeDataset = forwardRef(
             // console.log('rafa input list of tokens', inputListOfTokens);
             const filteredOptions = options.filter((item) => {
               for (const token of inputListOfTokens) {
-                if (!item[labelProp].toLocaleLowerCase().includes(token)) {
+                if (!item[labelProp]?.toLocaleLowerCase().includes(token)) {
                   // console.log('rafa match false');
                   return false;
                 }

@@ -1,17 +1,14 @@
+import {Group, LibraryBooks, MenuBook, Settings, SupportAgent} from "@mui/icons-material";
+import TextSnippetIcon from '@mui/icons-material/TextSnippet';
 import {
-  Group,
-  MenuBook,
-  SupportAgent,
-  Settings,
-  LibraryBooks,
-} from "@mui/icons-material";
-import {
+  androidClients,
   auditChecklistOverview,
   clients,
-  getUsersPath,
   icarusDocs,
+  iOSClients,
   supportLogs,
   users,
+  webClients,
 } from "../../consts/routePaths";
 
 const sidebarRoutes = [
@@ -75,6 +72,32 @@ const sidebarRoutes = [
           "PERM_SUPPORT_CRUD",
           "PERM_SUPPORT_ADMIN",
         ],
+      },
+    ],
+  },
+  {
+    name: "Logger",
+    icon: TextSnippetIcon,
+    key: "logger-module",
+    sidebar: true,
+    children: [
+      {
+        path: iOSClients,
+        name: "IOS",
+        key: "iOSLogs",
+        sidebar: true,
+      },
+      {
+        path: androidClients,
+        name: "Android",
+        key: "androidLogs",
+        sidebar: true,
+      },
+      {
+        path: webClients,
+        name: "Web",
+        key: "webLogs",
+        sidebar: true,
       },
     ],
   },

@@ -19,6 +19,7 @@ import { supportLogsApi } from "./support/supportLogsApi";
 import { roadmapApi } from "./support/roadmapApi";
 import { auditChecklistsApi } from "./auditChecklistsApi";
 import { usersApi } from "./user/usersApi";
+import { loggerApi } from "./loggerApi";
 //used for loading and saving state from local storage - unnecessary for now
 //import { loadState, saveState } from './localStorage';
 //import throttle from 'lodash/throttle';
@@ -67,6 +68,7 @@ const middleware = [
   supportLogsApi.middleware,
   roadmapApi.middleware,
   customMiddleware,
+  loggerApi.middleware
 ];
 
 //used for lading state from local storage - unnecessary for now

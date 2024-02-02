@@ -63,3 +63,29 @@ export const versionsMobile = settingModule + "/version-mobile/";
 export const getVersionMobilePath = (page: number, rowsPerPage?: number) => {
   return `${versionsMobile}${page}/${rowsPerPage ?? ""}`;
 };
+
+// LOGGER
+export const loggerModule = adminRoot + "/logger";
+
+export const iOSClients = loggerModule + "/ios/";
+export const getIOSClientsPath = (page: number, rowsPerPage?: number) => {
+  return `${iOSClients}${page}/${rowsPerPage ?? ""}`;
+};
+
+export const androidClients = loggerModule + "/android/";
+export const getAndroidClientsPath = (page: number, rowsPerPage?: number) => {
+  return `${androidClients}${page}/${rowsPerPage ?? ""}`;
+};
+
+export const webClients = loggerModule + "/web/";
+export const getWebClientsPath = (page: number, rowsPerPage?: number) => {
+  return `${webClients}${page}/${rowsPerPage ?? ""}`;
+};
+
+export const mobileLogs = loggerModule + "/mobile-logs/:platform/:clientAbbreviation/";
+export const getMobileLogsPath = (platform: string, clientAbbreviation: string) => {
+  return mobileLogs.replace(":platform", platform).replace(":clientAbbreviation", clientAbbreviation);
+};
+export const getMobileLogsPaginationPath = (platform: string, clientAbbreviation: string, page: number, rowsPerPage?: number) => {
+  return `${getMobileLogsPath(platform, clientAbbreviation)}${page}/${rowsPerPage ?? ""}`;
+};

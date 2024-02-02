@@ -222,6 +222,7 @@
   "general.roleName": "Role name",
   "general.noItems": "No items",
   "general.userGroup": "User group",
+  "general.message": "Message",
 
   "form.user": "User",
   "form.users": "Users",
@@ -248,6 +249,7 @@
   "search.search": "Search",
   "search.byEmail": "Search by email",
   "search.byName": "Search by name",
+  "search.byMessage": "Search by message",
   "search.byClientName": "Search by client name",
 
   "page.signInButton": "Sign in",
@@ -396,5 +398,13 @@
   "users.groups": "User groups",
 
   "promotion.news.notification": "Notifications",
-  "promotion.news.notificationType": "Notification Type"
+  "promotion.news.notificationType": "Notification Type",
+
+  "logger.title": "Mobile logs",
+  "logger.appVersion": "App version",
+  "logger.dateOfLog": "Date of Log",
+  "logger.logLevel": "Log level",
+  "logger.osVersion": "OS Version",
+  "logger.sessionId": "Session ID"
+
 }
