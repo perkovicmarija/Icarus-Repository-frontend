@@ -14,7 +14,6 @@ pipelines:
     - step:
         name: Deploy to test
         image: alpine
-        trigger: manual
         deployment: test
         # trigger: manual  # Uncomment to make this a manual deployment.
         script:
