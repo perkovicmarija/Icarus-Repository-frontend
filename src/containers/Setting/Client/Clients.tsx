@@ -1,4 +1,4 @@
-import { useMemo, useState } from "react";
+import {useEffect, useMemo, useState} from "react";
 import { useAppDispatch, useAppSelector } from "../../../redux/store";
 import { usePagination } from "../../../helpers/pagination";
 import { useHistory } from "react-router-dom";
@@ -6,7 +6,13 @@ import DialogFormFrame from "../../../components/core/Dialog/DialogFormFrame";
 //
 import ClientList from "./ClientList";
 import DialogFormClient from "../../../components/setting/DialogFormClient";
-import { getClientsPath } from "../../../consts/routePaths";
+import {
+  getAndroidClientsPath,
+  getClientsPath,
+  getIOSClientsPath,
+  getMobileLogsPath,
+  getWebClientsPath
+} from "../../../consts/routePaths";
 import {
   FiltersType,
   clientsActions,
@@ -18,12 +24,26 @@ import {
   useGetClientsPaginatedQuery,
 } from "../../../redux/clientsApi";
 
-function Clients() {
+function Clients({ actions }: { actions?: boolean }) {
+  const { actions: showActions = true } = { actions };
+  const addNewClientProps = showActions ? { onAddClick: () => setDialogAddEdit({}) } : {};
+
   const dispatch = useAppDispatch();
   const history = useHistory();
 
   const [dialogAddEdit, setDialogAddEdit] = useState<Client | {} | undefined>();
+  const [mobilePlatform, setMobilePlatform] = useState<string>('')
   // const [dialogFilters, setDialogFilters] = useState();
+
+  useEffect(() => {
+    if (history.location.pathname.includes('ios')) {
+      setMobilePlatform('ios')
+    } else if (history.location.pathname.includes('android')) {
+      setMobilePlatform('android')
+    } else if (history.location.pathname.includes('web')) {
+      setMobilePlatform('web')
+    }
+  },[])
 
   const { page, rowsPerPage, storeRowsPerPage } = usePagination("clients");
 
@@ -42,22 +62,46 @@ function Clients() {
   const [triggerDelete] = useDeleteClientMutation();
   const [triggerAddEdit] = useAddEditClientMutation();
 
+  const handleClickRow = (item: Client) => {
+    history.push(getMobileLogsPath(mobilePlatform, item.abbreviation));
+  }
+
+  const navigateToPlatformPath = (page, rowsPerPage = null) => {
+    switch (mobilePlatform) {
+      case 'ios':
+        history.push(getIOSClientsPath(page, rowsPerPage));
+        break;
+      case 'android':
+        history.push(getAndroidClientsPath(page, rowsPerPage));
+        break;
+      case 'web':
+        history.push(getWebClientsPath(page, rowsPerPage));
+        break;
+      default:
+        history.push(getClientsPath(page, rowsPerPage));
+    }
+  };
+
   const handleSubmitFilters = (newFilters: FiltersType) => {
     dispatch(clientsActions.setFilters({ ...filters, ...newFilters }));
-    history.push(getClientsPath(0));
+    navigateToPlatformPath(0);
   };
-  // PAGINATION
+
   const onChangePage = (newValue: number) => {
-    history.push(getClientsPath(newValue, rowsPerPage));
+    navigateToPlatformPath(newValue, rowsPerPage);
   };
+
   const onChangeRowsPerPage = (newValue: number) => {
     storeRowsPerPage(newValue);
-    history.push(getClientsPath(0, newValue));
+    navigateToPlatformPath(0, newValue);
   };
+
 
   return (
     <>
       <ClientList<Client>
+        onClickRow={handleClickRow}
+        showActions={showActions}
         data={data?.data}
         onEdit={setDialogAddEdit}
         onDelete={
@@ -69,7 +113,7 @@ function Clients() {
         }
         //
         toolbarProps={{
-          onAddClick: () => setDialogAddEdit({}),
+          ...addNewClientProps,
           title: "form.clients",
           searchPlaceholder: "search.byName",
           searchTextPropKey: "clientSearch",

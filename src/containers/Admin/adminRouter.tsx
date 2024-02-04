@@ -1,4 +1,4 @@
-import { Redirect, Route, Switch } from "react-router-dom";
+import {Redirect, Route, Switch} from "react-router-dom";
 import SupportBugDetailsFrame from "../SupportCenter/Bug_OBSOLETE/Details/SupportBugDetailsFrame";
 import ProtectedRoute from "../../ProtectedRoute";
 import Dashboard from "../Dashboard/Dashboard";
@@ -6,19 +6,25 @@ import UserRoleFrame from "../Users/UserRoleFrame";
 import SupportCenterFrame from "../SupportCenter/SupportCenterFrame";
 import SettingFrame from "../Setting/SettingFrame";
 import {
-  auditChecklistOverview,
-  auditChecklist,
-  userModule,
-  dashboard,
-  icarusDocs,
-  root,
-  settingModule,
-  supportBug,
-  supportCenter,
+    androidClients,
+    auditChecklist,
+    auditChecklistOverview,
+    dashboard,
+    icarusDocs,
+    iOSClients,
+    mobileLogs,
+    root,
+    settingModule,
+    supportBug,
+    supportCenter,
+    userModule,
+    webClients,
 } from "../../consts/routePaths";
 import AuditChecklistOverview from "../AuditChecklist/AuditChecklistOverview";
 import AuditChecklist from "../AuditChecklist/AuditChecklist";
 import IcarusDocs from "../IcarusDocs/IcarusDocs";
+import Clients from "../Setting/Client/Clients";
+import MobileLogs from "../Logger/MobileLogs";
 
 const AdminRouter = () => {
   return (
@@ -87,6 +93,30 @@ const AdminRouter = () => {
         component={SettingFrame}
         key="setting-module"
       />
+
+        <Route
+            path={iOSClients}
+            render={(routeProps) => <Clients {...routeProps} actions={false} />}
+            key="ios-clients"
+        />
+
+        <Route
+            path={androidClients}
+            render={(routeProps) => <Clients {...routeProps} actions={false} />}
+            key="android-clients"
+        />
+
+        <Route
+            path={webClients}
+            render={(routeProps) => <Clients {...routeProps} actions={false} />}
+            key="web-clients"
+        />
+
+        <Route
+            path={mobileLogs}
+            component={MobileLogs}
+            key="mobile-logs"
+        />
 
       <Redirect from={root} to={auditChecklistOverview} />
     </Switch>
