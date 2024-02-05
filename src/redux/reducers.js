@@ -30,6 +30,8 @@ import { supportLogsApi } from "./support/supportLogsApi";
 import { roadmapApi } from "./support/roadmapApi";
 import { auditChecklistsApi } from "./auditChecklistsApi";
 import { usersApi } from "./user/usersApi";
+import loggerSlice from "./logger/loggerSlice";
+import { loggerApi } from "./loggerApi";
 
 export default (history) =>
   combineReducers({
@@ -64,4 +66,6 @@ export default (history) =>
     [supportLogsApi.reducerPath]: supportLogsApi.reducer,
     [roadmapApi.reducerPath]: roadmapApi.reducer,
     [authApi.reducerPath]: authApi.reducer,
+    Logger: loggerSlice.reducer,
+    [loggerApi.reducerPath]: loggerApi.reducer,
   });

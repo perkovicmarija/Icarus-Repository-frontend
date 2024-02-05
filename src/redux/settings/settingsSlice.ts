@@ -14,6 +14,7 @@ export const defaultState = {
     users: 25,
     userRoles: 25,
     auditChecklists: 25,
+    mobileLogs: 25
   },
 };
 

@@ -5,8 +5,8 @@ import RestApiPutWithPathParams from "./methods/RestApiPutWithPathParams";
 import RestApiGetWithParams from "./methods/RestApiGetWithParams";
 
 const ClientApi = {
-  getAllClients(viewModel) {
-    return RestApiGet.getData('/client/getAllClients', viewModel);
+  getAllClients() {
+    return RestApiGet.getData('/client/getAllClients');
   },
   getAllClientsPagination(viewModel) {
     return RestApiPost.postData('/client/getAllClientsPagination', viewModel);

@@ -1,32 +1,17 @@
-import { useState } from "react";
-import { TableCell, TableRow } from "@mui/material";
-import { TableContainer2 } from "../../../components/core/Table/TableContainer2";
-import TableToolbar2, {
-  TableToolbar2Props,
-} from "../../../components/core/Table/TableToolbar2";
-import { ColumnDefinition } from "../../../components/core/Table/TableHeader";
-import { TablePagination2Props } from "../../../components/core/Table/TablePagination2";
-import { TableActions2 } from "../../../components/core/Table/TableActions2";
-import { Delete, Edit } from "@mui/icons-material";
-import { DialogDelete2 } from "../../../components/core/Dialog/DialogDelete2";
-//
-
-const columnData: ColumnDefinition[] = [
-  { id: "name", numeric: false, disablePadding: false, label: "general.name" },
-  {
-    id: "abbreviation",
-    numeric: false,
-    disablePadding: false,
-    label: "general.abbreviation",
-  },
-  {
-    id: "actions",
-    label: "general.actions",
-    style: { textAlign: "center" },
-  },
-];
+import {useState} from "react";
+import {TableCell, TableRow} from "@mui/material";
+import {TableContainer2} from "../../../components/core/Table/TableContainer2";
+import TableToolbar2, {TableToolbar2Props,} from "../../../components/core/Table/TableToolbar2";
+import {ColumnDefinition} from "../../../components/core/Table/TableHeader";
+import {TablePagination2Props} from "../../../components/core/Table/TablePagination2";
+import {TableActions2} from "../../../components/core/Table/TableActions2";
+import {Delete, Edit} from "@mui/icons-material";
+import {DialogDelete2} from "../../../components/core/Dialog/DialogDelete2";
+import {Client} from "../../../redux/clientsApi";
 
 const ClientList = <T,>({
+  showActions,
+  onClickRow,
   data,
   onEdit,
   onDelete,
@@ -41,8 +26,30 @@ const ClientList = <T,>({
   onEdit: (item: T) => void;
   onDelete: (item: T) => Promise<any>;
   loading: boolean;
+  showActions?: boolean;
+  onClickRow: (item: Client) => void;
 }) => {
   const [dialogWarning, setDialogWarning] = useState<T | undefined>();
+
+  const columnData: ColumnDefinition[] = [
+    { id: "name", numeric: false, disablePadding: false, label: "general.name" },
+    {
+      id: "abbreviation",
+      numeric: false,
+      disablePadding: false,
+      label: "general.abbreviation",
+    },
+    // Include the actions column only if showActions is true
+    ...(showActions
+        ? [
+          {
+            id: "actions",
+            label: "general.actions",
+            style: { textAlign: "center" },
+          },
+        ]
+        : []),
+  ];
 
   return (
     <>
@@ -58,9 +65,18 @@ const ClientList = <T,>({
         {data &&
           data.map((item: any) => {
             return (
-              <TableRow key={item.clientId} hover={true}>
+              <TableRow
+                  key={item.clientId}
+                  hover={!showActions && true}
+                  onClick={!showActions ? ((e) => {
+                      e.preventDefault()
+                      onClickRow(item)
+                  }) : () => {}}
+                  style={!showActions ? { cursor: 'pointer' } : undefined}
+              >
                 <TableCell>{item.name}</TableCell>
                 <TableCell>{item.abbreviation}</TableCell>
+                {showActions &&
                 <TableCell className="nostretch">
                   <TableActions2
                     actions={[
@@ -77,7 +93,7 @@ const ClientList = <T,>({
                       },
                     ]}
                   />
-                </TableCell>
+                </TableCell>}
               </TableRow>
             );
           })}
