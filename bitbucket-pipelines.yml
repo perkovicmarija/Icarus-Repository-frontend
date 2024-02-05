@@ -34,7 +34,7 @@ pipelines:
           - mkdir upload
           - tar -xf packaged/package-${BITBUCKET_BUILD_NUMBER}.tar.gz -C upload
           - apk update && apk add openssh rsync
-          - rsync -a  -e "ssh -o StrictHostKeyChecking=no" --delete upload/ $USERNAME@$SERVER_PROD:/home/inxelo/docker/apache/html/temp/react-${BITBUCKET_BUILD_NUMBER}
-          - ssh -o StrictHostKeyChecking=no $USERNAME@$SERVER_PROD "rm -r /home/inxelo/docker/apache/html/icarus/repository"
-          - ssh -o StrictHostKeyChecking=no $USERNAME@$SERVER_PROD "mv '/home/inxelo/docker/apache/html/temp/react-${BITBUCKET_BUILD_NUMBER}' '/home/inxelo/docker/apache/html/icarus/repository/dist'"
-          - ssh -o StrictHostKeyChecking=no $USERNAME@$SERVER_PROD "chmod -R u+rwX,go+rX,go-w /home/inxelo/docker/apache/html/icarus/repository/dist"
+          - rsync -a  -e "ssh -o StrictHostKeyChecking=no" --delete upload/ $USERNAME@$SERVER:/home/inxelo/docker/apache/html/temp/react-${BITBUCKET_BUILD_NUMBER}
+          - ssh -o StrictHostKeyChecking=no $USERNAME@$SERVER "rm -r /home/inxelo/docker/apache/html/icarus/repository/dist"
+          - ssh -o StrictHostKeyChecking=no $USERNAME@$SERVER "mv '/home/inxelo/docker/apache/html/temp/react-${BITBUCKET_BUILD_NUMBER}' '/home/inxelo/docker/apache/html/icarus/repository/dist'"
+          - ssh -o StrictHostKeyChecking=no $USERNAME@$SERVER "chmod -R u+rwX,go+rX,go-w /home/inxelo/docker/apache/html/icarus/repository/dist"
