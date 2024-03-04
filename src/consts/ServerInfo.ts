@@ -4,6 +4,7 @@ export function getServerPath() {
     return 'http://localhost:8081';
     //return "https://repository-test.inxelo.aero/icarussms";
   } else {
-    return 'http://localhost:8081';
+    const subdomain = fullUrl.split(".")[0];
+    return subdomain + ".inxelo.aero/icarussms";
   }
 }
