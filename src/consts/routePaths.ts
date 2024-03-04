@@ -27,6 +27,11 @@ export const getSupportLogsPath = (page: number, rowsPerPage?: number) => {
 
 export const supportRoadmap = supportCenter + "/roadmap";
 
+export const softwareLogSubscriptions = supportCenter + "/subscriptions/";
+export const getSoftwareLogSubscriptionsPath = (page: number, rowsPerPage?: number) => {
+  return `${softwareLogSubscriptions}${page}/${rowsPerPage ?? ""}`;
+};
+
 // DOCS
 export const icarusDocs = adminRoot + "/icarus-docs";
 

@@ -63,7 +63,7 @@ const SupportCenterApi = {
     ///////////////////////////   ROADMAP   ///////////////////////////////////////////////
 
     getRoadmapLogsPaginateFilter(viewModel) {
-        return RestApiGetWithParams.getData(viewModel, '/support/roadmap-log/paginate');
+        return RestApiPost.postData('/support/roadmap-log/paginate', viewModel);
     },
     getAllRoadmapLogs(viewModel) {
         return RestApiGet.getData('/support/roadmap-log', viewModel);
@@ -76,6 +76,24 @@ const SupportCenterApi = {
     },
     deleteRoadmapLog(viewModel) {
         return RestApiDelete.deleteData(viewModel,'/support/roadmap-log/:icarusRoadmapLogId');
+    },
+
+    ///////////////////////////   SUBSCRIPTIONS   ///////////////////////////////////////////////
+
+    getSoftwareLogSubscriptionsPaginateFilter(viewModel) {
+        return RestApiPost.postData('/support/software-log-subscription/paginate', viewModel);
+    },
+    getAllSoftwareLogSubscriptions(viewModel) {
+        return RestApiGet.getData('/support/software-log-subscription', viewModel);
+    },
+    createSoftwareLogSubscription(viewModel) {
+        return RestApiPost.postData('/support/software-log-subscription', viewModel);
+    },
+    updateSoftwareLogSubscription(viewModel) {
+        return RestApiPutWithPathParams.putData('/support/software-log-subscription', viewModel);
+    },
+    deleteSoftwareLogSubscription(viewModel) {
+        return RestApiDelete.deleteData(viewModel,'/support/software-log-subscription/:supportSoftwareLogSubscriptionId');
     },
 }
 
