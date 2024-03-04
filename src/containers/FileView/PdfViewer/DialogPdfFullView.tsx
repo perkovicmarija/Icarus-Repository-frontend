@@ -33,12 +33,7 @@ function DialogPdfFullView({
       onClose={onClose}
       TransitionComponent={Transition}
       PaperProps={{
-        style: {
-          background: "#808080",
-          display: "flex",
-          flexDirection: "column",
-          overflow: "hidden",
-        },
+        style: {},
       }}
     >
       <AppBar position="relative">
@@ -58,10 +53,7 @@ function DialogPdfFullView({
       </AppBar>
       <div
         style={{
-          width: "100%",
-          display: "flex",
-          flexGrow: 1,
-          overflow: "hidden",
+          backgroundColor: "#808080",
         }}
       >
         <PdfFrame
