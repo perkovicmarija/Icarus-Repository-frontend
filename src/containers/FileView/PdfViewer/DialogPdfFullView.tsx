@@ -24,6 +24,7 @@ function DialogPdfFullView({
   file,
   filename,
   showDownloadButton,
+  onDownloadClick,
 }: any) {
   return (
     <Dialog
@@ -63,7 +64,11 @@ function DialogPdfFullView({
           overflow: "hidden",
         }}
       >
-        <PdfFrame file={file} showDownloadButton={showDownloadButton} />
+        <PdfFrame
+          file={file}
+          showDownloadButton={showDownloadButton}
+          onDownloadClick={onDownloadClick}
+        />
       </div>
     </Dialog>
   );

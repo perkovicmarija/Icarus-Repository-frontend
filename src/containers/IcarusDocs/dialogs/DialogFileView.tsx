@@ -41,6 +41,14 @@ function DialogFileView({ match }: any) {
     history.goBack();
   };
 
+  const handleDownloadClick = () => {
+    let viewModel = {
+      documentationFileId: icarusDocumentationFileId,
+      viewFile: false,
+    };
+    IcarusDocumentationFileApi.download(viewModel);
+  };
+
   if (file) {
     let filename = "";
     const disposition = file.headers["content-disposition"];
@@ -63,6 +71,7 @@ function DialogFileView({ match }: any) {
           file={file}
           filename={filename}
           showDownloadButton={true}
+          onDownloadClick={handleDownloadClick}
         />
       );
     } else {
