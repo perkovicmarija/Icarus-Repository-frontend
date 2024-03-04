@@ -1,9 +1,8 @@
 import React, { forwardRef } from "react";
 import { TextField } from "@mui/material";
 import MenuItem from "@mui/material/MenuItem";
-import IntlMessages from "../../../../components/utility/intlMessages";
 import { useController } from "react-hook-form";
-import { injectIntl } from "react-intl";
+import { FormattedMessage, injectIntl } from "react-intl";
 import TypographyReportField from "../TypographyReportField";
 
 const SelectCustom = forwardRef(
@@ -63,7 +62,7 @@ const SelectCustom = forwardRef(
                 pointerEvents: "none",
               }}
             >
-              <IntlMessages
+              <FormattedMessage
                 id={placeholder === true ? "general.select" : placeholder}
               />
             </div>
@@ -72,7 +71,7 @@ const SelectCustom = forwardRef(
           {options.map((item) => (
             <MenuItem key={item[keyProp]} value={item[keyProp]}>
               {translate ? (
-                <IntlMessages id={item[labelProp]} />
+                <FormattedMessage id={item[labelProp]} />
               ) : (
                 item[labelProp]
               )}
