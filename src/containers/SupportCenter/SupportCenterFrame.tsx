@@ -4,12 +4,18 @@ import FormTitleBarRich from "../../components/core/Form/FormTitleBarRich";
 import SupportSoftwareLog from "./Logs/SupportSoftwareLog";
 import Roadmap from "./Roadmap/Roadmap";
 import { TabsRouter2, TabsType } from "../../components/core/TabsRouter2";
+import Subscription from "./Subscriptions/Subscription";
 
 const tabs: TabsType = [
   {
     label: "support.logs",
     link: "logs",
     component: SupportSoftwareLog,
+  },
+  {
+    label: "support.subscriptions",
+    link: "subscriptions",
+    component: Subscription,
   },
   /*   {
     label: "support.bugs",
