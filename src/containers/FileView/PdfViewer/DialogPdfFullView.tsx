@@ -24,6 +24,7 @@ function DialogPdfFullView({
   file,
   filename,
   showDownloadButton,
+  onDownloadClick,
 }: any) {
   return (
     <Dialog
@@ -32,12 +33,7 @@ function DialogPdfFullView({
       onClose={onClose}
       TransitionComponent={Transition}
       PaperProps={{
-        style: {
-          background: "#808080",
-          display: "flex",
-          flexDirection: "column",
-          overflow: "hidden",
-        },
+        style: {},
       }}
     >
       <AppBar position="relative">
@@ -57,13 +53,14 @@ function DialogPdfFullView({
       </AppBar>
       <div
         style={{
-          width: "100%",
-          display: "flex",
-          flexGrow: 1,
-          overflow: "hidden",
+          backgroundColor: "#808080",
         }}
       >
-        <PdfFrame file={file} showDownloadButton={showDownloadButton} />
+        <PdfFrame
+          file={file}
+          showDownloadButton={showDownloadButton}
+          onDownloadClick={onDownloadClick}
+        />
       </div>
     </Dialog>
   );

@@ -27,11 +27,13 @@ import { clientsApi } from "./clientsApi";
 import { authApi } from "./authApi";
 import { versionsApi } from "./versionsApi";
 import { supportLogsApi } from "./support/supportLogsApi";
+import { softwareLogSubscriptionApi } from "./support/subscriptions/softwareLogSubscriptionApi";
 import { roadmapApi } from "./support/roadmapApi";
 import { auditChecklistsApi } from "./auditChecklistsApi";
 import { usersApi } from "./user/usersApi";
 import loggerSlice from "./logger/loggerSlice";
 import { loggerApi } from "./loggerApi";
+import softwareLogSubscriptionSlice from "./support/subscriptions/softwareLogSubscriptionSlice";
 
 export default (history) =>
   combineReducers({
@@ -47,6 +49,7 @@ export default (history) =>
     Settings: settingsSlice.reducer,
     SupportCenter,
     SupportLogs: supportLogsSlice.reducer,
+    SoftwareLogSubscriptions: softwareLogSubscriptionSlice.reducer,
     Roadmap: roadmapSlice.reducer,
     LanguageSwitcher,
     AuditChecklist,
@@ -64,6 +67,7 @@ export default (history) =>
     [clientsApi.reducerPath]: clientsApi.reducer,
     [versionsApi.reducerPath]: versionsApi.reducer,
     [supportLogsApi.reducerPath]: supportLogsApi.reducer,
+    [softwareLogSubscriptionApi.reducerPath]: softwareLogSubscriptionApi.reducer,
     [roadmapApi.reducerPath]: roadmapApi.reducer,
     [authApi.reducerPath]: authApi.reducer,
     Logger: loggerSlice.reducer,

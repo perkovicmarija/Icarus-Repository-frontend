@@ -8,6 +8,7 @@ import {
 export const defaultState = {
   rowsPerPage: {
     supportLogs: 25,
+    softwareLogSubscriptions: 25,
     supportRequests: 25,
     clients: 25,
     versions: 25,
