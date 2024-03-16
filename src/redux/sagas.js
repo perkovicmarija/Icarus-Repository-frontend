@@ -7,8 +7,8 @@ import auditChecklistSaga from "./auditChecklist/auditChecklistSaga";
 import auditChecklistItemSaga from "./auditChecklistItem/auditChecklistItemSaga";
 import auditChecklistSubAreaSaga from "./auditChecklistSubArea/auditChecklistSubAreaSaga";
 import auditorActionLocationType from "./auditorActionLocationType/AuditorActionLocationTypeSaga";
-import icarusDocumentationFileSagas from "./support/icarusDocs/file/icarusDocumentationFileSaga";
-import icarusDocumentationFolderSagas from "./support/icarusDocs/folder/icarusDocumentationFolderSaga";
+import icarusDocumentationFileSagas from "./icarusDocs/file/icarusDocumentationFileSaga";
+import icarusDocumentationFolderSagas from "./icarusDocs/folder/icarusDocumentationFolderSaga";
 
 export default function* rootSaga(getState) {
   yield all([

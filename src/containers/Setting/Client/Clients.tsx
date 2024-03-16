@@ -4,8 +4,8 @@ import { usePagination } from "../../../helpers/pagination";
 import { useHistory } from "react-router-dom";
 import DialogFormFrame from "../../../components/core/Dialog/DialogFormFrame";
 //
-import ClientList from "./ClientList";
-import DialogFormClient from "../../../components/setting/DialogFormClient";
+import ClientList from "../../../components/setting/Client/ClientList";
+import DialogFormClient from "../../../components/setting/Client/DialogFormClient";
 import {
   getAndroidClientsPath,
   getClientsPath,
@@ -16,13 +16,13 @@ import {
 import {
   FiltersType,
   clientsActions,
-} from "../../../redux/setting/clientsSlice";
+} from "../../../redux/settings/clientsSlice";
 import {
   Client,
   useAddEditClientMutation,
   useDeleteClientMutation,
   useGetClientsPaginatedQuery,
-} from "../../../redux/clientsApi";
+} from "../../../redux/settings/clientsApi";
 
 function Clients({ actions }: { actions?: boolean }) {
   const { actions: showActions = true } = { actions };

@@ -223,6 +223,7 @@
   "general.noItems": "No items",
   "general.userGroup": "User group",
   "general.message": "Message",
+  "general.tags": "Tags",
 
   "form.user": "User",
   "form.users": "Users",
@@ -408,6 +409,22 @@
   "logger.dateOfLog": "Date of Log",
   "logger.logLevel": "Log level",
   "logger.osVersion": "OS Version",
-  "logger.sessionId": "Session ID"
+  "logger.sessionId": "Session ID",
+
+  "forum.tags": "Tags",
+  "forum.tags.update": "Update tag",
+  "forum.tags.create": "Create tag",
+  "forum.topic": "Topic",
+  "forum.topics": "Topics",
+  "forum.topic.title": "Topic title",
+  "forum.topic.new": "New topic",
+  "forum.topic.edit": "Edit topic",
+  "forum.subscribers": "Subscribers",
+  "forum.comments.add": "Add a comment",
+  "forum.comments": "Comments",
+  "forum.comment": "Comment",
+  "forum.typeHere": "Type here...",
+  "forum.like": "Like",
+  "forum.likes": "Likes"
 
 }

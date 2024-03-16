@@ -6,21 +6,21 @@ import IcarusDocumentationTable, {
 import DialogFormFrame from "../../components/core/Dialog/DialogFormFrame";
 import DialogProgress from "../../components/core/Dialog/DialogProgress";
 import DialogNoCloseFrame from "../../components/core/Dialog/DialogNoCloseFrame";
-import DialogAddEditFolder from "./dialogs/DialogAddEditFolder";
-import DialogFormFileHistory from "./dialogs/DialogFormFileHistory";
-import * as icarusDocumentationFileActions from "../../redux/support/icarusDocs/file/icarusDocumentationFileActions";
-import * as icarusDocumentationFolderActions from "../../redux/support/icarusDocs/folder/icarusDocumentationFolderActions";
+import DialogAddEditFolder from "../../components/documentation/icarusDocs/dialogs/DialogAddEditFolder";
+import DialogFormFileHistory from "../../components/documentation/icarusDocs/dialogs/DialogFormFileHistory";
+import * as icarusDocumentationFileActions from "../../redux/icarusDocs/file/icarusDocumentationFileActions";
+import * as icarusDocumentationFolderActions from "../../redux/icarusDocs/folder/icarusDocumentationFolderActions";
 import { icarusDocs } from "../../consts/routePaths";
 import DocumentationFolderPath from "./DocumentationFolderPath";
 import { DocumentationTableToolbar2 } from "./DocumentationTableToolbar2";
 import { Route, Switch, useHistory } from "react-router-dom";
 import { useAppDispatch, useAppSelector } from "../../redux/store";
 import { useSimpleGetAll } from "../../redux/utils";
-import { clientsActions } from "../../redux/setting/clientsSlice";
-import DialogAddEditFile from "./dialogs/DialogAddEditFile";
+import { clientsActions } from "../../redux/settings/clientsSlice";
+import DialogAddEditFile from "../../components/documentation/icarusDocs/dialogs/DialogAddEditFile";
 import IcarusDocumentationFileApi from "../../api/IcarusDocumentationFileApi";
-import DialogFileView from "./dialogs/DialogFileView";
-import { Client } from "../../redux/clientsApi";
+import DialogFileView from "../../components/documentation/icarusDocs/dialogs/DialogFileView";
+import { Client } from "../../redux/settings/clientsApi";
 
 const constructCurrentPath = (icarusDocumentationFolderPath: any[]) => {
   if (icarusDocumentationFolderPath.length === 0) {

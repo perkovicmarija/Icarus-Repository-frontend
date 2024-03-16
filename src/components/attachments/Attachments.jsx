@@ -83,7 +83,7 @@ class Attachments extends Component {
               <TableCell
                 classes={{ root: classes.thActions }}
                 key="Actions"
-                padding="default"
+                // padding="default"
               >
                 <IntlMessages id="general.actions" />
               </TableCell>

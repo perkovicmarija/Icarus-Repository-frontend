@@ -11,7 +11,7 @@ import {withRouter} from "react-router-dom";
 import PropTypes from "prop-types";
 import {icarusDocs} from "../../consts/routePaths";
 import {bindActionCreators} from "redux";
-import * as icarusDocumentationFileActions from '../../redux/support/icarusDocs/file/icarusDocumentationFileActions';
+import * as icarusDocumentationFileActions from '../../redux/icarusDocs/file/icarusDocumentationFileActions';
 import * as clientActions from '../../redux/setting/client/clientActions';
 
 const useStyles = makeStyles(theme => ({

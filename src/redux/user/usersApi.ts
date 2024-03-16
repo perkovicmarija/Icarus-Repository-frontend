@@ -12,6 +12,15 @@ export interface User {
   fullName: string;
 }
 
+export interface UserSimple {
+  userId: string;
+  name: string;
+  surname: string;
+  fullName: string;
+  fullNameReverse: string;
+  email: string;
+}
+
 export const usersApi = createApi({
   reducerPath: "usersApi",
   baseQuery: fetchBaseQuery({

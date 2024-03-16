@@ -11,16 +11,19 @@ import {
   getDefaultMiddleware,
 } from "@reduxjs/toolkit";
 import { TypedUseSelectorHook, useDispatch, useSelector } from "react-redux";
-import { clientsApi } from "./clientsApi";
+import { clientsApi } from "./settings/clientsApi";
 import { toast } from "react-toastify";
 import { authApi } from "./authApi";
-import { versionsApi } from "./versionsApi";
-import { supportLogsApi } from "./support/supportLogsApi";
-import { roadmapApi } from "./support/roadmapApi";
+import { versionsApi } from "./settings/versionsApi";
+import { supportLogsApi } from "./support/supportLogs/supportLogsApi";
+import { roadmapApi } from "./support/roadmap/roadmapApi";
 import { auditChecklistsApi } from "./auditChecklistsApi";
 import { usersApi } from "./user/usersApi";
-import { loggerApi } from "./loggerApi";
+import { loggerApi } from "./logger/loggerApi";
 import {softwareLogSubscriptionApi} from "./support/subscriptions/softwareLogSubscriptionApi";
+import {forumTagsApi} from "./forum/forumTags/forumTagsApi";
+import {forumTopicsApi} from "./forum/forumTopics/forumTopicsApi";
+import {forumCommentsApi} from "./forum/forumComments/forumCommentsApi";
 //used for loading and saving state from local storage - unnecessary for now
 //import { loadState, saveState } from './localStorage';
 //import throttle from 'lodash/throttle';
@@ -70,7 +73,10 @@ const middleware = [
   softwareLogSubscriptionApi.middleware,
   roadmapApi.middleware,
   customMiddleware,
-  loggerApi.middleware
+  loggerApi.middleware,
+  forumTagsApi.middleware,
+  forumTopicsApi.middleware,
+  forumCommentsApi.middleware
 ];
 
 //used for lading state from local storage - unnecessary for now

@@ -5,21 +5,21 @@ import IcarusDocumentationTable, {
 } from "./IcarusDocumentationTable";
 import DialogFormFrame from "../../components/core/Dialog/DialogFormFrame";
 import DialogProgress from "../../components/core/Dialog/DialogProgress";
-import DialogAddEditFolder from "./dialogs/DialogAddEditFolder";
-import DialogFormFileHistory from "./dialogs/DialogFormFileHistory";
-import * as icarusDocumentationFileActions from "../../redux/support/icarusDocs/file/icarusDocumentationFileActions";
+import DialogAddEditFolder from "../../components/documentation/icarusDocs/dialogs/DialogAddEditFolder";
+import DialogFormFileHistory from "../../components/documentation/icarusDocs/dialogs/DialogFormFileHistory";
+import * as icarusDocumentationFileActions from "../../redux/icarusDocs/file/icarusDocumentationFileActions";
 import { icarusDocs } from "../../consts/routePaths";
 import DocumentationFolderPath from "./DocumentationFolderPath";
 import { DocumentationTableToolbar2 } from "./DocumentationTableToolbar2";
 import { Route, Switch, useHistory } from "react-router-dom";
 import { useAppDispatch, useAppSelector } from "../../redux/store";
 import { networkHelper } from "../../redux/utils";
-import DialogAddEditFile from "./dialogs/DialogAddEditFile";
+import DialogAddEditFile from "../../components/documentation/icarusDocs/dialogs/DialogAddEditFile";
 import IcarusDocumentationFileApi from "../../api/IcarusDocumentationFileApi";
-import DialogFileView from "./dialogs/DialogFileView";
-import { FiltersType, icarusDocsActions } from "../../redux/icarusDocsSlice";
+import DialogFileView from "../../components/documentation/icarusDocs/dialogs/DialogFileView";
+import { FiltersType, icarusDocsActions } from "../../redux/icarusDocs/icarusDocsSlice";
 import { splitPathToPathAndName } from "../../api/methods/utils";
-import { useGetClientsQuery } from "../../redux/clientsApi";
+import { useGetClientsQuery } from "../../redux/settings/clientsApi";
 
 function IcarusDocs() {
   const history = useHistory();

@@ -94,3 +94,31 @@ export const getMobileLogsPath = (platform: string, clientAbbreviation: string) 
 export const getMobileLogsPaginationPath = (platform: string, clientAbbreviation: string, page: number, rowsPerPage?: number) => {
   return `${getMobileLogsPath(platform, clientAbbreviation)}${page}/${rowsPerPage ?? ""}`;
 };
+
+// FORUM
+export const forumModule = adminRoot + "/forum";
+
+export const forumRegistrations = forumModule + "/registrations/";
+export const getForumRegistrationsPath = (page: number, rowsPerPage?: number) => {
+  return `${forumRegistrations}${page}/${rowsPerPage ?? ""}`;
+};
+
+export const forumTopics = forumModule + "/topics/";
+export const getForumTopicsPaginationPath = (page: number, rowsPerPage?: number) => {
+  return `${forumTopics}${page}/${rowsPerPage ?? ""}`;
+};
+
+export const forumTopicForm = forumModule + "/topic/details/:forumTopicId";
+export const getForumTopicFormPath = (id: string | null) => {
+  if (id) {
+    return forumTopicForm.replace(":forumTopicId", id);
+  } else {
+    return forumTopicForm.replace(":forumTopicId", "-1");
+  }
+};
+
+export const forumTags = forumModule + "/tags/";
+export const getForumTagsPath = (page: number, rowsPerPage?: number) => {
+  return `${forumTags}${page}/${rowsPerPage ?? ""}`;
+};
+

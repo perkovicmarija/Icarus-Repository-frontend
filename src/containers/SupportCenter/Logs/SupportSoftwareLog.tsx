@@ -5,9 +5,9 @@ import { useHistory } from "react-router-dom";
 import { isEmpty } from "lodash";
 import DialogFormFrame from "../../../components/core/Dialog/DialogFormFrame";
 //
-import SupportSoftwareLogList from "./SupportSoftwareLogList";
-import DialogFormSoftwareLog from "./DialogFormSoftwareLog";
-import DialogFormSoftwareLogFilter from "./DialogFormSoftwareLogFilter";
+import SupportSoftwareLogList from "../../../components/support/Logs/SupportSoftwareLogList";
+import DialogFormSoftwareLog from "../../../components/support/Logs/DialogFormSoftwareLog";
+import DialogFormSoftwareLogFilter from "../../../components/support/Logs/DialogFormSoftwareLogFilter";
 import { getSupportLogsPath } from "../../../consts/routePaths";
 import {
   FiltersType,
@@ -15,12 +15,12 @@ import {
   supportLogsActions,
   initFilters,
 } from "../../../redux/support/supportLogs/supportLogsSlice";
-import { useGetClientsQuery } from "../../../redux/clientsApi";
+import { useGetClientsQuery } from "../../../redux/settings/clientsApi";
 import {
   useAddEditSupportLogMutation,
   useDeleteSupportLogMutation,
   useGetSupportLogsPaginatedQuery,
-} from "../../../redux/support/supportLogsApi";
+} from "../../../redux/support/supportLogs/supportLogsApi";
 
 const SupportSoftwareLog = () => {
   const dispatch = useAppDispatch();

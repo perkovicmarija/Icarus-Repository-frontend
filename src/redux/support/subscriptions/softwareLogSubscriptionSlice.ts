@@ -2,7 +2,7 @@ import {createSlice} from "@reduxjs/toolkit";
 import SupportCenterApi from "../../../api/SupportCenterApi";
 import {createAsyncThunk2} from "../../utils";
 import {Meta} from "../../../components/core/commonTypes";
-import {Client} from "../../clientsApi";
+import {Client} from "../../settings/clientsApi";
 
 export const initFilters = {
   email: "",

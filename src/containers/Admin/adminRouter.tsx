@@ -10,6 +10,8 @@ import {
     auditChecklist,
     auditChecklistOverview,
     dashboard,
+    forumRegistrations, forumTags, forumTopicForm,
+    forumTopics,
     icarusDocs,
     iOSClients,
     mobileLogs,
@@ -25,6 +27,10 @@ import AuditChecklist from "../AuditChecklist/AuditChecklist";
 import IcarusDocs from "../IcarusDocs/IcarusDocs";
 import Clients from "../Setting/Client/Clients";
 import MobileLogs from "../Logger/MobileLogs";
+import ForumRegistrations from "../Forum/ForumRegistrations";
+import ForumTopics from "../Forum/ForumTopics";
+import ForumTags from "../Forum/ForumTags";
+import ForumTopicForm from "../Forum/ForumTopicForm";
 
 const AdminRouter = () => {
   return (
@@ -116,6 +122,30 @@ const AdminRouter = () => {
             path={mobileLogs}
             component={MobileLogs}
             key="mobile-logs"
+        />
+
+        <Route
+            path={forumRegistrations}
+            component={ForumRegistrations}
+            key="forum-registrations"
+        />
+
+        <Route
+            path={forumTopics}
+            component={ForumTopics}
+            key="forum-topics"
+        />
+
+        <Route
+            path={forumTopicForm}
+            component={ForumTopicForm}
+            key="forum-topics-form"
+        />
+
+        <Route
+            path={forumTags}
+            component={ForumTags}
+            key="forum-tags"
         />
 
       <Redirect from={root} to={auditChecklistOverview} />
