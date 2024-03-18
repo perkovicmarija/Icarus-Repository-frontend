@@ -224,6 +224,8 @@
   "general.userGroup": "User group",
   "general.message": "Message",
   "general.tags": "Tags",
+  "general.update": "Update",
+  "general.create": "Create",
 
   "form.user": "User",
   "form.users": "Users",
@@ -425,6 +427,11 @@
   "forum.comment": "Comment",
   "forum.typeHere": "Type here...",
   "forum.like": "Like",
-  "forum.likes": "Likes"
+  "forum.likes": "Likes",
+  "forum.content": "Content",
+  "forum.displayName": "Display name",
+  "forum.fullName": "Full name",
+  "forum.users": "Forum users"
+
 
 }

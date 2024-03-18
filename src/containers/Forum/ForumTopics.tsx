@@ -65,7 +65,7 @@ const ForumTopics = () => {
                 toolbarProps={{
                     title: "forum.topics",
                     searchPlaceholder: "search.search",
-                    searchTextPropKey: "title",
+                    searchTextPropKey: "displayName",
                     initFilters,
                     filters,
                     onAddClick: () => handleAddEditTopic(""),
@@ -87,10 +87,9 @@ const ForumTopics = () => {
                 open={dialogFilters}
             >
                 <DialogFormForumTopicFilter
-                    // initialData={dialogFilters!}
-                    // onClose={() => setDialogFilters(undefined)}
-                    // onSubmit={handleSubmitFilters}
-                    // clients={clientsResponse?.data ?? []}
+                    initialData={dialogFilters!}
+                    onClose={() => setDialogFilters(false)}
+                    onSubmit={handleSubmitFilters}
                 />
             </DialogFormFrame>
         </>

@@ -1,7 +1,7 @@
 import React, {useEffect, useRef, useState} from 'react'
 import {UserSimple} from "../../redux/user/usersApi";
 import {
-    ForumSubscription,
+    ForumTopicUserJoined,
     ForumTopic,
     ForumTopicAttachment,
     ForumTopicTagJoined,
@@ -27,6 +27,7 @@ import {
 } from "../../redux/forum/forumComments/forumCommentsApi";
 import {getForumTopicsPaginationPath} from "../../consts/routePaths";
 import useDeepCompareEffect from "use-deep-compare-effect";
+import JoditEditor from "jodit-react";
 
 const StyledPaper = styled(Paper)({
     minHeight: '300px',
@@ -40,7 +41,8 @@ const initialForumTopic = {
     title: '',
     userCreated: {} as UserSimple,
     forumTopicTagJoineds: new Array<ForumTopicTagJoined>(),
-    forumSubscriptions: new Array<ForumSubscription>(),
+    forumTopicUserJoineds: new Array<ForumTopicUserJoined>(),
+    forumComments: new Array<ForumComment>(),
     forumTopicAttachments: new Array<ForumTopicAttachment>()
 }
 
@@ -237,15 +239,15 @@ const ForumTopicForm = () => {
                                 </StyledPaper>
                             </Grid>
                             <Grid item xl={12} lg={12} md={12} sm={12} xs={12}>
-                                {/*<JoditEditor*/}
-                                {/*    ref={editor}*/}
-                                {/*    value={forumTopic.content}*/}
-                                {/*    config={config}*/}
-                                {/*    onBlur={(newContent) => {*/}
-                                {/*        setForumTopic({...forumTopic, content: newContent})*/}
-                                {/*    }}*/}
-                                {/*    onChange={newContent => {}}*/}
-                                {/*/>*/}
+                                <JoditEditor
+                                    ref={editor}
+                                    value={forumTopic.content}
+                                    config={config}
+                                    onBlur={(newContent) => {
+                                        setForumTopic({...forumTopic, content: newContent})
+                                    }}
+                                    onChange={newContent => {}}
+                                />
                             </Grid>
                             <Grid item xl={12} lg={12} md={12} sm={12} xs={12}>
                                 {/*<Attachments*/}

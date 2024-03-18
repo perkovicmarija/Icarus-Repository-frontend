@@ -2,8 +2,9 @@ import {createApi, fetchBaseQuery} from "@reduxjs/toolkit/query/react";
 import {getServerPath} from "../../../consts/ServerInfo";
 import {getToken} from "../../../helpers/utility";
 import {Meta, ResponseWrapper} from "../../../components/core/commonTypes";
-import {User, UserSimple} from "../../user/usersApi";
+import {UserSimple} from "../../user/usersApi";
 import {ForumTag} from "../forumTags/forumTagsApi";
+import {ForumComment} from "../forumComments/forumCommentsApi";
 
 export interface ForumTopic {
     forumTopicId: string;
@@ -13,7 +14,8 @@ export interface ForumTopic {
     title: string;
     userCreated: UserSimple;
     forumTopicTagJoineds: ForumTopicTagJoined[];
-    forumSubscriptions: ForumSubscription[];
+    forumTopicUserJoineds: ForumTopicUserJoined[];
+    forumComments: ForumComment[];
     forumTopicAttachments: ForumTopicAttachment[];
 }
 
@@ -23,8 +25,8 @@ export interface ForumTopicTagJoined {
     forumTag: ForumTag;
 }
 
-export interface ForumSubscription {
-    forumSubscriptionId: string;
+export interface ForumTopicUserJoined {
+    forumTopicUserJoinedId: string;
     user: UserSimple;
     forumTopicId: string;
     created: Date;

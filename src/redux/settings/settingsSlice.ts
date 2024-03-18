@@ -16,7 +16,8 @@ export const defaultState = {
     userRoles: 25,
     auditChecklists: 25,
     mobileLogs: 25,
-    forumTopics: 25
+    forumTopics: 25,
+    forumUsers: 25,
   },
 };
 

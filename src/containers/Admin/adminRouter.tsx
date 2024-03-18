@@ -27,7 +27,7 @@ import AuditChecklist from "../AuditChecklist/AuditChecklist";
 import IcarusDocs from "../IcarusDocs/IcarusDocs";
 import Clients from "../Setting/Client/Clients";
 import MobileLogs from "../Logger/MobileLogs";
-import ForumRegistrations from "../Forum/ForumRegistrations";
+import ForumUsers from "../Forum/ForumUsers";
 import ForumTopics from "../Forum/ForumTopics";
 import ForumTags from "../Forum/ForumTags";
 import ForumTopicForm from "../Forum/ForumTopicForm";
@@ -126,7 +126,7 @@ const AdminRouter = () => {
 
         <Route
             path={forumRegistrations}
-            component={ForumRegistrations}
+            component={ForumUsers}
             key="forum-registrations"
         />
 

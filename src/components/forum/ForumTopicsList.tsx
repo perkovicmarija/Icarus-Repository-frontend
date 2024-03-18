@@ -84,7 +84,7 @@ const ForumTopicsList = <T,>({
                 <TableCell>{item.title}</TableCell>
                 <TableCell>{item.userCreated.fullName}</TableCell>
                 <TableCell>{item.createdFormatted}</TableCell>
-                <TableCell>{item.forumSubscriptions.length}</TableCell>
+                <TableCell>{item.forumTopicUserJoineds?.length}</TableCell>
                 <TableCell>
                   <Grid container direction="column" spacing={1}>
                     {item.forumTopicTagJoineds.map(tag => {

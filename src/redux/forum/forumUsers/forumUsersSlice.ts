@@ -1,15 +1,13 @@
-import {ForumTopic} from "./forumTopicsApi";
+import {ForumUser} from "./forumUsersApi";
 import {createSlice} from "@reduxjs/toolkit";
 
 export const initFilters = {
-    dateFrom: null,
-    dateTo: null,
-    title: "",
-    content: "",
+    displayName: "",
+    email: ""
 };
 
 const initialState = {
-    data: undefined as ForumTopic[] | undefined,
+    data: undefined as ForumUser[] | undefined,
     meta: {
         totalCount: undefined as number | undefined,
     },
@@ -18,8 +16,8 @@ const initialState = {
 
 export type FiltersType = (typeof initialState)["filters"];
 
-const forumTopicsSlice = createSlice({
-    name: "forumTopics",
+const forumUsersSlice = createSlice({
+    name: "forumUsers",
     initialState,
     reducers: {
         setFilters(state, action) {
@@ -28,7 +26,7 @@ const forumTopicsSlice = createSlice({
     }
 });
 
-export const forumTopicsActions = {
-    ...forumTopicsSlice.actions,
+export const forumUsersActions = {
+    ...forumUsersSlice.actions,
 };
-export default forumTopicsSlice;
+export default forumUsersSlice;
