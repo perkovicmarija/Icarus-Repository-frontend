@@ -44,6 +44,8 @@ import {forumUsersApi} from "./forum/forumUsers/forumUsersApi";
 import forumUsersSlice from "./forum/forumUsers/forumUsersSlice";
 import {forumTopicUsersApi} from "./forum/forumUsers/forumTopicUsersApi";
 import forumTopicUsersSlice from "./forum/forumUsers/forumTopicUsersSlice";
+import {forumLikesApi} from "./forum/forumLikes/forumLikesApi";
+import forumLikesSlice from "./forum/forumLikes/forumLikesSlice";
 
 export default (history) =>
   combineReducers({
@@ -91,5 +93,7 @@ export default (history) =>
     [forumUsersApi.reducerPath]: forumUsersApi.reducer,
     ForumUsers: forumUsersSlice.reducer,
     [forumTopicUsersApi.reducerPath]: forumTopicUsersApi.reducer,
-    ForumTopicUsers: forumTopicUsersSlice.reducer
+    ForumTopicUsers: forumTopicUsersSlice.reducer,
+    [forumLikesApi.reducerPath]: forumLikesApi.reducer,
+    ForumLikes: forumLikesSlice.reducer
   });

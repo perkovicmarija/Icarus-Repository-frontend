@@ -3,7 +3,11 @@ import {useAppDispatch, useAppSelector} from "../../redux/store";
 import {useHistory, useParams} from "react-router-dom";
 import {usePagination} from "../../helpers/pagination";
 import {getForumTopicCommentsPaginationPath, getForumTopicFormPath} from "../../consts/routePaths";
-import {ForumUser, useGetForumUserByDisplayNameQuery} from "../../redux/forum/forumUsers/forumUsersApi";
+import {
+    ForumUser,
+    useGetForumUserByDisplayNameQuery,
+    useGetForumUsersQuery
+} from "../../redux/forum/forumUsers/forumUsersApi";
 import {Grid, Tooltip} from "@mui/material";
 import FormTitleBarRich from "../../components/core/Form/FormTitleBarRich";
 import {FormattedMessage} from "react-intl";
@@ -18,6 +22,14 @@ import {
 import {cloneDeep} from "lodash";
 import {FiltersType, forumCommentsActions} from "../../redux/forum/forumComments/forumCommentsSlice";
 import {useGetUserQuery} from "../../redux/user/usersApi";
+import {
+    ForumLike,
+    useCreateForumLikeMutation,
+    useDeleteForumLikeMutation
+} from "../../redux/forum/forumLikes/forumLikesApi";
+import DialogFormFrame from "../../components/core/Dialog/DialogFormFrame";
+import DialogFormForumCommentFilter from "../../components/forum/DialogFormForumCommentFilter";
+import FilterListIcon from '@mui/icons-material/FilterList';
 
 const ForumTopicComments = () => {
     const dispatch = useAppDispatch();
@@ -31,9 +43,11 @@ const ForumTopicComments = () => {
         content: '',
         created: null,
         createdFormatted: '',
+        forumLikes: [] as ForumLike[]
     }
 
     const [forumComment, setForumComment] = useState<ForumComment>(initialForumComment);
+    const [dialogFilters, setDialogFilters] = useState<boolean>(false);
 
     const { page, rowsPerPage, storeRowsPerPage } = usePagination("forumComments");
     const filters = useAppSelector((state) => state.ForumComments.filters);
@@ -50,8 +64,8 @@ const ForumTopicComments = () => {
         }),
         [filters, forumTopicId, page, rowsPerPage]
     );
-    const { data: forumComments } = useGetForumCommentsPaginatedQuery(meta);
-    const [createUpdateForumComment] = useCreateUpdateForumCommentMutation(forumComment);
+    const { data: forumComments, refetch: refetchForumComments } = useGetForumCommentsPaginatedQuery(meta);
+    const [createUpdateForumComment] = useCreateUpdateForumCommentMutation();
     const [deleteForumComment] = useDeleteForumCommentMutation();
 
     const { data: user } = useGetUserQuery(JSON.parse(localStorage.getItem("userId")))
@@ -61,6 +75,10 @@ const ForumTopicComments = () => {
     const { data: forumUser } = useGetForumUserByDisplayNameQuery(username, {
         skip: !username,
     })
+    const { data: forumUsers } = useGetForumUsersQuery(meta);
+
+    const [createForumLike] = useCreateForumLikeMutation()
+    const [deleteForumLike] = useDeleteForumLikeMutation()
 
     const handleForumCommentInputChange = ({ target: { name, value } }) => {
         let newForumCommentClone = cloneDeep(forumComment);
@@ -91,6 +109,23 @@ const ForumTopicComments = () => {
         await deleteForumComment(forumCommentId)
     }
 
+    const handleLike = async (forumComment: ForumComment) => {
+        const existingLike: ForumLike = forumComment.forumLikes.find((like) => like.forumUserCreatedId === forumUser.data.forumUserId)
+
+        if (existingLike) {
+            await deleteForumLike(existingLike.forumLikeId)
+        } else {
+            let forumLike = {
+                forumCommentId: forumComment.forumCommentId,
+                forumUserCreatedId: forumUser.data.forumUserId
+            }
+            await createForumLike(forumLike)
+        }
+
+        refetchForumComments()
+    }
+
+
     return (
         <>
             <Grid container spacing={0}>
@@ -98,11 +133,23 @@ const ForumTopicComments = () => {
                     <FormTitleBarRich
                         title={"forum.comments"}
                         children={
-                            <Tooltip title={<FormattedMessage id="forum.topic" />}>
-                                <KeyboardBackspaceIcon style={{ color: "#FFFFFF", cursor: "pointer" }} fontSize="medium"
-                                            onClick={() => history.push(getForumTopicFormPath(forumTopicId))}
-                                />
-                            </Tooltip>
+
+                            <Grid container spacing={2}>
+                                <Grid item>
+                                    <Tooltip title={<FormattedMessage id="general.selectFilters" />}>
+                                        <FilterListIcon style={{ color: "#FFFFFF", cursor: "pointer" }} fontSize="medium"
+                                                               onClick={() => setDialogFilters(true)}
+                                        />
+                                    </Tooltip>
+                                </Grid>
+                                <Grid item>
+                                    <Tooltip title={<FormattedMessage id="forum.topic" />}>
+                                        <KeyboardBackspaceIcon style={{ color: "#FFFFFF", cursor: "pointer" }} fontSize="medium"
+                                                               onClick={() => history.push(getForumTopicFormPath(forumTopicId))}
+                                        />
+                                    </Tooltip>
+                                </Grid>
+                            </Grid>
                         }
                     />
                 </Grid>
@@ -112,7 +159,9 @@ const ForumTopicComments = () => {
                         forumComments={forumComments?.data}
                         onAddEdit={handleAddEditComment}
                         onDelete={handleDeleteComment}
+                        onLike={handleLike}
                         forumComment={forumComment}
+                        forumUser={forumUser?.data}
                         onForumCommentInputChange={handleForumCommentInputChange}
                         paginationProps={{
                             totalCount: forumComments?.meta.totalCount,
@@ -125,6 +174,19 @@ const ForumTopicComments = () => {
                 </Grid>
 
             </Grid>
+
+            <DialogFormFrame
+                onClose={() => setDialogFilters(false)}
+                title="general.selectFilters"
+                open={dialogFilters}
+            >
+                <DialogFormForumCommentFilter
+                    initialData={dialogFilters!}
+                    onClose={() => setDialogFilters(false)}
+                    onSubmit={handleSubmitFilters}
+                    forumUsers={forumUsers?.data}
+                />
+            </DialogFormFrame>
         </>
     );
 }

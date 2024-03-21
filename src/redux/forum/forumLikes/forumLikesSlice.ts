@@ -1,10 +1,10 @@
-import {ForumComment} from "./forumCommentsApi";
+import {ForumLike} from "./forumLikesApi";
 import {createSlice} from "@reduxjs/toolkit";
 
 export const initFilters = {};
 
 const initialState = {
-    data: undefined as ForumComment[] | undefined,
+    data: undefined as ForumLike[] | undefined,
     meta: {
         totalCount: undefined as number | undefined,
     },
@@ -13,17 +13,17 @@ const initialState = {
 
 export type FiltersType = (typeof initialState)["filters"];
 
-const forumCommentsSlice = createSlice({
-    name: "forumComments",
+const forumLikesSlice = createSlice({
+    name: "forumLikes",
     initialState,
     reducers: {
         setFilters(state, action) {
             state.filters = action.payload;
-        }
+        },
     }
 });
 
-export const forumCommentsActions = {
-    ...forumCommentsSlice.actions,
+export const forumLikesActions = {
+    ...forumLikesSlice.actions,
 };
-export default forumCommentsSlice;
+export default forumLikesSlice;

@@ -13,15 +13,12 @@ import {useHistory} from "react-router-dom";
 import DialogFormFrame from "../../components/core/Dialog/DialogFormFrame";
 import DialogFormForumTopicFilter from "../../components/forum/DialogFormForumTopicFilter";
 import {
-    ForumUser,
     useCreateUpdateForumUserMutation,
     useGetForumUserByDisplayNameQuery
 } from "../../redux/forum/forumUsers/forumUsersApi";
 import {Grid} from "@mui/material";
 import Button from "@mui/material/Button";
 import IntlMessages from "../../components/core/IntlMessages";
-import {Alert} from "@mui/lab";
-import Snackbar from "@mui/material/Snackbar";
 import {useGetUserQuery} from "../../redux/user/usersApi";
 
 const ForumTopics = () => {

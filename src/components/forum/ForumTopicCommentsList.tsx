@@ -10,11 +10,13 @@ import AccountCircleRoundedIcon from '@mui/icons-material/AccountCircleRounded';
 import IntlMessages from "../core/IntlMessages";
 import TextFieldValidation from "../core/TextField/TextFieldValidation";
 import ThumbUpIcon from '@mui/icons-material/ThumbUp';
+import ThumbUpOutlinedIcon from '@mui/icons-material/ThumbUpOutlined';
 import {Delete} from "@mui/icons-material";
 import {DialogDelete2} from "../core/Dialog/DialogDelete2";
 import {TablePagination2, TablePagination2Props} from "../core/Table/TablePagination2";
 import { ValidatorForm } from 'react-material-ui-form-validator';
 import withValidation from "../../containers/HOC/withValidation";
+import {ForumUser} from "../../redux/forum/forumUsers/forumUsersApi";
 
 const StyledGrid = styled(Grid)(({ theme }) => ({
     backgroundColor: theme.palette.grey[200],
@@ -23,16 +25,20 @@ const StyledGrid = styled(Grid)(({ theme }) => ({
 const ForumTopicCommentsList = <T,>({
     forumComment,
     forumComments,
+    forumUser,
     onForumCommentInputChange,
     onAddEdit,
     onDelete,
+    onLike,
     paginationProps
                                 } : {
     forumComment: ForumComment,
     forumComments: ForumComment[],
+    forumUser: ForumUser,
     onForumCommentInputChange: (item: T) => void,
     onAddEdit: (item: T) => void,
     onDelete: (forumCommentId: string) => Promise<any>,
+    onLike: (forumComment: ForumComment) => Promise<any>,
     paginationProps: TablePagination2Props;
 }) => {
     const [dialogWarning, setDialogWarning] = useState<T | undefined>();
@@ -73,7 +79,7 @@ const ForumTopicCommentsList = <T,>({
                             </Grid>
                         </ValidatorForm>
                     </CardContent>
-                    <CardActions disableSpacing sx={{display: "flex", justifyContent: "flex-end"}}>
+                    <CardActions disableSpacing sx={{display: "flex", justifyContent: "flex-start", marginBottom: "4rem"}}>
                         <Button variant="contained" color="secondary" onClick={onAddEdit}><IntlMessages id="forum.comment"/></Button>
                     </CardActions>
                 </Grid>
@@ -117,9 +123,15 @@ const ForumTopicCommentsList = <T,>({
                                         </Grid>
 
                                         <Grid item xl={12} lg={12} md={12} sm={12} xs={12} style={{display: "flex", alignItems: "center"}}>
-                                            <ThumbUpIcon color="action" fontSize="small" style={{marginRight: "0.5rem", transform: "scale(0.8)"}}/>
+                                            <div onClick={() => onLike(forumComment)} style={{ cursor: "pointer", display: "inline-flex", alignItems: "center" }}>
+                                                {forumComment.forumLikes.find((like) => like.forumUserCreatedId === forumUser?.forumUserId) ? (
+                                                    <ThumbUpIcon fontSize="small" style={{ marginRight: "0.5rem", transform: "scale(0.8)" }}/>
+                                                ) : (
+                                                    <ThumbUpOutlinedIcon color="action" fontSize="small" style={{ marginRight: "0.5rem", transform: "scale(0.8)" }}/>
+                                                )}
+                                            </div>
                                             <Typography variant="overline">
-                                                48 <IntlMessages id="forum.likes" />
+                                                {forumComment.forumLikes.length} <IntlMessages id="forum.likes" />
                                             </Typography>
                                         </Grid>
 

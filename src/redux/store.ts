@@ -26,6 +26,7 @@ import {forumTopicsApi} from "./forum/forumTopics/forumTopicsApi";
 import {forumCommentsApi} from "./forum/forumComments/forumCommentsApi";
 import {forumUsersApi} from "./forum/forumUsers/forumUsersApi";
 import {forumTopicUsersApi} from "./forum/forumUsers/forumTopicUsersApi";
+import {forumLikesApi} from "./forum/forumLikes/forumLikesApi";
 //used for loading and saving state from local storage - unnecessary for now
 //import { loadState, saveState } from './localStorage';
 //import throttle from 'lodash/throttle';
@@ -81,6 +82,7 @@ const middleware = [
   forumCommentsApi.middleware,
   forumUsersApi.middleware,
   forumTopicUsersApi.middleware,
+  forumLikesApi.middleware,
 ];
 
 //used for lading state from local storage - unnecessary for now

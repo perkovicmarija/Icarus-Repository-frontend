@@ -4,6 +4,7 @@ import {getToken} from "../../../helpers/utility";
 import {Meta, ResponseWrapper} from "../../../components/core/commonTypes";
 import {ForumComment} from "../forumComments/forumCommentsApi";
 import {ForumUser} from "../forumUsers/forumUsersApi";
+import {ForumLike} from "../forumLikes/forumLikesApi";
 
 export interface ForumComment {
     forumCommentId: string;
@@ -12,6 +13,7 @@ export interface ForumComment {
     content: string;
     created: Date | null;
     createdFormatted: string;
+    forumLikes: ForumLike[];
 }
 
 export const forumCommentsApi = createApi({
