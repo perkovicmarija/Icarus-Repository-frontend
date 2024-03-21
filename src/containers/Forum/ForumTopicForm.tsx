@@ -1,7 +1,5 @@
 import React, {useEffect, useRef, useState} from 'react'
-import {UserSimple} from "../../redux/user/usersApi";
 import {
-    ForumTopicUserJoined,
     ForumTopic,
     ForumTopicAttachment,
     ForumTopicTagJoined,
@@ -14,23 +12,42 @@ import FormTitleBarRich from "../../components/core/Form/FormTitleBarRich";
 import TextFieldValidation from "../../components/core/TextField/TextFieldValidation";
 import ForumTagsComponent from "../../components/forum/ForumTagsComponent";
 import FormSubmit from "../../components/core/Form/FormSubmit";
-import {Grid, Paper} from "@mui/material";
+import {Grid, Paper, Tooltip} from "@mui/material";
 import {styled} from "@mui/styles";
 import {ValidatorForm} from 'react-material-ui-form-validator';
 import {useHistory, useParams} from "react-router-dom";
-import ForumTopicComments from "../../components/forum/ForumTopicComments";
+import ForumTopicCommentsList from "../../components/forum/ForumTopicCommentsList";
 import {
     ForumComment,
     useCreateUpdateForumCommentMutation,
     useDeleteForumCommentMutation,
-    useGetForumCommentsForTopicQuery
+    useGetForumTopicCommentsPaginatedQuery
 } from "../../redux/forum/forumComments/forumCommentsApi";
-import {getForumTopicsPaginationPath} from "../../consts/routePaths";
-import useDeepCompareEffect from "use-deep-compare-effect";
+import {
+    getForumSubscribersPaginationPath,
+    getForumTopicCommentsPaginationPath,
+    getForumTopicsPaginationPath
+} from "../../consts/routePaths";
 import JoditEditor from "jodit-react";
+import PeopleIcon from '@mui/icons-material/People';
+import {FormattedMessage} from "react-intl";
+import {usePagination} from "../../helpers/pagination";
+import {ForumTopicUserJoined} from "../../redux/forum/forumUsers/forumTopicUsersApi";
+import CommentIcon from '@mui/icons-material/Comment';
+import {
+    ForumUser,
+    useGetForumUserByDisplayNameQuery,
+    useGetForumUsersQuery
+} from "../../redux/forum/forumUsers/forumUsersApi";
+import {useGetUserQuery} from "../../redux/user/usersApi";
+import IntlMessages from "../../components/core/IntlMessages";
+import withValidation from "../HOC/withValidation";
 
 const StyledPaper = styled(Paper)({
     minHeight: '300px',
+    display: 'flex',
+    flexDirection: 'column',
+    justifyContent: 'space-between'
 });
 
 const initialForumTopic = {
@@ -39,7 +56,7 @@ const initialForumTopic = {
     created: null,
     createdFormatted: '',
     title: '',
-    userCreated: {} as UserSimple,
+    forumUserCreated: {} as ForumUser,
     forumTopicTagJoineds: new Array<ForumTopicTagJoined>(),
     forumTopicUserJoineds: new Array<ForumTopicUserJoined>(),
     forumComments: new Array<ForumComment>(),
@@ -50,27 +67,23 @@ const ForumTopicForm = () => {
     const history = useHistory();
     const { forumTopicId } = useParams<{forumTopicId: string}>();
 
-    const initialForumComment = {
-        forumCommentId: '',
-        forumTopicId: forumTopicId,
-        userCreated: {} as UserSimple,
-        content: '',
-        created: null,
-        createdFormatted: '',
-    }
-
     const [forumTopic, setForumTopic] = useState<ForumTopic>(initialForumTopic);
-    const [forumComment, setForumComment] = useState<ForumComment>(initialForumComment);
     const [newAttachments, setNewAttachments] = useState<Array<ForumTopicAttachment>>([]);
 
     const [createUpdateForumTopic] = useCreateUpdateForumTopicMutation();
-    const { data: forumTopicFromDb } = useGetForumTopicQuery(forumTopicId);
+    const { data: forumTopicFromDb } = useGetForumTopicQuery(forumTopicId, {skip: forumTopicId === "-1"});
 
     const { data: forumTags } = useGetForumTagsQuery();
 
-    const { data: forumComments } = useGetForumCommentsForTopicQuery(forumTopicId);
-    const [createUpdateForumComment] = useCreateUpdateForumCommentMutation(forumComment);
-    const [deleteForumComment] = useDeleteForumCommentMutation();
+    const { data: user } = useGetUserQuery(JSON.parse(localStorage.getItem("userId")))
+
+    const username = user?.data.username;
+
+    const { data: forumUser } = useGetForumUserByDisplayNameQuery(username, {
+        skip: !username,
+    })
+
+    const { page, rowsPerPage, storeRowsPerPage } = usePagination("forumTopicUsers");
 
     useEffect(() => {
         if (forumTopicId != "-1") {
@@ -82,13 +95,11 @@ const ForumTopicForm = () => {
         }
     }, [forumTopicFromDb]);
 
-    useEffect(() => {
-        setForumComment(prevComment => ({
-            ...prevComment,
-            forumTopicId: forumTopic.forumTopicId
-        }));
-    }, [forumTopic.forumTopicId]);
-
+    const handleForumTopicSubmit = async event => {
+        event.preventDefault()
+        await createUpdateForumTopic({...forumTopic, forumUserCreated: forumUser.data}).unwrap();
+        history.push(getForumTopicsPaginationPath(0, 25))
+    }
 
     const handleClickForumTag = (payload: ForumTag) => {
         setForumTopic(prevTopic => {
@@ -115,7 +126,13 @@ const ForumTopicForm = () => {
         });
     }
 
+    const handleClickSubscribers = () => {
+        history.push(getForumSubscribersPaginationPath(forumTopicId, 0, 25));
+    }
 
+    const handleClickComments = () => {
+        history.push(getForumTopicCommentsPaginationPath(forumTopicId, 0, 25));
+    }
 
     const editor = useRef(null);
     const config = {
@@ -129,22 +146,10 @@ const ForumTopicForm = () => {
         height: 300,
     };
 
-    const handleForumTopicSubmit = async event => {
-        event.preventDefault()
-        const forumTopicUpdated = await createUpdateForumTopic(forumTopic).unwrap();
-        setForumTopic(forumTopicUpdated.data)
-    }
-
     const handleInputChange = ({ target: { name, value } }) => {
         let newForumTopicClone = cloneDeep(forumTopic);
         newForumTopicClone[name] = value;
         setForumTopic(newForumTopicClone);
-    };
-
-    const handleForumCommentInputChange = ({ target: { name, value } }) => {
-        let newForumCommentClone = cloneDeep(forumComment);
-        newForumCommentClone[name] = value;
-        setForumComment(newForumCommentClone);
     };
 
     const handleNewAttachSubmit = (file, attachment) => {
@@ -189,22 +194,31 @@ const ForumTopicForm = () => {
         // setDialogAttachmentViewOpen(true);
     }
 
-    const handleAddEditComment = async event => {
-        event.preventDefault()
-        await createUpdateForumComment(forumComment)
-        setForumComment(initialForumComment)
-    }
-
-    const handleDeleteComment = async (forumCommentId: string) => {
-        await deleteForumComment(forumCommentId)
-    }
-
-
     return (
         <>
-            <Grid container spacing={2}>
+            <Grid container spacing={1}>
                 <Grid item xl={12} lg={12} md={12} sm={12} xs={12}>
-                    <FormTitleBarRich title={forumTopicId != "-1" ? "forum.topic.edit" : "forum.topic.new"} />
+                        <FormTitleBarRich
+                              title={forumTopicId != "-1" ? "forum.topic.edit" : "forum.topic.new"}
+                              children={
+                                  <Grid container spacing={2}>
+                                      <Grid item>
+                                          <Tooltip title={<FormattedMessage id="forum.comments" />}>
+                                              <CommentIcon style={{ color: "#FFFFFF", cursor: "pointer" }} fontSize="medium"
+                                                           onClick={handleClickComments}
+                                              />
+                                          </Tooltip>
+                                      </Grid>
+                                      <Grid item>
+                                          <Tooltip title={<FormattedMessage id="forum.subscribers" />}>
+                                              <PeopleIcon style={{ color: "#FFFFFF", cursor: "pointer" }} fontSize="medium"
+                                                          onClick={handleClickSubscribers}
+                                              />
+                                          </Tooltip>
+                                      </Grid>
+                                  </Grid>
+                              }
+                        />
                 </Grid>
 
                 <Grid item xl={12} lg={12} md={12} sm={12} xs={12}>
@@ -215,6 +229,7 @@ const ForumTopicForm = () => {
                         // onError={onValidationError}
                     >
                         <Grid container spacing={2}>
+
                             <Grid item xl={6} lg={6} md={12} sm={12} xs={12}>
                                 <StyledPaper style={{padding: "5rem"}}>
                                     <TextFieldValidation
@@ -225,9 +240,17 @@ const ForumTopicForm = () => {
                                         value={forumTopic.title}
                                         onInputChange={handleInputChange}
                                         placeholder="forum.topic"
-                                        type="text"/>
+                                        type="text"
+                                        validators={['required']}
+                                        errorMessages={['This field is required', 'Email is not valid']}
+                                        required/>
+
+                                    <div style={{display: 'flex', alignItems: 'center'}}>
+                                        <h4><IntlMessages id="forum.user" />:&nbsp;</h4><span>{forumUser?.data.displayName}</span>
+                                    </div>
                                 </StyledPaper>
                             </Grid>
+
                             <Grid item xl={6} lg={6} md={12} sm={12} xs={12}>
                                 <StyledPaper>
                                     <ForumTagsComponent
@@ -238,6 +261,7 @@ const ForumTopicForm = () => {
                                     />
                                 </StyledPaper>
                             </Grid>
+
                             <Grid item xl={12} lg={12} md={12} sm={12} xs={12}>
                                 <JoditEditor
                                     ref={editor}
@@ -249,6 +273,7 @@ const ForumTopicForm = () => {
                                     onChange={newContent => {}}
                                 />
                             </Grid>
+
                             <Grid item xl={12} lg={12} md={12} sm={12} xs={12}>
                                 {/*<Attachments*/}
                                 {/*    attachments={forumTopic.forumTopicAttachments}*/}
@@ -261,25 +286,14 @@ const ForumTopicForm = () => {
                                 {/*/>*/}
                             </Grid>
 
-                            {forumTopicId != "-1" &&
-
-                                <Grid item xl={12} lg={12} md={12} sm={12} xs={12}>
-                                    <ForumTopicComments
-                                        forumComments={forumComments?.data}
-                                        onAddEdit={handleAddEditComment}
-                                        onDelete={handleDeleteComment}
-                                        forumComment={forumComment}
-                                        onForumCommentInputChange={handleForumCommentInputChange}
-                                    />
-                                </Grid>
-                            }
-
                             <Grid item xl={12} lg={12} md={12} sm={12} xs={12}>
                                 <FormSubmit
                                     handleCancel={() => history.push(getForumTopicsPaginationPath(0, 25))}
                                 />
                             </Grid>
+
                         </Grid>
+
                     </ValidatorForm>
                 </Grid>
             </Grid>
@@ -287,4 +301,4 @@ const ForumTopicForm = () => {
 
     )
 }
-export default ForumTopicForm
+export default withValidation(ForumTopicForm)

@@ -42,6 +42,8 @@ import {forumCommentsApi} from "./forum/forumComments/forumCommentsApi";
 import forumCommentsSlice from "./forum/forumComments/forumCommentsSlice";
 import {forumUsersApi} from "./forum/forumUsers/forumUsersApi";
 import forumUsersSlice from "./forum/forumUsers/forumUsersSlice";
+import {forumTopicUsersApi} from "./forum/forumUsers/forumTopicUsersApi";
+import forumTopicUsersSlice from "./forum/forumUsers/forumTopicUsersSlice";
 
 export default (history) =>
   combineReducers({
@@ -87,5 +89,7 @@ export default (history) =>
     [forumCommentsApi.reducerPath]: forumCommentsApi.reducer,
     ForumComments: forumCommentsSlice.reducer,
     [forumUsersApi.reducerPath]: forumUsersApi.reducer,
-    ForumUsers: forumUsersSlice.reducer
+    ForumUsers: forumUsersSlice.reducer,
+    [forumTopicUsersApi.reducerPath]: forumTopicUsersApi.reducer,
+    ForumTopicUsers: forumTopicUsersSlice.reducer
   });

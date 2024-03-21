@@ -32,6 +32,13 @@ export const forumUsersApi = createApi({
             }),
             providesTags: ["ForumUser"],
         }),
+        getForumUserByDisplayName: builder.query<ResponseWrapper<ForumUser>, void>({
+            query: (displayName) => ({
+                url: 'display-name/' + `${displayName}` + `?access_token=${getToken()}`,
+                method: "GET",
+            }),
+            providesTags: ["ForumUser"],
+        }),
         getForumUsers: builder.query<ResponseWrapper<ForumUser[]>, void>({
             query: () => `?access_token=${getToken()}`,
             providesTags: ["ForumUser"],
@@ -47,7 +54,7 @@ export const forumUsersApi = createApi({
         createUpdateForumUser: builder.mutation<void, ForumUser>({
             query: (body) => ({
                 url: `?access_token=${getToken()}`,
-                method: body.forumTopicId ? "PUT" : "POST",
+                method: body.forumUserId ? "PUT" : "POST",
                 body,
             }),
             invalidatesTags: ["ForumUser"],
@@ -64,6 +71,7 @@ export const forumUsersApi = createApi({
 
 export const {
     useGetForumUserQuery,
+    useGetForumUserByDisplayNameQuery,
     useGetForumUsersQuery,
     useGetForumUsersPaginatedQuery,
     useCreateUpdateForumUserMutation,

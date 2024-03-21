@@ -5,10 +5,9 @@ import {TablePagination2Props} from "../core/Table/TablePagination2";
 import {TableContainer2} from "../core/Table/TableContainer2";
 import {TableActions2} from "../core/Table/TableActions2";
 import {DialogDelete2} from "../core/Dialog/DialogDelete2";
-import {ForumUser} from "../../redux/forum/forumUsers/forumUsersApi";
 import {TableCell, TableRow} from "@mui/material";
-import Edit from "@mui/icons-material/Edit";
 import Delete from "@mui/icons-material/Delete";
+import {ForumTopicUserJoined} from "../../redux/forum/forumUsers/forumTopicUsersApi";
 
 const columnData: ColumnDefinition[] = [
     {
@@ -42,9 +41,8 @@ const columnData: ColumnDefinition[] = [
     },
 ];
 
-const ForumUsersList = <T,>({
+const ForumTopicSubscribersList = <T,>({
                                         data,
-                                        onEdit,
                                         onDelete,
                                         //
                                         toolbarProps,
@@ -53,8 +51,7 @@ const ForumUsersList = <T,>({
                                     }: {
     toolbarProps: TableToolbar2Props;
     paginationProps: TablePagination2Props;
-    data: ForumUser[] | undefined;
-    onEdit: (item: T) => void;
+    data: ForumTopicUserJoined[] | undefined;
     onDelete: (item: T) => Promise<any>;
     loading: boolean;
 }) => {
@@ -72,21 +69,16 @@ const ForumUsersList = <T,>({
                 loading={loading}
             >
                 {data &&
-                    data.map((item: any) => {
+                    data.map((item: ForumTopicUserJoined) => {
                         return (
-                            <TableRow key={item.forumUserId} hover={true}>
-                                <TableCell>{item.displayName}</TableCell>
-                                <TableCell>{item.client?.name}</TableCell>
-                                <TableCell>{item.email}</TableCell>
-                                <TableCell>{item.fullName}</TableCell>
+                            <TableRow key={item.forumUserCreated.forumUserId} hover={true}>
+                                <TableCell>{item.forumUserCreated.displayName}</TableCell>
+                                <TableCell>{item.forumUserCreated.client?.name}</TableCell>
+                                <TableCell>{item.forumUserCreated.fullName}</TableCell>
+                                <TableCell>{item.forumUserCreated.email}</TableCell>
                                 <TableCell className="nostretch">
                                     <TableActions2
                                         actions={[
-                                            {
-                                                label: "general.edit",
-                                                Icon: Edit,
-                                                onClick: () => onEdit(item),
-                                            },
                                             {
                                                 label: "general.delete",
                                                 Icon: Delete,
@@ -109,4 +101,4 @@ const ForumUsersList = <T,>({
         </>
     );
 };
-export default ForumUsersList
+export default ForumTopicSubscribersList

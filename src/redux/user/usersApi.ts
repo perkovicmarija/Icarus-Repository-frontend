@@ -1,7 +1,7 @@
-import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
-import { getServerPath } from "../../consts/ServerInfo";
-import { getToken } from "../../helpers/utility";
-import { Meta, ResponseWrapper } from "../../components/core/commonTypes";
+import {createApi, fetchBaseQuery} from "@reduxjs/toolkit/query/react";
+import {getServerPath} from "../../consts/ServerInfo";
+import {getToken} from "../../helpers/utility";
+import {Meta, ResponseWrapper} from "../../components/core/commonTypes";
 
 export interface User {
   userId: string;
@@ -29,6 +29,13 @@ export const usersApi = createApi({
   }),
   tagTypes: ["Users"],
   endpoints: (builder) => ({
+    getUser: builder.query<ResponseWrapper<User>, void>({
+      query: (id) => ({
+        url: `${id}` + `?access_token=${getToken()}`,
+        method: "GET",
+      }),
+      providesTags: ["Users"],
+    }),
     getUsersPaginated: builder.query<ResponseWrapper<User[]>, Meta>({
       query: (body) => ({
         url: `getAllPagination` + `?access_token=${getToken()}`,
@@ -76,6 +83,7 @@ export const usersApi = createApi({
 });
 
 export const {
+  useGetUserQuery,
   useGetUsersPaginatedQuery,
   useDeleteUserMutation,
   useAddEditUserMutation,

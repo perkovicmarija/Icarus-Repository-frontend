@@ -22,6 +22,7 @@ export function* loginRequest() {
                     localStorage.setItem('name', user.name);
                     localStorage.setItem('surname', user.surname);
                     localStorage.setItem('fullName', user.fullName);
+                    debugger
                     if (user.imageUrl !== null) {
                         localStorage.setItem('imageUrl', user.imageUrl);
                     }

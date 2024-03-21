@@ -18,6 +18,8 @@ export const defaultState = {
     mobileLogs: 25,
     forumTopics: 25,
     forumUsers: 25,
+    forumTopicUsers: 25,
+    forumComments: 25,
   },
 };
 

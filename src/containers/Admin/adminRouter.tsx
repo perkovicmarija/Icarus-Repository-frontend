@@ -10,8 +10,8 @@ import {
     auditChecklist,
     auditChecklistOverview,
     dashboard,
-    forumRegistrations, forumTags, forumTopicForm,
-    forumTopics,
+    forumRegistrations, forumTags, forumTopicComments, forumTopicForm,
+    forumTopics, forumTopicSubscribers,
     icarusDocs,
     iOSClients,
     mobileLogs,
@@ -31,6 +31,8 @@ import ForumUsers from "../Forum/ForumUsers";
 import ForumTopics from "../Forum/ForumTopics";
 import ForumTags from "../Forum/ForumTags";
 import ForumTopicForm from "../Forum/ForumTopicForm";
+import ForumTopicSubscribers from "../Forum/ForumTopicSubscribers";
+import ForumTopicComments from "../Forum/ForumTopicComments";
 
 const AdminRouter = () => {
   return (
@@ -140,6 +142,18 @@ const AdminRouter = () => {
             path={forumTopicForm}
             component={ForumTopicForm}
             key="forum-topics-form"
+        />
+
+        <Route
+            path={forumTopicSubscribers}
+            component={ForumTopicSubscribers}
+            key="forum-topic-subscribers"
+        />
+
+        <Route
+            path={forumTopicComments}
+            component={ForumTopicComments}
+            key="forum-topic-comments"
         />
 
         <Route

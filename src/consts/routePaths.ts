@@ -117,6 +117,19 @@ export const getForumTopicFormPath = (id: string | null) => {
   }
 };
 
+export const forumTopicSubscribers = forumModule + "/topic/:forumTopicId/subscribers/";
+export const getForumSubscribersPaginationPath = (forumTopicId: string, page: number, rowsPerPage?: number) => {
+  const pathWithTopicId = forumTopicSubscribers.replace(":forumTopicId", forumTopicId);
+  return `${pathWithTopicId}${page}/${rowsPerPage ?? ""}`;
+};
+
+export const forumTopicComments = forumModule + "/topic/:forumTopicId/comments/";
+export const getForumTopicCommentsPaginationPath = (forumTopicId: string, page: number, rowsPerPage?: number) => {
+  const pathWithTopicId = forumTopicComments.replace(":forumTopicId", forumTopicId);
+  return `${pathWithTopicId}${page}/${rowsPerPage ?? ""}`;
+};
+
+
 export const forumTags = forumModule + "/tags/";
 export const getForumTagsPath = (page: number, rowsPerPage?: number) => {
   return `${forumTags}${page}/${rowsPerPage ?? ""}`;

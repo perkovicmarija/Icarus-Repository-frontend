@@ -431,7 +431,12 @@
   "forum.content": "Content",
   "forum.displayName": "Display name",
   "forum.fullName": "Full name",
-  "forum.users": "Forum users"
+  "forum.users": "Forum users",
+  "forum.user.created": "Forum user created",
+  "forum.topic.users": "Topic subscribers",
+  "forum.user": "Forum user",
+  "forum.user.create": "Create forum user",
+  "forum.user.create.text": "In order to participate in the Forum, a Forum user must be created."
 
 
 }

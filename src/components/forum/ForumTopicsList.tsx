@@ -27,7 +27,7 @@ const columnData: ColumnDefinition[] = [
     id: "createdFormatted",
     numeric: false,
     disablePadding: false,
-    label: "general.date",
+    label: "general.created",
   },
   {
     id: "subscribers",
@@ -82,7 +82,7 @@ const ForumTopicsList = <T,>({
             return (
               <TableRow key={item.forumTopicId}>
                 <TableCell>{item.title}</TableCell>
-                <TableCell>{item.userCreated.fullName}</TableCell>
+                <TableCell>{item.forumUserCreated.fullName}</TableCell>
                 <TableCell>{item.createdFormatted}</TableCell>
                 <TableCell>{item.forumTopicUserJoineds?.length}</TableCell>
                 <TableCell>

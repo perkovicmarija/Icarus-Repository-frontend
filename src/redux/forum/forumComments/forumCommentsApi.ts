@@ -1,14 +1,14 @@
 import {createApi, fetchBaseQuery} from "@reduxjs/toolkit/query/react";
 import {getServerPath} from "../../../consts/ServerInfo";
 import {getToken} from "../../../helpers/utility";
-import {ResponseWrapper} from "../../../components/core/commonTypes";
-import {UserSimple} from "../../user/usersApi";
+import {Meta, ResponseWrapper} from "../../../components/core/commonTypes";
 import {ForumComment} from "../forumComments/forumCommentsApi";
+import {ForumUser} from "../forumUsers/forumUsersApi";
 
 export interface ForumComment {
     forumCommentId: string;
     forumTopicId: string;
-    userCreated: UserSimple;
+    forumUserCreated: ForumUser;
     content: string;
     created: Date | null;
     createdFormatted: string;
@@ -33,10 +33,11 @@ export const forumCommentsApi = createApi({
             query: () => `?access_token=${getToken()}`,
             providesTags: ["ForumComment"],
         }),
-        getForumCommentsForTopic: builder.query<ResponseWrapper<ForumComment[]>, void>({
-            query: (id) => ({
-                url: `topic/${id}` + `?access_token=${getToken()}`,
-                method: "GET",
+        getForumCommentsPaginated: builder.query<ResponseWrapper<ForumComment[]>, Meta>({
+            query: (body) => ({
+                url: `paginate?access_token=${getToken()}`,
+                method: "POST",
+                body: body,
             }),
             providesTags: ["ForumComment"],
         }),
@@ -61,7 +62,7 @@ export const forumCommentsApi = createApi({
 export const {
     useGetForumCommentQuery,
     useGetAllForumCommentsQuery,
-    useGetForumCommentsForTopicQuery,
+    useGetForumCommentsPaginatedQuery,
     useCreateUpdateForumCommentMutation,
     useDeleteForumCommentMutation,
 } = forumCommentsApi;
