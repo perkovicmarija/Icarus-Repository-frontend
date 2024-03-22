@@ -75,7 +75,7 @@ const ForumUsers = () => {
                 //
                 toolbarProps={{
                     onAddClick: setDialogAddEdit,
-                    title: "forum.users",
+                    title: "",
                     searchPlaceholder: "search.search",
                     searchTextPropKey: "displayName",
                     initFilters,
@@ -117,6 +117,7 @@ const ForumUsers = () => {
                     initialData={dialogFilters!}
                     onClose={() => setDialogFilters(false)}
                     onSubmit={handleSubmitFilters}
+                    clients={clientsResponse?.data}
                 />
             </DialogFormFrame>
         </>

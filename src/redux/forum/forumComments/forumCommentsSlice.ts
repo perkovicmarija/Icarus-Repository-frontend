@@ -1,7 +1,12 @@
 import {ForumComment} from "./forumCommentsApi";
 import {createSlice} from "@reduxjs/toolkit";
 
-export const initFilters = {};
+export const initFilters = {
+    dateFrom: null,
+    dateTo: null,
+    forumUser: null,
+    content: "",
+};
 
 const initialState = {
     data: undefined as ForumComment[] | undefined,

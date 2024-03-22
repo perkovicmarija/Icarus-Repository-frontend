@@ -8,6 +8,7 @@ import {TableActions2} from "../core/Table/TableActions2";
 import {Delete, Edit} from "@mui/icons-material";
 import {DialogDelete2} from "../core/Dialog/DialogDelete2";
 import {ForumTopic} from "../../redux/forum/forumTopics/forumTopicsApi";
+import {ForumComment} from "../../redux/forum/forumComments/forumCommentsApi";
 //
 
 const columnData: ColumnDefinition[] = [
@@ -57,11 +58,11 @@ const ForumTopicsList = <T,>({
   paginationProps,
   loading,
 }: {
-  toolbarProps: TableToolbar2Props;
-  paginationProps: TablePagination2Props;
   data: ForumTopic[] | undefined;
   onEdit: (forumTopicId: string) => void;
   onDelete: (forumTopic: ForumTopic) => Promise<any>;
+  toolbarProps: TableToolbar2Props;
+  paginationProps: TablePagination2Props;
   loading: boolean;
 }) => {
   const [dialogWarning, setDialogWarning] = useState<T | undefined>();

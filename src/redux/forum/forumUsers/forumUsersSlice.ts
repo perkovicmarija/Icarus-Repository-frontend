@@ -3,7 +3,8 @@ import {createSlice} from "@reduxjs/toolkit";
 
 export const initFilters = {
     displayName: "",
-    email: ""
+    email: "",
+    client: null
 };
 
 const initialState = {

@@ -3,7 +3,11 @@ import {useAppDispatch, useAppSelector} from "../../redux/store";
 import {useHistory, useParams} from "react-router-dom";
 import {usePagination} from "../../helpers/pagination";
 import {FiltersType, forumTopicUsersActions, initFilters} from "../../redux/forum/forumUsers/forumTopicUsersSlice";
-import {getForumRegistrationsPath, getForumTopicFormPath} from "../../consts/routePaths";
+import {
+    getForumRegistrationsPath,
+    getForumSubscribersPaginationPath,
+    getForumTopicFormPath
+} from "../../consts/routePaths";
 import DialogFormFrame from "../../components/core/Dialog/DialogFormFrame";
 import DialogFormForumUserFilter from "../../components/forum/DialogFormForumUserFilter";
 import ForumTopicSubscribersList from "../../components/forum/ForumTopicSubscribersList";
@@ -19,6 +23,7 @@ import {Grid, Tooltip} from "@mui/material";
 import FormTitleBarRich from "../../components/core/Form/FormTitleBarRich";
 import {FormattedMessage} from "react-intl";
 import KeyboardBackspaceIcon from '@mui/icons-material/KeyboardBackspace';
+import {useGetClientsQuery} from "../../redux/settings/clientsApi";
 
 const ForumTopicSubscribers = () => {
     const dispatch = useAppDispatch();
@@ -48,9 +53,11 @@ const ForumTopicSubscribers = () => {
 
     const { data: forumUsers } = useGetForumUsersQuery(meta);
 
+    const { data: clients } = useGetClientsQuery();
+
     const handleSubmitFilters = (newFilters: FiltersType) => {
         dispatch(forumTopicUsersActions.setFilters({ ...filters, ...newFilters }));
-        history.push(getForumRegistrationsPath(page, rowsPerPage));
+        history.push(getForumSubscribersPaginationPath(forumTopicId, page, rowsPerPage));
     };
     // PAGINATION
     const onChangePage = (newValue: number) => {
@@ -135,7 +142,7 @@ const ForumTopicSubscribers = () => {
                     initialData={dialogFilters!}
                     onClose={() => setDialogFilters(false)}
                     onSubmit={handleSubmitFilters}
-                />
+                    clients={clients?.data}/>
             </DialogFormFrame>
         </>
     );

@@ -3,6 +3,7 @@ import {getServerPath} from "../../../consts/ServerInfo";
 import {getToken} from "../../../helpers/utility";
 import {Meta, ResponseWrapper} from "../../../components/core/commonTypes";
 import {Client} from "../../settings/clientsApi";
+import {User} from "../../user/usersApi";
 
 export interface ForumUser {
     forumUserId: string;
@@ -15,6 +16,7 @@ export interface ForumUser {
     deactivated: boolean;
     createdFormatted: string;
     updatedFormatted: string;
+    userCreated: User;
 }
 
 export const forumUsersApi = createApi({

@@ -6,6 +6,7 @@ import {ForumTag} from "../forumTags/forumTagsApi";
 import {ForumComment} from "../forumComments/forumCommentsApi";
 import {ForumTopicUserJoined} from "../forumUsers/forumTopicUsersApi";
 import {ForumUser} from "../forumUsers/forumUsersApi";
+import {ForumLike} from "../forumLikes/forumLikesApi";
 
 export interface ForumTopic {
     forumTopicId: string;
@@ -18,6 +19,7 @@ export interface ForumTopic {
     forumTopicUserJoineds: ForumTopicUserJoined[];
     forumComments: ForumComment[];
     forumTopicAttachments: ForumTopicAttachment[];
+    forumLikes: ForumLike[];
 }
 
 export interface ForumTopicTagJoined {

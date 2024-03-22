@@ -16,13 +16,7 @@ import {Grid, Paper, Tooltip} from "@mui/material";
 import {styled} from "@mui/styles";
 import {ValidatorForm} from 'react-material-ui-form-validator';
 import {useHistory, useParams} from "react-router-dom";
-import ForumTopicCommentsList from "../../components/forum/ForumTopicCommentsList";
-import {
-    ForumComment,
-    useCreateUpdateForumCommentMutation,
-    useDeleteForumCommentMutation,
-    useGetForumTopicCommentsPaginatedQuery
-} from "../../redux/forum/forumComments/forumCommentsApi";
+import {ForumComment} from "../../redux/forum/forumComments/forumCommentsApi";
 import {
     getForumSubscribersPaginationPath,
     getForumTopicCommentsPaginationPath,
@@ -31,17 +25,20 @@ import {
 import JoditEditor from "jodit-react";
 import PeopleIcon from '@mui/icons-material/People';
 import {FormattedMessage} from "react-intl";
-import {usePagination} from "../../helpers/pagination";
 import {ForumTopicUserJoined} from "../../redux/forum/forumUsers/forumTopicUsersApi";
 import CommentIcon from '@mui/icons-material/Comment';
-import {
-    ForumUser,
-    useGetForumUserByDisplayNameQuery,
-    useGetForumUsersQuery
-} from "../../redux/forum/forumUsers/forumUsersApi";
+import {ForumUser, useGetForumUserByDisplayNameQuery} from "../../redux/forum/forumUsers/forumUsersApi";
 import {useGetUserQuery} from "../../redux/user/usersApi";
 import IntlMessages from "../../components/core/IntlMessages";
 import withValidation from "../HOC/withValidation";
+import {
+    ForumLike,
+    useCreateForumLikeMutation,
+    useDeleteForumLikeMutation
+} from "../../redux/forum/forumLikes/forumLikesApi";
+import Typography from "@mui/material/Typography";
+import ThumbUpIcon from '@mui/icons-material/ThumbUp';
+import ThumbUpOutlinedIcon from '@mui/icons-material/ThumbUpOutlined';
 
 const StyledPaper = styled(Paper)({
     minHeight: '300px',
@@ -60,7 +57,8 @@ const initialForumTopic = {
     forumTopicTagJoineds: new Array<ForumTopicTagJoined>(),
     forumTopicUserJoineds: new Array<ForumTopicUserJoined>(),
     forumComments: new Array<ForumComment>(),
-    forumTopicAttachments: new Array<ForumTopicAttachment>()
+    forumTopicAttachments: new Array<ForumTopicAttachment>(),
+    forumLikes: new Array<ForumLike>()
 }
 
 const ForumTopicForm = () => {
@@ -71,7 +69,7 @@ const ForumTopicForm = () => {
     const [newAttachments, setNewAttachments] = useState<Array<ForumTopicAttachment>>([]);
 
     const [createUpdateForumTopic] = useCreateUpdateForumTopicMutation();
-    const { data: forumTopicFromDb } = useGetForumTopicQuery(forumTopicId, {skip: forumTopicId === "-1"});
+    const { data: forumTopicFromDb, refetch: refetchForumTopic } = useGetForumTopicQuery(forumTopicId, {skip: forumTopicId === "-1"});
 
     const { data: forumTags } = useGetForumTagsQuery();
 
@@ -83,7 +81,8 @@ const ForumTopicForm = () => {
         skip: !username,
     })
 
-    const { page, rowsPerPage, storeRowsPerPage } = usePagination("forumTopicUsers");
+    const [createForumLike] = useCreateForumLikeMutation()
+    const [deleteForumLike] = useDeleteForumLikeMutation()
 
     useEffect(() => {
         if (forumTopicId != "-1") {
@@ -194,6 +193,22 @@ const ForumTopicForm = () => {
         // setDialogAttachmentViewOpen(true);
     }
 
+    const handleLike = async () => {
+        const existingLike: ForumLike = forumTopic.forumLikes.find((like) => like.forumUserCreatedId === forumUser.data.forumUserId)
+
+        if (existingLike) {
+            await deleteForumLike(existingLike.forumLikeId)
+        } else {
+            let forumLike = {
+                forumTopicId: forumTopic.forumTopicId,
+                forumUserCreatedId: forumUser.data.forumUserId
+            }
+            await createForumLike(forumLike)
+        }
+
+        refetchForumTopic()
+    }
+
     return (
         <>
             <Grid container spacing={1}>
@@ -285,6 +300,21 @@ const ForumTopicForm = () => {
                                 {/*    showView*/}
                                 {/*/>*/}
                             </Grid>
+
+                            {forumTopicId != "-1" &&
+                                <Grid item xl={12} lg={12} md={12} sm={12} xs={12} style={{display: "flex", alignItems: "center"}}>
+                                    <div onClick={() => handleLike()} style={{ cursor: "pointer", display: "inline-flex", alignItems: "center" }}>
+                                        {forumTopic.forumLikes.find((like) => like.forumUserCreatedId === forumUser?.data.forumUserId) ? (
+                                            <ThumbUpIcon fontSize="small" style={{ marginRight: "0.5rem", transform: "scale(0.8)" }}/>
+                                        ) : (
+                                            <ThumbUpOutlinedIcon color="action" fontSize="small" style={{ marginRight: "0.5rem", transform: "scale(0.8)" }}/>
+                                        )}
+                                    </div>
+                                    <Typography variant="overline">
+                                        {forumTopic.forumLikes.length} <IntlMessages id="forum.likes" />
+                                    </Typography>
+                                </Grid>
+                            }
 
                             <Grid item xl={12} lg={12} md={12} sm={12} xs={12}>
                                 <FormSubmit

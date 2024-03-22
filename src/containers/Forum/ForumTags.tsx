@@ -7,6 +7,7 @@ import {
 } from "../../redux/forum/forumTags/forumTagsApi";
 import DialogFormForumTag from "../../components/forum/DialogFormForumTag";
 import DialogFormFrame from "../../components/core/Dialog/DialogFormFrame";
+import {Paper} from "@mui/material";
 
 const ForumTags = () => {
     const [dialogForumTagsOpen, setDialogForumTagsOpen] = useState<boolean>(false);
@@ -21,11 +22,14 @@ const ForumTags = () => {
     }
     return (
         <>
-            <ForumTagsComponent
-                forumTags={forumTags?.data}
-                onTagClick={handleClickForumTag}
-                showAdd={true}
-                selectedTags={null}/>
+            <Paper>
+                <ForumTagsComponent
+                    forumTags={forumTags?.data}
+                    onTagClick={handleClickForumTag}
+                    showAdd={true}
+                    selectedTags={null}/>
+            </Paper>
+
 
             <DialogFormFrame
                 onClose={() => setDialogForumTagsOpen(false)}
