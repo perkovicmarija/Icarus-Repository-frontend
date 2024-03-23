@@ -436,7 +436,8 @@
   "forum.topic.users": "Topic subscribers",
   "forum.user": "Forum user",
   "forum.user.create": "Create forum user",
-  "forum.user.create.text": "In order to participate in the Forum, a Forum user must be created."
+  "forum.user.create.text": "In order to participate in the Forum, a Forum user must be created.",
+  "forum.reply": "Reply"
 
 
 }

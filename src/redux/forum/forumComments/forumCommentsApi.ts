@@ -14,6 +14,8 @@ export interface ForumComment {
     created: Date | null;
     createdFormatted: string;
     forumLikes: ForumLike[];
+    parentCommentId: string | null;
+    replies: ForumComment[];
 }
 
 export const forumCommentsApi = createApi({
