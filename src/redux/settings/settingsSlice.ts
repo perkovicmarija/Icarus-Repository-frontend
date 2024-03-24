@@ -19,7 +19,7 @@ export const defaultState = {
     forumTopics: 25,
     forumUsers: 25,
     forumTopicUsers: 25,
-    forumComments: 25,
+    forumComments: 5,
   },
 };
 

@@ -6,6 +6,7 @@ import {useState} from "react";
 import {Client} from "../../redux/settings/clientsApi";
 import {ForumUser} from "../../redux/forum/forumUsers/forumUsersApi";
 import SelectCustom2 from "../core/Fields/SelectCustom2";
+import SwitchCustom2 from "../core/Fields/SwitchCustom2";
 
 function DialogFormForumUser({
   initialData,
@@ -79,6 +80,14 @@ function DialogFormForumUser({
                 control={control}
                 label="form.surname"
                 name="surname"
+            />
+          </Grid>
+
+          <Grid item xs={12}>
+            <SwitchCustom2
+                control={control}
+                label="client.deactivated"
+                name="deactivated"
             />
           </Grid>
 

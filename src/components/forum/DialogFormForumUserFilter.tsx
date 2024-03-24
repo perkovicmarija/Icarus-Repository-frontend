@@ -6,6 +6,7 @@ import {FiltersType, initFilters} from "../../redux/forum/forumUsers/forumUsersS
 import {ForumUser} from "../../redux/forum/forumUsers/forumUsersApi";
 import SelectCustom2 from "../core/Fields/SelectCustom2";
 import {Client} from "../../redux/settings/clientsApi";
+import SwitchCustom2 from "../core/Fields/SwitchCustom2";
 
 function DialogFormForumUserFilter({
   initialData,
@@ -56,6 +57,13 @@ function DialogFormForumUserFilter({
                 options={clients}
                 name="client"
                 keyProp="clientId"
+            />
+          </Grid>
+          <Grid item xs={12}>
+            <SwitchCustom2
+                control={control}
+                label="client.deactivated"
+                name="deactivated"
             />
           </Grid>
         </Grid>

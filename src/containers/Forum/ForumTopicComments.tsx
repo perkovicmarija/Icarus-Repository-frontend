@@ -49,7 +49,7 @@ const ForumTopicComments = () => {
     }
 
     const [forumComment, setForumComment] = useState<ForumComment>(initialForumComment);
-    const [forumReply, setForumReply] = useState<string>("");
+    const [commentReplyInputText, setCommentReplyInputText] = useState<string>("");
     const [dialogFilters, setDialogFilters] = useState<boolean>(false);
 
     const { page, rowsPerPage, storeRowsPerPage } = usePagination("forumComments");
@@ -129,19 +129,19 @@ const ForumTopicComments = () => {
     }
 
     const handleForumReplyChange = ({ target: { name, value } }) => {
-        setForumReply(value)
+        setCommentReplyInputText(value)
     }
 
     const handleForumReplySubmit = async (forumComment: ForumComment) => {
         let viewModel = {
             forumTopicId: forumComment.forumTopicId,
-            content: forumReply,
+            content: commentReplyInputText,
             parentCommentId: forumComment.forumCommentId,
             forumUserCreated: forumUser.data
         }
         await createUpdateForumComment(viewModel)
 
-        setForumReply(null)
+        setCommentReplyInputText(null)
     }
 
     return (
@@ -181,7 +181,7 @@ const ForumTopicComments = () => {
                         forumComment={forumComment}
                         forumUser={forumUser?.data}
                         onForumCommentInputChange={handleForumCommentInputChange}
-                        forumReply={forumReply}
+                        commentReplyInputText={commentReplyInputText}
                         onForumReplySubmit={handleForumReplySubmit}
                         onForumReplyChange={handleForumReplyChange}
                         paginationProps={{

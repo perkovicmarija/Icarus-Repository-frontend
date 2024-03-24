@@ -9,6 +9,7 @@ import {ForumUser} from "../../redux/forum/forumUsers/forumUsersApi";
 import {TableCell, TableRow} from "@mui/material";
 import Edit from "@mui/icons-material/Edit";
 import Delete from "@mui/icons-material/Delete";
+import IntlMessages from "../core/IntlMessages";
 
 const columnData: ColumnDefinition[] = [
     {
@@ -36,6 +37,12 @@ const columnData: ColumnDefinition[] = [
         label: "forum.fullName",
     },
     {
+        id: "deactivated",
+        numeric: false,
+        disablePadding: false,
+        label: "general.active",
+    },
+    {
         id: "actions",
         label: "general.actions",
         style: { textAlign: "center" },
@@ -45,7 +52,6 @@ const columnData: ColumnDefinition[] = [
 const ForumUsersList = <T,>({
                                         data,
                                         onEdit,
-                                        onDelete,
                                         //
                                         toolbarProps,
                                         paginationProps,
@@ -55,10 +61,8 @@ const ForumUsersList = <T,>({
     paginationProps: TablePagination2Props;
     data: ForumUser[] | undefined;
     onEdit: (item: T) => void;
-    onDelete: (item: T) => Promise<any>;
     loading: boolean;
 }) => {
-    const [dialogWarning, setDialogWarning] = useState<T | undefined>();
 
     return (
         <>
@@ -79,6 +83,11 @@ const ForumUsersList = <T,>({
                                 <TableCell>{item.client?.name}</TableCell>
                                 <TableCell>{item.email}</TableCell>
                                 <TableCell>{item.fullName}</TableCell>
+                                <TableCell>{item.deactivated ?
+                                    <IntlMessages id="general.no"/> :
+                                    <IntlMessages id="general.yes"/>
+                                }
+                                </TableCell>
                                 <TableCell className="nostretch">
                                     <TableActions2
                                         actions={[
@@ -86,13 +95,7 @@ const ForumUsersList = <T,>({
                                                 label: "general.edit",
                                                 Icon: Edit,
                                                 onClick: () => onEdit(item),
-                                            },
-                                            {
-                                                label: "general.delete",
-                                                Icon: Delete,
-                                                onClick: () => setDialogWarning(item),
-                                                color: "error",
-                                            },
+                                            }
                                         ]}
                                     />
                                 </TableCell>
@@ -101,11 +104,6 @@ const ForumUsersList = <T,>({
                     })}
             </TableContainer2>
 
-            <DialogDelete2
-                data={dialogWarning}
-                onSubmit={onDelete}
-                onClose={() => setDialogWarning(undefined)}
-            />
         </>
     );
 };

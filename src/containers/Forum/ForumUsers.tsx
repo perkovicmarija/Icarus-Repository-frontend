@@ -40,7 +40,6 @@ const ForumUsers = () => {
         [filters, page, rowsPerPage]
     );
     const { data, isFetching } = useGetForumUsersPaginatedQuery(meta);
-    const [triggerDelete] = useDeleteForumUserMutation();
     const [triggerAddEdit] = useCreateUpdateForumUserMutation();
 
     //
@@ -69,9 +68,6 @@ const ForumUsers = () => {
             <ForumUsersList<ForumUser>
                 data={data?.data}
                 onEdit={setDialogAddEdit}
-                onDelete={(payload) =>
-                    triggerDelete(payload.forumUserId).unwrap()
-                }
                 //
                 toolbarProps={{
                     onAddClick: setDialogAddEdit,

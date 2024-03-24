@@ -18,7 +18,7 @@ import {ForumComment} from "../../redux/forum/forumComments/forumCommentsApi";
 const ForumCommentComponent = <T,>({
                                        forumUser,
                                        onLike,
-                                       forumReply,
+                                       commentReplyInputText,
                                        onForumReplySubmit,
                                        onForumReplyChange,
                                        setDialogWarning,
@@ -29,8 +29,8 @@ const ForumCommentComponent = <T,>({
                                } : {
     forumUser: ForumUser,
     onLike: (forumComment: ForumComment) => Promise<any>,
-    forumReply: string,
-    onForumReplySubmit: (item: T) => void,
+    commentReplyInputText: string,
+    onForumReplySubmit: (ForumComment: T) => void,
     onForumReplyChange: (item: T) => void,
     setDialogWarning: (item: T) => void,
     forumComment: ForumComment,
@@ -50,7 +50,7 @@ const ForumCommentComponent = <T,>({
 
                         <Grid container direction="column">
                             <Typography variant="subtitle2" style={{ fontWeight: "bold" }}>
-                                {forumComment?.forumUserCreated.fullName}
+                                {forumComment?.forumUserCreated?.fullName}
                             </Typography>
 
                             <Typography variant="caption">
@@ -93,7 +93,7 @@ const ForumCommentComponent = <T,>({
                                         )}
                                     </Tooltip>
                                     <Typography variant="caption">
-                                        {forumComment.forumLikes.length} <IntlMessages id="forum.likes" />
+                                        {forumComment?.forumLikes?.length} <IntlMessages id="forum.likes" />
                                     </Typography>
                                 </div>
                             </Grid>
@@ -127,7 +127,7 @@ const ForumCommentComponent = <T,>({
                                         label=""
                                         id="content"
                                         name="content"
-                                        value={forumReply}
+                                        value={commentReplyInputText}
                                         onInputChange={onForumReplyChange}
                                         placeholder="forum.typeHere"
                                         type="text"
@@ -137,7 +137,11 @@ const ForumCommentComponent = <T,>({
                                 </ValidatorForm>
                             </Grid>
                             <Grid item xl={2} lg={2} md={2} sm={2} xs={2} alignItems="end" style={{display: "flex", justifyContent: "space-around"}}>
-                                <Button size="small" variant="contained" color="primary" onClick={() => onForumReplySubmit(forumComment)}>
+                                <Button size="small" variant="contained" color="primary" onClick={() => {
+                                    onForumReplySubmit(forumComment)
+                                    setReplyOpen("")
+                                }
+                                }>
                                     <IntlMessages id="forum.reply"/>
                                 </Button>
                                 <Button size="small" variant="contained" color="error" onClick={() => setReplyOpen("")}>
@@ -152,15 +156,15 @@ const ForumCommentComponent = <T,>({
 
             </CardContent>
 
-            {(forumComment?.replies && forumComment?.replies.length) > 0 &&
+            {(forumComment?.replies && forumComment?.replies?.length > 0) &&
 
-                forumComment?.replies.map(reply => {
+                forumComment?.replies?.map((reply, i) => {
                     return (
                         <ForumCommentComponent
                             key={reply.forumCommentId}
                             forumUser={forumUser}
                             onLike={onLike}
-                            forumReply={forumReply}
+                            commentReplyInputText={commentReplyInputText}
                             onForumReplySubmit={onForumReplySubmit}
                             onForumReplyChange={onForumReplyChange}
                             setDialogWarning={setDialogWarning}
@@ -171,8 +175,8 @@ const ForumCommentComponent = <T,>({
                         />
                     )
                 })
-
             }
+
         </>
     )
 }

@@ -9,7 +9,6 @@ import Button from "@mui/material/Button";
 import AccountCircleRoundedIcon from '@mui/icons-material/AccountCircleRounded';
 import IntlMessages from "../core/IntlMessages";
 import TextFieldValidation from "../core/TextField/TextFieldValidation";
-
 import {Delete} from "@mui/icons-material";
 import {DialogDelete2} from "../core/Dialog/DialogDelete2";
 import {TablePagination2, TablePagination2Props} from "../core/Table/TablePagination2";
@@ -31,7 +30,7 @@ const ForumTopicCommentsList = <T,>({
     onAddEdit,
     onDelete,
     onLike,
-    forumReply,
+    commentReplyInputText,
     onForumReplySubmit,
     onForumReplyChange,
     paginationProps
@@ -43,36 +42,13 @@ const ForumTopicCommentsList = <T,>({
     onAddEdit: (item: T) => void,
     onDelete: (forumCommentId: string) => Promise<any>,
     onLike: (forumComment: ForumComment) => Promise<any>,
-    forumReply: string,
+    commentReplyInputText: string,
     onForumReplySubmit: (item: T) => void,
     onForumReplyChange: (item: T) => void,
     paginationProps: TablePagination2Props;
 }) => {
     const [dialogWarning, setDialogWarning] = useState<T | undefined>();
     const [commentIdToDelete, setCommentIdToDelete] = useState<string>("");
-    const [sortedComments, setSortedComments] = useState<ForumComment[]>([]);
-
-    const nestComments = (comments) => {
-        const commentMap = {};
-
-        comments?.forEach(comment => {
-            commentMap[comment.forumCommentId] = {...comment, replies: []};
-        });
-
-        comments?.forEach(comment => {
-            if (comment.parentCommentId) {
-                commentMap[comment.parentCommentId]?.replies.push(commentMap[comment.forumCommentId]);
-            }
-        });
-
-        return comments?.filter(comment => !comment.parentCommentId).map(comment => commentMap[comment.forumCommentId]);
-    };
-
-    useEffect(() => {
-        if (forumComments) {
-            setSortedComments(nestComments(forumComments));
-        }
-    },[forumComments])
 
     return (
         <>
@@ -113,14 +89,14 @@ const ForumTopicCommentsList = <T,>({
                         <Button variant="contained" color="primary" onClick={onAddEdit}><IntlMessages id="forum.comment"/></Button>
                     </CardActions>
                 </Grid>
-                {sortedComments?.map(forumComment => {
+                {forumComments?.map(forumComment => {
                     return (
                         <Grid container spacing={2} key={forumComment.forumCommentId}>
                             <Grid item xl={12} lg={12} md={12} sm={12} xs={12}>
                                 <ForumCommentComponent
                                     forumUser={forumUser}
                                     onLike={onLike}
-                                    forumReply={forumReply}
+                                    commentReplyInputText={commentReplyInputText}
                                     onForumReplySubmit={onForumReplySubmit}
                                     onForumReplyChange={onForumReplyChange}
                                     setDialogWarning={setDialogWarning}

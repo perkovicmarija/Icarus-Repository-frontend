@@ -130,7 +130,7 @@ const ForumTopicForm = () => {
     }
 
     const handleClickComments = () => {
-        history.push(getForumTopicCommentsPaginationPath(forumTopicId, 0, 25));
+        history.push(getForumTopicCommentsPaginationPath(forumTopicId, 0, 5));
     }
 
     const editor = useRef(null);
