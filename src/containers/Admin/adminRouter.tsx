@@ -32,7 +32,7 @@ import ForumTopics from "../Forum/ForumTopics";
 import ForumTags from "../Forum/ForumTags";
 import ForumTopicForm from "../Forum/ForumTopicForm";
 import ForumTopicSubscribers from "../Forum/ForumTopicSubscribers";
-import ForumTopicComments from "../Forum/ForumTopicComments";
+import ForumComments from "../Forum/ForumComments";
 
 const AdminRouter = () => {
   return (
@@ -152,7 +152,7 @@ const AdminRouter = () => {
 
         <Route
             path={forumTopicComments}
-            component={ForumTopicComments}
+            component={ForumComments}
             key="forum-topic-comments"
         />
 

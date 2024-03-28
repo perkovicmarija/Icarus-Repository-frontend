@@ -16,6 +16,7 @@ import {
 import {FiltersType, forumUsersActions, initFilters} from "../../redux/forum/forumUsers/forumUsersSlice";
 import DialogFormForumUser from "../../components/forum/DialogFormForumUser";
 import DialogFormForumUserFilter from "../../components/forum/DialogFormForumUserFilter";
+import {useGetUserQuery} from "../../redux/user/usersApi";
 
 
 const ForumUsers = () => {
@@ -41,6 +42,8 @@ const ForumUsers = () => {
     );
     const { data, isFetching } = useGetForumUsersPaginatedQuery(meta);
     const [triggerAddEdit] = useCreateUpdateForumUserMutation();
+
+    const { data: user } = useGetUserQuery(JSON.parse(localStorage.getItem("userId")))
 
     //
     const { data: clientsResponse } = useGetClientsQuery();
@@ -99,7 +102,7 @@ const ForumUsers = () => {
                 <DialogFormForumUser
                     initialData={dialogAddEdit!}
                     onClose={() => setDialogAddEdit(undefined)}
-                    onSubmit={(payload) => triggerAddEdit(payload).unwrap()}
+                    onSubmit={(payload) => triggerAddEdit({...payload, userCreated: user?.data}).unwrap()}
                     clients={activeClients}
                 />
             </DialogFormFrame>

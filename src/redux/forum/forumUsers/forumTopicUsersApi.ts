@@ -15,7 +15,7 @@ export interface ForumTopicUserJoined {
 export const forumTopicUsersApi = createApi({
     reducerPath: "forumTopicUsersApi",
     baseQuery: fetchBaseQuery({
-        baseUrl: getServerPath() + "/forum-topic/subscribers/",
+        baseUrl: getServerPath() + "/forum/topic/subscribers/",
         headers: { Authorization: `Basic ${getToken()}` },
     }),
     tagTypes: ["ForumTopicUserJoined"],
@@ -29,10 +29,10 @@ export const forumTopicUsersApi = createApi({
             providesTags: ["ForumTopicUserJoined"],
         }),
         createForumTopicUser: builder.mutation<void, { forumUserId: string, forumTopicId: string; }>({
-            query: ({ forumUserId, forumTopicId }) => ({
+            query: ({ displayName, forumTopicId }) => ({
                 url: `${forumTopicId}` + `?access_token=${getToken()}`,
                 method: "POST",
-                body: {forumUserId},
+                body: {displayName},
             }),
             invalidatesTags: ["ForumTopicUserJoined"],
         }),

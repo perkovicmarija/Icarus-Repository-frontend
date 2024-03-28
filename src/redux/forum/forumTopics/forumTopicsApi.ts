@@ -40,7 +40,7 @@ export interface ForumTopicAttachment {
 export const forumTopicsApi = createApi({
     reducerPath: "forumTopicsApi",
     baseQuery: fetchBaseQuery({
-        baseUrl: getServerPath() + "/forum-topic/",
+        baseUrl: getServerPath() + "/forum/topic/",
         headers: { Authorization: `Basic ${getToken()}` },
     }),
     tagTypes: ["ForumTopic"],

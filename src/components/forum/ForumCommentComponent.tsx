@@ -7,10 +7,9 @@ import Typography from "@mui/material/Typography";
 import {FormattedMessage} from "react-intl";
 import {Delete} from "@mui/icons-material";
 import ReplyIcon from '@mui/icons-material/Reply';
-import SmsIcon from '@mui/icons-material/Sms';
 import ThumbUpIcon from '@mui/icons-material/ThumbUp';
 import ThumbUpOutlinedIcon from '@mui/icons-material/ThumbUpOutlined';
-import { ValidatorForm } from 'react-material-ui-form-validator';
+import {ValidatorForm} from 'react-material-ui-form-validator';
 import AccountCircleRoundedIcon from '@mui/icons-material/AccountCircleRounded';
 import {ForumUser} from "../../redux/forum/forumUsers/forumUsersApi";
 import {ForumComment} from "../../redux/forum/forumComments/forumCommentsApi";
@@ -50,7 +49,7 @@ const ForumCommentComponent = <T,>({
 
                         <Grid container direction="column">
                             <Typography variant="subtitle2" style={{ fontWeight: "bold" }}>
-                                {forumComment?.forumUserCreated?.fullName}
+                                {forumComment?.forumUserCreatedDisplayName}
                             </Typography>
 
                             <Typography variant="caption">
@@ -84,7 +83,7 @@ const ForumCommentComponent = <T,>({
                             <Grid item xl={10} lg={10} md={10} sm={10} xs={10}>
                                 <div onClick={() => onLike(forumComment)} style={{ display: "inline-flex", alignItems: "center" }}>
                                     <Tooltip title={<FormattedMessage id="forum.like" />}>
-                                        {forumComment.forumLikes.find((like) => like.forumUserCreatedId === forumUser?.forumUserId) ? (
+                                        {forumComment.forumLikes.find((like) => like.forumUserCreatedDisplayName === forumUser?.displayName) ? (
                                             <ThumbUpIcon fontSize="small"
                                                          style={{ marginRight: "0.3rem", transform: "scale(0.7)", cursor: "pointer" }}/>
                                         ) : (

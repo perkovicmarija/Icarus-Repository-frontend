@@ -16,16 +16,10 @@ import {
     useCreateUpdateForumUserMutation,
     useGetForumUserByDisplayNameQuery
 } from "../../redux/forum/forumUsers/forumUsersApi";
-import {Grid} from "@mui/material";
+import {Grid, Paper} from "@mui/material";
 import Button from "@mui/material/Button";
 import IntlMessages from "../../components/core/IntlMessages";
 import {useGetUserQuery} from "../../redux/user/usersApi";
-import {
-    ForumLike,
-    useCreateForumLikeMutation,
-    useDeleteForumLikeMutation
-} from "../../redux/forum/forumLikes/forumLikesApi";
-import {ForumComment} from "../../redux/forum/forumComments/forumCommentsApi";
 
 const ForumTopics = () => {
     const dispatch = useAppDispatch();
@@ -56,7 +50,9 @@ const ForumTopics = () => {
     })
     const [triggerAddEdit] = useCreateUpdateForumUserMutation();
 
-    const { data: forumTopics, isFetching } = useGetForumTopicsPaginatedQuery(meta);
+    const { data: forumTopics, isFetching } = useGetForumTopicsPaginatedQuery(meta, {
+        skip: !forumUser?.data
+    });
     const [triggerDelete] = useDeleteForumTopicMutation();
 
     const handleAddEditTopic = async (forumTopicId: string) => {
@@ -79,38 +75,40 @@ const ForumTopics = () => {
     return (
         <>
             {forumUser?.data ?
-                <ForumTopicsList
-                    data={forumTopics?.data}
-                    loading={isFetching}
-                    onDelete={(payload: ForumTopic) =>
-                        triggerDelete(payload.forumTopicId).unwrap()
-                    }
-                    onEdit={handleAddEditTopic}
-                    toolbarProps={{
-                        title: "forum.topics",
-                        searchPlaceholder: "search.search",
-                        searchTextPropKey: "displayName",
-                        initFilters,
-                        filters,
-                        onAddClick: () => handleAddEditTopic(""),
-                        onFilterClick: setDialogFilters,
-                        onSearchSubmit: handleSubmitFilters,
-                    }}
-                    paginationProps={{
-                        totalCount: forumTopics?.meta?.totalCount,
-                        page,
-                        rowsPerPage,
-                        onChangePage,
-                        onChangeRowsPerPage,
-                    }}
-                />
+                <Paper>
+                    <ForumTopicsList
+                        data={forumTopics?.data}
+                        loading={isFetching}
+                        onDelete={(payload: ForumTopic) =>
+                            triggerDelete(payload.forumTopicId).unwrap()
+                        }
+                        onEdit={handleAddEditTopic}
+                        toolbarProps={{
+                            title: "forum.topics",
+                            searchPlaceholder: "search.search",
+                            searchTextPropKey: "displayName",
+                            initFilters,
+                            filters,
+                            onAddClick: () => handleAddEditTopic(""),
+                            onFilterClick: setDialogFilters,
+                            onSearchSubmit: handleSubmitFilters,
+                        }}
+                        paginationProps={{
+                            totalCount: forumTopics?.meta?.totalCount,
+                            page,
+                            rowsPerPage,
+                            onChangePage,
+                            onChangeRowsPerPage,
+                        }}
+                    />
+                </Paper>
             :
                 <Grid container spacing={4}>
                     <Grid item xl={12} lg={12} md={12} sm={12} xs={12} style={{display: 'flex', justifyContent: 'center'}}>
                         <h4><IntlMessages id="forum.user.create.text" /></h4>
                     </Grid>
                     <Grid item xl={12} lg={12} md={12} sm={12} xs={12} style={{display: 'flex', justifyContent: 'center'}}>
-                        <Button variant="contained" onClick={() => triggerAddEdit({})}><IntlMessages id="forum.user.create" /></Button>
+                        <Button variant="contained" onClick={() => triggerAddEdit({...forumUser, userCreated: user?.data})}><IntlMessages id="forum.user.create" /></Button>
                     </Grid>
                 </Grid>
             }

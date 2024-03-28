@@ -22,7 +22,7 @@ export interface ForumUser {
 export const forumUsersApi = createApi({
     reducerPath: "forumUsersApi",
     baseQuery: fetchBaseQuery({
-        baseUrl: getServerPath() + "/forum-user/",
+        baseUrl: getServerPath() + "/forum/forum-user/",
         headers: { Authorization: `Basic ${getToken()}` },
     }),
     tagTypes: ["ForumUser"],

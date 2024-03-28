@@ -7,6 +7,7 @@ import {FiltersType, initFilters} from "../../redux/forum/forumComments/forumCom
 import TextField2 from "../core/Fields/TextField2";
 import {ForumUser} from "../../redux/forum/forumUsers/forumUsersApi";
 import SelectCustom2 from "../core/Fields/SelectCustom2";
+import SelectBasicCustom2 from "../core/Fields/SelectBasicCustom2";
 
 const DialogFormForumCommentFilter = ({
                                         initialData,
@@ -22,6 +23,8 @@ const DialogFormForumCommentFilter = ({
     const { handleSubmit, control, reset } = useForm({
         defaultValues: initialData,
     });
+
+    const displayNames = forumUsers?.map(forumUser => forumUser.displayName)
 
     return (
         <form
@@ -50,13 +53,11 @@ const DialogFormForumCommentFilter = ({
                         />
                     </Grid>
                     <Grid item xs={12}>
-                        <SelectCustom2
-                            labelProp="displayName"
+                        <SelectBasicCustom2
                             control={control}
                             label="forum.user"
-                            options={forumUsers}
-                            name="forumUser"
-                            keyProp="forumUserId"
+                            name="forumUserCreatedDisplayName"
+                            options={displayNames}
                         />
                     </Grid>
                     <Grid item xs={12}>

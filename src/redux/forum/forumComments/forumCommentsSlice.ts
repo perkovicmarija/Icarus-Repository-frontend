@@ -4,7 +4,7 @@ import {createSlice} from "@reduxjs/toolkit";
 export const initFilters = {
     dateFrom: null,
     dateTo: null,
-    forumUser: null,
+    forumUserCreatedDisplayName: "",
     content: "",
 };
 

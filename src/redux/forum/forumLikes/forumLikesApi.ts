@@ -8,6 +8,7 @@ export interface ForumLike {
     forumTopicId: string;
     forumCommentId: string;
     forumUserCreatedId: string;
+    forumUserCreatedDisplayName: string;
     created: Date | null;
     createdFormatted: string;
 }
@@ -15,7 +16,7 @@ export interface ForumLike {
 export const forumLikesApi = createApi({
     reducerPath: "forumLikesApi",
     baseQuery: fetchBaseQuery({
-        baseUrl: getServerPath() + "/forum-like/",
+        baseUrl: getServerPath() + "/forum/like/",
         headers: { Authorization: `Basic ${getToken()}` },
     }),
     tagTypes: ["ForumLike", "ForumComment"],

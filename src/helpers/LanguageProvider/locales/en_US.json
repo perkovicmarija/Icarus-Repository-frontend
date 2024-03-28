@@ -413,6 +413,7 @@
   "logger.osVersion": "OS Version",
   "logger.sessionId": "Session ID",
 
+  "forum.forum": "Forum",
   "forum.tags": "Tags",
   "forum.tags.update": "Update tag",
   "forum.tags.create": "Create tag",

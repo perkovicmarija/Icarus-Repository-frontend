@@ -19,7 +19,7 @@ import {
 } from "../../redux/forum/forumUsers/forumTopicUsersApi";
 import DialogFormForumTopicSubscriber from "../../components/forum/DialogFormForumTopicSubscriber";
 import {useGetForumUsersQuery} from "../../redux/forum/forumUsers/forumUsersApi";
-import {Grid, Tooltip} from "@mui/material";
+import {Grid, Paper, Tooltip} from "@mui/material";
 import FormTitleBarRich from "../../components/core/Form/FormTitleBarRich";
 import {FormattedMessage} from "react-intl";
 import KeyboardBackspaceIcon from '@mui/icons-material/KeyboardBackspace';
@@ -69,8 +69,8 @@ const ForumTopicSubscribers = () => {
     };
 
     const handleSubmit = async (payload) => {
-        const forumUserId = payload.forumUser.forumUserId
-        await triggerAdd({ forumUserId, forumTopicId })
+        const displayName = payload.forumUser.displayName
+        await triggerAdd({ displayName, forumTopicId })
     }
 
     return (
@@ -90,32 +90,34 @@ const ForumTopicSubscribers = () => {
                 </Grid>
 
                 <Grid item xl={12} lg={12} md={12} sm={12} xs={12}>
-                    <ForumTopicSubscribersList<ForumTopicUserJoined>
-                        data={data?.data}
-                        onEdit={setDialogAddEdit}
-                        onDelete={(payload) =>
-                            triggerDelete(payload.forumTopicUserJoinedId).unwrap()
-                        }
-                        //
-                        toolbarProps={{
-                            onAddClick: setDialogAddEdit,
-                            title: "",
-                            searchPlaceholder: "search.search",
-                            searchTextPropKey: "displayName",
-                            initFilters,
-                            filters,
-                            onFilterClick: setDialogFilters,
-                            onSearchSubmit: handleSubmitFilters,
-                        }}
-                        paginationProps={{
-                            totalCount: data?.meta.totalCount,
-                            page,
-                            rowsPerPage,
-                            onChangePage,
-                            onChangeRowsPerPage,
-                        }}
-                        loading={isFetching}
-                    />
+                    <Paper>
+                        <ForumTopicSubscribersList<ForumTopicUserJoined>
+                            data={data?.data}
+                            onEdit={setDialogAddEdit}
+                            onDelete={(payload) =>
+                                triggerDelete(payload.forumTopicUserJoinedId).unwrap()
+                            }
+                            //
+                            toolbarProps={{
+                                onAddClick: setDialogAddEdit,
+                                title: "",
+                                searchPlaceholder: "search.search",
+                                searchTextPropKey: "displayName",
+                                initFilters,
+                                filters,
+                                onFilterClick: setDialogFilters,
+                                onSearchSubmit: handleSubmitFilters,
+                            }}
+                            paginationProps={{
+                                totalCount: data?.meta.totalCount,
+                                page,
+                                rowsPerPage,
+                                onChangePage,
+                                onChangeRowsPerPage,
+                            }}
+                            loading={isFetching}
+                        />
+                    </Paper>
                 </Grid>
 
             </Grid>

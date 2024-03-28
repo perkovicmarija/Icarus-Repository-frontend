@@ -9,7 +9,7 @@ import {ForumLike} from "../forumLikes/forumLikesApi";
 export interface ForumComment {
     forumCommentId: string;
     forumTopicId: string;
-    forumUserCreated: ForumUser;
+    forumUserCreatedDisplayName: string;
     content: string;
     created: Date | null;
     createdFormatted: string;
@@ -21,7 +21,7 @@ export interface ForumComment {
 export const forumCommentsApi = createApi({
     reducerPath: "forumCommentsApi",
     baseQuery: fetchBaseQuery({
-        baseUrl: getServerPath() + "/forum-comment/",
+        baseUrl: getServerPath() + "/forum/comment/",
         headers: { Authorization: `Basic ${getToken()}` },
     }),
     tagTypes: ["ForumComment"],

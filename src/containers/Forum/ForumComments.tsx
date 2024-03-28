@@ -12,7 +12,7 @@ import {Grid, Tooltip} from "@mui/material";
 import FormTitleBarRich from "../../components/core/Form/FormTitleBarRich";
 import {FormattedMessage} from "react-intl";
 import KeyboardBackspaceIcon from '@mui/icons-material/KeyboardBackspace';
-import ForumTopicCommentsList from "../../components/forum/ForumTopicCommentsList";
+import ForumTopicCommentsList from "../../components/forum/ForumCommentsList";
 import {
     ForumComment,
     useCreateUpdateForumCommentMutation,
@@ -31,7 +31,7 @@ import DialogFormFrame from "../../components/core/Dialog/DialogFormFrame";
 import DialogFormForumCommentFilter from "../../components/forum/DialogFormForumCommentFilter";
 import FilterListIcon from '@mui/icons-material/FilterList';
 
-const ForumTopicComments = () => {
+const ForumComments = () => {
     const dispatch = useAppDispatch();
     const history = useHistory();
     const { forumTopicId } = useParams<{forumTopicId: string}>();
@@ -39,7 +39,7 @@ const ForumTopicComments = () => {
     const initialForumComment = {
         forumCommentId: '',
         forumTopicId: forumTopicId,
-        forumUserCreated: {} as ForumUser,
+        forumUserCreatedDisplayName: '',
         content: '',
         created: null,
         createdFormatted: '',
@@ -112,15 +112,15 @@ const ForumTopicComments = () => {
         await deleteForumComment(forumCommentId)
     }
 
-    const handleLike = async (forumComment: ForumComment) => {
-        const existingLike: ForumLike = forumComment.forumLikes.find((like) => like.forumUserCreatedId === forumUser.data.forumUserId)
+    const handleCommentLike = async (forumComment: ForumComment) => {
+        const existingLike: ForumLike = forumComment.forumLikes.find((like) => like.forumUserCreatedDisplayName === forumUser.data.displayName)
 
         if (existingLike) {
             await deleteForumLike(existingLike.forumLikeId)
         } else {
             let forumLike = {
                 forumCommentId: forumComment.forumCommentId,
-                forumUserCreatedId: forumUser.data.forumUserId
+                forumUserCreatedDisplayName: forumUser.data.displayName
             }
             await createForumLike(forumLike)
         }
@@ -177,7 +177,7 @@ const ForumTopicComments = () => {
                         forumComments={forumComments?.data}
                         onAddEdit={handleAddEditComment}
                         onDelete={handleDeleteComment}
-                        onLike={handleLike}
+                        onLike={handleCommentLike}
                         forumComment={forumComment}
                         forumUser={forumUser?.data}
                         onForumCommentInputChange={handleForumCommentInputChange}
@@ -211,4 +211,4 @@ const ForumTopicComments = () => {
         </>
     );
 }
-export default ForumTopicComments
+export default ForumComments

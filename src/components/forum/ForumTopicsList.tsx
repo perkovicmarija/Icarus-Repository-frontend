@@ -83,7 +83,7 @@ const ForumTopicsList = <T,>({
             return (
               <TableRow key={item.forumTopicId}>
                 <TableCell>{item.title}</TableCell>
-                <TableCell>{item.forumUserCreated.fullName}</TableCell>
+                <TableCell>{item.forumUserCreated.displayName}</TableCell>
                 <TableCell>{item.createdFormatted}</TableCell>
                 <TableCell>{item.forumTopicUserJoineds?.length}</TableCell>
                 <TableCell>
@@ -93,7 +93,7 @@ const ForumTopicsList = <T,>({
                         <Grid item xs={6} key={tag.forumTag.forumTagId}>
                           <Chip
                               label={tag.forumTag.name}
-                              color="default"
+                              style={{border: "1px solid #C3922E", backgroundColor: "#FFF", color: "#000000", textTransform: "uppercase"}}
                           />
                         </Grid>
                         )

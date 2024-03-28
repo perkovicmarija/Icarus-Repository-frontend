@@ -77,6 +77,7 @@ const ForumTagsComponent = <T,>({
                                     <Chip
                                         label={tag.name}
                                         color={isSelected ? "primary" : "default"}
+                                        style={{textTransform: "uppercase"}}
                                         onClick={() => onTagClick(tag)}
                                     />
                                 </Grid>

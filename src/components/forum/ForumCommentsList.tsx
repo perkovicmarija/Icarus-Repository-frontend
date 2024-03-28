@@ -22,7 +22,7 @@ const StyledGrid = styled(Grid)(({ theme }) => ({
     backgroundColor: theme.palette.grey[200],
 }));
 
-const ForumTopicCommentsList = <T,>({
+const ForumCommentsList = <T,>({
     forumComment,
     forumComments,
     forumUser,
@@ -128,4 +128,4 @@ const ForumTopicCommentsList = <T,>({
         </>
     )
 }
-export default withValidation(ForumTopicCommentsList)
+export default withValidation(ForumCommentsList)

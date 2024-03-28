@@ -193,15 +193,15 @@ const ForumTopicForm = () => {
         // setDialogAttachmentViewOpen(true);
     }
 
-    const handleLike = async () => {
-        const existingLike: ForumLike = forumTopic.forumLikes.find((like) => like.forumUserCreatedId === forumUser.data.forumUserId)
+    const handleTopicLike = async () => {
+        const existingLike: ForumLike = forumTopic.forumLikes.find((like) => like.forumUserCreatedDisplayName === forumUser.data.displayName)
 
         if (existingLike) {
             await deleteForumLike(existingLike.forumLikeId)
         } else {
             let forumLike = {
                 forumTopicId: forumTopic.forumTopicId,
-                forumUserCreatedId: forumUser.data.forumUserId
+                forumUserCreatedDisplayName: forumUser.data.displayName
             }
             await createForumLike(forumLike)
         }
@@ -303,8 +303,8 @@ const ForumTopicForm = () => {
 
                             {forumTopicId != "-1" &&
                                 <Grid item xl={12} lg={12} md={12} sm={12} xs={12} style={{display: "flex", alignItems: "center"}}>
-                                    <div onClick={() => handleLike()} style={{ cursor: "pointer", display: "inline-flex", alignItems: "center" }}>
-                                        {forumTopic.forumLikes.find((like) => like.forumUserCreatedId === forumUser?.data.forumUserId) ? (
+                                    <div onClick={() => handleTopicLike()} style={{ cursor: "pointer", display: "inline-flex", alignItems: "center" }}>
+                                        {forumTopic.forumLikes.find((like) => like.forumUserCreatedDisplayName === forumUser?.data.displayName) ? (
                                             <ThumbUpIcon fontSize="small" style={{ marginRight: "0.5rem", transform: "scale(0.8)" }}/>
                                         ) : (
                                             <ThumbUpOutlinedIcon color="action" fontSize="small" style={{ marginRight: "0.5rem", transform: "scale(0.8)" }}/>

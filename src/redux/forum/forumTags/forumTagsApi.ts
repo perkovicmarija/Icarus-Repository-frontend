@@ -12,7 +12,7 @@ export interface ForumTag {
 export const forumTagsApi = createApi({
     reducerPath: "forumTagsApi",
     baseQuery: fetchBaseQuery({
-        baseUrl: getServerPath() + "/forum-tag/",
+        baseUrl: getServerPath() + "/forum/tag/",
         headers: { Authorization: `Basic ${getToken()}` },
     }),
     tagTypes: ["ForumTags"],
