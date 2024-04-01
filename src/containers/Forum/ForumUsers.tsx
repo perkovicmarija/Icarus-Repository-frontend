@@ -89,7 +89,7 @@ const ForumUsers = () => {
                     onSearchSubmit: handleSearchSubmit,
                 }}
                 paginationProps={{
-                    totalCount: data?.meta.totalCount,
+                    totalCount: data?.meta?.totalCount,
                     page,
                     rowsPerPage,
                     onChangePage,
