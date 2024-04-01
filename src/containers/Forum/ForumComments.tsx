@@ -3,11 +3,7 @@ import {useAppDispatch, useAppSelector} from "../../redux/store";
 import {useHistory, useParams} from "react-router-dom";
 import {usePagination} from "../../helpers/pagination";
 import {getForumTopicCommentsPaginationPath, getForumTopicFormPath} from "../../consts/routePaths";
-import {
-    ForumUser,
-    useGetForumUserByDisplayNameQuery,
-    useGetForumUsersQuery
-} from "../../redux/forum/forumUsers/forumUsersApi";
+import {useGetForumUserByRepositoryUserQuery, useGetForumUsersQuery} from "../../redux/forum/forumUsers/forumUsersApi";
 import {Grid, Tooltip} from "@mui/material";
 import FormTitleBarRich from "../../components/core/Form/FormTitleBarRich";
 import {FormattedMessage} from "react-intl";
@@ -21,7 +17,6 @@ import {
 } from "../../redux/forum/forumComments/forumCommentsApi";
 import {cloneDeep} from "lodash";
 import {FiltersType, forumCommentsActions} from "../../redux/forum/forumComments/forumCommentsSlice";
-import {useGetUserQuery} from "../../redux/user/usersApi";
 import {
     ForumLike,
     useCreateForumLikeMutation,
@@ -35,6 +30,7 @@ const ForumComments = () => {
     const dispatch = useAppDispatch();
     const history = useHistory();
     const { forumTopicId } = useParams<{forumTopicId: string}>();
+    const userId = JSON.parse(localStorage.getItem("userId"))
 
     const initialForumComment = {
         forumCommentId: '',
@@ -68,16 +64,13 @@ const ForumComments = () => {
         [filters, forumTopicId, page, rowsPerPage]
     );
     const { data: forumComments, refetch: refetchForumComments } = useGetForumCommentsPaginatedQuery(meta);
-    const [createUpdateForumComment] = useCreateUpdateForumCommentMutation();
+    const [createUpdateForumComment, { isLoading }] = useCreateUpdateForumCommentMutation();
     const [deleteForumComment] = useDeleteForumCommentMutation();
 
-    const { data: user } = useGetUserQuery(JSON.parse(localStorage.getItem("userId")))
-
-    const username = user?.data.username;
-
-    const { data: forumUser } = useGetForumUserByDisplayNameQuery(username, {
-        skip: !username,
+    const { data: forumUser } = useGetForumUserByRepositoryUserQuery(userId, {
+        skip: !userId,
     })
+
     const { data: forumUsers } = useGetForumUsersQuery(meta);
 
     const [createForumLike] = useCreateForumLikeMutation()
@@ -104,7 +97,7 @@ const ForumComments = () => {
 
     const handleAddEditComment = async event => {
         event.preventDefault()
-        await createUpdateForumComment({...forumComment, forumUserCreated: forumUser.data}).unwrap();
+        await createUpdateForumComment({...forumComment, forumUserCreatedDisplayName: forumUser.data.displayName}).unwrap();
         setForumComment(initialForumComment)
     }
 
@@ -137,7 +130,7 @@ const ForumComments = () => {
             forumTopicId: forumComment.forumTopicId,
             content: commentReplyInputText,
             parentCommentId: forumComment.forumCommentId,
-            forumUserCreated: forumUser.data
+            forumUserCreatedDisplayName: forumUser.data.displayName
         }
         await createUpdateForumComment(viewModel)
 
@@ -191,6 +184,7 @@ const ForumComments = () => {
                             onChangePage,
                             onChangeRowsPerPage,
                         }}
+                        loading={isLoading}
                     />
                 </Grid>
 

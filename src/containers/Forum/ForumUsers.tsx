@@ -10,7 +10,6 @@ import {isEmpty} from "lodash";
 import {
     ForumUser,
     useCreateUpdateForumUserMutation,
-    useDeleteForumUserMutation,
     useGetForumUsersPaginatedQuery
 } from "../../redux/forum/forumUsers/forumUsersApi";
 import {FiltersType, forumUsersActions, initFilters} from "../../redux/forum/forumUsers/forumUsersSlice";
@@ -40,7 +39,7 @@ const ForumUsers = () => {
         }),
         [filters, page, rowsPerPage]
     );
-    const { data, isFetching } = useGetForumUsersPaginatedQuery(meta);
+    const { data, isFetching, refetch } = useGetForumUsersPaginatedQuery(meta);
     const [triggerAddEdit] = useCreateUpdateForumUserMutation();
 
     const { data: user } = useGetUserQuery(JSON.parse(localStorage.getItem("userId")))
@@ -53,11 +52,16 @@ const ForumUsers = () => {
     );
     //
 
+    const handleSearchSubmit = (newFilters: FiltersType) => {
+        dispatch(forumUsersActions.setFilters({ ...filters, ...newFilters }));
+        refetch()
+    }
+
     const handleSubmitFilters = (newFilters: FiltersType) => {
         dispatch(forumUsersActions.setFilters({ ...filters, ...newFilters }));
         history.push(getForumRegistrationsPath(page, rowsPerPage));
     };
-    // PAGINATION
+
     const onChangePage = (newValue: number) => {
         history.push(getForumRegistrationsPath(newValue, rowsPerPage));
     };
@@ -80,7 +84,7 @@ const ForumUsers = () => {
                     initFilters,
                     filters,
                     onFilterClick: setDialogFilters,
-                    onSearchSubmit: handleSubmitFilters,
+                    onSearchSubmit: handleSearchSubmit,
                 }}
                 paginationProps={{
                     totalCount: data?.meta.totalCount,

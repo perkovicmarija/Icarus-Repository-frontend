@@ -17,6 +17,7 @@ export interface ForumUser {
     createdFormatted: string;
     updatedFormatted: string;
     userCreated: User;
+    icarusUserId: string;
 }
 
 export const forumUsersApi = createApi({
@@ -30,6 +31,20 @@ export const forumUsersApi = createApi({
         getForumUser: builder.query<ResponseWrapper<ForumUser>, void>({
             query: (id) => ({
                 url: `${id}` + `?access_token=${getToken()}`,
+                method: "GET",
+            }),
+            providesTags: ["ForumUser"],
+        }),
+        getForumUserByRepositoryUser: builder.query<ResponseWrapper<ForumUser>, void>({
+            query: (userId) => ({
+                url: 'repository-user/' + `${userId}` + `?access_token=${getToken()}`,
+                method: "GET",
+            }),
+            providesTags: ["ForumUser"],
+        }),
+        getForumUserByIcarusUser: builder.query<ResponseWrapper<ForumUser>, void>({
+            query: (icarusUserId) => ({
+                url: 'icarus-user/' + `${icarusUserId}` + `?access_token=${getToken()}`,
                 method: "GET",
             }),
             providesTags: ["ForumUser"],
@@ -73,6 +88,8 @@ export const forumUsersApi = createApi({
 
 export const {
     useGetForumUserQuery,
+    useGetForumUserByRepositoryUserQuery,
+    useGetForumUserByIcarusUserQuery,
     useGetForumUserByDisplayNameQuery,
     useGetForumUsersQuery,
     useGetForumUsersPaginatedQuery,

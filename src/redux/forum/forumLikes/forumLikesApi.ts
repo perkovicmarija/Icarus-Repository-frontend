@@ -2,6 +2,7 @@ import {createApi, fetchBaseQuery} from "@reduxjs/toolkit/query/react";
 import {getServerPath} from "../../../consts/ServerInfo";
 import {getToken} from "../../../helpers/utility";
 import {ForumComment} from "../forumComments/forumCommentsApi";
+import {Meta, ResponseWrapper} from "../../../components/core/commonTypes";
 
 export interface ForumLike {
     forumLikeId: string;
@@ -36,10 +37,19 @@ export const forumLikesApi = createApi({
             }),
             invalidatesTags: ["ForumLike", "ForumComment"]
         }),
+        getForumLikesPaginated: builder.query<ResponseWrapper<ForumLike[]>, Meta>({
+            query: (body) => ({
+                url: `paginate` + `?access_token=${getToken()}`,
+                method: "POST",
+                body,
+            }),
+            providesTags: ["ForumLike", "ForumComment"],
+        }),
     }),
 })
 
 export const {
     useCreateForumLikeMutation,
     useDeleteForumLikeMutation,
+    useGetForumLikesPaginatedQuery
 } = forumLikesApi;

@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from 'react'
-import {Grid, IconButton, Tooltip} from "@mui/material";
+import {CircularProgress, Grid, IconButton, Tooltip} from "@mui/material";
 import {styled} from "@mui/styles";
 import {ForumComment, forumCommentsApi} from "../../redux/forum/forumComments/forumCommentsApi";
 import CardContent from "@mui/material/CardContent";
@@ -33,7 +33,8 @@ const ForumCommentsList = <T,>({
     commentReplyInputText,
     onForumReplySubmit,
     onForumReplyChange,
-    paginationProps
+    paginationProps,
+    loading
                                 } : {
     forumComment: ForumComment,
     forumComments: ForumComment[],
@@ -46,13 +47,14 @@ const ForumCommentsList = <T,>({
     onForumReplySubmit: (item: T) => void,
     onForumReplyChange: (item: T) => void,
     paginationProps: TablePagination2Props;
+    loading: boolean;
 }) => {
     const [dialogWarning, setDialogWarning] = useState<T | undefined>();
     const [commentIdToDelete, setCommentIdToDelete] = useState<string>("");
 
     return (
         <>
-            <StyledGrid container>
+            <StyledGrid container style={{ opacity: loading ? 0.25 : 1 }}>
                 <Grid item xl={12} lg={12} md={12} sm={12} xs={12}>
                     <CardContent>
                         <ValidatorForm
@@ -86,12 +88,25 @@ const ForumCommentsList = <T,>({
                         </ValidatorForm>
                     </CardContent>
                     <CardActions disableSpacing sx={{display: "flex", justifyContent: "flex-start", marginBottom: "4rem"}}>
-                        <Button variant="contained" color="primary" onClick={onAddEdit}><IntlMessages id="forum.comment"/></Button>
+                        <Button variant="contained" color="secondary" onClick={onAddEdit}><IntlMessages id="forum.comment"/></Button>
                     </CardActions>
                 </Grid>
                 {forumComments?.map(forumComment => {
                     return (
                         <Grid container spacing={2} key={forumComment.forumCommentId}>
+                            {loading && (
+                                <div style={{
+                                    position: 'relative',
+                                    top: '0%',
+                                    left: '50%',
+                                    transform: 'translate(-50%, -50%)',
+                                    display: 'flex',
+                                    justifyContent: 'center',
+                                    alignItems: 'center'
+                                }}>
+                                    <CircularProgress />
+                                </div>
+                            )}
                             <Grid item xl={12} lg={12} md={12} sm={12} xs={12}>
                                 <ForumCommentComponent
                                     forumUser={forumUser}

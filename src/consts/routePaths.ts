@@ -98,9 +98,9 @@ export const getMobileLogsPaginationPath = (platform: string, clientAbbreviation
 // FORUM
 export const forumModule = adminRoot + "/forum";
 
-export const forumRegistrations = forumModule + "/registrations/";
+export const forumUsers = forumModule + "/registrations/";
 export const getForumRegistrationsPath = (page: number, rowsPerPage?: number) => {
-  return `${forumRegistrations}${page}/${rowsPerPage ?? ""}`;
+  return `${forumUsers}${page}/${rowsPerPage ?? ""}`;
 };
 
 export const forumTopics = forumModule + "/topics/";
@@ -118,7 +118,7 @@ export const getForumTopicFormPath = (id: string | null) => {
 };
 
 export const forumTopicSubscribers = forumModule + "/topic/:forumTopicId/subscribers/";
-export const getForumSubscribersPaginationPath = (forumTopicId: string, page: number, rowsPerPage?: number) => {
+export const getForumTopicSubscribersPaginationPath = (forumTopicId: string, page: number, rowsPerPage?: number) => {
   const pathWithTopicId = forumTopicSubscribers.replace(":forumTopicId", forumTopicId);
   return `${pathWithTopicId}${page}/${rowsPerPage ?? ""}`;
 };
@@ -129,9 +129,20 @@ export const getForumTopicCommentsPaginationPath = (forumTopicId: string, page: 
   return `${pathWithTopicId}${page}/${rowsPerPage ?? ""}`;
 };
 
+export const forumTopicLikes = forumModule + "/topic/:forumTopicId/likes/";
+export const getForumTopicLikesPaginationPath = (forumTopicId: string, page: number, rowsPerPage?: number) => {
+  const pathWithTopicId = forumTopicLikes.replace(":forumTopicId", forumTopicId);
+  return `${pathWithTopicId}${page}/${rowsPerPage ?? ""}`;
+};
+
+export const forumCommentLikes = forumModule + "/topic/:forumTopicId/comment/:forumCommentId/likes/";
+export const getForumCommentLikesPaginationPath = (forumTopicId: string, forumCommentId: string, page: number, rowsPerPage?: number) => {
+  const pathWithTopicId = forumCommentLikes.replace(":forumTopicId", forumTopicId);
+  const pathWithCommentId = pathWithTopicId.replace(":forumCommentId", forumCommentId);
+  return `${pathWithCommentId}${page}/${rowsPerPage ?? ""}`;
+};
+
 
 export const forumTags = forumModule + "/tags/";
-export const getForumTagsPath = (page: number, rowsPerPage?: number) => {
-  return `${forumTags}${page}/${rowsPerPage ?? ""}`;
-};
+
 

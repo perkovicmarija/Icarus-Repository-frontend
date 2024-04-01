@@ -36,7 +36,7 @@ const ForumTagsComponent = <T,>({
     forumTags: ForumTag[],
     selectedTags: ForumTopicTagJoined[] | null,
     onTagClick: (item: T) => void,
-    showAdd: boolean
+    showAdd: boolean,
 }) => {
     return (
         <>
@@ -62,7 +62,8 @@ const ForumTagsComponent = <T,>({
                 </Grid>
                 <Grid item xs={12}>
                     <Grid container spacing={2} style={{padding: "1rem"}}>
-                        {forumTags?.map((tag) => {
+                        {forumTags?.filter(tag => !(selectedTags) || selectedTags.find(topicTag => topicTag.forumTag.forumTagId === tag.forumTagId)
+                            || !tag.deactivated).map((tag) => {
 
                             let isSelected: ForumTopicTagJoined | null = null
                             if (selectedTags) {
@@ -71,13 +72,22 @@ const ForumTagsComponent = <T,>({
                                 );
                             }
 
+                            let styleSelected ={ border: "1px solid #C3922E", backgroundColor: "#C3922E", color: "#FFF", textTransform: "uppercase" }
+                            let styleDeselected ={ border: "1px solid #C3922E", backgroundColor: "#FFF", color: "#000000", textTransform: "uppercase" }
+                            let styleDeactivated = { border: "1px solid #D3D3D3", backgroundColor: "#F5F5F5", color: "#A9A9A9", textTransform: "uppercase"}
+                            let styleSelectedDeactivated = { border: "1px solid #C3922E", backgroundColor: "#c9c9c9", color: "#000000", textTransform: "uppercase"}
+
                             return (
                                 <Grid item xl={2} lg={3} md={4} sm={6} xs={6}
                                       key={tag.forumTagId}>
                                     <Chip
                                         label={tag.name}
-                                        color={isSelected ? "primary" : "default"}
-                                        style={{textTransform: "uppercase"}}
+                                        style={
+                                            (tag.deactivated && isSelected) ? styleSelectedDeactivated :
+                                            tag.deactivated ? styleDeactivated :
+                                            isSelected ?  styleSelected :
+                                            styleDeselected
+                                        }
                                         onClick={() => onTagClick(tag)}
                                     />
                                 </Grid>

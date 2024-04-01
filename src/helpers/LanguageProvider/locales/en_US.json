@@ -70,6 +70,7 @@
   "general.downloading": "Downloading",
   "general.uploading": "Uploading",
   "general.addNew": "Add new",
+  "general.addNewFile": "Add new File",
   "general.comments": "Comments",
   "general.responsiblePerson": "Responsible person",
   "general.responsiblePersons": "Responsible persons",
@@ -294,6 +295,8 @@
   "attachments.label": "Attachments",
   "attachments.dropzone": "Click to choose a file or drag it",
   "attachments.filename": "Filename",
+  "attachments.addNew2": "Add new link",
+  "attachments.none": "There are no attachments",
 
   "action.cancel": "Cancel",
   "action.submit": "Submit",
@@ -429,6 +432,8 @@
   "forum.typeHere": "Type here...",
   "forum.like": "Like",
   "forum.likes": "Likes",
+  "forum.topic.likes": "Topic Likes",
+  "forum.comment.likes": "Comment Likes",
   "forum.content": "Content",
   "forum.displayName": "Display name",
   "forum.fullName": "Full name",
@@ -437,7 +442,7 @@
   "forum.topic.users": "Topic subscribers",
   "forum.user": "Forum user",
   "forum.user.create": "Create forum user",
-  "forum.user.create.text": "In order to participate in the Forum, a Forum user must be created.",
+  "forum.user.create.text": "In order to participate in the Forum, a Forum user must be created. Go to Forum -> Forum Users -> Add New",
   "forum.reply": "Reply"
 
 

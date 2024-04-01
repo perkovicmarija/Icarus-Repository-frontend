@@ -1,14 +1,19 @@
 import {ForumLike} from "./forumLikesApi";
 import {createSlice} from "@reduxjs/toolkit";
 
-export const initFilters = {};
+export const initFilters = {
+    forumUserCreatedDisplayName: "",
+    client: null,
+    dateFrom: null,
+    dateTo: null
+};
 
 const initialState = {
     data: undefined as ForumLike[] | undefined,
     meta: {
         totalCount: undefined as number | undefined,
     },
-    filters: { ...initFilters, content: "" },
+    filters: { ...initFilters },
 };
 
 export type FiltersType = (typeof initialState)["filters"];

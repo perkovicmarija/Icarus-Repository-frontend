@@ -12,18 +12,14 @@ import {FiltersType, forumTopicsActions, initFilters} from "../../redux/forum/fo
 import {useHistory} from "react-router-dom";
 import DialogFormFrame from "../../components/core/Dialog/DialogFormFrame";
 import DialogFormForumTopicFilter from "../../components/forum/DialogFormForumTopicFilter";
-import {
-    useCreateUpdateForumUserMutation,
-    useGetForumUserByDisplayNameQuery
-} from "../../redux/forum/forumUsers/forumUsersApi";
+import {useGetForumUserByRepositoryUserQuery} from "../../redux/forum/forumUsers/forumUsersApi";
 import {Grid, Paper} from "@mui/material";
-import Button from "@mui/material/Button";
 import IntlMessages from "../../components/core/IntlMessages";
-import {useGetUserQuery} from "../../redux/user/usersApi";
 
 const ForumTopics = () => {
     const dispatch = useAppDispatch();
     const history = useHistory();
+    const userId = JSON.parse(localStorage.getItem("userId"))
 
     const [dialogFilters, setDialogFilters] = useState<boolean>(false);
 
@@ -41,16 +37,11 @@ const ForumTopics = () => {
         [filters, page, rowsPerPage]
     )
 
-    const { data: user } = useGetUserQuery(JSON.parse(localStorage.getItem("userId")))
-
-    const username = user?.data.username;
-
-    const { data: forumUser } = useGetForumUserByDisplayNameQuery(username, {
-        skip: !username,
+    const { data: forumUser } = useGetForumUserByRepositoryUserQuery(userId, {
+        skip: !userId,
     })
-    const [triggerAddEdit] = useCreateUpdateForumUserMutation();
 
-    const { data: forumTopics, isFetching } = useGetForumTopicsPaginatedQuery(meta, {
+    const { data: forumTopics, isFetching, refetch } = useGetForumTopicsPaginatedQuery(meta, {
         skip: !forumUser?.data
     });
     const [triggerDelete] = useDeleteForumTopicMutation();
@@ -59,11 +50,16 @@ const ForumTopics = () => {
         history.push(getForumTopicFormPath(forumTopicId));
     }
 
+    const handleSearchSubmit = (newFilters: FiltersType) => {
+        dispatch(forumTopicsActions.setFilters({ ...filters, ...newFilters }));
+        refetch()
+    }
+
     const handleSubmitFilters = (newFilters: FiltersType) => {
         dispatch(forumTopicsActions.setFilters({ ...filters, ...newFilters }));
         history.push(getForumTopicsPaginationPath(page, rowsPerPage));
     };
-    // PAGINATION
+
     const onChangePage = (newValue: number) => {
         history.push(getForumTopicsPaginationPath(newValue, rowsPerPage));
     };
@@ -86,12 +82,12 @@ const ForumTopics = () => {
                         toolbarProps={{
                             title: "forum.topics",
                             searchPlaceholder: "search.search",
-                            searchTextPropKey: "displayName",
+                            searchTextPropKey: "title",
                             initFilters,
                             filters,
                             onAddClick: () => handleAddEditTopic(""),
                             onFilterClick: setDialogFilters,
-                            onSearchSubmit: handleSubmitFilters,
+                            onSearchSubmit: handleSearchSubmit,
                         }}
                         paginationProps={{
                             totalCount: forumTopics?.meta?.totalCount,
@@ -106,9 +102,6 @@ const ForumTopics = () => {
                 <Grid container spacing={4}>
                     <Grid item xl={12} lg={12} md={12} sm={12} xs={12} style={{display: 'flex', justifyContent: 'center'}}>
                         <h4><IntlMessages id="forum.user.create.text" /></h4>
-                    </Grid>
-                    <Grid item xl={12} lg={12} md={12} sm={12} xs={12} style={{display: 'flex', justifyContent: 'center'}}>
-                        <Button variant="contained" onClick={() => triggerAddEdit({...forumUser, userCreated: user?.data})}><IntlMessages id="forum.user.create" /></Button>
                     </Grid>
                 </Grid>
             }

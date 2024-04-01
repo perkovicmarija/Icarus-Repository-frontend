@@ -5,7 +5,7 @@ import {
   androidClients,
   auditChecklistOverview,
   clients,
-  forumRegistrations,
+  forumUsers,
   forumTopics,
   forumTags,
   icarusDocs,
@@ -112,9 +112,9 @@ const sidebarRoutes = [
     sidebar: true,
     children: [
       {
-        path: forumRegistrations,
-        name: "Registrations",
-        key: "forumRegistrations",
+        path: forumUsers,
+        name: "Forum Users",
+        key: "forumUsers",
         sidebar: true,
       },
       {

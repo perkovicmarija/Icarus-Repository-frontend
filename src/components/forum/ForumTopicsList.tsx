@@ -8,7 +8,6 @@ import {TableActions2} from "../core/Table/TableActions2";
 import {Delete, Edit} from "@mui/icons-material";
 import {DialogDelete2} from "../core/Dialog/DialogDelete2";
 import {ForumTopic} from "../../redux/forum/forumTopics/forumTopicsApi";
-import {ForumComment} from "../../redux/forum/forumComments/forumCommentsApi";
 //
 
 const columnData: ColumnDefinition[] = [
@@ -83,7 +82,7 @@ const ForumTopicsList = <T,>({
             return (
               <TableRow key={item.forumTopicId}>
                 <TableCell>{item.title}</TableCell>
-                <TableCell>{item.forumUserCreated.displayName}</TableCell>
+                <TableCell>{item.forumUserCreatedDisplayName}</TableCell>
                 <TableCell>{item.createdFormatted}</TableCell>
                 <TableCell>{item.forumTopicUserJoineds?.length}</TableCell>
                 <TableCell>

@@ -13,6 +13,9 @@ import {ValidatorForm} from 'react-material-ui-form-validator';
 import AccountCircleRoundedIcon from '@mui/icons-material/AccountCircleRounded';
 import {ForumUser} from "../../redux/forum/forumUsers/forumUsersApi";
 import {ForumComment} from "../../redux/forum/forumComments/forumCommentsApi";
+import ThumbsUpDownIcon from '@mui/icons-material/ThumbsUpDown';
+import {getForumCommentLikesPaginationPath, getForumTopicLikesPaginationPath} from "../../consts/routePaths";
+import {useHistory, useParams} from "react-router-dom";
 
 const ForumCommentComponent = <T,>({
                                        forumUser,
@@ -37,6 +40,8 @@ const ForumCommentComponent = <T,>({
     onAddEdit: (item: T) => void,
     level: number
 }) => {
+    const history = useHistory();
+
     const [replyOpen, setReplyOpen] = useState<string>("");
 
     return (
@@ -57,6 +62,15 @@ const ForumCommentComponent = <T,>({
                             </Typography>
                         </Grid>
                         <Grid container justifyContent="flex-end">
+                            <Tooltip title={<FormattedMessage id="forum.comment.likes" />}>
+                                <IconButton
+                                    size="small"
+                                    onClick={() =>
+                                        history.push(getForumCommentLikesPaginationPath(forumComment.forumTopicId, forumComment.forumCommentId, 0, 25))}
+                                >
+                                    <ThumbsUpDownIcon fontSize="small"/>
+                                </IconButton>
+                            </Tooltip>
                             <Tooltip title={<FormattedMessage id="general.delete" />}>
                                 <IconButton
                                     size="small"
@@ -85,15 +99,13 @@ const ForumCommentComponent = <T,>({
                                     <Tooltip title={<FormattedMessage id="forum.like" />}>
                                         {forumComment.forumLikes.find((like) => like.forumUserCreatedDisplayName === forumUser?.displayName) ? (
                                             <ThumbUpIcon fontSize="small"
-                                                         style={{ marginRight: "0.3rem", transform: "scale(0.7)", cursor: "pointer" }}/>
+                                                         style={{ marginRight: "0.2rem", transform: "scale(0.8)", cursor: "pointer" }}/>
                                         ) : (
                                             <ThumbUpOutlinedIcon color="action" fontSize="small"
-                                                                 style={{ marginRight: "0.3rem", transform: "scale(0.7)", cursor: "pointer" }}/>
+                                                                 style={{ marginRight: "0.2rem", transform: "scale(0.8)", cursor: "pointer" }}/>
                                         )}
                                     </Tooltip>
-                                    <Typography variant="caption">
-                                        {forumComment?.forumLikes?.length} <IntlMessages id="forum.likes" />
-                                    </Typography>
+                                    <small><p>{forumComment?.forumLikes?.length} <IntlMessages id="forum.likes" /></p></small>
                                 </div>
                             </Grid>
                             <Grid item xl={2} lg={2} md={2} sm={2} xs={2} style={{ display: "flex", justifyContent: "flex-end" }} >
@@ -136,14 +148,14 @@ const ForumCommentComponent = <T,>({
                                 </ValidatorForm>
                             </Grid>
                             <Grid item xl={2} lg={2} md={2} sm={2} xs={2} alignItems="end" style={{display: "flex", justifyContent: "space-around"}}>
-                                <Button size="small" variant="contained" color="primary" onClick={() => {
+                                <Button size="small" variant="contained" color="secondary" onClick={() => {
                                     onForumReplySubmit(forumComment)
                                     setReplyOpen("")
                                 }
                                 }>
                                     <IntlMessages id="forum.reply"/>
                                 </Button>
-                                <Button size="small" variant="contained" color="error" onClick={() => setReplyOpen("")}>
+                                <Button size="small" variant="contained" color="grey" onClick={() => setReplyOpen("")}>
                                     <IntlMessages id="action.cancel"/>
                                 </Button>
                             </Grid>

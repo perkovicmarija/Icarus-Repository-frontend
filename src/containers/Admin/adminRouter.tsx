@@ -10,7 +10,7 @@ import {
     auditChecklist,
     auditChecklistOverview,
     dashboard,
-    forumRegistrations, forumTags, forumTopicComments, forumTopicForm,
+    forumUsers, forumTags, forumTopicComments, forumTopicForm,
     forumTopics, forumTopicSubscribers,
     icarusDocs,
     iOSClients,
@@ -20,7 +20,7 @@ import {
     supportBug,
     supportCenter,
     userModule,
-    webClients,
+    webClients, forumTopicLikes, forumCommentLikes,
 } from "../../consts/routePaths";
 import AuditChecklistOverview from "../AuditChecklist/AuditChecklistOverview";
 import AuditChecklist from "../AuditChecklist/AuditChecklist";
@@ -33,6 +33,7 @@ import ForumTags from "../Forum/ForumTags";
 import ForumTopicForm from "../Forum/ForumTopicForm";
 import ForumTopicSubscribers from "../Forum/ForumTopicSubscribers";
 import ForumComments from "../Forum/ForumComments";
+import ForumLikes from "../Forum/ForumLikes";
 
 const AdminRouter = () => {
   return (
@@ -127,9 +128,9 @@ const AdminRouter = () => {
         />
 
         <Route
-            path={forumRegistrations}
+            path={forumUsers}
             component={ForumUsers}
-            key="forum-registrations"
+            key="forum-users"
         />
 
         <Route
@@ -154,6 +155,18 @@ const AdminRouter = () => {
             path={forumTopicComments}
             component={ForumComments}
             key="forum-topic-comments"
+        />
+
+        <Route
+            path={forumTopicLikes}
+            component={ForumLikes}
+            key="forum-topic-likes"
+        />
+
+        <Route
+            path={forumCommentLikes}
+            component={ForumLikes}
+            key="forum-comment-likes"
         />
 
         <Route

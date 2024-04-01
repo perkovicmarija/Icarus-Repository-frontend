@@ -18,17 +18,17 @@ import {ValidatorForm} from 'react-material-ui-form-validator';
 import {useHistory, useParams} from "react-router-dom";
 import {ForumComment} from "../../redux/forum/forumComments/forumCommentsApi";
 import {
-    getForumSubscribersPaginationPath,
     getForumTopicCommentsPaginationPath,
-    getForumTopicsPaginationPath
+    getForumTopicLikesPaginationPath,
+    getForumTopicsPaginationPath,
+    getForumTopicSubscribersPaginationPath
 } from "../../consts/routePaths";
 import JoditEditor from "jodit-react";
 import PeopleIcon from '@mui/icons-material/People';
 import {FormattedMessage} from "react-intl";
 import {ForumTopicUserJoined} from "../../redux/forum/forumUsers/forumTopicUsersApi";
 import CommentIcon from '@mui/icons-material/Comment';
-import {ForumUser, useGetForumUserByDisplayNameQuery} from "../../redux/forum/forumUsers/forumUsersApi";
-import {useGetUserQuery} from "../../redux/user/usersApi";
+import {useGetForumUserByRepositoryUserQuery} from "../../redux/forum/forumUsers/forumUsersApi";
 import IntlMessages from "../../components/core/IntlMessages";
 import withValidation from "../HOC/withValidation";
 import {
@@ -36,9 +36,9 @@ import {
     useCreateForumLikeMutation,
     useDeleteForumLikeMutation
 } from "../../redux/forum/forumLikes/forumLikesApi";
-import Typography from "@mui/material/Typography";
 import ThumbUpIcon from '@mui/icons-material/ThumbUp';
 import ThumbUpOutlinedIcon from '@mui/icons-material/ThumbUpOutlined';
+import ThumbsUpDownIcon from '@mui/icons-material/ThumbsUpDown';
 
 const StyledPaper = styled(Paper)({
     minHeight: '300px',
@@ -53,7 +53,7 @@ const initialForumTopic = {
     created: null,
     createdFormatted: '',
     title: '',
-    forumUserCreated: {} as ForumUser,
+    forumUserCreatedDisplayName: '',
     forumTopicTagJoineds: new Array<ForumTopicTagJoined>(),
     forumTopicUserJoineds: new Array<ForumTopicUserJoined>(),
     forumComments: new Array<ForumComment>(),
@@ -64,6 +64,7 @@ const initialForumTopic = {
 const ForumTopicForm = () => {
     const history = useHistory();
     const { forumTopicId } = useParams<{forumTopicId: string}>();
+    const userId = JSON.parse(localStorage.getItem("userId"))
 
     const [forumTopic, setForumTopic] = useState<ForumTopic>(initialForumTopic);
     const [newAttachments, setNewAttachments] = useState<Array<ForumTopicAttachment>>([]);
@@ -73,12 +74,8 @@ const ForumTopicForm = () => {
 
     const { data: forumTags } = useGetForumTagsQuery();
 
-    const { data: user } = useGetUserQuery(JSON.parse(localStorage.getItem("userId")))
-
-    const username = user?.data.username;
-
-    const { data: forumUser } = useGetForumUserByDisplayNameQuery(username, {
-        skip: !username,
+    const { data: forumUser } = useGetForumUserByRepositoryUserQuery(userId, {
+        skip: !userId,
     })
 
     const [createForumLike] = useCreateForumLikeMutation()
@@ -96,7 +93,7 @@ const ForumTopicForm = () => {
 
     const handleForumTopicSubmit = async event => {
         event.preventDefault()
-        await createUpdateForumTopic({...forumTopic, forumUserCreated: forumUser.data}).unwrap();
+        await createUpdateForumTopic({...forumTopic, forumUserCreatedDisplayName: forumUser.data.displayName}).unwrap();
         history.push(getForumTopicsPaginationPath(0, 25))
     }
 
@@ -126,11 +123,15 @@ const ForumTopicForm = () => {
     }
 
     const handleClickSubscribers = () => {
-        history.push(getForumSubscribersPaginationPath(forumTopicId, 0, 25));
+        history.push(getForumTopicSubscribersPaginationPath(forumTopicId, 0, 25));
     }
 
     const handleClickComments = () => {
         history.push(getForumTopicCommentsPaginationPath(forumTopicId, 0, 5));
+    }
+
+    const handleClickLikes = () => {
+        history.push(getForumTopicLikesPaginationPath(forumTopicId, 0, 25));
     }
 
     const editor = useRef(null);
@@ -150,48 +151,6 @@ const ForumTopicForm = () => {
         newForumTopicClone[name] = value;
         setForumTopic(newForumTopicClone);
     };
-
-    const handleNewAttachSubmit = (file, attachment) => {
-        let forumTopicClone = cloneDeep(forumTopic);
-        forumTopicClone.forumTopicAttachments.push(attachment);
-
-        setNewAttachments([...newAttachments, file]);
-        setForumTopic(forumTopicClone);
-    };
-
-    const handleAttachDelete = (event, attachment) => {
-        let forumTopicClone = cloneDeep(forumTopic);
-        for (let i = 0, l = forumTopicClone.forumTopicAttachments.length; i < l; i++) {
-            if (forumTopicClone.forumTopicAttachments[i].filename === attachment.filename) {
-                forumTopicClone.forumTopicAttachments.splice(i, 1);
-                setForumTopic(forumTopicClone);
-                break;
-            }
-        }
-        for (let i = 0, l = newAttachments.length; i < l; i++) {
-            if (newAttachments[i].filename === attachment.filename) {
-                setNewAttachments([...newAttachments.slice(0, i), ...newAttachments.slice(i + 1)]);
-                break;
-            }
-        }
-    };
-
-    const handleAttachDownload = (event, attachment) => {
-        let viewModel = {
-            id: forumTopic.forumTopicId,
-            filename: attachment.filename
-        };
-        // props.reportActions.download(viewModel);
-    };
-
-    const handleAttachView = (event, attachment) => {
-        // let viewModel = {
-        //     id: selectedItem.inspectionItemJoinedId,
-        //     filename: attachment.filename
-        // };
-        // props.inspectionItemJoinedActions.viewAttachment(viewModel);
-        // setDialogAttachmentViewOpen(true);
-    }
 
     const handleTopicLike = async () => {
         const existingLike: ForumLike = forumTopic.forumLikes.find((like) => like.forumUserCreatedDisplayName === forumUser.data.displayName)
@@ -218,15 +177,22 @@ const ForumTopicForm = () => {
                               children={
                                   <Grid container spacing={2}>
                                       <Grid item>
+                                          <Tooltip title={<FormattedMessage id="forum.topic.likes" />}>
+                                              <ThumbsUpDownIcon style={{ color: "#FFFFFF", cursor: "pointer" }} fontSize="small"
+                                                           onClick={handleClickLikes}
+                                              />
+                                          </Tooltip>
+                                      </Grid>
+                                      <Grid item>
                                           <Tooltip title={<FormattedMessage id="forum.comments" />}>
-                                              <CommentIcon style={{ color: "#FFFFFF", cursor: "pointer" }} fontSize="medium"
+                                              <CommentIcon style={{ color: "#FFFFFF", cursor: "pointer" }} fontSize="small"
                                                            onClick={handleClickComments}
                                               />
                                           </Tooltip>
                                       </Grid>
                                       <Grid item>
                                           <Tooltip title={<FormattedMessage id="forum.subscribers" />}>
-                                              <PeopleIcon style={{ color: "#FFFFFF", cursor: "pointer" }} fontSize="medium"
+                                              <PeopleIcon style={{ color: "#FFFFFF", cursor: "pointer" }} fontSize="small"
                                                           onClick={handleClickSubscribers}
                                               />
                                           </Tooltip>
@@ -290,29 +256,19 @@ const ForumTopicForm = () => {
                             </Grid>
 
                             <Grid item xl={12} lg={12} md={12} sm={12} xs={12}>
-                                {/*<Attachments*/}
-                                {/*    attachments={forumTopic.forumTopicAttachments}*/}
-                                {/*    onNewAttachSubmit={handleNewAttachSubmit}*/}
-                                {/*    onAttachDelete={handleAttachDelete}*/}
-                                {/*    onAttachDownload={handleAttachDownload}*/}
-                                {/*    onAttachView={handleAttachView}*/}
-                                {/*    editDisabled={false}*/}
-                                {/*    showView*/}
-                                {/*/>*/}
+                                Attachments here
                             </Grid>
 
                             {forumTopicId != "-1" &&
                                 <Grid item xl={12} lg={12} md={12} sm={12} xs={12} style={{display: "flex", alignItems: "center"}}>
                                     <div onClick={() => handleTopicLike()} style={{ cursor: "pointer", display: "inline-flex", alignItems: "center" }}>
                                         {forumTopic.forumLikes.find((like) => like.forumUserCreatedDisplayName === forumUser?.data.displayName) ? (
-                                            <ThumbUpIcon fontSize="small" style={{ marginRight: "0.5rem", transform: "scale(0.8)" }}/>
+                                            <ThumbUpIcon fontSize="small" style={{ marginRight: "0.3rem", transform: "scale(0.8)" }}/>
                                         ) : (
-                                            <ThumbUpOutlinedIcon color="action" fontSize="small" style={{ marginRight: "0.5rem", transform: "scale(0.8)" }}/>
+                                            <ThumbUpOutlinedIcon color="action" fontSize="small" style={{ marginRight: "0.3rem", transform: "scale(0.8)" }}/>
                                         )}
                                     </div>
-                                    <Typography variant="overline">
-                                        {forumTopic.forumLikes.length} <IntlMessages id="forum.likes" />
-                                    </Typography>
+                                    <p>{forumTopic.forumLikes.length} <IntlMessages id="forum.likes" /></p>
                                 </Grid>
                             }
 

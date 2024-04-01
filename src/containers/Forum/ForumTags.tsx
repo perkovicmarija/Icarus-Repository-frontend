@@ -27,7 +27,8 @@ const ForumTags = () => {
                     forumTags={forumTags?.data}
                     onTagClick={handleClickForumTag}
                     showAdd={true}
-                    selectedTags={null}/>
+                    selectedTags={null}
+                />
             </Paper>
 
 

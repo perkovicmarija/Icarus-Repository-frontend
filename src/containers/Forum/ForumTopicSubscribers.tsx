@@ -5,7 +5,7 @@ import {usePagination} from "../../helpers/pagination";
 import {FiltersType, forumTopicUsersActions, initFilters} from "../../redux/forum/forumUsers/forumTopicUsersSlice";
 import {
     getForumRegistrationsPath,
-    getForumSubscribersPaginationPath,
+    getForumTopicSubscribersPaginationPath,
     getForumTopicFormPath
 } from "../../consts/routePaths";
 import DialogFormFrame from "../../components/core/Dialog/DialogFormFrame";
@@ -39,15 +39,15 @@ const ForumTopicSubscribers = () => {
     const filters = useAppSelector((state) => state.ForumTopicUsers.filters);
     const meta = useMemo(
         () => ({
-            filters,
+            filters:{ ...filters, forumTopicId },
             pagination: {
                 page,
                 rowsPerPage,
             },
         }),
-        [filters, page, rowsPerPage]
+        [filters, forumTopicId, page, rowsPerPage]
     );
-    const { data, isFetching } = useGetForumTopicUsersPaginatedQuery(meta);
+    const { data: forumTopics, isFetching } = useGetForumTopicUsersPaginatedQuery(meta);
     const [triggerDelete] = useDeleteForumTopicUserMutation();
     const [triggerAdd] = useCreateForumTopicUserMutation();
 
@@ -57,9 +57,9 @@ const ForumTopicSubscribers = () => {
 
     const handleSubmitFilters = (newFilters: FiltersType) => {
         dispatch(forumTopicUsersActions.setFilters({ ...filters, ...newFilters }));
-        history.push(getForumSubscribersPaginationPath(forumTopicId, page, rowsPerPage));
+        history.push(getForumTopicSubscribersPaginationPath(forumTopicId, page, rowsPerPage));
     };
-    // PAGINATION
+
     const onChangePage = (newValue: number) => {
         history.push(getForumRegistrationsPath(newValue, rowsPerPage));
     };
@@ -92,7 +92,7 @@ const ForumTopicSubscribers = () => {
                 <Grid item xl={12} lg={12} md={12} sm={12} xs={12}>
                     <Paper>
                         <ForumTopicSubscribersList<ForumTopicUserJoined>
-                            data={data?.data}
+                            data={forumTopics?.data}
                             onEdit={setDialogAddEdit}
                             onDelete={(payload) =>
                                 triggerDelete(payload.forumTopicUserJoinedId).unwrap()
@@ -109,7 +109,7 @@ const ForumTopicSubscribers = () => {
                                 onSearchSubmit: handleSubmitFilters,
                             }}
                             paginationProps={{
-                                totalCount: data?.meta.totalCount,
+                                totalCount: forumTopics?.meta.totalCount,
                                 page,
                                 rowsPerPage,
                                 onChangePage,
