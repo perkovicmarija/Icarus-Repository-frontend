@@ -39,6 +39,8 @@ import {
 import ThumbUpIcon from '@mui/icons-material/ThumbUp';
 import ThumbUpOutlinedIcon from '@mui/icons-material/ThumbUpOutlined';
 import ThumbsUpDownIcon from '@mui/icons-material/ThumbsUpDown';
+import {toast} from "react-toastify";
+import {handleNotify} from "../../helpers/utility";
 
 const StyledPaper = styled(Paper)({
     minHeight: '300px',
@@ -93,7 +95,8 @@ const ForumTopicForm = () => {
 
     const handleForumTopicSubmit = async event => {
         event.preventDefault()
-        await createUpdateForumTopic({...forumTopic, forumUserCreatedDisplayName: forumUser.data.displayName}).unwrap();
+        const result = await createUpdateForumTopic({...forumTopic, forumUserCreatedDisplayName: forumUser.data.displayName}).unwrap();
+        handleNotify(result)
         history.push(getForumTopicsPaginationPath(0, 25))
     }
 

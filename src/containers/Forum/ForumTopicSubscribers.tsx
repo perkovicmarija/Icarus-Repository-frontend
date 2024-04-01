@@ -24,6 +24,8 @@ import FormTitleBarRich from "../../components/core/Form/FormTitleBarRich";
 import {FormattedMessage} from "react-intl";
 import KeyboardBackspaceIcon from '@mui/icons-material/KeyboardBackspace';
 import {useGetClientsQuery} from "../../redux/settings/clientsApi";
+import {toast} from "react-toastify";
+import {handleNotify} from "../../helpers/utility";
 
 const ForumTopicSubscribers = () => {
     const dispatch = useAppDispatch();
@@ -70,7 +72,8 @@ const ForumTopicSubscribers = () => {
 
     const handleSubmit = async (payload) => {
         const displayName = payload.forumUser.displayName
-        await triggerAdd({ displayName, forumTopicId })
+        const result = await triggerAdd({ displayName, forumTopicId })
+        handleNotify(result?.data)
     }
 
     return (
@@ -96,6 +99,7 @@ const ForumTopicSubscribers = () => {
                             onEdit={setDialogAddEdit}
                             onDelete={(payload) =>
                                 triggerDelete(payload.forumTopicUserJoinedId).unwrap()
+
                             }
                             //
                             toolbarProps={{

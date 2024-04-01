@@ -16,6 +16,8 @@ import {FiltersType, forumUsersActions, initFilters} from "../../redux/forum/for
 import DialogFormForumUser from "../../components/forum/DialogFormForumUser";
 import DialogFormForumUserFilter from "../../components/forum/DialogFormForumUserFilter";
 import {useGetUserQuery} from "../../redux/user/usersApi";
+import {toast} from "react-toastify";
+import {handleNotify} from "../../helpers/utility";
 
 
 const ForumUsers = () => {
@@ -106,7 +108,9 @@ const ForumUsers = () => {
                 <DialogFormForumUser
                     initialData={dialogAddEdit!}
                     onClose={() => setDialogAddEdit(undefined)}
-                    onSubmit={(payload) => triggerAddEdit({...payload, userCreated: user?.data}).unwrap()}
+                    onSubmit={(payload) => triggerAddEdit({...payload, userCreated: user?.data}).unwrap().then((result) => {
+                        handleNotify(result)
+                    })}
                     clients={activeClients}
                 />
             </DialogFormFrame>

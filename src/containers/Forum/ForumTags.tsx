@@ -8,6 +8,8 @@ import {
 import DialogFormForumTag from "../../components/forum/DialogFormForumTag";
 import DialogFormFrame from "../../components/core/Dialog/DialogFormFrame";
 import {Paper} from "@mui/material";
+import {toast} from "react-toastify";
+import {handleNotify} from "../../helpers/utility";
 
 const ForumTags = () => {
     const [dialogForumTagsOpen, setDialogForumTagsOpen] = useState<boolean>(false);
@@ -40,7 +42,9 @@ const ForumTags = () => {
                 <DialogFormForumTag
                     initialData={forumTag!}
                     onClose={() => setDialogForumTagsOpen(false)}
-                    onSubmit={(payload: ForumTag) => createUpdateForumTag(payload).unwrap()}
+                    onSubmit={(payload: ForumTag) => createUpdateForumTag(payload).unwrap().then((result) => {
+                        handleNotify(result)
+                    })}
                 />
             </DialogFormFrame>
         </>
