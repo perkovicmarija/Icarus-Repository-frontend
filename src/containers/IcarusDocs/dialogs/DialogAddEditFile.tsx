@@ -11,6 +11,15 @@ import AutocompleteMultiLargeDataset2 from "../../../components/core/Fields/Auto
 import { GridContainer2 } from "../../../components/core/GridContainer2";
 import { Client } from "../../../redux/clientsApi";
 
+const initializeFiles = (filename: string | undefined) => {
+  const files = filename ? [new File([], filename)] : [];
+  if (filename) {
+    files[0]["path"] = filename;
+    files[0]["old"] = true;
+  }
+  return files;
+};
+
 const DialogAddEditFile = ({
   initialData,
   onClose,
@@ -31,14 +40,16 @@ const DialogAddEditFile = ({
     control,
     formState: { errors },
   } = useForm({
-    defaultValues: initialData,
+    defaultValues: {
+      ...initialData,
+      files: initializeFiles(initialData.filename),
+    },
   });
   const [loading, setLoading] = useState(false);
 
   const dropzoneController = useController({
     control,
     name: "files",
-    defaultValue: [],
     rules: {
       validate: (value) => value?.length > 0 || "general.required",
     },
