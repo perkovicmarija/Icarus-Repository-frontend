@@ -26,7 +26,11 @@ const DialogAddEditFile = ({
   editDisabled?: boolean;
   clients: Client[];
 }) => {
-  const { handleSubmit, control } = useForm({
+  const {
+    handleSubmit,
+    control,
+    formState: { errors },
+  } = useForm({
     defaultValues: initialData,
   });
   const [loading, setLoading] = useState(false);
@@ -133,7 +137,11 @@ const DialogAddEditFile = ({
         </GridContainer2>
       </DialogContent>
 
-      <DialogActions2 onClose={onClose} loading={loading} />
+      <DialogActions2
+        onClose={onClose}
+        loading={loading}
+        submitDisabled={Object.keys(errors).length > 0}
+      />
     </form>
   );
 };

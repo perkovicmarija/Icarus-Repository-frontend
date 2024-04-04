@@ -389,7 +389,7 @@
   "documentation.uncontrolledCopy.warning": "Make sure that the file is not locked for this function to work",
   "documentation.download.user": "User downloaded",
   "documentation.storageInfo": "Storage info",
-  "documentation.noFilesAdded": "No files added",
+  "documentation.noFilesAdded": "File not added",
 
   "users.title": "Users",
   "users.roles": "Roles",
@@ -409,5 +409,4 @@
   "logger.logLevel": "Log level",
   "logger.osVersion": "OS Version",
   "logger.sessionId": "Session ID"
-
 }
