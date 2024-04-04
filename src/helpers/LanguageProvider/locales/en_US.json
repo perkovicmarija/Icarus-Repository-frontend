@@ -395,7 +395,7 @@
   "documentation.uncontrolledCopy.warning": "Make sure that the file is not locked for this function to work",
   "documentation.download.user": "User downloaded",
   "documentation.storageInfo": "Storage info",
-  "documentation.noFilesAdded": "No files added",
+  "documentation.noFilesAdded": "File not added",
 
   "users.title": "Users",
   "users.roles": "Roles",
@@ -444,6 +444,5 @@
   "forum.user.create": "Create forum user",
   "forum.user.create.text": "In order to participate in the Forum, a Forum user must be created. Go to Forum -> Forum Users -> Add New",
   "forum.reply": "Reply"
-
 
 }

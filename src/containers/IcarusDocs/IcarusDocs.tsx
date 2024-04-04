@@ -216,6 +216,10 @@ function IcarusDocs() {
               }),
             };
 
+            if (files[0]["old"]) {
+              delete networkModel.file;
+            }
+
             const abortController = new AbortController();
             setAbortController(abortController);
             if ("icarusDocumentationFileId" in dialogAddEditFile) {
