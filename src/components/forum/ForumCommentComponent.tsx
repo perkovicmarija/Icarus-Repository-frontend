@@ -17,178 +17,180 @@ import ThumbsUpDownIcon from '@mui/icons-material/ThumbsUpDown';
 import {getForumCommentLikesPaginationPath, getForumTopicLikesPaginationPath} from "../../consts/routePaths";
 import {useHistory, useParams} from "react-router-dom";
 
-const ForumCommentComponent = <T,>({
-                                       forumUser,
-                                       onLike,
-                                       commentReplyInputText,
-                                       onForumReplySubmit,
-                                       onForumReplyChange,
-                                       setDialogWarning,
-                                       forumComment,
-                                       setCommentIdToDelete,
-                                       onAddEdit,
-                                       level
-                               } : {
-    forumUser: ForumUser,
-    onLike: (forumComment: ForumComment) => Promise<any>,
-    commentReplyInputText: string,
-    onForumReplySubmit: (ForumComment: T) => void,
-    onForumReplyChange: (item: T) => void,
-    setDialogWarning: (item: T) => void,
-    forumComment: ForumComment,
-    setCommentIdToDelete: (item: T) => void,
-    onAddEdit: (item: T) => void,
-    level: number
+const ForumCommentComponent = <T, >({
+                                      forumUser,
+                                      onLike,
+                                      commentReplyInputText,
+                                      onForumReplySubmit,
+                                      onForumReplyChange,
+                                      setDialogWarning,
+                                      forumComment,
+                                      setCommentIdToDelete,
+                                      onAddEdit,
+                                      level
+                                    }: {
+  forumUser: ForumUser,
+  onLike: (forumComment: ForumComment) => Promise<any>,
+  commentReplyInputText: string,
+  onForumReplySubmit: (ForumComment: T) => void,
+  onForumReplyChange: (item: T) => void,
+  setDialogWarning: (item: T) => void,
+  forumComment: ForumComment,
+  setCommentIdToDelete: (item: T) => void,
+  onAddEdit: (item: T) => void,
+  level: number
 }) => {
-    const history = useHistory();
-
-    const [replyOpen, setReplyOpen] = useState<string>("");
-
-    return (
-        <>
-            <CardContent style={{ borderBottom: '1px solid lightgrey', marginLeft: `${level}vw` }}>
-                <Grid container spacing={1}>
-
-                    <Grid item xl={12} lg={12} md={12} sm={12} xs={12} style={{ display: "flex", alignItems: "center" }}>
-                        <AccountCircleRoundedIcon fontSize="large" style={{ marginRight: "0.5rem", fontWeight: "bold" }} />
-
-                        <Grid container direction="column">
-                            <Typography variant="subtitle2" style={{ fontWeight: "bold" }}>
-                                {forumComment?.forumUserCreatedDisplayName}
-                            </Typography>
-
-                            <Typography variant="caption">
-                                {forumComment?.createdFormatted}
-                            </Typography>
-                        </Grid>
-                        <Grid container justifyContent="flex-end">
-                            <Tooltip title={<FormattedMessage id="forum.comment.likes" />}>
-                                <IconButton
-                                    size="small"
-                                    onClick={() =>
-                                        history.push(getForumCommentLikesPaginationPath(forumComment.forumTopicId, forumComment.forumCommentId, 0, 25))}
-                                >
-                                    <ThumbsUpDownIcon fontSize="small"/>
-                                </IconButton>
-                            </Tooltip>
-                            <Tooltip title={<FormattedMessage id="general.delete" />}>
-                                <IconButton
-                                    size="small"
-                                    color="error"
-                                    onClick={() => {
-                                        setDialogWarning(true)
-                                        setCommentIdToDelete(forumComment.forumCommentId)
-                                    }}
-                                >
-                                    <Delete />
-                                </IconButton>
-                            </Tooltip>
-                        </Grid>
-                    </Grid>
-
-                    <Grid item xl={12} lg={12} md={12} sm={12} xs={12}>
-                        <Typography variant="body1" gutterBottom style={{ whiteSpace: 'pre-line' }}>
-                            {forumComment.content}
-                        </Typography>
-                    </Grid>
-
-                    <Grid item xl={12} lg={12} md={12} sm={12} xs={12} style={{display: "flex", alignItems: "center"}}>
-                        <Grid container>
-                            <Grid item xl={10} lg={10} md={10} sm={10} xs={10}>
-                                <div onClick={() => onLike(forumComment)} style={{ display: "inline-flex", alignItems: "center" }}>
-                                    <Tooltip title={<FormattedMessage id="forum.like" />}>
-                                        {forumComment.forumLikes.find((like) => like.forumUserCreatedDisplayName === forumUser?.displayName) ? (
-                                            <ThumbUpIcon fontSize="small"
-                                                         style={{ marginRight: "0.2rem", transform: "scale(0.8)", cursor: "pointer" }}/>
-                                        ) : (
-                                            <ThumbUpOutlinedIcon color="action" fontSize="small"
-                                                                 style={{ marginRight: "0.2rem", transform: "scale(0.8)", cursor: "pointer" }}/>
-                                        )}
-                                    </Tooltip>
-                                    <small><p>{forumComment?.forumLikes?.length} <IntlMessages id="forum.likes" /></p></small>
-                                </div>
-                            </Grid>
-                            <Grid item xl={2} lg={2} md={2} sm={2} xs={2} style={{ display: "flex", justifyContent: "flex-end" }} >
-                                <Tooltip title={<FormattedMessage id="forum.reply" />}>
-                                    <ReplyIcon onClick={() => {
-                                        if (replyOpen) {
-                                            setReplyOpen("")
-                                        } else {
-                                            setReplyOpen(forumComment.forumCommentId)
-                                        }
-                                    }}
-                                               style={{ transform: "scale(0.8)", cursor: "pointer" }} />
-                                </Tooltip>
-                            </Grid>
-                        </Grid>
-                    </Grid>
-
-                    {replyOpen === forumComment.forumCommentId &&
-
-                        <Grid container style={{display: "flex", alignItems: "flex-end"}}>
-                            <Grid item xl={10} lg={10} md={10} sm={10} xs={10}>
-                                <ValidatorForm
-                                    noValidate
-                                    autoComplete="off"
-                                    onSubmit={onAddEdit}
-                                    onError={() => {}}
-                                >
-                                    <TextFieldValidation
-                                        disabled={false}
-                                        label=""
-                                        id="content"
-                                        name="content"
-                                        value={commentReplyInputText}
-                                        onInputChange={onForumReplyChange}
-                                        placeholder="forum.typeHere"
-                                        type="text"
-                                        multiline
-                                        rows="3"
-                                    />
-                                </ValidatorForm>
-                            </Grid>
-                            <Grid item xl={2} lg={2} md={2} sm={2} xs={2} alignItems="end" style={{display: "flex", justifyContent: "space-around"}}>
-                                <Button size="small" variant="contained" color="secondary" onClick={() => {
-                                    onForumReplySubmit(forumComment)
-                                    setReplyOpen("")
-                                }
-                                }>
-                                    <IntlMessages id="forum.reply"/>
-                                </Button>
-                                <Button size="small" variant="contained" color="grey" onClick={() => setReplyOpen("")}>
-                                    <IntlMessages id="action.cancel"/>
-                                </Button>
-                            </Grid>
-                        </Grid>
-
+  const history = useHistory();
+  
+  const [replyOpen, setReplyOpen] = useState<string>("");
+  
+  return (
+    <>
+      <CardContent style={{borderBottom: '1px solid lightgrey', marginLeft: `${level}vw`}}>
+        <Grid container spacing={1}>
+          
+          <Grid item xl={12} lg={12} md={12} sm={12} xs={12} style={{display: "flex", alignItems: "center"}}>
+            <AccountCircleRoundedIcon fontSize="large" style={{marginRight: "0.5rem", fontWeight: "bold"}}/>
+            
+            <Grid container direction="column">
+              <Typography variant="subtitle2" style={{fontWeight: "bold"}}>
+                {forumComment?.forumUserCreatedDisplayName}
+              </Typography>
+              
+              <Typography variant="caption">
+                {forumComment?.createdFormatted}
+              </Typography>
+            </Grid>
+            <Grid container justifyContent="flex-end">
+              <Tooltip title={<FormattedMessage id="forum.comment.likes"/>}>
+                <IconButton
+                  size="small"
+                  onClick={() =>
+                    history.push(getForumCommentLikesPaginationPath(forumComment.forumTopicId, forumComment.forumCommentId, 0, 25))}
+                >
+                  <ThumbsUpDownIcon fontSize="small"/>
+                </IconButton>
+              </Tooltip>
+              <Tooltip title={<FormattedMessage id="general.delete"/>}>
+                <IconButton
+                  size="small"
+                  color="error"
+                  onClick={() => {
+                    setDialogWarning(true)
+                    setCommentIdToDelete(forumComment.forumCommentId)
+                  }}
+                >
+                  <Delete/>
+                </IconButton>
+              </Tooltip>
+            </Grid>
+          </Grid>
+          
+          <Grid item xl={12} lg={12} md={12} sm={12} xs={12}>
+            <Typography variant="body1" gutterBottom style={{whiteSpace: 'pre-line'}}>
+              {forumComment.content}
+            </Typography>
+          </Grid>
+          
+          <Grid item xl={12} lg={12} md={12} sm={12} xs={12} style={{display: "flex", alignItems: "center"}}>
+            <Grid container>
+              <Grid item xl={10} lg={10} md={10} sm={10} xs={10}>
+                <div onClick={() => onLike(forumComment)} style={{display: "inline-flex", alignItems: "center"}}>
+                  <Tooltip title={<FormattedMessage id="forum.like"/>}>
+                    {forumComment.forumLikes.find((like) => like.forumUserCreatedDisplayName === forumUser?.displayName) ? (
+                      <ThumbUpIcon fontSize="small"
+                                   style={{marginRight: "0.2rem", transform: "scale(0.8)", cursor: "pointer"}}/>
+                    ) : (
+                      <ThumbUpOutlinedIcon color="action" fontSize="small"
+                                           style={{marginRight: "0.2rem", transform: "scale(0.8)", cursor: "pointer"}}/>
+                    )}
+                  </Tooltip>
+                  <small><p>{forumComment?.forumLikes?.length} <IntlMessages id="forum.likes"/></p></small>
+                </div>
+              </Grid>
+              <Grid item xl={2} lg={2} md={2} sm={2} xs={2} style={{display: "flex", justifyContent: "flex-end"}}>
+                <Tooltip title={<FormattedMessage id="forum.reply"/>}>
+                  <ReplyIcon onClick={() => {
+                    if (replyOpen) {
+                      setReplyOpen("")
+                    } else {
+                      setReplyOpen(forumComment.forumCommentId)
                     }
+                  }}
+                             style={{transform: "scale(0.8)", cursor: "pointer"}}/>
+                </Tooltip>
+              </Grid>
+            </Grid>
+          </Grid>
+          
+          {replyOpen === forumComment.forumCommentId &&
 
-                </Grid>
-
-            </CardContent>
-
-            {(forumComment?.replies && forumComment?.replies?.length > 0) &&
-
-                forumComment?.replies?.map((reply, i) => {
-                    return (
-                        <ForumCommentComponent
-                            key={reply.forumCommentId}
-                            forumUser={forumUser}
-                            onLike={onLike}
-                            commentReplyInputText={commentReplyInputText}
-                            onForumReplySubmit={onForumReplySubmit}
-                            onForumReplyChange={onForumReplyChange}
-                            setDialogWarning={setDialogWarning}
-                            forumComment={reply}
-                            setCommentIdToDelete={setCommentIdToDelete}
-                            onAddEdit={onAddEdit}
-                            level={level + 4}
-                        />
-                    )
-                })
-            }
-
-        </>
-    )
+              <Grid container style={{display: "flex", alignItems: "flex-end"}}>
+                  <Grid item xl={10} lg={10} md={10} sm={10} xs={10}>
+                      <ValidatorForm
+                          noValidate
+                          autoComplete="off"
+                          onSubmit={onAddEdit}
+                          onError={() => {
+                          }}
+                      >
+                          <TextFieldValidation
+                              disabled={false}
+                              label=""
+                              id="content"
+                              name="content"
+                              value={commentReplyInputText}
+                              onInputChange={onForumReplyChange}
+                              placeholder="forum.typeHere"
+                              type="text"
+                              multiline
+                              rows="3"
+                          />
+                      </ValidatorForm>
+                  </Grid>
+                  <Grid item xl={2} lg={2} md={2} sm={2} xs={2} alignItems="end"
+                        style={{display: "flex", justifyContent: "space-around"}}>
+                      <Button size="small" variant="contained" color="secondary" onClick={() => {
+                        onForumReplySubmit(forumComment)
+                        setReplyOpen("")
+                      }
+                      }>
+                          <IntlMessages id="forum.reply"/>
+                      </Button>
+                      <Button size="small" variant="contained" color="grey" onClick={() => setReplyOpen("")}>
+                          <IntlMessages id="action.cancel"/>
+                      </Button>
+                  </Grid>
+              </Grid>
+            
+          }
+        
+        </Grid>
+      
+      </CardContent>
+      
+      {(forumComment?.replies && forumComment?.replies?.length > 0) &&
+        
+        forumComment?.replies?.map((reply, i) => {
+          return (
+            <ForumCommentComponent
+              key={reply.forumCommentId}
+              forumUser={forumUser}
+              onLike={onLike}
+              commentReplyInputText={commentReplyInputText}
+              onForumReplySubmit={onForumReplySubmit}
+              onForumReplyChange={onForumReplyChange}
+              setDialogWarning={setDialogWarning}
+              forumComment={reply}
+              setCommentIdToDelete={setCommentIdToDelete}
+              onAddEdit={onAddEdit}
+              level={level + 4}
+            />
+          )
+        })
+      }
+    
+    </>
+  )
 }
 export default ForumCommentComponent
