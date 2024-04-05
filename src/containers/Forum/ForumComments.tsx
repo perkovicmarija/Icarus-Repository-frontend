@@ -142,7 +142,7 @@ const ForumComments = () => {
   return (
     <>
       <Grid container spacing={0}>
-        <Grid item xl={12} lg={12} md={12} sm={12} xs={12}>
+        <Grid item xs={12}>
           <FormTitleBarRich
             title={"forum.comments"}
             children={
@@ -167,7 +167,7 @@ const ForumComments = () => {
           />
         </Grid>
         
-        <Grid item xl={12} lg={12} md={12} sm={12} xs={12}>
+        <Grid item xs={12}>
           <ForumTopicCommentsList
             forumComments={forumComments?.data}
             onAddEdit={handleAddEditComment}

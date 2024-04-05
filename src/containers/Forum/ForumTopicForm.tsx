@@ -1,4 +1,4 @@
-import React, {useEffect, useRef, useState} from 'react'
+import React, {useEffect, useState} from 'react'
 import {
   ForumTopic,
   ForumTopicAttachment,
@@ -7,14 +7,10 @@ import {
   useGetForumTopicQuery
 } from "../../redux/forum/forumTopics/forumTopicsApi";
 import {ForumTag, useGetForumTagsQuery} from "../../redux/forum/forumTags/forumTagsApi";
-import {cloneDeep} from "lodash";
 import FormTitleBarRich from "../../components/core/Form/FormTitleBarRich";
-import TextFieldValidation from "../../components/core/TextField/TextFieldValidation";
 import ForumTagsComponent from "../../components/forum/ForumTagsComponent";
-import FormSubmit from "../../components/core/Form/FormSubmit";
 import {Grid, Paper, Tooltip} from "@mui/material";
 import {styled} from "@mui/styles";
-import {ValidatorForm} from 'react-material-ui-form-validator';
 import {useHistory, useParams} from "react-router-dom";
 import {ForumComment} from "../../redux/forum/forumComments/forumCommentsApi";
 import {
@@ -30,7 +26,6 @@ import {ForumTopicUserJoined} from "../../redux/forum/forumUsers/forumTopicUsers
 import CommentIcon from '@mui/icons-material/Comment';
 import {useGetForumUserByRepositoryUserQuery} from "../../redux/forum/forumUsers/forumUsersApi";
 import IntlMessages from "../../components/core/IntlMessages";
-import withValidation from "../HOC/withValidation";
 import {
   ForumLike,
   useCreateForumLikeMutation,
@@ -39,8 +34,10 @@ import {
 import ThumbUpIcon from '@mui/icons-material/ThumbUp';
 import ThumbUpOutlinedIcon from '@mui/icons-material/ThumbUpOutlined';
 import ThumbsUpDownIcon from '@mui/icons-material/ThumbsUpDown';
-import {toast} from "react-toastify";
 import {handleNotify} from "../../helpers/utility";
+import {Controller, useForm} from "react-hook-form";
+import TextField2 from "../../components/core/Fields/TextField2";
+import {DialogActions2} from "../../components/core/Dialog/DialogActions2";
 
 const StyledPaper = styled(Paper)({
   minHeight: '300px',
@@ -69,7 +66,11 @@ const ForumTopicForm = () => {
   const userId = JSON.parse(localStorage.getItem("userId"))
   
   const [forumTopic, setForumTopic] = useState<ForumTopic>(initialForumTopic);
-  const [newAttachments, setNewAttachments] = useState<Array<ForumTopicAttachment>>([]);
+  const [loading, setLoading] = useState(false);
+  
+  const {handleSubmit, control} = useForm({
+    defaultValues: initialForumTopic,
+  });
   
   const [createUpdateForumTopic] = useCreateUpdateForumTopicMutation();
   const {
@@ -96,11 +97,12 @@ const ForumTopicForm = () => {
     }
   }, [forumTopicFromDb]);
   
-  const handleForumTopicSubmit = async event => {
-    event.preventDefault()
+  const handleForumTopicSubmit = async (value: ForumTopic) => {
+    debugger
     const result = await createUpdateForumTopic({
-      ...forumTopic,
-      forumUserCreatedDisplayName: forumUser.data.displayName
+      ...value,
+      forumTopicTagJoineds: forumTopic.forumTopicTagJoineds,
+      forumUserCreatedDisplayName: forumUser.data.displayName,
     }).unwrap();
     handleNotify(result)
     history.push(getForumTopicsPaginationPath(0, 25))
@@ -143,7 +145,6 @@ const ForumTopicForm = () => {
     history.push(getForumTopicLikesPaginationPath(forumTopicId, 0, 25));
   }
   
-  const editor = useRef(null);
   const config = {
     readonly: false, // all options from https://xdsoft.net/jodit/doc/,
     uploader: {
@@ -153,12 +154,6 @@ const ForumTopicForm = () => {
       fillEmptyParagraph: false,
     },
     height: 300,
-  };
-  
-  const handleInputChange = ({target: {name, value}}) => {
-    let newForumTopicClone = cloneDeep(forumTopic);
-    newForumTopicClone[name] = value;
-    setForumTopic(newForumTopicClone);
   };
   
   const handleTopicLike = async () => {
@@ -180,7 +175,7 @@ const ForumTopicForm = () => {
   return (
     <>
       <Grid container spacing={1}>
-        <Grid item xl={12} lg={12} md={12} sm={12} xs={12}>
+        <Grid item xs={12}>
           <FormTitleBarRich
             title={forumTopicId != "-1" ? "forum.topic.edit" : "forum.topic.new"}
             children={
@@ -211,29 +206,28 @@ const ForumTopicForm = () => {
           />
         </Grid>
         
-        <Grid item xl={12} lg={12} md={12} sm={12} xs={12}>
-          <ValidatorForm
-            noValidate
-            autoComplete="off"
-            onSubmit={handleForumTopicSubmit}
-            // onError={onValidationError}
+        <Grid item xs={12}>
+          <form
+            onSubmit={(e) => {
+              e.stopPropagation();
+              handleSubmit((data) => {
+                setLoading(true);
+                handleForumTopicSubmit(data as ForumTopic)
+                  .catch(() => setLoading(false));
+              })(e);
+            }}
           >
             <Grid container spacing={2}>
               
               <Grid item xl={6} lg={6} md={12} sm={12} xs={12}>
                 <StyledPaper style={{padding: "5rem"}}>
-                  <TextFieldValidation
-                    disabled={false}
-                    id="title"
+                  <TextField2
+                    control={control}
                     label="forum.topic"
                     name="title"
-                    value={forumTopic.title}
-                    onInputChange={handleInputChange}
+                    rules={{required: "general.required"}}
                     placeholder="forum.topic"
-                    type="text"
-                    validators={['required']}
-                    errorMessages={['This field is required', 'Email is not valid']}
-                    required/>
+                  />
                   
                   <div style={{display: 'flex', alignItems: 'center'}}>
                     <h4><IntlMessages id="forum.user"/>:&nbsp;</h4><span>{forumUser?.data.displayName}</span>
@@ -252,51 +246,51 @@ const ForumTopicForm = () => {
                 </StyledPaper>
               </Grid>
               
-              <Grid item xl={12} lg={12} md={12} sm={12} xs={12}>
-                <JoditEditor
-                  ref={editor}
-                  value={forumTopic.content}
-                  config={config}
-                  onBlur={(newContent) => {
-                    setForumTopic({...forumTopic, content: newContent})
-                  }}
-                  onChange={newContent => {
-                  }}
+              <Grid item xs={12}>
+                <Controller
+                  name="content"
+                  control={control}
+                  defaultValue=""
+                  render={({field: {onChange, value}}) => (
+                    <JoditEditor
+                      value={forumTopic.content}
+                      config={config}
+                      onBlur={newContent => onChange(newContent)}
+                    />
+                  )}
                 />
               </Grid>
               
-              <Grid item xl={12} lg={12} md={12} sm={12} xs={12}>
+              <Grid item xs={12}>
                 Attachments here
               </Grid>
               
               {forumTopicId != "-1" &&
-                  <Grid item xl={12} lg={12} md={12} sm={12} xs={12} style={{display: "flex", alignItems: "center"}}>
-                      <div onClick={() => handleTopicLike()}
-                           style={{cursor: "pointer", display: "inline-flex", alignItems: "center"}}>
-                        {forumTopic.forumLikes.find((like) => like.forumUserCreatedDisplayName === forumUser?.data.displayName) ? (
-                          <ThumbUpIcon fontSize="small" style={{marginRight: "0.3rem", transform: "scale(0.8)"}}/>
-                        ) : (
-                          <ThumbUpOutlinedIcon color="action" fontSize="small"
-                                               style={{marginRight: "0.3rem", transform: "scale(0.8)"}}/>
-                        )}
-                      </div>
-                      <p>{forumTopic.forumLikes.length} <IntlMessages id="forum.likes"/></p>
-                  </Grid>
+                <Grid item xs={12} style={{display: "flex", alignItems: "center"}}>
+                  <div onClick={() => handleTopicLike()}
+                       style={{cursor: "pointer", display: "inline-flex", alignItems: "center"}}>
+                    {forumTopic.forumLikes.find((like) => like.forumUserCreatedDisplayName === forumUser?.data.displayName) ? (
+                      <ThumbUpIcon fontSize="small" style={{marginRight: "0.3rem", transform: "scale(0.8)"}}/>
+                    ) : (
+                      <ThumbUpOutlinedIcon color="action" fontSize="small"
+                                           style={{marginRight: "0.3rem", transform: "scale(0.8)"}}/>
+                    )}
+                  </div>
+                  <p>{forumTopic.forumLikes.length} <IntlMessages id="forum.likes"/></p>
+                </Grid>
               }
               
-              <Grid item xl={12} lg={12} md={12} sm={12} xs={12}>
-                <FormSubmit
-                  handleCancel={() => history.push(getForumTopicsPaginationPath(0, 25))}
-                />
+              <Grid item xs={12}>
+                <DialogActions2 onClose={() => history.push(getForumTopicsPaginationPath(0, 25))} loading={loading}/>
               </Grid>
             
             </Grid>
           
-          </ValidatorForm>
+          </form>
         </Grid>
       </Grid>
     </>
   
   )
 }
-export default withValidation(ForumTopicForm)
+export default ForumTopicForm

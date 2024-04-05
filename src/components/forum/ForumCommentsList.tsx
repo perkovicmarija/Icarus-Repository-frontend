@@ -55,7 +55,7 @@ const ForumCommentsList = <T, >({
   return (
     <>
       <StyledGrid container style={{opacity: loading ? 0.25 : 1}}>
-        <Grid item xl={12} lg={12} md={12} sm={12} xs={12}>
+        <Grid item xs={12}>
           <CardContent>
             <ValidatorForm
               noValidate
@@ -65,13 +65,13 @@ const ForumCommentsList = <T, >({
               }}
             >
               <Grid container spacing={2}>
-                <Grid item xl={12} lg={12} md={12} sm={12} xs={12} style={{display: "flex", alignItems: "center"}}>
+                <Grid item xs={12} style={{display: "flex", alignItems: "center"}}>
                   <AccountCircleRoundedIcon fontSize="large" style={{marginRight: "0.5rem"}}/>
                   <Typography variant="subtitle2" style={{fontWeight: "bold"}}>
                     <IntlMessages id="forum.comments.add"/>
                   </Typography>
                 </Grid>
-                <Grid item xl={12} lg={12} md={12} sm={12} xs={12}>
+                <Grid item xs={12}>
                   <TextFieldValidation
                     disabled={false}
                     label=""
@@ -109,7 +109,7 @@ const ForumCommentsList = <T, >({
                   <CircularProgress/>
                 </div>
               )}
-              <Grid item xl={12} lg={12} md={12} sm={12} xs={12}>
+              <Grid item xs={12}>
                 <ForumCommentComponent
                   forumUser={forumUser}
                   onLike={onLike}

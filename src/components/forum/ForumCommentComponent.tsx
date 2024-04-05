@@ -49,7 +49,7 @@ const ForumCommentComponent = <T, >({
       <CardContent style={{borderBottom: '1px solid lightgrey', marginLeft: `${level}vw`}}>
         <Grid container spacing={1}>
           
-          <Grid item xl={12} lg={12} md={12} sm={12} xs={12} style={{display: "flex", alignItems: "center"}}>
+          <Grid item xs={12} style={{display: "flex", alignItems: "center"}}>
             <AccountCircleRoundedIcon fontSize="large" style={{marginRight: "0.5rem", fontWeight: "bold"}}/>
             
             <Grid container direction="column">
@@ -86,13 +86,13 @@ const ForumCommentComponent = <T, >({
             </Grid>
           </Grid>
           
-          <Grid item xl={12} lg={12} md={12} sm={12} xs={12}>
+          <Grid item xs={12}>
             <Typography variant="body1" gutterBottom style={{whiteSpace: 'pre-line'}}>
               {forumComment.content}
             </Typography>
           </Grid>
           
-          <Grid item xl={12} lg={12} md={12} sm={12} xs={12} style={{display: "flex", alignItems: "center"}}>
+          <Grid item xs={12} style={{display: "flex", alignItems: "center"}}>
             <Grid container>
               <Grid item xl={10} lg={10} md={10} sm={10} xs={10}>
                 <div onClick={() => onLike(forumComment)} style={{display: "inline-flex", alignItems: "center"}}>

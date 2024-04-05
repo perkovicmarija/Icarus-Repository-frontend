@@ -100,7 +100,7 @@ const ForumTopics = () => {
         </Paper>
         :
         <Grid container spacing={4}>
-          <Grid item xl={12} lg={12} md={12} sm={12} xs={12} style={{display: 'flex', justifyContent: 'center'}}>
+          <Grid item xs={12} style={{display: 'flex', justifyContent: 'center'}}>
             <h4><IntlMessages id="forum.user.create.text"/></h4>
           </Grid>
         </Grid>
