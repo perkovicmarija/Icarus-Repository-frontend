@@ -5,9 +5,9 @@ import { useHistory } from "react-router-dom";
 import { isEmpty } from "lodash";
 import DialogFormFrame from "../../../components/core/Dialog/DialogFormFrame";
 //
-import SupportSoftwareLogList from "../../../components/support/Logs/SupportSoftwareLogList";
-import DialogFormSoftwareLog from "../../../components/support/Logs/DialogFormSoftwareLog";
-import DialogFormSoftwareLogFilter from "../../../components/support/Logs/DialogFormSoftwareLogFilter";
+import SupportSoftwareLogList from "../../../components/support/SoftwareLogs/SupportSoftwareLogList";
+import DialogFormSoftwareLog from "../../../components/support/SoftwareLogs/DialogFormSoftwareLog";
+import DialogFormSoftwareLogFilter from "../../../components/support/SoftwareLogs/DialogFormSoftwareLogFilter";
 import { getSupportLogsPath } from "../../../consts/routePaths";
 import {
   FiltersType,
