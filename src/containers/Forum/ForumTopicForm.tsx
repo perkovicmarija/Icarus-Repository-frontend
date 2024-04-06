@@ -66,7 +66,7 @@ const ForumTopicForm = () => {
   const userId = JSON.parse(localStorage.getItem("userId"))
   
   const [forumTopic, setForumTopic] = useState<ForumTopic>(initialForumTopic);
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState<boolean>(false);
   
   const {handleSubmit, control} = useForm({
     defaultValues: initialForumTopic,
@@ -98,7 +98,6 @@ const ForumTopicForm = () => {
   }, [forumTopicFromDb]);
   
   const handleForumTopicSubmit = async (value: ForumTopic) => {
-    debugger
     const result = await createUpdateForumTopic({
       ...value,
       forumTopicTagJoineds: forumTopic.forumTopicTagJoineds,
@@ -179,24 +178,24 @@ const ForumTopicForm = () => {
           <FormTitleBarRich
             title={forumTopicId != "-1" ? "forum.topic.edit" : "forum.topic.new"}
             children={
-              <Grid container spacing={2}>
+              <Grid container spacing={4}>
                 <Grid item>
                   <Tooltip title={<FormattedMessage id="forum.topic.likes"/>}>
-                    <ThumbsUpDownIcon style={{color: "#FFFFFF", cursor: "pointer"}} fontSize="small"
+                    <ThumbsUpDownIcon style={{color: "#FFFFFF", cursor: "pointer"}}
                                       onClick={handleClickLikes}
                     />
                   </Tooltip>
                 </Grid>
                 <Grid item>
                   <Tooltip title={<FormattedMessage id="forum.comments"/>}>
-                    <CommentIcon style={{color: "#FFFFFF", cursor: "pointer"}} fontSize="small"
+                    <CommentIcon style={{color: "#FFFFFF", cursor: "pointer"}}
                                  onClick={handleClickComments}
                     />
                   </Tooltip>
                 </Grid>
                 <Grid item>
                   <Tooltip title={<FormattedMessage id="forum.subscribers"/>}>
-                    <PeopleIcon style={{color: "#FFFFFF", cursor: "pointer"}} fontSize="small"
+                    <PeopleIcon style={{color: "#FFFFFF", cursor: "pointer"}}
                                 onClick={handleClickSubscribers}
                     />
                   </Tooltip>

@@ -147,17 +147,17 @@ const ForumComments = () => {
             title={"forum.comments"}
             children={
               
-              <Grid container spacing={2}>
+              <Grid container spacing={4}>
                 <Grid item>
                   <Tooltip title={<FormattedMessage id="general.selectFilters" />}>
-                    <FilterListIcon style={{ color: "#FFFFFF", cursor: "pointer" }} fontSize="medium"
+                    <FilterListIcon style={{ color: "#FFFFFF", cursor: "pointer" }}
                                     onClick={() => setDialogFilters(true)}
                     />
                   </Tooltip>
                 </Grid>
                 <Grid item>
                   <Tooltip title={<FormattedMessage id="forum.topic" />}>
-                    <KeyboardBackspaceIcon style={{ color: "#FFFFFF", cursor: "pointer" }} fontSize="medium"
+                    <KeyboardBackspaceIcon style={{ color: "#FFFFFF", cursor: "pointer" }}
                                            onClick={() => history.push(getForumTopicFormPath(forumTopicId))}
                     />
                   </Tooltip>

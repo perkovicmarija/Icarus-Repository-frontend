@@ -22,6 +22,9 @@ const useStyles = makeStyles(theme => ({
     },
     root: {
         backgroundColor: theme.palette.primary.main,
+        height: '64px',
+        borderTopLeftRadius: '10px',
+        borderTopRightRadius: '10px',
     },
 }));
 
