@@ -1,9 +1,13 @@
 import {Group, LibraryBooks, MenuBook, Settings, SupportAgent} from "@mui/icons-material";
 import TextSnippetIcon from '@mui/icons-material/TextSnippet';
+import Diversity3Icon from '@mui/icons-material/Diversity3';
 import {
   androidClients,
   auditChecklistOverview,
   clients,
+  forumUsers,
+  forumTopics,
+  forumTags,
   icarusDocs,
   iOSClients,
   supportLogs,
@@ -97,6 +101,32 @@ const sidebarRoutes = [
         path: webClients,
         name: "Web",
         key: "webLogs",
+        sidebar: true,
+      },
+    ],
+  },
+  {
+    name: "Forum",
+    icon: Diversity3Icon,
+    key: "forum-module",
+    sidebar: true,
+    children: [
+      {
+        path: forumUsers,
+        name: "Forum Users",
+        key: "forumUsers",
+        sidebar: true,
+      },
+      {
+        path: forumTopics,
+        name: "Topics",
+        key: "forumTopics",
+        sidebar: true,
+      },
+      {
+        path: forumTags,
+        name: "Tags",
+        key: "forumTags",
         sidebar: true,
       },
     ],

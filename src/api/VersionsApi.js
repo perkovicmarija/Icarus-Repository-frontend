@@ -1,8 +1,6 @@
-import RestApiGet from "./methods/RestApiGet";
 import RestApiPost from "./methods/RestApiPost";
 import RestApiDelete from "./methods/RestApiDelete";
 import RestApiPutWithPathParams from "./methods/RestApiPutWithPathParams";
-import RestApiGetWithParams from "./methods/RestApiGetWithParams";
 
 const VersionsApi = {
   getMobileVersionsPaginated(viewModel) {

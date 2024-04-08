@@ -10,6 +10,8 @@ import {
     auditChecklist,
     auditChecklistOverview,
     dashboard,
+    forumUsers, forumTags, forumTopicComments, forumTopicForm,
+    forumTopics, forumTopicSubscribers,
     icarusDocs,
     iOSClients,
     mobileLogs,
@@ -18,13 +20,20 @@ import {
     supportBug,
     supportCenter,
     userModule,
-    webClients,
+    webClients, forumTopicLikes, forumCommentLikes,
 } from "../../consts/routePaths";
 import AuditChecklistOverview from "../AuditChecklist/AuditChecklistOverview";
 import AuditChecklist from "../AuditChecklist/AuditChecklist";
 import IcarusDocs from "../IcarusDocs/IcarusDocs";
 import Clients from "../Setting/Client/Clients";
 import MobileLogs from "../Logger/MobileLogs";
+import ForumUsers from "../Forum/ForumUsers";
+import ForumTopics from "../Forum/ForumTopics";
+import ForumTags from "../Forum/ForumTags";
+import ForumTopicForm from "../Forum/ForumTopicForm";
+import ForumTopicSubscribers from "../Forum/ForumTopicSubscribers";
+import ForumComments from "../Forum/ForumComments";
+import ForumLikes from "../Forum/ForumLikes";
 
 const AdminRouter = () => {
   return (
@@ -116,6 +125,54 @@ const AdminRouter = () => {
             path={mobileLogs}
             component={MobileLogs}
             key="mobile-logs"
+        />
+
+        <Route
+            path={forumUsers}
+            component={ForumUsers}
+            key="forum-users"
+        />
+
+        <Route
+            path={forumTopics}
+            component={ForumTopics}
+            key="forum-topics"
+        />
+
+        <Route
+            path={forumTopicForm}
+            component={ForumTopicForm}
+            key="forum-topics-form"
+        />
+
+        <Route
+            path={forumTopicSubscribers}
+            component={ForumTopicSubscribers}
+            key="forum-topic-subscribers"
+        />
+
+        <Route
+            path={forumTopicComments}
+            component={ForumComments}
+            key="forum-topic-comments"
+        />
+
+        <Route
+            path={forumTopicLikes}
+            component={ForumLikes}
+            key="forum-topic-likes"
+        />
+
+        <Route
+            path={forumCommentLikes}
+            component={ForumLikes}
+            key="forum-comment-likes"
+        />
+
+        <Route
+            path={forumTags}
+            component={ForumTags}
+            key="forum-tags"
         />
 
       <Redirect from={root} to={auditChecklistOverview} />

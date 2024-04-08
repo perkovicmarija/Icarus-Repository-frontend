@@ -12,28 +12,40 @@ import LanguageSwitcher from "./languageSwitcher/languageSwitcherReducer";
 import AuditChecklist from "./auditChecklist/auditChecklistReducer";
 import AuditChecklistItem from "./auditChecklistItem/auditChecklistItemReducer";
 import AuditChecklistSubArea from "./auditChecklistSubArea/auditChecklistSubAreaReducer";
-import clientsSlice from "./setting/clientsSlice";
+import clientsSlice from "./settings/clientsSlice";
 import AuditorActionLocationType from "./auditorActionLocationType/AuditorActionLocationTypeReducer";
-import IcarusDocumentationFile from "./support/icarusDocs/file/icarusDocumentationFileReducer";
-import IcarusDocumentationFolder from "./support/icarusDocs/folder/icarusDocumentationFolderReducer";
+import IcarusDocumentationFile from "./icarusDocs/file/icarusDocumentationFileReducer";
+import IcarusDocumentationFolder from "./icarusDocs/folder/icarusDocumentationFolderReducer";
 import settingsSlice from "./settings/settingsSlice";
-import versionsSlice from "./setting/versionsSlice";
+import versionsSlice from "./settings/versionsSlice";
 import usersSlice from "./user/usersSlice";
 import auditChecklistsSlice from "./auditChecklistsSlice";
 import rolesSlice from "./user/rolesSlice";
-import roadmapSlice from "./support/roadmapSlice";
-import icarusDocsSlice from "./icarusDocsSlice";
-import { clientsApi } from "./clientsApi";
+import roadmapSlice from "./support/roadmap/roadmapSlice";
+import icarusDocsSlice from "./icarusDocs/icarusDocsSlice";
+import forumTagsSlice from "./forum/forumTags/forumTagsSlice"
+import { clientsApi } from "./settings/clientsApi";
 import { authApi } from "./authApi";
-import { versionsApi } from "./versionsApi";
-import { supportLogsApi } from "./support/supportLogsApi";
+import { versionsApi } from "./settings/versionsApi";
+import { supportLogsApi } from "./support/supportLogs/supportLogsApi";
 import { softwareLogSubscriptionApi } from "./support/subscriptions/softwareLogSubscriptionApi";
-import { roadmapApi } from "./support/roadmapApi";
+import { roadmapApi } from "./support/roadmap/roadmapApi";
 import { auditChecklistsApi } from "./auditChecklistsApi";
 import { usersApi } from "./user/usersApi";
 import loggerSlice from "./logger/loggerSlice";
-import { loggerApi } from "./loggerApi";
+import { loggerApi } from "./logger/loggerApi";
 import softwareLogSubscriptionSlice from "./support/subscriptions/softwareLogSubscriptionSlice";
+import {forumTagsApi} from "./forum/forumTags/forumTagsApi";
+import {forumTopicsApi} from "./forum/forumTopics/forumTopicsApi";
+import forumTopicsSlice from "./forum/forumTopics/forumTopicsSlice";
+import {forumCommentsApi} from "./forum/forumComments/forumCommentsApi";
+import forumCommentsSlice from "./forum/forumComments/forumCommentsSlice";
+import {forumUsersApi} from "./forum/forumUsers/forumUsersApi";
+import forumUsersSlice from "./forum/forumUsers/forumUsersSlice";
+import {forumTopicUsersApi} from "./forum/forumUsers/forumTopicUsersApi";
+import forumTopicUsersSlice from "./forum/forumUsers/forumTopicUsersSlice";
+import {forumLikesApi} from "./forum/forumLikes/forumLikesApi";
+import forumLikesSlice from "./forum/forumLikes/forumLikesSlice";
 
 export default (history) =>
   combineReducers({
@@ -72,4 +84,16 @@ export default (history) =>
     [authApi.reducerPath]: authApi.reducer,
     Logger: loggerSlice.reducer,
     [loggerApi.reducerPath]: loggerApi.reducer,
+    [forumTagsApi.reducerPath]: forumTagsApi.reducer,
+    ForumTags: forumTagsSlice.reducer,
+    [forumTopicsApi.reducerPath]: forumTopicsApi.reducer,
+    ForumTopics: forumTopicsSlice.reducer,
+    [forumCommentsApi.reducerPath]: forumCommentsApi.reducer,
+    ForumComments: forumCommentsSlice.reducer,
+    [forumUsersApi.reducerPath]: forumUsersApi.reducer,
+    ForumUsers: forumUsersSlice.reducer,
+    [forumTopicUsersApi.reducerPath]: forumTopicUsersApi.reducer,
+    ForumTopicUsers: forumTopicUsersSlice.reducer,
+    [forumLikesApi.reducerPath]: forumLikesApi.reducer,
+    ForumLikes: forumLikesSlice.reducer
   });

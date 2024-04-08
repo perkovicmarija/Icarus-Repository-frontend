@@ -9,7 +9,7 @@ import {
   fourZeroFour,
   adminRoot,
   confirmationCode,
-  auditChecklistOverview,
+  auditChecklistOverview, users,
 } from "./consts/routePaths";
 import { useAppSelector } from "./redux/store";
 
@@ -39,7 +39,7 @@ const MainRouter = ({ history }: any) => {
         <Route path={adminRoot} component={isLoggedIn ? Admin : Login} />
 
         {isLoggedIn ? (
-          <Redirect to={auditChecklistOverview} />
+          <Redirect to={users} />
         ) : (
           <Route exact path={root} component={Login} />
         )}

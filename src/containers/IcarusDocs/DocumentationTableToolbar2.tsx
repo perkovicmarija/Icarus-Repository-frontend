@@ -7,14 +7,14 @@ import {
 import TableToolbar2 from "../../components/core/Table/TableToolbar2";
 import DialogFormFrame from "../../components/core/Dialog/DialogFormFrame";
 import { useEffect, useState } from "react";
-import DialogFormStorageInfo from "./dialogs/DialogFormStorageInfo";
+import DialogFormStorageInfo from "../../components/documentation/icarusDocs/dialogs/DialogFormStorageInfo";
 import { useAppDispatch, useAppSelector } from "../../redux/store";
-import * as icarusDocumentationFolderActions from "../../redux/support/icarusDocs/folder/icarusDocumentationFolderActions";
+import * as icarusDocumentationFolderActions from "../../redux/icarusDocs/folder/icarusDocumentationFolderActions";
 import { MenuItem, ListItemIcon, ListItemText, Menu } from "@mui/material";
 import IntlMessages from "../../components/core/IntlMessages";
-import DialogFormDocumentationFilters from "./dialogs/DialogFormDocumentationFilters";
-import { FiltersType, initFilters } from "../../redux/icarusDocsSlice";
-import { Client } from "../../redux/clientsApi";
+import DialogFormDocumentationFilters from "../../components/documentation/icarusDocs/dialogs/DialogFormDocumentationFilters";
+import { FiltersType, initFilters } from "../../redux/icarusDocs/icarusDocsSlice";
+import { Client } from "../../redux/settings/clientsApi";
 
 export const DocumentationTableToolbar2 = ({
   onNewFileClick,
