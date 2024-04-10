@@ -4,6 +4,7 @@ import {useForm} from "react-hook-form";
 import {useState} from "react";
 import {ForumUser} from "../../redux/forum/forumUsers/forumUsersApi";
 import SelectCustom2 from "../core/Fields/SelectCustom2";
+import {ForumTopicUserJoined} from "../../redux/forum/forumUsers/forumTopicUsersApi";
 
 function DialogFormForumTopicSubscriber({
   initialData,
@@ -12,7 +13,7 @@ function DialogFormForumTopicSubscriber({
   //
   forumUsers,
 }: {
-  initialData: ForumUser | {};
+  initialData: ForumTopicUserJoined | {} | undefined;
   onClose: () => void;
   onSubmit: (payload: ForumUser) => Promise<any>;
   forumUsers: ForumUser[];
