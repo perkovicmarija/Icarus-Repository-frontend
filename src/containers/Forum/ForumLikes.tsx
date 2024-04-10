@@ -3,7 +3,11 @@ import {useAppDispatch, useAppSelector} from "../../redux/store";
 import {useHistory, useParams} from "react-router-dom";
 import {usePagination} from "../../helpers/pagination";
 import {FiltersType, forumLikesActions, initFilters} from "../../redux/forum/forumLikes/forumLikesSlice";
-import {getForumTopicCommentsPaginationPath, getForumTopicLikesPaginationPath} from "../../consts/routePaths";
+import {
+  getForumTopicCommentsPaginationPath,
+  getForumTopicFormPath,
+  getForumTopicLikesPaginationPath
+} from "../../consts/routePaths";
 import DialogFormFrame from "../../components/core/Dialog/DialogFormFrame";
 import {Grid, Paper, Tooltip} from "@mui/material";
 import FormTitleBarRich from "../../components/core/Form/FormTitleBarRich";
@@ -68,7 +72,7 @@ const ForumLikes = () => {
             children={
               <Tooltip title={<FormattedMessage id="forum.topic" />}>
                 <KeyboardBackspaceIcon style={{ color: "#FFFFFF", cursor: "pointer" }} fontSize="medium"
-                                       onClick={() => history.push(getForumTopicCommentsPaginationPath(forumTopicId, 0, 25))}
+                                       onClick={() => history.push(getForumTopicFormPath(forumTopicId))}
                 />
               </Tooltip>
             }

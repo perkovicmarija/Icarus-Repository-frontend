@@ -108,12 +108,12 @@ export const getForumTopicsPaginationPath = (page: number, rowsPerPage?: number)
   return `${forumTopics}${page}/${rowsPerPage ?? ""}`;
 };
 
-export const forumTopicForm = forumModule + "/topic/details/:forumTopicId";
+export const forumTopic = forumModule + "/topic/details/:forumTopicId";
 export const getForumTopicFormPath = (id: string | null) => {
   if (id) {
-    return forumTopicForm.replace(":forumTopicId", id);
+    return forumTopic.replace(":forumTopicId", id);
   } else {
-    return forumTopicForm.replace(":forumTopicId", "-1");
+    return forumTopic.replace(":forumTopicId", "-1");
   }
 };
 

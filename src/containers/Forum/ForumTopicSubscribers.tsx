@@ -5,8 +5,8 @@ import {usePagination} from "../../helpers/pagination";
 import {FiltersType, forumTopicUsersActions, initFilters} from "../../redux/forum/forumUsers/forumTopicUsersSlice";
 import {
   getForumRegistrationsPath,
-  getForumTopicSubscribersPaginationPath,
-  getForumTopicFormPath
+  getForumTopicFormPath,
+  getForumTopicSubscribersPaginationPath
 } from "../../consts/routePaths";
 import DialogFormFrame from "../../components/core/Dialog/DialogFormFrame";
 import DialogFormForumUserFilter from "../../components/forum/DialogFormForumUserFilter";
@@ -24,7 +24,6 @@ import FormTitleBarRich from "../../components/core/Form/FormTitleBarRich";
 import {FormattedMessage} from "react-intl";
 import KeyboardBackspaceIcon from '@mui/icons-material/KeyboardBackspace';
 import {useGetClientsQuery} from "../../redux/settings/clientsApi";
-import {toast} from "react-toastify";
 import {handleNotify} from "../../helpers/utility";
 
 const ForumTopicSubscribers = () => {

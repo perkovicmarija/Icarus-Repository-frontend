@@ -6,21 +6,27 @@ import UserRoleFrame from "../Users/UserRoleFrame";
 import SupportCenterFrame from "../SupportCenter/SupportCenterFrame";
 import SettingFrame from "../Setting/SettingFrame";
 import {
-    androidClients,
-    auditChecklist,
-    auditChecklistOverview,
-    dashboard,
-    forumUsers, forumTags, forumTopicComments, forumTopicForm,
-    forumTopics, forumTopicSubscribers,
-    icarusDocs,
-    iOSClients,
-    mobileLogs,
-    root,
-    settingModule,
-    supportBug,
-    supportCenter,
-    userModule,
-    webClients, forumTopicLikes, forumCommentLikes,
+  androidClients,
+  auditChecklist,
+  auditChecklistOverview,
+  dashboard,
+  forumCommentLikes,
+  forumTags,
+  forumTopic,
+  forumTopicComments,
+  forumTopicLikes,
+  forumTopics,
+  forumTopicSubscribers,
+  forumUsers,
+  icarusDocs,
+  iOSClients,
+  mobileLogs,
+  root,
+  settingModule,
+  supportBug,
+  supportCenter,
+  userModule,
+  webClients,
 } from "../../consts/routePaths";
 import AuditChecklistOverview from "../AuditChecklist/AuditChecklistOverview";
 import AuditChecklist from "../AuditChecklist/AuditChecklist";
@@ -30,10 +36,10 @@ import MobileLogs from "../Logger/MobileLogs";
 import ForumUsers from "../Forum/ForumUsers";
 import ForumTopics from "../Forum/ForumTopics";
 import ForumTags from "../Forum/ForumTags";
-import ForumTopicForm from "../Forum/ForumTopicForm";
 import ForumTopicSubscribers from "../Forum/ForumTopicSubscribers";
 import ForumComments from "../Forum/ForumComments";
 import ForumLikes from "../Forum/ForumLikes";
+import ForumTopicWrapper from "../Forum/ForumTopic/ForumTopicWrapper";
 
 const AdminRouter = () => {
   return (
@@ -140,9 +146,9 @@ const AdminRouter = () => {
         />
 
         <Route
-            path={forumTopicForm}
-            component={ForumTopicForm}
-            key="forum-topics-form"
+            path={forumTopic}
+            component={ForumTopicWrapper}
+            key="forum-topic"
         />
 
         <Route

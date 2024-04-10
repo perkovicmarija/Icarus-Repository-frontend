@@ -33,7 +33,7 @@ const ForumComments = () => {
   const { forumTopicId } = useParams<{forumTopicId: string}>();
   const userId = JSON.parse(localStorage.getItem("userId"))
   
-  const initialForumComment = {
+  const initialForumComment: ForumComment = {
     forumCommentId: '',
     forumTopicId: forumTopicId,
     forumUserCreatedDisplayName: '',
