@@ -121,7 +121,7 @@ const ForumTopicForm = <T,>({
               Attachments here
             </Grid>
             
-            {forumTopicId != "-1" &&
+            {forumTopicId !== "-1" &&
               <Grid item xs={12} style={{display: "flex", alignItems: "center"}}>
                 <div onClick={() => onTopicLike()}
                      style={{cursor: "pointer", display: "inline-flex", alignItems: "center"}}>

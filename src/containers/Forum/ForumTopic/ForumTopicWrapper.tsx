@@ -122,7 +122,7 @@ const ForumTopicWrapper = () => {
       
       <ForumTopicHeader />
   
-      {forumTopicFromDb?.data ?
+      {forumTopicFromDb?.data || forumTopicId === "-1" ?
           <ForumTopicForm
               initialData={forumTopicFromDb?.data}
               onForumTopicSubmit={handleForumTopicSubmit}
