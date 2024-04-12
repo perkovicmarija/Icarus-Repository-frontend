@@ -1,7 +1,7 @@
-import {createApi, fetchBaseQuery} from "@reduxjs/toolkit/query/react";
-import {getServerPath} from "../../consts/ServerInfo";
-import {getToken} from "../../helpers/utility";
-import {Meta, ResponseWrapper} from "../../components/core/commonTypes";
+import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
+import { getServerPath } from "../../consts/ServerInfo";
+import { getToken } from "../../helpers/utility";
+import { Meta, ResponseWrapper } from "../../components/core/commonTypes";
 
 export interface User {
   userId: string;
@@ -51,15 +51,22 @@ export const usersApi = createApi({
       }),
       invalidatesTags: ["Users"],
     }),
-    addEditUser: builder.mutation<void, User>({
-      query: (body) => ({
+    addEditUser: builder.mutation<
+      void,
+      {
+        newPassword: boolean;
+        generatePassword: boolean;
+        user: User;
+      }
+    >({
+      query: ({ newPassword, generatePassword, user }) => ({
         url:
-          (body.userId ? "update" : "create") + `?access_token=${getToken()}`,
+          (user.userId ? "update" : "create") + `?access_token=${getToken()}`,
         method: "POST",
         body: {
-          generatePassword: false,
-          newPassword: false,
-          user: body,
+          newPassword,
+          generatePassword,
+          user: user,
         },
       }),
       invalidatesTags: ["Users"],

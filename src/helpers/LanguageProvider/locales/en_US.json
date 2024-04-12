@@ -235,7 +235,7 @@
   "form.name": "Name",
   "form.surname": "Surname",
   "form.newPassword": "New password",
-  "form.generatePassword": "Generate password",
+  "form.generatePassword": "Autogenerate password",
   "form.email": "Email",
   "form.phone1": "Phone 1",
   "form.phone2": "Phone 2",
