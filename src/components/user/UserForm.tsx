@@ -108,6 +108,11 @@ const UserForm = ({
               name="username"
               rules={{ required: "general.required" }}
               placeholder="form.username"
+              textFieldProps={
+                {
+                  /* autoComplete: "new-password", */
+                }
+              }
             />
           </Grid>
 
@@ -132,22 +137,21 @@ const UserForm = ({
               />
             </Grid>
           ) : null}
+          */}
 
-          {!generatePassword && (
-            <Grid item sm={6} xs={12}>
-              <TypographyFieldTitle title="form.password" />
-              <TextFieldValidation
-                disabled={editDisabled}
-                id="form.password"
-                label="form.password"
-                name="password"
-                value={user.password}
-                onInputChange={onInputChange}
-                placeholder="form.password"
-                type="password"
-              />
-            </Grid>
-          )} */}
+          {/* {!generatePassword && ( */}
+          <Grid item sm={6} xs={12}>
+            <TextField2
+              control={control}
+              label="form.password"
+              name="password"
+              rules={{ required: "general.required" }}
+              textFieldProps={{
+                type: "password",
+                autoComplete: "new-password",
+              }}
+            />
+          </Grid>
 
           <Grid item xs={12}>
             <TextField2
@@ -170,11 +174,7 @@ const UserForm = ({
           </Grid>
 
           <Grid item sm={6} xs={12}>
-            <TextField2
-              control={control}
-              label="form.phone2"
-              name="phone2"
-            />
+            <TextField2 control={control} label="form.phone2" name="phone2" />
           </Grid>
 
           {protectedAuth(["PERM_USER_CRUD"]) && (
