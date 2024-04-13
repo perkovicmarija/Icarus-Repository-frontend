@@ -76,14 +76,14 @@ const SupportSoftwareLogList = <T,>({
           data.map((item: any) => {
             return (
               <TableRow key={item.supportSoftwareLogId} hover={true}>
-                <TableCell>{item.title}</TableCell>
+                <TableCell sx={{ fontWeight: "bold" }}>{item.title}</TableCell>
                 <TableCell>{item.description}</TableCell>
                 <TableCell>
                   {item.selectedClients
                     .map((item: any) => item.name)
                     .join(", ")}
                 </TableCell>
-                <TableCell sx={{ width: "150px" }}>
+                <TableCell sx={{ width: "150px", fontWeight: "bold" }}>
                   {item.dateOfLogFormatted}
                 </TableCell>
                 <TableCell className="nostretch">
