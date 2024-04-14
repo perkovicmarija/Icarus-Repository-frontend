@@ -8,6 +8,7 @@ import {
   initFilters,
 } from "../../redux/forum/forumLikes/forumLikesSlice";
 import {
+  getForumTopicCommentsPaginationPath,
   getForumTopicFormPath,
   getForumTopicLikesPaginationPath,
 } from "../../consts/routePaths";
@@ -85,7 +86,9 @@ const ForumLikes = () => {
                   style={{ color: "#FFFFFF", cursor: "pointer" }}
                   fontSize="medium"
                   onClick={() =>
-                    history.push(getForumTopicFormPath(forumTopicId))
+                    history.push(
+                      getForumTopicCommentsPaginationPath(forumTopicId, 0, 5)
+                    )
                   }
                 />
               </Tooltip>
