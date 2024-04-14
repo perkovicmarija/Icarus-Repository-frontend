@@ -74,6 +74,12 @@ const ForumLikes = () => {
     );
   };
 
+  const handleClickBack = (): void => {
+    forumCommentId != undefined
+      ? history.push(getForumTopicCommentsPaginationPath(forumTopicId, 0, 5))
+      : history.push(getForumTopicFormPath(forumTopicId));
+  };
+
   return (
     <>
       <Grid container spacing={0}>
@@ -85,11 +91,7 @@ const ForumLikes = () => {
                 <KeyboardBackspaceIcon
                   style={{ color: "#FFFFFF", cursor: "pointer" }}
                   fontSize="medium"
-                  onClick={() =>
-                    history.push(
-                      getForumTopicCommentsPaginationPath(forumTopicId, 0, 5)
-                    )
-                  }
+                  onClick={handleClickBack}
                 />
               </Tooltip>
             }
