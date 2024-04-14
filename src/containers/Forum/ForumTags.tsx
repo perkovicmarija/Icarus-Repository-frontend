@@ -45,7 +45,7 @@ const ForumTags = () => {
         <DialogFormForumTag
           initialData={forumTag!}
           onClose={() => setDialogForumTagsOpen(false)}
-          onSubmit={(payload: ForumTag) =>
+          onSubmit={(payload: ForumTag): Promise<void> =>
             createUpdateForumTag(payload)
               .unwrap()
               .then((result) => {

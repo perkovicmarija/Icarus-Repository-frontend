@@ -97,7 +97,7 @@ const ForumLikes = () => {
           <Paper>
             <ForumLikesList<ForumLike>
               data={forumLikes?.data}
-              onDelete={(payload) =>
+              onDelete={(payload: ForumLike): Promise<void> =>
                 triggerDelete(payload.forumLikeId).unwrap()
               }
               //

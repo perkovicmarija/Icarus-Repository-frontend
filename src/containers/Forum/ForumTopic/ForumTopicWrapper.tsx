@@ -24,6 +24,7 @@ import { useGetForumUserByRepositoryUserQuery } from "../../../redux/forum/forum
 import { handleNotify } from "../../../helpers/utility";
 import { getForumTopicsPaginationPath } from "../../../consts/routePaths";
 import ForumTopicForm from "./ForumTopicForm";
+import { ResponseWrapper } from "../../../components/core/commonTypes";
 
 const initialForumTopic: ForumTopic = {
   forumTopicId: "",
@@ -72,8 +73,8 @@ const ForumTopicWrapper = () => {
     }
   }, [forumTopicFromDb]);
 
-  const handleForumTopicSubmit = async (value: ForumTopic) => {
-    const result = await createUpdateForumTopic({
+  const handleForumTopicSubmit = async (value: ForumTopic): Promise<void> => {
+    const result: ResponseWrapper<ForumTopic> = await createUpdateForumTopic({
       ...value,
       forumTopicTagJoineds: forumTopic.forumTopicTagJoineds,
       forumUserCreatedDisplayName: forumUser.data.displayName,
@@ -82,7 +83,7 @@ const ForumTopicWrapper = () => {
     history.push(getForumTopicsPaginationPath(0, 25));
   };
 
-  const handleClickForumTag = (payload: ForumTag) => {
+  const handleClickForumTag = (payload: ForumTag): void => {
     setForumTopic((prevTopic) => {
       const existingTag = prevTopic.forumTopicTagJoineds?.find(
         (tagJoined) => tagJoined.forumTag.forumTagId === payload.forumTagId
@@ -109,7 +110,7 @@ const ForumTopicWrapper = () => {
     });
   };
 
-  const handleTopicLike = async () => {
+  const handleTopicLike = async (): Promise<void> => {
     const existingLike: ForumLike = forumTopic.forumLikes.find(
       (like) => like.forumUserCreatedDisplayName === forumUser.data.displayName
     );

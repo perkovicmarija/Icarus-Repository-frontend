@@ -29,6 +29,7 @@ import { FormattedMessage } from "react-intl";
 import KeyboardBackspaceIcon from "@mui/icons-material/KeyboardBackspace";
 import { useGetClientsQuery } from "../../redux/settings/clientsApi";
 import { handleNotify } from "../../helpers/utility";
+import { ResponseWrapper } from "../../components/core/commonTypes";
 
 const ForumTopicSubscribers = () => {
   const dispatch = useAppDispatch();
@@ -62,24 +63,27 @@ const ForumTopicSubscribers = () => {
 
   const { data: clients } = useGetClientsQuery();
 
-  const handleSubmitFilters = (newFilters: FiltersType) => {
+  const handleSubmitFilters = (newFilters: FiltersType): void => {
     dispatch(forumTopicUsersActions.setFilters({ ...filters, ...newFilters }));
     history.push(
       getForumTopicSubscribersPaginationPath(forumTopicId, page, rowsPerPage)
     );
   };
 
-  const onChangePage = (newValue: number) => {
+  const onChangePage = (newValue: number): void => {
     history.push(getForumRegistrationsPath(newValue, rowsPerPage));
   };
-  const onChangeRowsPerPage = (newValue: number) => {
+  const onChangeRowsPerPage = (newValue: number): void => {
     storeRowsPerPage(newValue);
     history.push(getForumRegistrationsPath(page, newValue));
   };
 
-  const handleSubmit = async (payload) => {
+  const handleSubmit = async (payload): Promise<void> => {
     const displayName = payload.forumUser.displayName;
-    const result = await triggerAdd({ displayName, forumTopicId });
+    const result: ResponseWrapper<ForumTopicUserJoined> = await triggerAdd({
+      displayName,
+      forumTopicId,
+    });
     handleNotify(result?.data);
   };
 
@@ -94,7 +98,7 @@ const ForumTopicSubscribers = () => {
                 <KeyboardBackspaceIcon
                   style={{ color: "#FFFFFF", cursor: "pointer" }}
                   fontSize="medium"
-                  onClick={() =>
+                  onClick={(): void =>
                     history.push(getForumTopicFormPath(forumTopicId))
                   }
                 />
@@ -108,7 +112,7 @@ const ForumTopicSubscribers = () => {
             <ForumTopicSubscribersList<ForumTopicUserJoined>
               data={forumTopics?.data}
               onEdit={setDialogAddEdit}
-              onDelete={(payload) =>
+              onDelete={(payload: ForumTopicUserJoined): Promise<void> =>
                 triggerDelete(payload.forumTopicUserJoinedId).unwrap()
               }
               //

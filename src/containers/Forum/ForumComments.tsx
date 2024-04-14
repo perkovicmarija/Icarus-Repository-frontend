@@ -35,6 +35,7 @@ import DialogFormFrame from "../../components/core/Dialog/DialogFormFrame";
 import DialogFormForumCommentFilter from "../../components/forum/DialogFormForumCommentFilter";
 import FilterListIcon from "@mui/icons-material/FilterList";
 import { handleNotify } from "../../helpers/utility";
+import { ResponseWrapper } from "../../components/core/commonTypes";
 
 const ForumComments = () => {
   const dispatch = useAppDispatch();
@@ -118,10 +119,11 @@ const ForumComments = () => {
 
   const handleAddEditComment = async (event) => {
     event.preventDefault();
-    const result = await createUpdateForumComment({
-      ...forumComment,
-      forumUserCreatedDisplayName: forumUser.data.displayName,
-    }).unwrap();
+    const result: ResponseWrapper<ForumComment> =
+      await createUpdateForumComment({
+        ...forumComment,
+        forumUserCreatedDisplayName: forumUser.data.displayName,
+      }).unwrap();
     handleNotify(result);
     setForumComment(initialForumComment);
   };

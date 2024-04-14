@@ -59,20 +59,20 @@ const ForumUsers = () => {
   );
   //
 
-  const handleSearchSubmit = (newFilters: FiltersType) => {
+  const handleSearchSubmit = (newFilters: FiltersType): void => {
     dispatch(forumUsersActions.setFilters({ ...filters, ...newFilters }));
     refetch();
   };
 
-  const handleSubmitFilters = (newFilters: FiltersType) => {
+  const handleSubmitFilters = (newFilters: FiltersType): void => {
     dispatch(forumUsersActions.setFilters({ ...filters, ...newFilters }));
     history.push(getForumRegistrationsPath(page, rowsPerPage));
   };
 
-  const onChangePage = (newValue: number) => {
+  const onChangePage = (newValue: number): void => {
     history.push(getForumRegistrationsPath(newValue, rowsPerPage));
   };
-  const onChangeRowsPerPage = (newValue: number) => {
+  const onChangeRowsPerPage = (newValue: number): void => {
     storeRowsPerPage(newValue);
     history.push(getForumRegistrationsPath(page, newValue));
   };
@@ -111,7 +111,7 @@ const ForumUsers = () => {
         <DialogFormForumUser
           initialData={dialogAddEdit!}
           onClose={() => setDialogAddEdit(undefined)}
-          onSubmit={(payload) =>
+          onSubmit={(payload: ForumUser): Promise<void> =>
             triggerAddEdit({ ...payload, userCreated: user?.data })
               .unwrap()
               .then((result) => {

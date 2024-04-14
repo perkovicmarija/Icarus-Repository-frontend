@@ -57,24 +57,24 @@ const ForumTopics = () => {
   });
   const [triggerDelete] = useDeleteForumTopicMutation();
 
-  const handleAddEditTopic = async (forumTopicId: string) => {
+  const handleAddEditTopic = (forumTopicId: string): void => {
     history.push(getForumTopicFormPath(forumTopicId));
   };
 
-  const handleSearchSubmit = (newFilters: FiltersType) => {
+  const handleSearchSubmit = (newFilters: FiltersType): void => {
     dispatch(forumTopicsActions.setFilters({ ...filters, ...newFilters }));
     refetch();
   };
 
-  const handleSubmitFilters = (newFilters: FiltersType) => {
+  const handleSubmitFilters = (newFilters: FiltersType): void => {
     dispatch(forumTopicsActions.setFilters({ ...filters, ...newFilters }));
     history.push(getForumTopicsPaginationPath(page, rowsPerPage));
   };
 
-  const onChangePage = (newValue: number) => {
+  const onChangePage = (newValue: number): void => {
     history.push(getForumTopicsPaginationPath(newValue, rowsPerPage));
   };
-  const onChangeRowsPerPage = (newValue: number) => {
+  const onChangeRowsPerPage = (newValue: number): void => {
     storeRowsPerPage(newValue);
     history.push(getForumTopicsPaginationPath(page, newValue));
   };
@@ -86,7 +86,7 @@ const ForumTopics = () => {
           <ForumTopicsList
             data={forumTopics?.data}
             loading={isFetching}
-            onDelete={(payload: ForumTopic) =>
+            onDelete={(payload: ForumTopic): Promise<void> =>
               triggerDelete(payload.forumTopicId).unwrap()
             }
             onEdit={handleAddEditTopic}
