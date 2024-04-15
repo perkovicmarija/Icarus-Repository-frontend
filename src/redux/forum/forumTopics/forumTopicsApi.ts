@@ -15,17 +15,11 @@ export interface ForumTopic {
     createdFormatted: string;
     title: string;
     forumUserCreatedDisplayName: string;
-    forumTags: ForumTopicTagJoined[];
+    forumTags: ForumTag[];
     forumTopicUserJoineds: ForumTopicUserJoined[];
     forumComments: ForumComment[];
     forumTopicAttachments: ForumTopicAttachment[];
     forumLikes: ForumLike[];
-}
-
-export interface ForumTopicTagJoined {
-    forumTopicTagId: string;
-    forumTopicId: string;
-    forumTag: ForumTag;
 }
 
 export interface ForumTopicAttachment {

@@ -4,7 +4,6 @@ import ForumTopicHeader from "./ForumTopicHeader";
 import {
   ForumTopic,
   ForumTopicAttachment,
-  ForumTopicTagJoined,
   useCreateUpdateForumTopicMutation,
   useGetForumTopicQuery,
 } from "../../../redux/forum/forumTopics/forumTopicsApi";
@@ -16,7 +15,7 @@ import {
   useDeleteForumLikeMutation,
 } from "../../../redux/forum/forumLikes/forumLikesApi";
 import { useHistory, useParams } from "react-router-dom";
-import { useGetForumTagsQuery } from "../../../redux/forum/forumTags/forumTagsApi";
+import { ForumTag, useGetForumTagsQuery } from "../../../redux/forum/forumTags/forumTagsApi";
 import { useGetForumUserByRepositoryUserQuery } from "../../../redux/forum/forumUsers/forumUsersApi";
 import { handleNotify } from "../../../helpers/utility";
 import { getForumTopicsPaginationPath } from "../../../consts/routePaths";
@@ -30,7 +29,7 @@ const initialForumTopic: ForumTopic = {
   createdFormatted: "",
   title: "",
   forumUserCreatedDisplayName: "",
-  forumTags: new Array<ForumTopicTagJoined>(),
+  forumTags: new Array<ForumTag>(),
   forumTopicUserJoineds: new Array<ForumTopicUserJoined>(),
   forumComments: new Array<ForumComment>(),
   forumTopicAttachments: new Array<ForumTopicAttachment>(),
