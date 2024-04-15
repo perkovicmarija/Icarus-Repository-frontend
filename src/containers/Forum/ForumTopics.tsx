@@ -20,7 +20,7 @@ import { useHistory } from "react-router-dom";
 import DialogFormFrame from "../../components/core/Dialog/DialogFormFrame";
 import DialogFormForumTopicFilter from "../../components/forum/DialogFormForumTopicFilter";
 import { useGetForumUserByRepositoryUserQuery } from "../../redux/forum/forumUsers/forumUsersApi";
-import { Grid, Paper } from "@mui/material";
+import { CircularProgress, dividerClasses, Grid, Paper } from "@mui/material";
 import IntlMessages from "../../components/core/IntlMessages";
 
 const ForumTopics = () => {
@@ -44,9 +44,10 @@ const ForumTopics = () => {
     [filters, page, rowsPerPage]
   );
 
-  const { data: forumUser } = useGetForumUserByRepositoryUserQuery(userId, {
-    skip: !userId,
-  });
+  const { data: forumUser, isFetching: isFetchingUser } =
+    useGetForumUserByRepositoryUserQuery(userId, {
+      skip: !userId,
+    });
 
   const {
     data: forumTopics,
@@ -109,6 +110,20 @@ const ForumTopics = () => {
             }}
           />
         </Paper>
+      ) : isFetchingUser ? (
+        <div
+          style={{
+            position: "relative",
+            top: "20vh",
+            left: "50%",
+            transform: "translate(-50%, -50%)",
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+          }}
+        >
+          <CircularProgress />
+        </div>
       ) : (
         <Grid container spacing={4}>
           <Grid
