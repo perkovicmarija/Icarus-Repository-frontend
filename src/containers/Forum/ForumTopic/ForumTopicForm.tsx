@@ -100,7 +100,7 @@ const ForumTopicForm = <T,>({
                 <ForumTagsComponent
                   onTagClick={onClickForumTag}
                   forumTags={forumTags}
-                  selectedTags={forumTopic.forumTopicTagJoineds}
+                  selectedTags={forumTopic.forumTags}
                   showAdd={false}
                 />
               </StyledPaper>

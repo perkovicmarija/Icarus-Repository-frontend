@@ -1,13 +1,13 @@
-import {useState} from "react";
-import {Chip, Grid, TableCell, TableRow} from "@mui/material";
-import {TableContainer2} from "../core/Table/TableContainer2";
-import TableToolbar2, {TableToolbar2Props,} from "../core/Table/TableToolbar2";
-import {ColumnDefinition} from "../core/Table/TableHeader";
-import {TablePagination2Props} from "../core/Table/TablePagination2";
-import {TableActions2} from "../core/Table/TableActions2";
-import {Delete, Edit} from "@mui/icons-material";
-import {DialogDelete2} from "../core/Dialog/DialogDelete2";
-import {ForumTopic} from "../../redux/forum/forumTopics/forumTopicsApi";
+import { useState } from "react";
+import { Chip, Grid, TableCell, TableRow } from "@mui/material";
+import { TableContainer2 } from "../core/Table/TableContainer2";
+import TableToolbar2, { TableToolbar2Props } from "../core/Table/TableToolbar2";
+import { ColumnDefinition } from "../core/Table/TableHeader";
+import { TablePagination2Props } from "../core/Table/TablePagination2";
+import { TableActions2 } from "../core/Table/TableActions2";
+import { Delete, Edit } from "@mui/icons-material";
+import { DialogDelete2 } from "../core/Dialog/DialogDelete2";
+import { ForumTopic } from "../../redux/forum/forumTopics/forumTopicsApi";
 //
 
 const columnData: ColumnDefinition[] = [
@@ -87,15 +87,20 @@ const ForumTopicsList = <T,>({
                 <TableCell>{item.forumTopicUserJoineds?.length}</TableCell>
                 <TableCell>
                   <Grid container direction="column" spacing={1}>
-                    {item.forumTopicTagJoineds.map(tag => {
-                    return (
-                        <Grid item xs={6} key={tag.forumTag.forumTagId}>
+                    {item.forumTags.map((tag) => {
+                      return (
+                        <Grid item xs={6} key={tag.forumTagId}>
                           <Chip
-                              label={tag.forumTag.name}
-                              style={{border: "1px solid #C3922E", backgroundColor: "#FFF", color: "#000000", textTransform: "uppercase"}}
+                            label={tag.name}
+                            style={{
+                              border: "1px solid #C3922E",
+                              backgroundColor: "#FFF",
+                              color: "#000000",
+                              textTransform: "uppercase",
+                            }}
                           />
                         </Grid>
-                        )
+                      );
                     })}
                   </Grid>
                 </TableCell>

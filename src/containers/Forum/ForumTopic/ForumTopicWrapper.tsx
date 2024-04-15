@@ -4,7 +4,6 @@ import ForumTopicHeader from "./ForumTopicHeader";
 import {
   ForumTopic,
   ForumTopicAttachment,
-  ForumTopicTagJoined,
   useCreateUpdateForumTopicMutation,
   useGetForumTopicQuery,
 } from "../../../redux/forum/forumTopics/forumTopicsApi";
@@ -33,7 +32,7 @@ const initialForumTopic: ForumTopic = {
   createdFormatted: "",
   title: "",
   forumUserCreatedDisplayName: "",
-  forumTopicTagJoineds: new Array<ForumTopicTagJoined>(),
+  forumTags: new Array<ForumTag>(),
   forumTopicUserJoineds: new Array<ForumTopicUserJoined>(),
   forumComments: new Array<ForumComment>(),
   forumTopicAttachments: new Array<ForumTopicAttachment>(),
@@ -76,7 +75,7 @@ const ForumTopicWrapper = () => {
   const handleForumTopicSubmit = async (value: ForumTopic): Promise<void> => {
     const result: ResponseWrapper<ForumTopic> = await createUpdateForumTopic({
       ...value,
-      forumTopicTagJoineds: forumTopic.forumTopicTagJoineds,
+      forumTags: forumTopic.forumTags,
       forumUserCreatedDisplayName: forumUser.data.displayName,
     }).unwrap();
     handleNotify(result);
@@ -84,28 +83,23 @@ const ForumTopicWrapper = () => {
   };
 
   const handleClickForumTag = (payload: ForumTag): void => {
-    setForumTopic((prevTopic) => {
-      const existingTag = prevTopic.forumTopicTagJoineds?.find(
-        (tagJoined) => tagJoined.forumTag.forumTagId === payload.forumTagId
+    setForumTopic((prevTopic: ForumTopic) => {
+      const existingTag: ForumTag = prevTopic.forumTags?.find(
+        (forumTag: ForumTag) => forumTag.forumTagId === payload.forumTagId
       );
 
-      let newTags: ForumTopicTagJoined[];
+      let newTags: ForumTag[];
       if (existingTag) {
-        newTags = prevTopic.forumTopicTagJoineds!.filter(
-          (tagJoined) => tagJoined.forumTag.forumTagId !== payload.forumTagId
+        newTags = prevTopic.forumTags!.filter(
+          (forumTag: ForumTag) => forumTag.forumTagId !== payload.forumTagId
         );
       } else {
-        const newTagJoined: ForumTopicTagJoined = {
-          forumTopicTagId: "",
-          forumTopicId: prevTopic.forumTopicId,
-          forumTag: payload,
-        };
-        newTags = [...(prevTopic.forumTopicTagJoineds || []), newTagJoined];
+        newTags = [...(prevTopic.forumTags || []), payload];
       }
 
       return {
         ...prevTopic,
-        forumTopicTagJoineds: newTags,
+        forumTags: newTags,
       };
     });
   };
