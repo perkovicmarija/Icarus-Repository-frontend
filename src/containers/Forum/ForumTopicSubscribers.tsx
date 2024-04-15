@@ -1,12 +1,16 @@
-import React, {useMemo, useState} from 'react'
-import {useAppDispatch, useAppSelector} from "../../redux/store";
-import {useHistory, useParams} from "react-router-dom";
-import {usePagination} from "../../helpers/pagination";
-import {FiltersType, forumTopicUsersActions, initFilters} from "../../redux/forum/forumUsers/forumTopicUsersSlice";
+import React, { useMemo, useState } from "react";
+import { useAppDispatch, useAppSelector } from "../../redux/store";
+import { useHistory, useParams } from "react-router-dom";
+import { usePagination } from "../../helpers/pagination";
+import {
+  FiltersType,
+  forumTopicUsersActions,
+  initFilters,
+} from "../../redux/forum/forumUsers/forumTopicUsersSlice";
 import {
   getForumRegistrationsPath,
   getForumTopicFormPath,
-  getForumTopicSubscribersPaginationPath
+  getForumTopicSubscribersPaginationPath,
 } from "../../consts/routePaths";
 import DialogFormFrame from "../../components/core/Dialog/DialogFormFrame";
 import DialogFormForumUserFilter from "../../components/forum/DialogFormForumUserFilter";
@@ -15,30 +19,34 @@ import {
   ForumTopicUserJoined,
   useCreateForumTopicUserMutation,
   useDeleteForumTopicUserMutation,
-  useGetForumTopicUsersPaginatedQuery
+  useGetForumTopicUsersPaginatedQuery,
 } from "../../redux/forum/forumUsers/forumTopicUsersApi";
 import DialogFormForumTopicSubscriber from "../../components/forum/DialogFormForumTopicSubscriber";
-import {useGetForumUsersQuery} from "../../redux/forum/forumUsers/forumUsersApi";
-import {Grid, Paper, Tooltip} from "@mui/material";
+import { useGetForumUsersQuery } from "../../redux/forum/forumUsers/forumUsersApi";
+import { Grid, Paper, Tooltip } from "@mui/material";
 import FormTitleBarRich from "../../components/core/Form/FormTitleBarRich";
-import {FormattedMessage} from "react-intl";
-import KeyboardBackspaceIcon from '@mui/icons-material/KeyboardBackspace';
-import {useGetClientsQuery} from "../../redux/settings/clientsApi";
-import {handleNotify} from "../../helpers/utility";
+import { FormattedMessage } from "react-intl";
+import KeyboardBackspaceIcon from "@mui/icons-material/KeyboardBackspace";
+import { useGetClientsQuery } from "../../redux/settings/clientsApi";
+import { handleNotify } from "../../helpers/utility";
+import { ResponseWrapper } from "../../components/core/commonTypes";
 
 const ForumTopicSubscribers = () => {
   const dispatch = useAppDispatch();
   const history = useHistory();
-  const {forumTopicId} = useParams<{ forumTopicId: string }>();
-  
-  const [dialogAddEdit, setDialogAddEdit] = useState<ForumTopicUserJoined | {} | undefined>();
+  const { forumTopicId } = useParams<{ forumTopicId: string }>();
+
+  const [dialogAddEdit, setDialogAddEdit] = useState<
+    ForumTopicUserJoined | {} | undefined
+  >();
   const [dialogFilters, setDialogFilters] = useState<boolean>();
-  
-  const {page, rowsPerPage, storeRowsPerPage} = usePagination("forumTopicUsers");
+
+  const { page, rowsPerPage, storeRowsPerPage } =
+    usePagination("forumTopicUsers");
   const filters = useAppSelector((state) => state.ForumTopicUsers.filters);
   const meta = useMemo(
     () => ({
-      filters: {...filters, forumTopicId},
+      filters: { ...filters, forumTopicId },
       pagination: {
         page,
         rowsPerPage,
@@ -46,33 +54,39 @@ const ForumTopicSubscribers = () => {
     }),
     [filters, forumTopicId, page, rowsPerPage]
   );
-  const {data: forumTopics, isFetching} = useGetForumTopicUsersPaginatedQuery(meta);
+  const { data: forumTopics, isFetching } =
+    useGetForumTopicUsersPaginatedQuery(meta);
   const [triggerDelete] = useDeleteForumTopicUserMutation();
   const [triggerAdd] = useCreateForumTopicUserMutation();
-  
-  const {data: forumUsers} = useGetForumUsersQuery(meta);
-  
-  const {data: clients} = useGetClientsQuery();
-  
-  const handleSubmitFilters = (newFilters: FiltersType) => {
-    dispatch(forumTopicUsersActions.setFilters({...filters, ...newFilters}));
-    history.push(getForumTopicSubscribersPaginationPath(forumTopicId, page, rowsPerPage));
+
+  const { data: forumUsers } = useGetForumUsersQuery(meta);
+
+  const { data: clients } = useGetClientsQuery();
+
+  const handleSubmitFilters = (newFilters: FiltersType): void => {
+    dispatch(forumTopicUsersActions.setFilters({ ...filters, ...newFilters }));
+    history.push(
+      getForumTopicSubscribersPaginationPath(forumTopicId, page, rowsPerPage)
+    );
   };
-  
-  const onChangePage = (newValue: number) => {
+
+  const onChangePage = (newValue: number): void => {
     history.push(getForumRegistrationsPath(newValue, rowsPerPage));
   };
-  const onChangeRowsPerPage = (newValue: number) => {
+  const onChangeRowsPerPage = (newValue: number): void => {
     storeRowsPerPage(newValue);
     history.push(getForumRegistrationsPath(page, newValue));
   };
-  
-  const handleSubmit = async (payload) => {
-    const displayName = payload.forumUser.displayName
-    const result = await triggerAdd({displayName, forumTopicId})
-    handleNotify(result?.data)
-  }
-  
+
+  const handleSubmit = async (payload): Promise<void> => {
+    const displayName = payload.forumUser.displayName;
+    const result: ResponseWrapper<ForumTopicUserJoined> = await triggerAdd({
+      displayName,
+      forumTopicId,
+    });
+    handleNotify(result?.data);
+  };
+
   return (
     <>
       <Grid container spacing={0}>
@@ -80,23 +94,26 @@ const ForumTopicSubscribers = () => {
           <FormTitleBarRich
             title={"forum.subscribers"}
             children={
-              <Tooltip title={<FormattedMessage id="forum.topic"/>}>
-                <KeyboardBackspaceIcon style={{color: "#FFFFFF", cursor: "pointer"}} fontSize="medium"
-                                       onClick={() => history.push(getForumTopicFormPath(forumTopicId))}
+              <Tooltip title={<FormattedMessage id="forum.topic" />}>
+                <KeyboardBackspaceIcon
+                  style={{ color: "#FFFFFF", cursor: "pointer" }}
+                  fontSize="medium"
+                  onClick={(): void =>
+                    history.push(getForumTopicFormPath(forumTopicId))
+                  }
                 />
               </Tooltip>
             }
           />
         </Grid>
-        
+
         <Grid item xs={12}>
           <Paper>
             <ForumTopicSubscribersList<ForumTopicUserJoined>
               data={forumTopics?.data}
               onEdit={setDialogAddEdit}
-              onDelete={(payload) =>
+              onDelete={(payload: ForumTopicUserJoined): Promise<void> =>
                 triggerDelete(payload.forumTopicUserJoinedId).unwrap()
-                
               }
               //
               toolbarProps={{
@@ -120,9 +137,8 @@ const ForumTopicSubscribers = () => {
             />
           </Paper>
         </Grid>
-      
       </Grid>
-      
+
       <DialogFormFrame
         onClose={() => setDialogAddEdit(undefined)}
         title={"action.add"}
@@ -135,7 +151,7 @@ const ForumTopicSubscribers = () => {
           forumUsers={forumUsers?.data}
         />
       </DialogFormFrame>
-      
+
       <DialogFormFrame
         onClose={() => setDialogFilters(false)}
         title="general.selectFilters"
@@ -145,9 +161,10 @@ const ForumTopicSubscribers = () => {
           initialData={dialogFilters!}
           onClose={() => setDialogFilters(false)}
           onSubmit={handleSubmitFilters}
-          clients={clients?.data}/>
+          clients={clients?.data}
+        />
       </DialogFormFrame>
     </>
   );
-}
-export default ForumTopicSubscribers
+};
+export default ForumTopicSubscribers;
