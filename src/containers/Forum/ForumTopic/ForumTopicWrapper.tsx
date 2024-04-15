@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { CircularProgress, Grid } from "@mui/material";
 import ForumTopicHeader from "./ForumTopicHeader";
 import {
@@ -15,10 +15,7 @@ import {
   useDeleteForumLikeMutation,
 } from "../../../redux/forum/forumLikes/forumLikesApi";
 import { useHistory, useParams } from "react-router-dom";
-import {
-  ForumTag,
-  useGetForumTagsQuery,
-} from "../../../redux/forum/forumTags/forumTagsApi";
+import { ForumTag, useGetForumTagsQuery } from "../../../redux/forum/forumTags/forumTagsApi";
 import { useGetForumUserByRepositoryUserQuery } from "../../../redux/forum/forumUsers/forumUsersApi";
 import { handleNotify } from "../../../helpers/utility";
 import { getForumTopicsPaginationPath } from "../../../consts/routePaths";
@@ -75,33 +72,10 @@ const ForumTopicWrapper = () => {
   const handleForumTopicSubmit = async (value: ForumTopic): Promise<void> => {
     const result: ResponseWrapper<ForumTopic> = await createUpdateForumTopic({
       ...value,
-      forumTags: forumTopic.forumTags,
       forumUserCreatedDisplayName: forumUser.data.displayName,
     }).unwrap();
     handleNotify(result);
     history.push(getForumTopicsPaginationPath(0, 25));
-  };
-
-  const handleClickForumTag = (payload: ForumTag): void => {
-    setForumTopic((prevTopic: ForumTopic) => {
-      const existingTag: ForumTag = prevTopic.forumTags?.find(
-        (forumTag: ForumTag) => forumTag.forumTagId === payload.forumTagId
-      );
-
-      let newTags: ForumTag[];
-      if (existingTag) {
-        newTags = prevTopic.forumTags!.filter(
-          (forumTag: ForumTag) => forumTag.forumTagId !== payload.forumTagId
-        );
-      } else {
-        newTags = [...(prevTopic.forumTags || []), payload];
-      }
-
-      return {
-        ...prevTopic,
-        forumTags: newTags,
-      };
-    });
   };
 
   const handleTopicLike = async (): Promise<void> => {
@@ -131,7 +105,6 @@ const ForumTopicWrapper = () => {
           initialData={forumTopicFromDb?.data}
           onForumTopicSubmit={handleForumTopicSubmit}
           forumUser={forumUser?.data}
-          onClickForumTag={handleClickForumTag}
           forumTags={forumTags?.data}
           forumTopic={forumTopic}
           forumTopicId={forumTopicId}

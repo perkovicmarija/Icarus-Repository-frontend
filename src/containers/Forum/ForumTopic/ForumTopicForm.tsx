@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import { ForumTopic } from "../../../redux/forum/forumTopics/forumTopicsApi";
 import { ForumTag } from "../../../redux/forum/forumTags/forumTagsApi";
 import ForumTagsComponent from "../../../components/forum/ForumTagsComponent";
@@ -11,7 +11,7 @@ import { ForumUser } from "../../../redux/forum/forumUsers/forumUsersApi";
 import IntlMessages from "../../../components/core/IntlMessages";
 import ThumbUpIcon from "@mui/icons-material/ThumbUp";
 import ThumbUpOutlinedIcon from "@mui/icons-material/ThumbUpOutlined";
-import { Controller, useForm } from "react-hook-form";
+import { Controller, useController, useForm } from "react-hook-form";
 import TextField2 from "../../../components/core/Fields/TextField2";
 import { DialogActions2 } from "../../../components/core/Dialog/DialogActions2";
 
@@ -22,20 +22,18 @@ const StyledPaper = styled(Paper)({
   justifyContent: "space-between",
 });
 
-const ForumTopicForm = <T,>({
+const ForumTopicForm = ({
   initialData,
   onForumTopicSubmit,
   forumUser,
-  onClickForumTag,
   forumTags,
   forumTopic,
   forumTopicId,
   onTopicLike,
 }: {
   initialData: any;
-  onForumTopicSubmit: (ForumTopic: T) => Promise<any>;
+  onForumTopicSubmit: (payload: ForumTopic) => Promise<any>;
   forumUser: ForumUser;
-  onClickForumTag: (ForumTag: ForumTag) => void;
   forumTags: ForumTag[];
   forumTopic: ForumTopic;
   forumTopicId: string;
@@ -47,6 +45,12 @@ const ForumTopicForm = <T,>({
 
   const { handleSubmit, control } = useForm({
     defaultValues: initialData,
+  });
+
+  const { field: fieldTags } = useController({
+    control,
+    name: "forumTags",
+    defaultValue: [] as ForumTag[],
   });
 
   const config = {
@@ -75,7 +79,7 @@ const ForumTopicForm = <T,>({
           }}
         >
           <Grid container spacing={2}>
-            <Grid item xl={6} lg={6} md={12} sm={12} xs={12}>
+            <Grid item lg={6} xs={12}>
               <StyledPaper style={{ padding: "5rem" }}>
                 <TextField2
                   control={control}
@@ -95,12 +99,23 @@ const ForumTopicForm = <T,>({
               </StyledPaper>
             </Grid>
 
-            <Grid item xl={6} lg={6} md={12} sm={12} xs={12}>
+            <Grid item lg={6} xs={12}>
               <StyledPaper>
                 <ForumTagsComponent
-                  onTagClick={onClickForumTag}
-                  forumTags={forumTags}
-                  selectedTags={forumTopic.forumTags}
+                  onTagClick={(item: any) => {
+                    const index = fieldTags.value.findIndex(
+                      (i) => i.forumTagId === item.forumTagId
+                    );
+                    if (index === -1) {
+                      fieldTags.onChange([...fieldTags.value, item]);
+                    } else {
+                      const copy = [...fieldTags.value];
+                      copy.splice(index, 1);
+                      fieldTags.onChange(copy);
+                    }
+                  }}
+                  options={forumTags}
+                  selectedTags={fieldTags.value}
                   showAdd={false}
                 />
               </StyledPaper>
