@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { CircularProgress, Grid } from "@mui/material";
 import ForumTopicHeader from "./ForumTopicHeader";
 import {
@@ -16,10 +16,7 @@ import {
   useDeleteForumLikeMutation,
 } from "../../../redux/forum/forumLikes/forumLikesApi";
 import { useHistory, useParams } from "react-router-dom";
-import {
-  ForumTag,
-  useGetForumTagsQuery,
-} from "../../../redux/forum/forumTags/forumTagsApi";
+import { useGetForumTagsQuery } from "../../../redux/forum/forumTags/forumTagsApi";
 import { useGetForumUserByRepositoryUserQuery } from "../../../redux/forum/forumUsers/forumUsersApi";
 import { handleNotify } from "../../../helpers/utility";
 import { getForumTopicsPaginationPath } from "../../../consts/routePaths";
@@ -33,7 +30,7 @@ const initialForumTopic: ForumTopic = {
   createdFormatted: "",
   title: "",
   forumUserCreatedDisplayName: "",
-  forumTopicTagJoineds: new Array<ForumTopicTagJoined>(),
+  forumTags: new Array<ForumTopicTagJoined>(),
   forumTopicUserJoineds: new Array<ForumTopicUserJoined>(),
   forumComments: new Array<ForumComment>(),
   forumTopicAttachments: new Array<ForumTopicAttachment>(),
@@ -76,38 +73,10 @@ const ForumTopicWrapper = () => {
   const handleForumTopicSubmit = async (value: ForumTopic): Promise<void> => {
     const result: ResponseWrapper<ForumTopic> = await createUpdateForumTopic({
       ...value,
-      forumTopicTagJoineds: forumTopic.forumTopicTagJoineds,
       forumUserCreatedDisplayName: forumUser.data.displayName,
     }).unwrap();
     handleNotify(result);
     history.push(getForumTopicsPaginationPath(0, 25));
-  };
-
-  const handleClickForumTag = (payload: ForumTag): void => {
-    setForumTopic((prevTopic) => {
-      const existingTag = prevTopic.forumTopicTagJoineds?.find(
-        (tagJoined) => tagJoined.forumTag.forumTagId === payload.forumTagId
-      );
-
-      let newTags: ForumTopicTagJoined[];
-      if (existingTag) {
-        newTags = prevTopic.forumTopicTagJoineds!.filter(
-          (tagJoined) => tagJoined.forumTag.forumTagId !== payload.forumTagId
-        );
-      } else {
-        const newTagJoined: ForumTopicTagJoined = {
-          forumTopicTagId: "",
-          forumTopicId: prevTopic.forumTopicId,
-          forumTag: payload,
-        };
-        newTags = [...(prevTopic.forumTopicTagJoineds || []), newTagJoined];
-      }
-
-      return {
-        ...prevTopic,
-        forumTopicTagJoineds: newTags,
-      };
-    });
   };
 
   const handleTopicLike = async (): Promise<void> => {
@@ -137,7 +106,6 @@ const ForumTopicWrapper = () => {
           initialData={forumTopicFromDb?.data}
           onForumTopicSubmit={handleForumTopicSubmit}
           forumUser={forumUser?.data}
-          onClickForumTag={handleClickForumTag}
           forumTags={forumTags?.data}
           forumTopic={forumTopic}
           forumTopicId={forumTopicId}

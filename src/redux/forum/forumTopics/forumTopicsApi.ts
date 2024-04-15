@@ -15,7 +15,7 @@ export interface ForumTopic {
     createdFormatted: string;
     title: string;
     forumUserCreatedDisplayName: string;
-    forumTopicTagJoineds: ForumTopicTagJoined[];
+    forumTags: ForumTopicTagJoined[];
     forumTopicUserJoineds: ForumTopicUserJoined[];
     forumComments: ForumComment[];
     forumTopicAttachments: ForumTopicAttachment[];
