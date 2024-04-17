@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Chip, Grid, TableCell, TableRow } from "@mui/material";
+import { Badge, Chip, Grid, TableCell, TableRow } from "@mui/material";
 import { TableContainer2 } from "../core/Table/TableContainer2";
 import TableToolbar2, { TableToolbar2Props } from "../core/Table/TableToolbar2";
 import { ColumnDefinition } from "../core/Table/TableHeader";
@@ -8,6 +8,7 @@ import { TableActions2 } from "../core/Table/TableActions2";
 import { Delete, Edit } from "@mui/icons-material";
 import { DialogDelete2 } from "../core/Dialog/DialogDelete2";
 import { ForumTopic } from "../../redux/forum/forumTopics/forumTopicsApi";
+import SmsIcon from "@mui/icons-material/Sms";
 //
 
 const columnData: ColumnDefinition[] = [
@@ -40,6 +41,12 @@ const columnData: ColumnDefinition[] = [
     numeric: false,
     disablePadding: false,
     label: "forum.tags",
+  },
+  {
+    id: "comments",
+    numeric: false,
+    disablePadding: false,
+    label: "forum.comments",
   },
   {
     id: "actions",
@@ -80,7 +87,14 @@ const ForumTopicsList = <T,>({
         {data &&
           data.map((item: ForumTopic) => {
             return (
-              <TableRow key={item.forumTopicId}>
+              <TableRow
+                key={item.forumTopicId}
+                onClick={() => onEdit(item.forumTopicId)}
+                hover
+                sx={{
+                  cursor: "pointer",
+                }}
+              >
                 <TableCell>{item.title}</TableCell>
                 <TableCell>{item.forumUserCreatedDisplayName}</TableCell>
                 <TableCell>{item.createdFormatted}</TableCell>
@@ -104,18 +118,31 @@ const ForumTopicsList = <T,>({
                     })}
                   </Grid>
                 </TableCell>
+                <TableCell>
+                  <SmsIcon />
+                  <Badge
+                    badgeContent={item?.forumComments.length}
+                    color="error"
+                  ></Badge>
+                </TableCell>
                 <TableCell className="nostretch">
                   <TableActions2
                     actions={[
                       {
                         label: "general.edit",
                         Icon: Edit,
-                        onClick: () => onEdit(item.forumTopicId),
+                        onClick: (event) => {
+                          event.stopPropagation();
+                          onEdit(item.forumTopicId);
+                        },
                       },
                       {
                         label: "general.delete",
                         Icon: Delete,
-                        onClick: () => setDialogWarning(item),
+                        onClick: (event) => {
+                          event.stopPropagation();
+                          setDialogWarning(item);
+                        },
                         color: "error",
                       },
                     ]}
