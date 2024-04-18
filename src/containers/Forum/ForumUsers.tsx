@@ -22,6 +22,7 @@ import DialogFormForumUserFilter from "../../components/forum/DialogFormForumUse
 import { useGetUserQuery } from "../../redux/user/usersApi";
 import { toast } from "react-toastify";
 import { handleNotify } from "../../helpers/utility";
+import { Paper } from "@mui/material";
 
 const ForumUsers = () => {
   const dispatch = useAppDispatch();
@@ -79,29 +80,31 @@ const ForumUsers = () => {
 
   return (
     <>
-      <ForumUsersList<ForumUser>
-        data={data?.data}
-        onEdit={setDialogAddEdit}
-        //
-        toolbarProps={{
-          onAddClick: setDialogAddEdit,
-          title: "",
-          searchPlaceholder: "search.search",
-          searchTextPropKey: "displayName",
-          initFilters,
-          filters,
-          onFilterClick: setDialogFilters,
-          onSearchSubmit: handleSearchSubmit,
-        }}
-        paginationProps={{
-          totalCount: data?.meta?.totalCount,
-          page,
-          rowsPerPage,
-          onChangePage,
-          onChangeRowsPerPage,
-        }}
-        loading={isFetching}
-      />
+      <Paper>
+        <ForumUsersList<ForumUser>
+          data={data?.data}
+          onEdit={setDialogAddEdit}
+          //
+          toolbarProps={{
+            onAddClick: setDialogAddEdit,
+            title: "",
+            searchPlaceholder: "search.search",
+            searchTextPropKey: "displayName",
+            initFilters,
+            filters,
+            onFilterClick: setDialogFilters,
+            onSearchSubmit: handleSearchSubmit,
+          }}
+          paginationProps={{
+            totalCount: data?.meta?.totalCount,
+            page,
+            rowsPerPage,
+            onChangePage,
+            onChangeRowsPerPage,
+          }}
+          loading={isFetching}
+        />
+      </Paper>
 
       <DialogFormFrame
         onClose={() => setDialogAddEdit(undefined)}
