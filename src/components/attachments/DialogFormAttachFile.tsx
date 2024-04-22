@@ -49,7 +49,7 @@ const DialogFormAttachFile = ({
               disabled={false}
               maxSize={Number(maxAttachmentSize) * 1048576}
               maxSizeMb={maxAttachmentSize + "MB"}
-              files={file ? [file.path] : []}
+              files={file ? [file] : []}
               onDelete={() => setFile(undefined)}
             />
           </Grid>
