@@ -74,7 +74,6 @@ TextFieldReport.propTypes = {
     label: PropTypes.string.isRequired,
     value: PropTypes.node,
     onInputChange: PropTypes.func.isRequired,
-    placeholder: PropTypes.string.isRequired,
     type: PropTypes.string.isRequired
 }
 export default withStyles(styles)(injectIntl(TextFieldReport));

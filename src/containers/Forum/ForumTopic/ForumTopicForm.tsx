@@ -14,6 +14,7 @@ import ThumbUpOutlinedIcon from "@mui/icons-material/ThumbUpOutlined";
 import { Controller, useController, useForm } from "react-hook-form";
 import TextField2 from "../../../components/core/Fields/TextField2";
 import { DialogActions2 } from "../../../components/core/Dialog/DialogActions2";
+import Attachments from "../../../components/attachments/Attachments";
 
 const StyledPaper = styled(Paper)({
   minHeight: "300px",
@@ -21,6 +22,11 @@ const StyledPaper = styled(Paper)({
   flexDirection: "column",
   justifyContent: "space-between",
 });
+
+interface TopicFormValues {
+  forumTags: ForumTag[];
+  forumTopicAttachments: any[];
+}
 
 const ForumTopicForm = ({
   initialData,
@@ -47,10 +53,16 @@ const ForumTopicForm = ({
     defaultValues: initialData,
   });
 
-  const { field: fieldTags } = useController({
+  const { field: fieldTags } = useController<TopicFormValues>({
     control,
     name: "forumTags",
     defaultValue: [] as ForumTag[],
+  });
+
+  const { field: fieldAttachments } = useController<TopicFormValues>({
+    control,
+    name: "forumTopicAttachments",
+    defaultValue: [],
   });
 
   const config = {
@@ -102,7 +114,7 @@ const ForumTopicForm = ({
             <Grid item lg={6} xs={12}>
               <StyledPaper>
                 <ForumTagsComponent
-                  onTagClick={(item: any) => {
+                  onEditClick={(item) => {
                     const index = fieldTags.value.findIndex(
                       (i) => i.forumTagId === item.forumTagId
                     );
@@ -116,7 +128,6 @@ const ForumTopicForm = ({
                   }}
                   options={forumTags}
                   selectedTags={fieldTags.value}
-                  showAdd={false}
                 />
               </StyledPaper>
             </Grid>
@@ -137,7 +148,24 @@ const ForumTopicForm = ({
             </Grid>
 
             <Grid item xs={12}>
-              Attachments here
+              <Paper>
+                <Attachments
+                  attachments={fieldAttachments.value}
+                  disabled={false}
+                  onAttachDownload={() => {}}
+                  onAttachDelete={(attachment, index) => {
+                    const copy = [...fieldAttachments.value];
+                    copy.splice(index, 1);
+                    fieldAttachments.onChange(copy);
+                  }}
+                  onAttachAdd={(file, attachment) =>
+                    fieldAttachments.onChange([
+                      ...fieldAttachments.value,
+                      { ...attachment, file },
+                    ])
+                  }
+                />
+              </Paper>
             </Grid>
 
             {forumTopicId !== "-1" && (

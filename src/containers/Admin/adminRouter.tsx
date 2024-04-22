@@ -22,7 +22,6 @@ import {
   mobileLogs,
   root,
   settingModule,
-  supportBug,
   supportCenter,
   userModule,
   webClients,

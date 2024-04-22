@@ -50,14 +50,14 @@ const styleSelectedDeactivated = {
 const ForumTagsComponent = ({
   options,
   selectedTags,
-  onTagClick,
-  showAdd,
+  onAddClick,
+  onEditClick,
   isFetching,
 }: {
   options: ForumTag[];
   selectedTags: ForumTag[] | null;
-  onTagClick: (item: ForumTag | {}) => void;
-  showAdd: boolean;
+  onAddClick?: (item: {}) => void;
+  onEditClick: (item: ForumTag) => void;
   isFetching?: boolean;
 }) => {
   return (
@@ -68,18 +68,20 @@ const ForumTagsComponent = ({
             <Typography variant="h6">
               <IntlMessages id="general.tags" />
             </Typography>
-            <Tooltip title={<IntlMessages id="forum.tags.create" />}>
-              <StyledIconButton
-                onClick={(e) => {
-                  e.stopPropagation();
-                  onTagClick({});
-                }}
-                edge="end"
-                size="small"
-              >
-                {showAdd && <NoteAddIcon />}
-              </StyledIconButton>
-            </Tooltip>
+            {onAddClick && (
+              <Tooltip title={<IntlMessages id="forum.tags.create" />}>
+                <StyledIconButton
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    onAddClick({});
+                  }}
+                  edge="end"
+                  size="small"
+                >
+                  <NoteAddIcon />
+                </StyledIconButton>
+              </Tooltip>
+            )}
           </StyledList>
         </Grid>
         <Grid
@@ -125,7 +127,7 @@ const ForumTagsComponent = ({
                       ? styleSelected
                       : styleDeselected
                   }
-                  onClick={() => onTagClick(tag)}
+                  onClick={() => onEditClick(tag)}
                 />
               );
             })}

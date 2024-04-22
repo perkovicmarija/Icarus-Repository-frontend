@@ -34,8 +34,8 @@ const ForumTags = () => {
       <Paper>
         <ForumTagsComponent
           options={forumTags.data}
-          onTagClick={handleClickForumTag}
-          showAdd={true}
+          onAddClick={handleClickForumTag}
+          onEditClick={handleClickForumTag}
           selectedTags={null}
           isFetching={isFetching}
         />

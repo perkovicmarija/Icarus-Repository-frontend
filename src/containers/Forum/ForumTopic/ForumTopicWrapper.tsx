@@ -15,7 +15,10 @@ import {
   useDeleteForumLikeMutation,
 } from "../../../redux/forum/forumLikes/forumLikesApi";
 import { useHistory, useParams } from "react-router-dom";
-import { ForumTag, useGetForumTagsQuery } from "../../../redux/forum/forumTags/forumTagsApi";
+import {
+  ForumTag,
+  useGetForumTagsQuery,
+} from "../../../redux/forum/forumTags/forumTagsApi";
 import { useGetForumUserByRepositoryUserQuery } from "../../../redux/forum/forumUsers/forumUsersApi";
 import { handleNotify } from "../../../helpers/utility";
 import { getForumTopicsPaginationPath } from "../../../consts/routePaths";
@@ -70,6 +73,7 @@ const ForumTopicWrapper = () => {
   }, [forumTopicFromDb]);
 
   const handleForumTopicSubmit = async (value: ForumTopic): Promise<void> => {
+    debugger;
     const result: ResponseWrapper<ForumTopic> = await createUpdateForumTopic({
       ...value,
       forumUserCreatedDisplayName: forumUser.data.displayName,
