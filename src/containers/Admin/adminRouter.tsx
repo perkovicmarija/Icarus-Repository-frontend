@@ -1,5 +1,4 @@
 import {Redirect, Route, Switch} from "react-router-dom";
-import SupportBugDetailsFrame from "../SupportCenter/Bug_OBSOLETE/Details/SupportBugDetailsFrame";
 import ProtectedRoute from "../../ProtectedRoute";
 import Dashboard from "../Dashboard/Dashboard";
 import UserRoleFrame from "../Users/UserRoleFrame";
@@ -85,17 +84,6 @@ const AdminRouter = () => {
         path={icarusDocs}
         component={IcarusDocs}
         key="icarusDocs"
-      />
-
-      <ProtectedRoute
-        protectedAuthorities={[
-          "PERM_SUPPORT_BASIC",
-          "PERM_SUPPORT_CRUD",
-          "PERM_SUPPORT_ADMIN",
-        ]}
-        path={supportBug}
-        component={SupportBugDetailsFrame}
-        key="support-bug-details"
       />
 
       <ProtectedRoute
