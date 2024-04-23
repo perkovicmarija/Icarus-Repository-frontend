@@ -1,92 +1,96 @@
-import {createApi, fetchBaseQuery} from "@reduxjs/toolkit/query/react";
-import {getServerPath} from "../../../consts/ServerInfo";
-import {getToken} from "../../../helpers/utility";
-import {Meta, ResponseWrapper} from "../../../components/core/commonTypes";
-import {ForumTag} from "../forumTags/forumTagsApi";
-import {ForumComment} from "../forumComments/forumCommentsApi";
-import {ForumTopicUserJoined} from "../forumUsers/forumTopicUsersApi";
-import {ForumUser} from "../forumUsers/forumUsersApi";
-import {ForumLike} from "../forumLikes/forumLikesApi";
+import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
+import { getServerPath } from "../../../consts/ServerInfo";
+import { getToken } from "../../../helpers/utility";
+import { Meta, ResponseWrapper } from "../../../components/core/commonTypes";
+import { ForumTag } from "../forumTags/forumTagsApi";
+import { ForumComment } from "../forumComments/forumCommentsApi";
+import { ForumTopicUserJoined } from "../forumUsers/forumTopicUsersApi";
+import { ForumUser } from "../forumUsers/forumUsersApi";
+import { ForumLike } from "../forumLikes/forumLikesApi";
 import { RestApiFile2 } from "../../../api/methods/RestApiFile2";
 
 export interface ForumTopic {
-    forumTopicId: string;
-    content: string;
-    created: Date | null;
-    createdFormatted: string;
-    title: string;
-    forumUserCreatedDisplayName: string;
-    forumTags: ForumTag[];
-    forumTopicUserJoineds: ForumTopicUserJoined[];
-    forumComments: ForumComment[];
-    forumTopicAttachments: ForumTopicAttachment[];
-    forumLikes: ForumLike[];
+  forumTopicId: string;
+  content: string;
+  created: Date | null;
+  createdFormatted: string;
+  title: string;
+  forumUserCreatedDisplayName: string;
+  forumTags: ForumTag[];
+  forumTopicUserJoineds: ForumTopicUserJoined[];
+  forumComments: ForumComment[];
+  forumTopicAttachments: ForumTopicAttachment[];
+  forumLikes: ForumLike[];
 }
 
 export interface ForumTopicAttachment {
-    forumTopicAttachmentId: string;
-    filename: string;
-    description: string;
-    dateCreated: string;
-    forumUserCreated: ForumUser;
-    forumTopicId: string;
+  forumTopicAttachmentId: string;
+  filename: string;
+  description: string;
+  dateCreated: string;
+  forumUserCreated: ForumUser;
+  forumTopicId: string;
 }
 
 export const forumTopicsApi = createApi({
-    reducerPath: "forumTopicsApi",
-    baseQuery: fetchBaseQuery({
-        baseUrl: getServerPath() + "/forum/topic/",
-        headers: { Authorization: `Basic ${getToken()}` },
+  reducerPath: "forumTopicsApi",
+  baseQuery: fetchBaseQuery({
+    baseUrl: getServerPath() + "/forum/topic/",
+    headers: { Authorization: `Basic ${getToken()}` },
+  }),
+  tagTypes: ["ForumTopic"],
+  endpoints: (builder) => ({
+    getForumTopic: builder.query<ResponseWrapper<ForumTopic>, void>({
+      query: (id) => ({
+        url: `${id}` + `?access_token=${getToken()}`,
+        method: "GET",
+      }),
+      providesTags: ["ForumTopic"],
     }),
-    tagTypes: ["ForumTopic"],
-    endpoints: (builder) => ({
-        getForumTopic: builder.query<ResponseWrapper<ForumTopic>, void>({
-            query: (id) => ({
-                url: `${id}` + `?access_token=${getToken()}`,
-                method: "GET",
-            }),
-            providesTags: ["ForumTopic"],
-        }),
-        getForumTopics: builder.query<ResponseWrapper<ForumTopic[]>, void>({
-            query: () => `?access_token=${getToken()}`,
-            providesTags: ["ForumTopic"],
-        }),
-        getForumTopicsPaginated: builder.query<ResponseWrapper<ForumTopic[]>, Meta>({
-            query: (body) => ({
-                url: `paginate` + `?access_token=${getToken()}`,
-                method: "POST",
-                body,
-            }),
-            providesTags: ["ForumTopic"],
-        }),
-        createUpdateForumTopic: builder.mutation<void, FormData>({
-            queryFn: async (data) => {
-                console.log('rafa', data);
-                const result = await RestApiFile2.upload2(
-                    "/forum/topic/" + `?access_token=${getToken()}`,
-                    data,
-                    (progress) => {console.log("rafa 111", progress);},
-                    new AbortController()
-                )
-                return result;
-                /* method: body.forumTopicId ? "PUT" : "POST", */
-            },
-            invalidatesTags: ["ForumTopic"],
-        }),
-        deleteForumTopic: builder.mutation<void, string>({
-            query: (id) => ({
-                url: `${id}` + `?access_token=${getToken()}`,
-                method: "DELETE",
-            }),
-            invalidatesTags: ["ForumTopic"],
-        }),
+    getForumTopics: builder.query<ResponseWrapper<ForumTopic[]>, void>({
+      query: () => `?access_token=${getToken()}`,
+      providesTags: ["ForumTopic"],
     }),
-})
+    getForumTopicsPaginated: builder.query<ResponseWrapper<ForumTopic[]>, Meta>(
+      {
+        query: (body) => ({
+          url: `paginate` + `?access_token=${getToken()}`,
+          method: "POST",
+          body,
+        }),
+        providesTags: ["ForumTopic"],
+      }
+    ),
+    createUpdateForumTopic: builder.mutation<
+      void,
+      { formData: FormData; onProgress: (n: number | undefined) => void }
+    >({
+      queryFn: async ({ formData, onProgress }, { signal }) => {
+        const result = await RestApiFile2.upload2(
+          "/forum/topic/" + `?access_token=${getToken()}`,
+          formData,
+          onProgress,
+          signal
+        );
+        return result;
+        /* method: body.forumTopicId ? "PUT" : "POST", */
+      },
+      invalidatesTags: ["ForumTopic"],
+    }),
+    deleteForumTopic: builder.mutation<void, string>({
+      query: (id) => ({
+        url: `${id}` + `?access_token=${getToken()}`,
+        method: "DELETE",
+      }),
+      invalidatesTags: ["ForumTopic"],
+    }),
+  }),
+});
 
 export const {
-    useGetForumTopicQuery,
-    useGetForumTopicsQuery,
-    useGetForumTopicsPaginatedQuery,
-    useCreateUpdateForumTopicMutation,
-    useDeleteForumTopicMutation,
+  useGetForumTopicQuery,
+  useGetForumTopicsQuery,
+  useGetForumTopicsPaginatedQuery,
+  useCreateUpdateForumTopicMutation,
+  useDeleteForumTopicMutation,
 } = forumTopicsApi;

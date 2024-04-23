@@ -1,5 +1,5 @@
-import { useEffect, useState } from "react";
-import { CircularProgress, Grid } from "@mui/material";
+import { useEffect, useRef, useState } from "react";
+import { Grid } from "@mui/material";
 import ForumTopicHeader from "./ForumTopicHeader";
 import {
   ForumTopic,
@@ -23,8 +23,8 @@ import { useGetForumUserByRepositoryUserQuery } from "../../../redux/forum/forum
 import { handleNotify } from "../../../helpers/utility";
 import { getForumTopicsPaginationPath } from "../../../consts/routePaths";
 import ForumTopicForm from "./ForumTopicForm";
-import { ResponseWrapper } from "../../../components/core/commonTypes";
 import { ProgressCustom } from "../../../components/core/ProgressCustom";
+import DialogProgress from "../../../components/core/Dialog/DialogProgress";
 
 const initialForumTopic: ForumTopic = {
   forumTopicId: "",
@@ -73,8 +73,10 @@ const ForumTopicWrapper = () => {
     }
   }, [forumTopicFromDb]);
 
+  const [progressUpload, setProgressUpload] = useState<number | undefined>();
+  const abort = useRef<() => void | undefined>();
+
   const handleForumTopicSubmit = async (value: ForumTopic): Promise<void> => {
-    debugger;
     const formData = new FormData();
     formData.append(
       "forumTopic",
@@ -88,9 +90,12 @@ const ForumTopicWrapper = () => {
         formData.append("file", attachment.file);
       }
     });
-    const result: ResponseWrapper<ForumTopic> = await createUpdateForumTopic(
-      formData
-    ).unwrap();
+    const resultPromise = createUpdateForumTopic({
+      formData,
+      onProgress: setProgressUpload,
+    });
+    abort.current = resultPromise.abort;
+    const result = await resultPromise.unwrap();
     handleNotify(result);
     history.push(getForumTopicsPaginationPath(0, 25));
   };
@@ -130,6 +135,12 @@ const ForumTopicWrapper = () => {
       ) : (
         isFetching && <ProgressCustom />
       )}
+
+      <DialogProgress
+        type={"upload"}
+        progress={progressUpload}
+        onClose={abort.current!}
+      />
     </Grid>
   );
 };

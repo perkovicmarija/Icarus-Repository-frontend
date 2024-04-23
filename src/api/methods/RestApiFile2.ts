@@ -97,7 +97,7 @@ export const RestApiFile2 = {
     resourcePath: string,
     data: FormData,
     onProgress: (value: number | undefined) => void,
-    abortController: AbortController
+    signal: AbortSignal
   ) {
     const token = getToken();
 
@@ -111,7 +111,7 @@ export const RestApiFile2 = {
           : 0;
         onProgress(progress);
       },
-      signal: abortController?.signal,
+      signal,
     })
       .then((response) => {
         console.log(response);
