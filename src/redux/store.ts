@@ -8,7 +8,6 @@ import {
   Middleware,
   ThunkDispatch,
   configureStore,
-  getDefaultMiddleware,
 } from "@reduxjs/toolkit";
 import { TypedUseSelectorHook, useDispatch, useSelector } from "react-redux";
 import { clientsApi } from "./settings/clientsApi";
@@ -20,13 +19,13 @@ import { roadmapApi } from "./support/roadmap/roadmapApi";
 import { auditChecklistsApi } from "./auditChecklistsApi";
 import { usersApi } from "./user/usersApi";
 import { loggerApi } from "./logger/loggerApi";
-import {softwareLogSubscriptionApi} from "./support/subscriptions/softwareLogSubscriptionApi";
-import {forumTagsApi} from "./forum/forumTags/forumTagsApi";
-import {forumTopicsApi} from "./forum/forumTopics/forumTopicsApi";
-import {forumCommentsApi} from "./forum/forumComments/forumCommentsApi";
-import {forumUsersApi} from "./forum/forumUsers/forumUsersApi";
-import {forumTopicUsersApi} from "./forum/forumUsers/forumTopicUsersApi";
-import {forumLikesApi} from "./forum/forumLikes/forumLikesApi";
+import { softwareLogSubscriptionApi } from "./support/subscriptions/softwareLogSubscriptionApi";
+import { forumTagsApi } from "./forum/forumTags/forumTagsApi";
+import { forumTopicsApi } from "./forum/forumTopics/forumTopicsApi";
+import { forumCommentsApi } from "./forum/forumComments/forumCommentsApi";
+import { forumUsersApi } from "./forum/forumUsers/forumUsersApi";
+import { forumTopicUsersApi } from "./forum/forumUsers/forumTopicUsersApi";
+import { forumLikesApi } from "./forum/forumLikes/forumLikesApi";
 //used for loading and saving state from local storage - unnecessary for now
 //import { loadState, saveState } from './localStorage';
 //import throttle from 'lodash/throttle';
@@ -63,8 +62,7 @@ const customMiddleware: Middleware = (middlewareAPI) => {
   };
 };
 
-const middleware = [
-  ...getDefaultMiddleware(),
+const middleware: Middleware[] = [
   sagaMiddleware,
   routeMiddleware,
   authApi.middleware,
@@ -92,7 +90,8 @@ const reducers = createRootReducer(history);
 
 const store = configureStore({
   reducer: reducers,
-  middleware,
+  middleware: (getDefaultMiddleware) =>
+    getDefaultMiddleware().concat(middleware),
 });
 
 /*const store = createStore(
