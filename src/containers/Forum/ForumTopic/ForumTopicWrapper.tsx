@@ -20,7 +20,7 @@ import {
   useGetForumTagsQuery,
 } from "../../../redux/forum/forumTags/forumTagsApi";
 import { useGetForumUserByRepositoryUserQuery } from "../../../redux/forum/forumUsers/forumUsersApi";
-import { handleNotify } from "../../../helpers/utility";
+import { handleNotify, handleNotify2 } from "../../../helpers/utility";
 import { getForumTopicsPaginationPath } from "../../../consts/routePaths";
 import ForumTopicForm from "./ForumTopicForm";
 import { ProgressCustom } from "../../../components/core/ProgressCustom";
@@ -95,8 +95,7 @@ const ForumTopicWrapper = () => {
       onProgress: setProgressUpload,
     });
     abort.current = resultPromise.abort;
-    const result = await resultPromise.unwrap();
-    handleNotify(result);
+    await handleNotify2(resultPromise.unwrap());
     history.push(getForumTopicsPaginationPath(0, 25));
   };
 

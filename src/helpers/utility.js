@@ -1,4 +1,4 @@
-import {toast} from "react-toastify";
+import { toast } from "react-toastify";
 
 export function clearToken() {
   localStorage.removeItem("token");
@@ -33,5 +33,20 @@ export const handleNotify = (result) => {
       position: toast.POSITION.TOP_CENTER,
     });
   }
-}
+};
 
+export const handleNotify2 = async (responsePromise) => {
+  try {
+    const response = await responsePromise;
+    toast.success(result?.message, {
+      position: toast.POSITION.TOP_CENTER,
+    });
+    return response;
+  } catch (err) {
+    console.log(err);
+    toast.error("An unexpected error occurred.", {
+      position: toast.POSITION.TOP_CENTER,
+    });
+    throw err;
+  }
+};

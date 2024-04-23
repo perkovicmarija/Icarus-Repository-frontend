@@ -20,7 +20,6 @@ import {
 import DialogFormForumUser from "../../components/forum/DialogFormForumUser";
 import DialogFormForumUserFilter from "../../components/forum/DialogFormForumUserFilter";
 import { useGetUserQuery } from "../../redux/user/usersApi";
-import { toast } from "react-toastify";
 import { handleNotify } from "../../helpers/utility";
 import { Paper } from "@mui/material";
 
