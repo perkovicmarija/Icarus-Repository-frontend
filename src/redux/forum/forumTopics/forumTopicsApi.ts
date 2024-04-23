@@ -7,6 +7,7 @@ import {ForumComment} from "../forumComments/forumCommentsApi";
 import {ForumTopicUserJoined} from "../forumUsers/forumTopicUsersApi";
 import {ForumUser} from "../forumUsers/forumUsersApi";
 import {ForumLike} from "../forumLikes/forumLikesApi";
+import { RestApiFile2 } from "../../../api/methods/RestApiFile2";
 
 export interface ForumTopic {
     forumTopicId: string;
@@ -58,12 +59,18 @@ export const forumTopicsApi = createApi({
             }),
             providesTags: ["ForumTopic"],
         }),
-        createUpdateForumTopic: builder.mutation<void, ForumTopic>({
-            query: (body) => ({
-                url: `?access_token=${getToken()}`,
-                method: body.forumTopicId ? "PUT" : "POST",
-                body,
-            }),
+        createUpdateForumTopic: builder.mutation<void, FormData>({
+            queryFn: async (data) => {
+                console.log('rafa', data);
+                const result = await RestApiFile2.upload2(
+                    "/forum/topic/" + `?access_token=${getToken()}`,
+                    data,
+                    (progress) => {console.log("rafa 111", progress);},
+                    new AbortController()
+                )
+                return result;
+                /* method: body.forumTopicId ? "PUT" : "POST", */
+            },
             invalidatesTags: ["ForumTopic"],
         }),
         deleteForumTopic: builder.mutation<void, string>({

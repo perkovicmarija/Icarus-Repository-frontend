@@ -24,6 +24,7 @@ import { handleNotify } from "../../../helpers/utility";
 import { getForumTopicsPaginationPath } from "../../../consts/routePaths";
 import ForumTopicForm from "./ForumTopicForm";
 import { ResponseWrapper } from "../../../components/core/commonTypes";
+import { ProgressCustom } from "../../../components/core/ProgressCustom";
 
 const initialForumTopic: ForumTopic = {
   forumTopicId: "",
@@ -74,10 +75,22 @@ const ForumTopicWrapper = () => {
 
   const handleForumTopicSubmit = async (value: ForumTopic): Promise<void> => {
     debugger;
-    const result: ResponseWrapper<ForumTopic> = await createUpdateForumTopic({
-      ...value,
-      forumUserCreatedDisplayName: forumUser.data.displayName,
-    }).unwrap();
+    const formData = new FormData();
+    formData.append(
+      "forumTopic",
+      JSON.stringify({
+        ...value,
+        forumUserCreatedDisplayName: forumUser.data.displayName,
+      })
+    );
+    value.forumTopicAttachments.forEach((attachment) => {
+      if (attachment.file) {
+        formData.append("file", attachment.file);
+      }
+    });
+    const result: ResponseWrapper<ForumTopic> = await createUpdateForumTopic(
+      formData
+    ).unwrap();
     handleNotify(result);
     history.push(getForumTopicsPaginationPath(0, 25));
   };
@@ -115,21 +128,7 @@ const ForumTopicWrapper = () => {
           onTopicLike={handleTopicLike}
         />
       ) : (
-        isFetching && (
-          <div
-            style={{
-              position: "relative",
-              top: "20vh",
-              left: "50%",
-              transform: "translate(-50%, -50%)",
-              display: "flex",
-              justifyContent: "center",
-              alignItems: "center",
-            }}
-          >
-            <CircularProgress />
-          </div>
-        )
+        isFetching && <ProgressCustom />
       )}
     </Grid>
   );
