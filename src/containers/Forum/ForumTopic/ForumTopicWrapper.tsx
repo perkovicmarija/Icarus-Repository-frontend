@@ -95,7 +95,7 @@ const ForumTopicWrapper = () => {
       onProgress: setProgressUpload,
     });
     abort.current = resultPromise.abort;
-    await handleNotify2(resultPromise.unwrap());
+    await handleNotify2(resultPromise);
     history.push(getForumTopicsPaginationPath(0, 25));
   };
 

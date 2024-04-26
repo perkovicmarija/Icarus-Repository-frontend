@@ -8,6 +8,7 @@ import { ForumTopicUserJoined } from "../forumUsers/forumTopicUsersApi";
 import { ForumUser } from "../forumUsers/forumUsersApi";
 import { ForumLike } from "../forumLikes/forumLikesApi";
 import { RestApiFile2 } from "../../../api/methods/RestApiFile2";
+import { AxiosError } from "axios";
 
 export interface ForumTopic {
   forumTopicId: string;
@@ -66,13 +67,21 @@ export const forumTopicsApi = createApi({
       { formData: FormData; onProgress: (n: number | undefined) => void }
     >({
       queryFn: async ({ formData, onProgress }, { signal }) => {
-        const result = await RestApiFile2.upload2(
-          "/forum/topic/" + `?access_token=${getToken()}`,
-          formData,
-          onProgress,
-          signal
-        );
-        return result;
+        try {
+          const response = await RestApiFile2.upload2(
+            "/forum/topic",
+            formData,
+            onProgress,
+            signal
+          );
+          console.log("response", response);
+          return { data: response.data };
+        } catch (error) {
+          console.log("error", error);
+          const { message, /* name, code */ } = error as AxiosError;
+          return { error: { error: message, status: "CUSTOM_ERROR" } };
+        }
+
         /* method: body.forumTopicId ? "PUT" : "POST", */
       },
       invalidatesTags: ["ForumTopic"],

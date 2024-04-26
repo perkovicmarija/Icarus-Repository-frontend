@@ -37,16 +37,17 @@ export const handleNotify = (result) => {
 
 export const handleNotify2 = async (responsePromise) => {
   try {
-    const response = await responsePromise;
+    const result = await responsePromise.unwrap();
     toast.success(result?.message, {
       position: toast.POSITION.TOP_CENTER,
     });
-    return response;
-  } catch (err) {
-    console.log(err);
-    toast.error("An unexpected error occurred.", {
+  } catch (error) {
+    console.log("rafa", error);
+    let errorMessage =
+      error.name === "AbortError" ? "Request cancelled" : error.error;
+    toast.error(errorMessage ?? "An unexpected error occurred.", {
       position: toast.POSITION.TOP_CENTER,
     });
-    throw err;
+    throw error;
   }
 };
