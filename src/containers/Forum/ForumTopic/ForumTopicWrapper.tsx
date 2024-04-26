@@ -20,7 +20,7 @@ import {
   useGetForumTagsQuery,
 } from "../../../redux/forum/forumTags/forumTagsApi";
 import { useGetForumUserByRepositoryUserQuery } from "../../../redux/forum/forumUsers/forumUsersApi";
-import { handleNotify, handleNotify2 } from "../../../helpers/utility";
+import { handleNotify2 } from "../../../helpers/utility";
 import { getForumTopicsPaginationPath } from "../../../consts/routePaths";
 import ForumTopicForm from "./ForumTopicForm";
 import { ProgressCustom } from "../../../components/core/ProgressCustom";
