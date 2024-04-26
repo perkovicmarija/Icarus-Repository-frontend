@@ -41,7 +41,7 @@ export const forumTopicsApi = createApi({
   }),
   tagTypes: ["ForumTopic"],
   endpoints: (builder) => ({
-    getForumTopic: builder.query<ResponseWrapper<ForumTopic>, void>({
+    getForumTopic: builder.query<ResponseWrapper<ForumTopic>, string>({
       query: (id) => ({
         url: `${id}` + `?access_token=${getToken()}`,
         method: "GET",
@@ -78,7 +78,7 @@ export const forumTopicsApi = createApi({
           return { data: response.data };
         } catch (error) {
           console.log("error", error);
-          const { message, /* name, code */ } = error as AxiosError;
+          const { message /* name, code */ } = error as AxiosError;
           return { error: { error: message, status: "CUSTOM_ERROR" } };
         }
 
