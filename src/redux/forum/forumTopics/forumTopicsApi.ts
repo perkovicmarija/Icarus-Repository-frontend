@@ -64,15 +64,20 @@ export const forumTopicsApi = createApi({
     ),
     createUpdateForumTopic: builder.mutation<
       void,
-      { formData: FormData; onProgress: (n: number | undefined) => void }
+      {
+        formData: FormData;
+        onProgress: (n: number | undefined) => void;
+        forumTopicId: undefined | string;
+      }
     >({
-      queryFn: async ({ formData, onProgress }, { signal }) => {
+      queryFn: async ({ formData, onProgress, forumTopicId }, { signal }) => {
         try {
           const response = await RestApiFile2.upload2(
             "/forum/topic",
             formData,
             onProgress,
-            signal
+            signal,
+            forumTopicId ? "PUT" : "POST"
           );
           console.log("response", response);
           return { data: response.data };

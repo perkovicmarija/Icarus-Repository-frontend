@@ -93,6 +93,7 @@ const ForumTopicWrapper = () => {
     const resultPromise = createUpdateForumTopic({
       formData,
       onProgress: setProgressUpload,
+      forumTopicId: value.forumTopicId,
     });
     abort.current = resultPromise.abort;
     await handleNotify2(resultPromise);

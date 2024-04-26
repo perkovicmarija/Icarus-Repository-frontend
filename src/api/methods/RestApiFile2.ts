@@ -97,13 +97,14 @@ export const RestApiFile2 = {
     resourcePath: string,
     data: FormData,
     onProgress: (value: number | undefined) => void,
-    signal: AbortSignal
+    signal: AbortSignal,
+    method: "POST" | "PUT"
   ) {
     const token = getToken();
 
     return axios({
       url: getServerPath() + resourcePath + "?access_token=" + token,
-      method: "POST",
+      method,
       data,
       onUploadProgress: (progressEvent) => {
         let progress = progressEvent.total
