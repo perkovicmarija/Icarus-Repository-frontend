@@ -5,6 +5,7 @@ import {
   ForumTopic,
   ForumTopicAttachment,
   useCreateUpdateForumTopicMutation,
+  useDownloadForumAttachmentMutation,
   useGetForumTopicQuery,
 } from "../../../redux/forum/forumTopics/forumTopicsApi";
 import { ForumTopicUserJoined } from "../../../redux/forum/forumUsers/forumTopicUsersApi";
@@ -48,6 +49,7 @@ const ForumTopicWrapper = () => {
   const [forumTopic, setForumTopic] = useState<ForumTopic>(initialForumTopic);
 
   const [createUpdateForumTopic] = useCreateUpdateForumTopicMutation();
+  const [downloadAttachment] = useDownloadForumAttachmentMutation();
   const {
     data: forumTopicFromDb,
     refetch: refetchForumTopic,
@@ -74,7 +76,12 @@ const ForumTopicWrapper = () => {
   }, [forumTopicFromDb]);
 
   const [progressUpload, setProgressUpload] = useState<number | undefined>();
-  const abort = useRef<() => void | undefined>();
+  const abortUpload = useRef<() => void | undefined>();
+
+  const [progressDownload, setProgressDownload] = useState<
+    number | undefined
+  >();
+  const abortDownload = useRef<() => void | undefined>();
 
   const handleForumTopicSubmit = async (value: ForumTopic): Promise<void> => {
     const formData = new FormData();
@@ -95,7 +102,7 @@ const ForumTopicWrapper = () => {
       onProgress: setProgressUpload,
       forumTopicId: value.forumTopicId,
     });
-    abort.current = resultPromise.abort;
+    abortUpload.current = resultPromise.abort;
     await handleNotify2(resultPromise);
     history.push(getForumTopicsPaginationPath(0, 25));
   };
@@ -126,6 +133,15 @@ const ForumTopicWrapper = () => {
         <ForumTopicForm
           initialData={forumTopicFromDb?.data}
           onForumTopicSubmit={handleForumTopicSubmit}
+          onAttachmentDownload={(attachment: any) => {
+            const resultPromise = downloadAttachment({
+              forumTopicAttachmentId: attachment.forumTopicAttachmentId,
+              filename: attachment.filename,
+              onProgress: setProgressDownload,
+            });
+            abortUpload.current = resultPromise.abort;
+            handleNotify2(resultPromise);
+          }}
           forumUser={forumUser?.data}
           forumTags={forumTags?.data}
           forumTopic={forumTopic}
@@ -139,7 +155,13 @@ const ForumTopicWrapper = () => {
       <DialogProgress
         type={"upload"}
         progress={progressUpload}
-        onClose={abort.current!}
+        onClose={abortUpload.current!}
+      />
+
+      <DialogProgress
+        type={"download"}
+        progress={progressDownload}
+        onClose={abortDownload.current!}
       />
     </Grid>
   );

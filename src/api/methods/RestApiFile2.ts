@@ -8,7 +8,8 @@ export const RestApiFile2 = {
     resourcePath: string,
     data: any,
     onProgress: (value: number | undefined) => void,
-    abortController?: AbortController
+    abortController?: AbortController,
+    signal?: AbortSignal
   ) {
     const token = getToken();
 
@@ -29,7 +30,7 @@ export const RestApiFile2 = {
           : 0;
         onProgress(progress);
       },
-      signal: abortController?.signal,
+      signal: abortController?.signal ?? signal,
     })
       .then((response) => {
         console.log(response);
@@ -124,5 +125,21 @@ export const RestApiFile2 = {
         onProgress(undefined);
         throw e;
       });
+  },
+  download2(
+    resourcePath: string,
+    data: any,
+    onProgress: (value: number | undefined) => void,
+    abortSignal: AbortSignal
+  ) {
+    const getPromise = this.get(
+      resourcePath,
+      data,
+      onProgress,
+      undefined,
+      abortSignal
+    );
+    getPromise.then(downloadFile);
+    return getPromise;
   },
 };

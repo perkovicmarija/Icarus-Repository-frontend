@@ -91,6 +91,35 @@ export const forumTopicsApi = createApi({
       },
       invalidatesTags: ["ForumTopic"],
     }),
+    downloadForumAttachment: builder.mutation<
+      void,
+      {
+        forumTopicAttachmentId: string;
+        filename: string;
+        onProgress: (n: number | undefined) => void;
+      }
+    >({
+      queryFn: async (
+        { forumTopicAttachmentId, filename, onProgress },
+        { signal }
+      ) => {
+        try {
+          const response = await RestApiFile2.download2(
+            "/forum/topic/downloadAttachment",
+            { forumTopicAttachmentId, filename },
+            onProgress,
+            signal
+          );
+          console.log("response", response);
+          return { data: response.data };
+        } catch (error) {
+          console.log("error", error);
+          const { message } = error as AxiosError;
+          return { error: { error: message, status: "CUSTOM_ERROR" } };
+        }
+      },
+      invalidatesTags: ["ForumTopic"],
+    }),
     deleteForumTopic: builder.mutation<void, string>({
       query: (id) => ({
         url: `${id}` + `?access_token=${getToken()}`,
@@ -106,5 +135,6 @@ export const {
   useGetForumTopicsQuery,
   useGetForumTopicsPaginatedQuery,
   useCreateUpdateForumTopicMutation,
+  useDownloadForumAttachmentMutation,
   useDeleteForumTopicMutation,
 } = forumTopicsApi;

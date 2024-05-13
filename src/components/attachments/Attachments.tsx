@@ -25,7 +25,7 @@ const TableBody = () => {
           <>
             <div className="d-inline">
               <IconButton
-                disabled={true}
+                disabled={!attachment.forumTopicAttachmentId}
                 aria-label="Edit"
                 onClick={() => bodyProps.onAttachDownload(attachment)}
               >

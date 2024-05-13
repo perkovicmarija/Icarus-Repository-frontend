@@ -36,6 +36,7 @@ const ForumTopicForm = ({
   forumTopic,
   forumTopicId,
   onTopicLike,
+  onAttachmentDownload,
 }: {
   initialData: any;
   onForumTopicSubmit: (payload: ForumTopic) => Promise<any>;
@@ -44,6 +45,7 @@ const ForumTopicForm = ({
   forumTopic: ForumTopic;
   forumTopicId: string;
   onTopicLike: () => Promise<any>;
+  onAttachmentDownload: (attachment: any) => void;
 }) => {
   const history = useHistory();
 
@@ -152,7 +154,7 @@ const ForumTopicForm = ({
                 <Attachments
                   attachments={fieldAttachments.value}
                   disabled={false}
-                  onAttachDownload={() => {}}
+                  onAttachDownload={onAttachmentDownload}
                   onAttachDelete={(attachment, index) => {
                     const copy = [...fieldAttachments.value];
                     copy.splice(index, 1);
