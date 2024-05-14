@@ -133,10 +133,9 @@ const ForumTopicWrapper = () => {
         <ForumTopicForm
           initialData={forumTopicFromDb?.data}
           onForumTopicSubmit={handleForumTopicSubmit}
-          onAttachmentDownload={(attachment: any) => {
+          onAttachmentDownload={(attachment: ForumTopicAttachment) => {
             const resultPromise = downloadAttachment({
-              forumTopicAttachmentId: attachment.forumTopicAttachmentId,
-              filename: attachment.filename,
+              attachment,
               onProgress: setProgressDownload,
             });
             abortUpload.current = resultPromise.abort;

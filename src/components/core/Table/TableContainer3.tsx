@@ -12,13 +12,13 @@ const useTableDataContext = () => useContext(TableDataContext);
 
 const TableBodyPropsContext = createContext(null);
 const TableBodyPropsContextProvider = TableBodyPropsContext.Provider;
-const useTableBodyPoropsContext = () => useContext(TableBodyPropsContext);
+const useTableBodyPropsContext = () => useContext(TableBodyPropsContext);
 
 export {
   TableDataContextProvider,
   useTableDataContext,
   TableBodyPropsContextProvider,
-  useTableBodyPoropsContext,
+  useTableBodyPropsContext,
 };
 
 export const TableContainer3 = ({

@@ -8,15 +8,21 @@ import IntlMessages from "../core/IntlMessages";
 import TableToolbar2 from "../core/Table/TableToolbar2";
 import {
   TableContainer3,
-  useTableBodyPoropsContext,
+  useTableBodyPropsContext,
   useTableDataContext,
 } from "../core/Table/TableContainer3";
 
+export interface Attachment {
+  attachmentId: string;
+  filename: string;
+  description: string;
+}
+
 const TableBody = () => {
   const data = useTableDataContext();
-  const bodyProps = useTableBodyPoropsContext();
+  const bodyProps = useTableBodyPropsContext();
 
-  return data.map((attachment, index) => (
+  return data.map((attachment: Attachment, index: number) => (
     <TableRow key={attachment.filename}>
       <TableCell>{attachment.filename}</TableCell>
       <TableCell>{attachment.description}</TableCell>
@@ -25,7 +31,7 @@ const TableBody = () => {
           <>
             <div className="d-inline">
               <IconButton
-                disabled={!attachment.forumTopicAttachmentId}
+                disabled={!attachment.attachmentId}
                 aria-label="Edit"
                 onClick={() => bodyProps.onAttachDownload(attachment)}
               >
@@ -117,7 +123,7 @@ const Attachments = ({
       <DialogGenericWarning
         open={dialogWarningOpen}
         onClose={() => setDialogWarningOpen(false)}
-        text="attachments.duplicates.warning"
+        text="attachments.duplicate"
       />
     </>
   );

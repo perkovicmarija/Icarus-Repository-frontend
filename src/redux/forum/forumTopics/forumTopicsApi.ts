@@ -9,6 +9,7 @@ import { ForumUser } from "../forumUsers/forumUsersApi";
 import { ForumLike } from "../forumLikes/forumLikesApi";
 import { RestApiFile2 } from "../../../api/methods/RestApiFile2";
 import { AxiosError } from "axios";
+import { Attachment } from "../../../components/attachments/Attachments";
 
 export interface ForumTopic {
   forumTopicId: string;
@@ -25,7 +26,7 @@ export interface ForumTopic {
 }
 
 export interface ForumTopicAttachment {
-  forumTopicAttachmentId: string;
+  attachmentId: string;
   filename: string;
   description: string;
   dateCreated: string;
@@ -94,19 +95,15 @@ export const forumTopicsApi = createApi({
     downloadForumAttachment: builder.mutation<
       void,
       {
-        forumTopicAttachmentId: string;
-        filename: string;
+        attachment: Attachment;
         onProgress: (n: number | undefined) => void;
       }
     >({
-      queryFn: async (
-        { forumTopicAttachmentId, filename, onProgress },
-        { signal }
-      ) => {
+      queryFn: async ({ attachment, onProgress }, { signal }) => {
         try {
           const response = await RestApiFile2.download2(
             "/forum/topic/downloadAttachment",
-            { forumTopicAttachmentId, filename },
+            attachment,
             onProgress,
             signal
           );

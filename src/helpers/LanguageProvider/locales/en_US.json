@@ -297,6 +297,7 @@
   "attachments.filename": "Filename",
   "attachments.addNew2": "Add new link",
   "attachments.none": "There are no attachments",
+  "attachments.duplicate": "Attachment with the same name has already been added",
 
   "action.cancel": "Cancel",
   "action.submit": "Submit",
