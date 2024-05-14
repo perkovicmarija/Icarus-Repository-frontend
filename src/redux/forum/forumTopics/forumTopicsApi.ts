@@ -8,8 +8,8 @@ import { ForumTopicUserJoined } from "../forumUsers/forumTopicUsersApi";
 import { ForumUser } from "../forumUsers/forumUsersApi";
 import { ForumLike } from "../forumLikes/forumLikesApi";
 import { RestApiFile2 } from "../../../api/methods/RestApiFile2";
-import { AxiosError } from "axios";
-import { Attachment } from "../../../components/attachments/Attachments";
+import { AxiosError, AxiosResponse } from "axios";
+import { IAttachment } from "../../../components/attachments/Attachments";
 
 export interface ForumTopic {
   forumTopicId: string;
@@ -92,10 +92,34 @@ export const forumTopicsApi = createApi({
       },
       invalidatesTags: ["ForumTopic"],
     }),
+    getForumAttachment: builder.mutation<
+      AxiosResponse<any, any>,
+      {
+        attachment: IAttachment;
+        onProgress: (n: number | undefined) => void;
+      }
+    >({
+      queryFn: async ({ attachment, onProgress }, { signal }) => {
+        try {
+          const response = await RestApiFile2.get(
+            "/forum/topic/downloadAttachment",
+            attachment,
+            onProgress,
+            undefined,
+            signal
+          );
+          return { data: response };
+        } catch (error) {
+          console.log("error", error);
+          const { message } = error as AxiosError;
+          return { error: { error: message, status: "CUSTOM_ERROR" } };
+        }
+      },
+    }),
     downloadForumAttachment: builder.mutation<
       void,
       {
-        attachment: Attachment;
+        attachment: IAttachment;
         onProgress: (n: number | undefined) => void;
       }
     >({
@@ -115,7 +139,6 @@ export const forumTopicsApi = createApi({
           return { error: { error: message, status: "CUSTOM_ERROR" } };
         }
       },
-      invalidatesTags: ["ForumTopic"],
     }),
     deleteForumTopic: builder.mutation<void, string>({
       query: (id) => ({
@@ -132,6 +155,7 @@ export const {
   useGetForumTopicsQuery,
   useGetForumTopicsPaginatedQuery,
   useCreateUpdateForumTopicMutation,
+  useGetForumAttachmentMutation,
   useDownloadForumAttachmentMutation,
   useDeleteForumTopicMutation,
 } = forumTopicsApi;

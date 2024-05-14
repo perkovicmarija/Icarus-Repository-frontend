@@ -6,6 +6,7 @@ import {
   ForumTopicAttachment,
   useCreateUpdateForumTopicMutation,
   useDownloadForumAttachmentMutation,
+  useGetForumAttachmentMutation,
   useGetForumTopicQuery,
 } from "../../../redux/forum/forumTopics/forumTopicsApi";
 import { ForumTopicUserJoined } from "../../../redux/forum/forumUsers/forumTopicUsersApi";
@@ -26,6 +27,7 @@ import { getForumTopicsPaginationPath } from "../../../consts/routePaths";
 import ForumTopicForm from "./ForumTopicForm";
 import { ProgressCustom } from "../../../components/core/ProgressCustom";
 import DialogProgress from "../../../components/core/Dialog/DialogProgress";
+import { FileView } from "../../../components/core/FileView";
 
 const initialForumTopic: ForumTopic = {
   forumTopicId: "",
@@ -49,6 +51,7 @@ const ForumTopicWrapper = () => {
   const [forumTopic, setForumTopic] = useState<ForumTopic>(initialForumTopic);
 
   const [createUpdateForumTopic] = useCreateUpdateForumTopicMutation();
+  const [getForumAttachment] = useGetForumAttachmentMutation();
   const [downloadAttachment] = useDownloadForumAttachmentMutation();
   const {
     data: forumTopicFromDb,
@@ -125,6 +128,8 @@ const ForumTopicWrapper = () => {
     refetchForumTopic();
   };
 
+  const [file, setFile] = useState();
+
   return (
     <Grid container spacing={2}>
       <ForumTopicHeader />
@@ -133,6 +138,16 @@ const ForumTopicWrapper = () => {
         <ForumTopicForm
           initialData={forumTopicFromDb?.data}
           onForumTopicSubmit={handleForumTopicSubmit}
+          onAttachView={async (attachment: ForumTopicAttachment) => {
+            const resultPromise = getForumAttachment({
+              attachment,
+              onProgress: setProgressDownload,
+            });
+            abortUpload.current = resultPromise.abort;
+            const result = await resultPromise;
+            console.log(result);
+            setFile(result.data);
+          }}
           onAttachmentDownload={(attachment: ForumTopicAttachment) => {
             const resultPromise = downloadAttachment({
               attachment,
@@ -162,6 +177,8 @@ const ForumTopicWrapper = () => {
         progress={progressDownload}
         onClose={abortDownload.current!}
       />
+
+      <FileView file={file} onClose={() => setFile(undefined)} />
     </Grid>
   );
 };

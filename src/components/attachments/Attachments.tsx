@@ -1,18 +1,18 @@
 import { useState } from "react";
 import { TableRow, TableCell, IconButton, Tooltip } from "@mui/material";
-import { VerticalAlignBottom, Delete } from "@mui/icons-material";
+import { VerticalAlignBottom, Delete, Visibility } from "@mui/icons-material";
 import DialogFormAttachFile from "./DialogFormAttachFile";
 import DialogFormFrame from "../core/Dialog/DialogFormFrame";
 import DialogGenericWarning from "../core/Dialog/DialogGenericWarning";
-import IntlMessages from "../core/IntlMessages";
 import TableToolbar2 from "../core/Table/TableToolbar2";
 import {
   TableContainer3,
   useTableBodyPropsContext,
   useTableDataContext,
 } from "../core/Table/TableContainer3";
+import { FormattedMessage } from "react-intl";
 
-export interface Attachment {
+export interface IAttachment {
   attachmentId: string;
   filename: string;
   description: string;
@@ -22,36 +22,40 @@ const TableBody = () => {
   const data = useTableDataContext();
   const bodyProps = useTableBodyPropsContext();
 
-  return data.map((attachment: Attachment, index: number) => (
+  return data.map((attachment: IAttachment, index: number) => (
     <TableRow key={attachment.filename}>
       <TableCell>{attachment.filename}</TableCell>
       <TableCell>{attachment.description}</TableCell>
       <TableCell className="nostretch">
-        <Tooltip title={<IntlMessages id="general.download" />}>
-          <>
-            <div className="d-inline">
-              <IconButton
-                disabled={!attachment.attachmentId}
-                aria-label="Edit"
-                onClick={() => bodyProps.onAttachDownload(attachment)}
-              >
-                <VerticalAlignBottom />
-              </IconButton>
-            </div>
-          </>
+        <Tooltip title={<FormattedMessage id="general.view" />}>
+          <div className="d-inline">
+            <IconButton
+              disabled={!attachment.attachmentId}
+              onClick={() => bodyProps.onAttachView(attachment)}
+            >
+              <Visibility />
+            </IconButton>
+          </div>
         </Tooltip>
-        <Tooltip title={<IntlMessages id="general.delete" />}>
-          <>
-            <div className="d-inline">
-              <IconButton
-                disabled={bodyProps.disabled}
-                aria-label="Delete"
-                onClick={() => bodyProps.onAttachDelete(attachment, index)}
-              >
-                <Delete />
-              </IconButton>
-            </div>
-          </>
+        <Tooltip title={<FormattedMessage id="general.download" />}>
+          <div className="d-inline">
+            <IconButton
+              disabled={!attachment.attachmentId}
+              onClick={() => bodyProps.onAttachDownload(attachment)}
+            >
+              <VerticalAlignBottom />
+            </IconButton>
+          </div>
+        </Tooltip>
+        <Tooltip title={<FormattedMessage id="general.delete" />}>
+          <div className="d-inline">
+            <IconButton
+              disabled={bodyProps.disabled}
+              onClick={() => bodyProps.onAttachDelete(attachment, index)}
+            >
+              <Delete />
+            </IconButton>
+          </div>
         </Tooltip>
       </TableCell>
     </TableRow>
@@ -61,6 +65,7 @@ const TableBody = () => {
 const Attachments = ({
   attachments,
   disabled,
+  onAttachView,
   onAttachDownload,
   onAttachDelete,
   onAttachAdd,
@@ -102,6 +107,7 @@ const Attachments = ({
         Body={TableBody}
         BodyProps={{
           disabled,
+          onAttachView,
           onAttachDelete,
           onAttachDownload,
         }}

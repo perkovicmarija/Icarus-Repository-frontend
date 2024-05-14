@@ -36,6 +36,7 @@ const ForumTopicForm = ({
   forumTopic,
   forumTopicId,
   onTopicLike,
+  onAttachView,
   onAttachmentDownload,
 }: {
   initialData: any;
@@ -45,6 +46,7 @@ const ForumTopicForm = ({
   forumTopic: ForumTopic;
   forumTopicId: string;
   onTopicLike: () => Promise<any>;
+  onAttachView: (attachment: any) => void;
   onAttachmentDownload: (attachment: any) => void;
 }) => {
   const history = useHistory();
@@ -154,6 +156,7 @@ const ForumTopicForm = ({
                 <Attachments
                   attachments={fieldAttachments.value}
                   disabled={false}
+                  onAttachView={onAttachView}
                   onAttachDownload={onAttachmentDownload}
                   onAttachDelete={(attachment, index) => {
                     const copy = [...fieldAttachments.value];
