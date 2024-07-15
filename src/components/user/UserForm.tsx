@@ -22,7 +22,11 @@ const UserForm = ({
   initialData: User | {};
   onClose: () => void;
   onSubmit: (
-    payload: User & { newPassword: boolean; generatePassword: boolean }
+    payload: User & {
+      newPassword: boolean;
+      generatePassword: boolean;
+      userRoles: any[];
+    }
   ) => Promise<any>;
   userRoles: any[];
 }) => {

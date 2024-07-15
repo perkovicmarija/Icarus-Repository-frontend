@@ -56,16 +56,18 @@ export const usersApi = createApi({
       {
         newPassword: boolean;
         generatePassword: boolean;
+        userRoles: any[];
         user: User;
       }
     >({
-      query: ({ newPassword, generatePassword, user }) => ({
+      query: ({ newPassword, generatePassword, user, userRoles }) => ({
         url:
           (user.userId ? "update" : "create") + `?access_token=${getToken()}`,
         method: "POST",
         body: {
           newPassword,
           generatePassword,
+          userRoles,
           user: user,
         },
       }),
