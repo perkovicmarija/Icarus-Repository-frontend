@@ -1,23 +1,20 @@
-import { useState } from "react";
-import IntlMessages from "../core/IntlMessages";
-import TextFieldValidation from "../core/TextField/TextFieldValidation";
 import CardContent from "@mui/material/CardContent";
-import { Button, Grid, IconButton, Tooltip } from "@mui/material";
+import { Grid, IconButton, Tooltip } from "@mui/material";
 import Typography from "@mui/material/Typography";
 import { FormattedMessage } from "react-intl";
 import { Delete } from "@mui/icons-material";
 import ThumbUpIcon from "@mui/icons-material/ThumbUp";
 import ThumbUpOutlinedIcon from "@mui/icons-material/ThumbUpOutlined";
-import { ValidatorForm } from "react-material-ui-form-validator";
 import AccountCircleRoundedIcon from "@mui/icons-material/AccountCircleRounded";
 import { ForumUser } from "../../redux/forum/forumUsers/forumUsersApi";
 import { ForumComment } from "../../redux/forum/forumComments/forumCommentsApi";
 import ThumbsUpDownIcon from "@mui/icons-material/ThumbsUpDown";
-import {
-  getForumCommentLikesPaginationPath,
-  getForumTopicLikesPaginationPath,
-} from "../../consts/routePaths";
-import { useHistory, useParams } from "react-router-dom";
+import { getForumCommentLikesPaginationPath } from "../../consts/routePaths";
+import { useHistory } from "react-router-dom";
+import Attachments from "../attachments/Attachments";
+import { RestApiFile2 } from "../../api/methods/RestApiFile2";
+import { useState } from "react";
+import DialogProgress from "../core/Dialog/DialogProgress";
 
 const ForumCommentComponent = <T,>({
   forumUser,
@@ -43,14 +40,15 @@ const ForumCommentComponent = <T,>({
   level: number;
 }) => {
   const history = useHistory();
-
-  const [replyOpen, setReplyOpen] = useState<string>("");
+  const [progressDownload, setProgressDownload] = useState<
+    number | undefined
+  >();
 
   return (
     <>
       <CardContent
         style={{
-          borderBottom: "1px solid lightgrey",
+          borderBottom: "1px solid black",
           marginLeft: `${level}vw`,
         }}
       >
@@ -106,12 +104,50 @@ const ForumCommentComponent = <T,>({
           <Grid item xs={12}>
             <Typography
               variant="body1"
-              gutterBottom
-              style={{ whiteSpace: "pre-line" }}
+              style={{ whiteSpace: "pre-line", margin: "0.75rem 0 0.5rem" }}
             >
               {forumComment.content}
             </Typography>
           </Grid>
+
+          {forumComment.attachments?.length > 0 && (
+            <Grid item xs={12} style={{ background: "#f3f3f3" }}>
+              <Attachments
+                attachments={forumComment.attachments}
+                hideHeader={true}
+                onAttachView={(attachment) => {
+                  const abortController = new AbortController();
+                  RestApiFile2.get(
+                    "/forum/comment/downloadAttachment",
+                    {
+                      forumCommentId: forumComment.forumCommentId,
+                      forumTopicId: forumComment.forumTopicId,
+                      forumCommentAttachment: attachment,
+                    },
+                    setProgressDownload,
+                    abortController
+                  ).then((result) => {
+                    setViewFile(result);
+                  });
+                  /* abortDownload.current = abortController; */
+                }}
+                onAttachDownload={(attachment) => {
+                  const abortController = new AbortController();
+                  RestApiFile2.download(
+                    "/forum/comment/downloadAttachment",
+                    {
+                      forumCommentId: forumComment.forumCommentId,
+                      forumTopicId: forumComment.forumTopicId,
+                      forumCommentAttachment: attachment,
+                    },
+                    setProgressDownload,
+                    abortController
+                  );
+                  /* abortDownload.current = abortController; */
+                }}
+              />
+            </Grid>
+          )}
 
           <Grid item xs={12} style={{ display: "flex", alignItems: "center" }}>
             <Grid container>
@@ -149,7 +185,7 @@ const ForumCommentComponent = <T,>({
                   <small>
                     <p>
                       {forumComment?.forumLikes?.length}{" "}
-                      <IntlMessages id="forum.likes" />
+                      <FormattedMessage id="forum.likes" />
                     </p>
                   </small>
                 </div>
@@ -174,80 +210,14 @@ const ForumCommentComponent = <T,>({
               </Grid> */}
             </Grid>
           </Grid>
-
-          {replyOpen === forumComment.forumCommentId && (
-            <Grid container style={{ display: "flex", alignItems: "flex-end" }}>
-              <Grid item xl={10} lg={10} md={10} sm={10} xs={10}>
-                <ValidatorForm
-                  noValidate
-                  autoComplete="off"
-                  onSubmit={onAddEdit}
-                  onError={() => {}}
-                >
-                  <TextFieldValidation
-                    disabled={false}
-                    label=""
-                    id="content"
-                    name="content"
-                    value={commentReplyInputText}
-                    onInputChange={onForumReplyChange}
-                    placeholder="forum.typeHere"
-                    type="text"
-                    multiline
-                    rows="3"
-                  />
-                </ValidatorForm>
-              </Grid>
-              <Grid
-                item
-                xs={2}
-                alignItems="end"
-                style={{ display: "flex", justifyContent: "space-around" }}
-              >
-                <Button
-                  size="small"
-                  variant="contained"
-                  color="secondary"
-                  onClick={() => {
-                    onForumReplySubmit(forumComment);
-                    setReplyOpen("");
-                  }}
-                >
-                  <IntlMessages id="forum.reply" />
-                </Button>
-                <Button
-                  size="small"
-                  variant="contained"
-                  color="grey"
-                  onClick={() => setReplyOpen("")}
-                >
-                  <IntlMessages id="action.cancel" />
-                </Button>
-              </Grid>
-            </Grid>
-          )}
         </Grid>
       </CardContent>
 
-      {forumComment?.replies &&
-        forumComment?.replies?.length > 0 &&
-        forumComment?.replies?.map((reply, i) => {
-          return (
-            <ForumCommentComponent
-              key={reply.forumCommentId}
-              forumUser={forumUser}
-              onLike={onLike}
-              commentReplyInputText={commentReplyInputText}
-              onForumReplySubmit={onForumReplySubmit}
-              onForumReplyChange={onForumReplyChange}
-              setDialogWarning={setDialogWarning}
-              forumComment={reply}
-              setCommentIdToDelete={setCommentIdToDelete}
-              onAddEdit={onAddEdit}
-              level={level + 4}
-            />
-          );
-        })}
+      <DialogProgress
+        type={"download"}
+        progress={progressDownload}
+        /* onClose={abortDownload?.current?.signal} */
+      />
     </>
   );
 };
