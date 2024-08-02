@@ -13,7 +13,7 @@ import { getForumCommentLikesPaginationPath } from "../../consts/routePaths";
 import { useHistory } from "react-router-dom";
 import Attachments from "../attachments/Attachments";
 import { RestApiFile2 } from "../../api/methods/RestApiFile2";
-import { useState } from "react";
+import { useRef, useState } from "react";
 import DialogProgress from "../core/Dialog/DialogProgress";
 import { ObjectViewer } from "../core/Viewer/ObjectViewer";
 import { parseContentDisposition } from "../core/Viewer/utils";
@@ -46,6 +46,7 @@ const ForumCommentComponent = <T,>({
     number | undefined
   >();
   const [viewFile, setViewFile] = useState();
+  const abortDownload = useRef();
 
   return (
     <>
@@ -132,7 +133,7 @@ const ForumCommentComponent = <T,>({
                   ).then((result) => {
                     setViewFile(result);
                   });
-                  /* abortDownload.current = abortController; */
+                  abortDownload.current = abortController.abort;
                 }}
                 onAttachDownload={(attachment) => {
                   const abortController = new AbortController();
@@ -146,7 +147,7 @@ const ForumCommentComponent = <T,>({
                     setProgressDownload,
                     abortController
                   );
-                  /* abortDownload.current = abortController; */
+                  abortDownload.current = abortController.abort;
                 }}
               />
             </Grid>
@@ -219,7 +220,7 @@ const ForumCommentComponent = <T,>({
       <DialogProgress
         type={"download"}
         progress={progressDownload}
-        /* onClose={abortDownload?.current?.signal} */
+        /* onClose={abortDownload?.current} */
       />
 
       {viewFile && (
