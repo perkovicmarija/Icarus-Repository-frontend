@@ -125,7 +125,7 @@ const ForumComments = () => {
       JSON.stringify({
         ...data,
         forumTopicId,
-        forumUserCreatedDisplayName: forumUser.displayName,
+        forumUserCreatedDisplayName: forumUser.data.displayName,
       })
     );
     data.attachments.forEach((attachment) => {
