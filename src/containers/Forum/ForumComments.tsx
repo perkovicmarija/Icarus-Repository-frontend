@@ -117,12 +117,26 @@ const ForumComments = () => {
     );
   };
 
-  const handleAddEditComment = async (event) => {
-    event.preventDefault();
+  const handleAddEditComment = async (data) => {
+    console.log(data);
+    const formData = new FormData();
+    formData.append(
+      "data",
+      JSON.stringify({
+        ...data,
+        forumTopicId,
+        forumUserCreatedDisplayName: forumUser.displayName,
+      })
+    );
+    data.attachments.forEach((attachment) => {
+      formData.append("file", attachment);
+    });
+
     const result: ResponseWrapper<ForumComment> =
       await createUpdateForumComment({
-        ...forumComment,
-        forumUserCreatedDisplayName: forumUser.data.displayName,
+        formData,
+        onProgress: () => {},
+        forumCommentId: undefined,
       }).unwrap();
     handleNotify(result);
     setForumComment(initialForumComment);
@@ -211,6 +225,7 @@ const ForumComments = () => {
             commentReplyInputText={commentReplyInputText}
             onForumReplySubmit={handleForumReplySubmit}
             onForumReplyChange={handleForumReplyChange}
+            meta={meta}
             paginationProps={{
               totalCount: forumComments?.meta.totalCount,
               page,

@@ -298,6 +298,7 @@
   "attachments.addNew2": "Add new link",
   "attachments.none": "There are no attachments",
   "attachments.duplicate": "Attachment with the same name has already been added",
+  "attachments.new": "Add attachment",
 
   "action.cancel": "Cancel",
   "action.submit": "Submit",
@@ -448,5 +449,4 @@
   "forum.user.create": "Create forum user",
   "forum.user.create.text": "In order to participate in the Forum, a Forum user must be created. Go to Forum -> Forum Users -> Add New",
   "forum.reply": "Reply"
-
 }
