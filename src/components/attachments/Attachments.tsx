@@ -24,9 +24,9 @@ const TableBody = () => {
 
   return data.map((attachment: IAttachment, index: number) => (
     <TableRow key={attachment.filename}>
-      <TableCell>{attachment.filename}</TableCell>
+      <TableCell style={{ paddingLeft: 0 }}>{attachment.filename}</TableCell>
       <TableCell>{attachment.description}</TableCell>
-      <TableCell className="nostretch">
+      <TableCell style={{ paddingRight: 0 }} className="nostretch">
         <Tooltip title={<FormattedMessage id="general.view" />}>
           <div className="d-inline">
             <IconButton
@@ -47,16 +47,18 @@ const TableBody = () => {
             </IconButton>
           </div>
         </Tooltip>
-        <Tooltip title={<FormattedMessage id="general.delete" />}>
-          <div className="d-inline">
-            <IconButton
-              disabled={bodyProps.disabled}
-              onClick={() => bodyProps.onAttachDelete(attachment, index)}
-            >
-              <Delete />
-            </IconButton>
-          </div>
-        </Tooltip>
+        {bodyProps.onAttachDelete && (
+          <Tooltip title={<FormattedMessage id="general.delete" />}>
+            <div className="d-inline">
+              <IconButton
+                disabled={bodyProps.disabled}
+                onClick={() => bodyProps.onAttachDelete(attachment, index)}
+              >
+                <Delete />
+              </IconButton>
+            </div>
+          </Tooltip>
+        )}
       </TableCell>
     </TableRow>
   ));
@@ -65,6 +67,7 @@ const TableBody = () => {
 const Attachments = ({
   attachments,
   disabled,
+  hideHeader,
   onAttachView,
   onAttachDownload,
   onAttachDelete,
@@ -86,21 +89,27 @@ const Attachments = ({
 
   return (
     <>
-      <TableToolbar2
-        title="attachments.label"
-        onAddClick={setDialogAttachmentNew}
-      />
+      {!hideHeader && (
+        <TableToolbar2
+          title="attachments.label"
+          onAddClick={setDialogAttachmentNew}
+        />
+      )}
 
       <TableContainer3
         data={attachments}
         headerProps={{
           columnData: [
-            { id: "filename", label: "general.filename" },
+            {
+              id: "filename",
+              label: "general.filename",
+              style: { paddingLeft: 0 },
+            },
             { id: "description", label: "general.description" },
             {
               id: "actions",
               label: "general.actions",
-              style: { textAlign: "center" },
+              style: { textAlign: "center", paddingRight: 0 },
             },
           ],
         }}
