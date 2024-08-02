@@ -15,6 +15,8 @@ import Attachments from "../attachments/Attachments";
 import { RestApiFile2 } from "../../api/methods/RestApiFile2";
 import { useState } from "react";
 import DialogProgress from "../core/Dialog/DialogProgress";
+import { ObjectViewer } from "../core/Viewer/ObjectViewer";
+import { parseContentDisposition } from "../core/Viewer/utils";
 
 const ForumCommentComponent = <T,>({
   forumUser,
@@ -43,6 +45,7 @@ const ForumCommentComponent = <T,>({
   const [progressDownload, setProgressDownload] = useState<
     number | undefined
   >();
+  const [viewFile, setViewFile] = useState();
 
   return (
     <>
@@ -218,6 +221,19 @@ const ForumCommentComponent = <T,>({
         progress={progressDownload}
         /* onClose={abortDownload?.current?.signal} */
       />
+
+      {viewFile && (
+        <ObjectViewer
+          file={URL.createObjectURL(
+            new Blob([viewFile.data], { type: "image/png" })
+          )}
+          onClose={() => setViewFile(undefined)}
+          filename={
+            parseContentDisposition(viewFile.headers["content-disposition"])
+              .filename
+          }
+        />
+      )}
     </>
   );
 };
