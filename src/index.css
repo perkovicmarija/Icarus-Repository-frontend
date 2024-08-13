@@ -35,3 +35,172 @@ code {
   padding: 16px;
   cursor: pointer;
 }
+
+.table-bordered {
+  border: 1px solid #ddd;
+}
+
+.table.table-risk-matrix {
+  height: fit-content;
+}
+
+.table.table-risk-matrix tbody tr{
+  height: 100%;
+}
+
+.table-bordered thead th {
+  background-color: #F0F4F8;
+}
+
+.table-bordered>thead>tr>th {
+  border: 1px solid #ddd;
+  padding: 8px;
+  text-align: center;
+}
+
+.table-bordered>tbody>tr>td {
+  border: 1px solid #ddd;
+  padding: 8px;
+  text-align: center;
+}
+
+.table-bordered>tbody>tr:nth-of-type(odd) {
+  background-color: #f9f9f9;
+}
+
+.table {
+  width: 100%;
+  max-width: 100%;
+  border-spacing: 0;
+  border-collapse: collapse;
+  background-color: transparent;
+}
+
+.riskTableStyle {
+  font-weight: bold;
+  color: black;
+  cursor: pointer;
+}
+
+.ercTableStyle {
+  font-weight: bold;
+  color: black;
+}
+
+.bg-matrix-extreme {
+  background-color: #FF0000 !important;
+  color: white !important;
+}
+
+.bg-matrix-high {
+  background-color: #FFBE00 !important;
+}
+
+.bg-matrix-medium-tua {
+  background-color: #7030A0 !important;
+  color: white !important;
+}
+
+.bg-matrix-acceptable {
+  background-color: #FFFF25 !important;
+}
+
+.bg-matrix-medium {
+  background-color: #FFFF25 !important;
+}
+
+.bg-matrix-medium-brown {
+  background-color: #FFB970 !important;
+}
+
+.bg-matrix-low {
+  background-color: #F6F29A !important;
+}
+
+.bg-matrix-low-sah {
+  background-color: #92D050 !important;
+}
+
+.bg-matrix-bajo {
+  background-color: #92CDDC !important;
+}
+
+.bg-matrix-negligible {
+  background-color: #7CD254 !important;
+}
+
+.bg-matrix-negligible-sah {
+  background-color: #00B050 !important;
+}
+
+.bg-matrix-negligible-ely {
+  background-color: #00B050 !important;
+}
+
+.bg-matrix-not-available {
+  background-color: #D8D8D8 !important;
+}
+
+.color-matrix-extreme {
+  color: #FF0000 !important;
+}
+
+.color-matrix-high {
+  color: #FFBE00 !important;
+}
+
+.color-matrix-high-gold {
+  color: #c3922e !important;
+}
+
+.color-matrix-acceptable {
+  color: #FFFF25 !important;
+}
+
+.color-matrix-medium {
+  color: #FFFF25 !important;
+}
+
+.color-matrix-medium-ely {
+  color: #c6c622 !important;
+}
+
+.color-matrix-low {
+  color: #F6F29A !important;
+}
+
+.color-matrix-negligible {
+  color: #7CD254 !important;
+}
+
+.color-matrix-negligible-ely {
+  color: #00B050 !important;
+}
+
+.bg-matrix-extreme-tsc-hs {
+  background-color: #B2A1C7 !important;
+  color: white !important;
+}
+
+.bg-matrix-low-tsc-hs {
+  background-color: #DBE5F1 !important;
+  color: black !important;
+}
+
+.col-risk-matrix {
+  width: 14%;
+  text-align: center;
+}
+
+.col-risk-matrix-lead {
+  width: 15%;
+}
+
+.col-risk-matrix-vertical-rotation {
+  transform: rotate(-90deg);
+  -webkit-transform: rotate(-90deg);
+  -moz-transform: rotate(-90deg);
+  -ms-transform: rotate(-90deg);
+  -o-transform: rotate(-90deg);
+  filter: progid:DXImageTransform.Microsoft.BasicImage(rotation=3);
+}

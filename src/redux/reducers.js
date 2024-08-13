@@ -46,6 +46,11 @@ import {forumTopicUsersApi} from "./forum/forumUsers/forumTopicUsersApi";
 import forumTopicUsersSlice from "./forum/forumUsers/forumTopicUsersSlice";
 import {forumLikesApi} from "./forum/forumLikes/forumLikesApi";
 import forumLikesSlice from "./forum/forumLikes/forumLikesSlice";
+import ReportHazardIdentificationList from "../containers/ReportHazardIdentification/ReportHazardIdentificationList";
+import reportHazardIdentificationSlice from "./reportHazardIdentification/reportHazardIdentificationSlice";
+import { reportHazardIdentificationApi } from "./reportHazardIdentification/reportHazardIdentificationApi";
+import hazardClassificationSlice from "./hazardClassification/hazardClassificationSlice";
+import { hazardClassificationApi } from "./hazardClassification/hazardClassificationApi";
 
 export default (history) =>
   combineReducers({
@@ -95,5 +100,9 @@ export default (history) =>
     [forumTopicUsersApi.reducerPath]: forumTopicUsersApi.reducer,
     ForumTopicUsers: forumTopicUsersSlice.reducer,
     [forumLikesApi.reducerPath]: forumLikesApi.reducer,
-    ForumLikes: forumLikesSlice.reducer
+    ForumLikes: forumLikesSlice.reducer,
+    ReportHazardIdentification: reportHazardIdentificationSlice.reducer,
+    [reportHazardIdentificationApi.reducerPath]: reportHazardIdentificationApi.reducer,
+    HazardClassification: hazardClassificationSlice.reducer,
+    [hazardClassificationApi.reducerPath]: hazardClassificationApi.reducer,
   });

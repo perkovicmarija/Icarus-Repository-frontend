@@ -20,6 +20,9 @@ import {
   icarusDocs,
   iOSClients,
   mobileLogs,
+  reportHazardClassification,
+  reportHazardIdentification,
+  reportHazardIdentificationDetails,
   root,
   settingModule,
   supportCenter,
@@ -38,6 +41,9 @@ import ForumTopicSubscribers from "../Forum/ForumTopicSubscribers";
 import ForumComments from "../Forum/ForumComments";
 import ForumLikes from "../Forum/ForumLikes";
 import ForumTopicWrapper from "../Forum/ForumTopic/ForumTopicWrapper";
+import ReportHazardIdentificationOverview from "../ReportHazardIdentification/ReportHazardIdentificationOverview";
+import ReportHazardIdentification from "../ReportHazardIdentification/ReportHazardIdentification";
+import HazardClassification from "../HazardClassification/HazardClassification";
 
 const AdminRouter = () => {
   return (
@@ -166,6 +172,24 @@ const AdminRouter = () => {
             path={forumTags}
             component={ForumTags}
             key="forum-tags"
+        />
+
+        <Route
+            path={reportHazardIdentification}
+            component={ReportHazardIdentificationOverview}
+            key="report-hazard-identification"
+        />
+
+        <Route
+            path={reportHazardIdentificationDetails}
+            component={ReportHazardIdentification}
+            key="report-hazard-identification-details"
+        />
+
+        <Route
+            path={reportHazardClassification}
+            component={HazardClassification}
+            key="report-hazard-classification"
         />
 
       <Redirect from={root} to={auditChecklistOverview} />
