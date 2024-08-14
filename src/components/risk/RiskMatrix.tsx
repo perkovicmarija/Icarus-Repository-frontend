@@ -13,28 +13,24 @@ export const colorMatrixNegligibleELY = "#00B050";
 export const colorMatrixNegligibleSAH = "#00B050";
 
 export const getRiskMatrixRiskLevelColorDefault = (riskLevel: number): string => {
-  if (riskLevel === 5) {
-    return colorMatrixExtreme;
-  } else if (riskLevel === 4) {
-    return colorMatrixHigh;
-  } else if (riskLevel === 3) {
-    return colorMatrixMedium;
-  } else if (riskLevel === 2) {
-    return colorMatrixLow;
-  } else if (riskLevel === 1) {
+  if (riskLevel <= 4) {
     return colorMatrixNegligible;
+  } else if (riskLevel <= 14) {
+    return colorMatrixMedium;
+  } else if (riskLevel <= 25) {
+    return colorMatrixExtreme;
   } else {
     return "initial";
   }
 };
 
-const riskLevels: { [key: string]: number } = {
-  A: 5,
-  B: 4,
-  C: 3,
-  D: 2,
-  E: 1,
-};
+const frequencyTable = [
+  ["Frequent - 5", ["5", "5", "5", "4", "4"]],
+  ["Occasional - 4", ["5", "5", "4", "4", "3"]],
+  ["Remote - 3", ["5", "4", "4", "4", "3"]],
+  ["Improbable - 2", ["4", "4", "4", "3", "3"]],
+  ["Extremely improbable - 1", ["4", "3", "3", "3", "3"]],
+];
 
 interface RiskMatrixProps {
   object: {
@@ -59,24 +55,26 @@ const RiskMatrix: React.FC<RiskMatrixProps> = ({ object, onRiskMatrixChange, tit
           <thead>
             <tr>
               <th className="col-risk-matrix-lead"></th>
-              <th className="col-risk-matrix">S4</th>
-              <th className="col-risk-matrix">S3</th>
-              <th className="col-risk-matrix">S2</th>
-              <th className="col-risk-matrix">S1</th>
+              <th className="col-risk-matrix">Catastrophic - 5</th>
+              <th className="col-risk-matrix">Hazardous - 4</th>
+              <th className="col-risk-matrix">Major - 3</th>
+              <th className="col-risk-matrix">Minor - 2</th>
+              <th className="col-risk-matrix">Negliable - 1</th>
             </tr>
           </thead>
           <tbody>
-            {[
-              ["P5", ["A", "B", "C", "D"]],
-              ["P4", ["A", "B", "C", "D"]],
-              ["P3", ["B", "C", "D", "E"]],
-              ["P2", ["C", "D", "E", "E"]],
-              ["P1", ["D", "E", "E", "E"]],
-            ].map((row, rowIndex) => (
+            {frequencyTable.map((row, rowIndex) => (
               <tr key={rowIndex}>
                 <td>{row[0]}</td>
                 {row[1].map((riskLevel, colIndex) => (
-                  <TdRisk key={colIndex} item={[row[0][1], `${4 - colIndex}`, riskLevels[riskLevel]]} />
+                  <TdRisk
+                  key={colIndex}
+                  item={[
+                    row[0].split("- ")[1], 
+                    `${5 - colIndex}`, 
+                    Number.parseInt(row[0].split("- ")[1]) * (frequencyTable.length - colIndex)
+                  ]}
+                />  
                 ))}
               </tr>
             ))}
