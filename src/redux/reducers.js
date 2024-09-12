@@ -51,6 +51,8 @@ import reportHazardIdentificationSlice from "./reportHazardIdentification/report
 import { reportHazardIdentificationApi } from "./reportHazardIdentification/reportHazardIdentificationApi";
 import hazardClassificationSlice from "./hazardClassification/hazardClassificationSlice";
 import { hazardClassificationApi } from "./hazardClassification/hazardClassificationApi";
+import reportSlice from "./report/reportSlice";
+import { reportApi } from "./report/reportApi";
 
 export default (history) =>
   combineReducers({
@@ -105,4 +107,6 @@ export default (history) =>
     [reportHazardIdentificationApi.reducerPath]: reportHazardIdentificationApi.reducer,
     HazardClassification: hazardClassificationSlice.reducer,
     [hazardClassificationApi.reducerPath]: hazardClassificationApi.reducer,
+    Report: reportSlice.reducer,
+    [reportApi.reducerPath]: reportApi.reducer,
   });

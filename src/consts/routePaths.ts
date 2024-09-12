@@ -71,6 +71,17 @@ export const getReportHazardClassificationPath = (page: number, rowsPerPage?: nu
   return `${reportHazardIdentification}${page}/${rowsPerPage ?? ""}`;
 };
 
+// REPORTS
+export const reportsModule = adminRoot + "/reports";
+
+export const reports = reportsModule + "/pagination/";
+
+export const getReportPath = (page: number, rowsPerPage?: number) => {
+  return `${reportsModule}${page}/${rowsPerPage ?? ""}`;
+}
+
+export const report = reportsModule + "/:id";
+
 // SETTINGS
 export const settingModule = adminRoot + "/settings";
 

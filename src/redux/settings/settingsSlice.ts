@@ -22,6 +22,7 @@ export const defaultState = {
     forumComments: 25,
     forumLikes: 25,
     reportHazardIdentification: 25,
+    report: 25,
   },
 };
 

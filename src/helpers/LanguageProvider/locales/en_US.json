@@ -103,12 +103,15 @@
   "general.settings": "Settings",
   "general.flightNumber": "Flight number",
   "general.flightNumbers": "Flight numbers",
+  "general.flightPhase": "Flight phase",
   "general.commander": "Commander",
   "general.airline": "Airline",
   "general.airport": "Airport",
   "general.airports": "Airports",
   "general.airportDeparture": "Airport departure",
+  "general.hazard": "Hazard",
   "general.airportDestination": "Airport destination",
+  "general.eventDescription": "Event description",
   "general.aircraft": "Aircraft",
   "general.aircrafts": "Aircrafts",
   "general.registration": "Registration",
@@ -483,5 +486,8 @@
   "riskManagement.nextRevisionDate": "Next revision date",
   "riskManagement.hazardSubcategoryName": "Hazard subcategory name",
   "riskManagement.finding": "Finding",
-  "riskManagement.hazard": "Hazard"
+  "riskManagement.hazard": "Hazard",
+
+  "report.create": "Create Report",
+  "report.update": "Update Report"
 }

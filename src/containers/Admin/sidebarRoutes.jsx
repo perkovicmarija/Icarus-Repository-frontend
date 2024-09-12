@@ -1,4 +1,4 @@
-import {Group, LibraryBooks, MenuBook, Settings, SupportAgent} from "@mui/icons-material";
+import {Group, LibraryBooks, MenuBook, Settings, SupportAgent, ReportProblem} from "@mui/icons-material";
 import TextSnippetIcon from '@mui/icons-material/TextSnippet';
 import Diversity3Icon from '@mui/icons-material/Diversity3';
 import ReportProblemSharpIcon from '@mui/icons-material/ReportProblemSharp';
@@ -17,6 +17,8 @@ import {
   webClients,
   reportHazardIdentification,
   reportHazardClassification,
+  reportsModule,
+  reports,
 } from "../../consts/routePaths";
 
 const sidebarRoutes = [
@@ -140,7 +142,6 @@ const sidebarRoutes = [
     key: "dedalus-module",
     sidebar: true,
     icon: DedalusIcon,
-    /* icon: Diversity3Icon, */
     children: [
       {
         path: reportHazardIdentification,
@@ -155,6 +156,13 @@ const sidebarRoutes = [
         sidebar: true,
       },
     ],
+  },
+  {
+    name: "Reports",
+    key: "reports-module",
+    sidebar: true,
+    icon: ReportProblem,
+    path: reports,
   },
 ];
 

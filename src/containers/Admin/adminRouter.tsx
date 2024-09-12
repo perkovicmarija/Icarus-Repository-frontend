@@ -1,4 +1,4 @@
-import {Redirect, Route, Switch} from "react-router-dom";
+import { Redirect, Route, Switch } from "react-router-dom";
 import ProtectedRoute from "../../ProtectedRoute";
 import Dashboard from "../Dashboard/Dashboard";
 import UserRoleFrame from "../Users/UserRoleFrame";
@@ -20,9 +20,12 @@ import {
   icarusDocs,
   iOSClients,
   mobileLogs,
+  report,
   reportHazardClassification,
   reportHazardIdentification,
   reportHazardIdentificationDetails,
+  reports,
+  reportsModule,
   root,
   settingModule,
   supportCenter,
@@ -44,6 +47,8 @@ import ForumTopicWrapper from "../Forum/ForumTopic/ForumTopicWrapper";
 import ReportHazardIdentificationOverview from "../ReportHazardIdentification/ReportHazardIdentificationOverview";
 import ReportHazardIdentification from "../ReportHazardIdentification/ReportHazardIdentification";
 import HazardClassification from "../HazardClassification/HazardClassification";
+import Reports from "../Reports/Reports";
+import Report from "../Reports/Report";
 
 const AdminRouter = () => {
   return (
@@ -102,95 +107,83 @@ const AdminRouter = () => {
         key="setting-module"
       />
 
-        <Route
-            path={iOSClients}
-            render={(routeProps) => <Clients {...routeProps} actions={false} />}
-            key="ios-clients"
-        />
+      <Route
+        path={iOSClients}
+        render={(routeProps) => <Clients {...routeProps} actions={false} />}
+        key="ios-clients"
+      />
 
-        <Route
-            path={androidClients}
-            render={(routeProps) => <Clients {...routeProps} actions={false} />}
-            key="android-clients"
-        />
+      <Route
+        path={androidClients}
+        render={(routeProps) => <Clients {...routeProps} actions={false} />}
+        key="android-clients"
+      />
 
-        <Route
-            path={webClients}
-            render={(routeProps) => <Clients {...routeProps} actions={false} />}
-            key="web-clients"
-        />
+      <Route
+        path={webClients}
+        render={(routeProps) => <Clients {...routeProps} actions={false} />}
+        key="web-clients"
+      />
 
-        <Route
-            path={mobileLogs}
-            component={MobileLogs}
-            key="mobile-logs"
-        />
+      <Route path={mobileLogs} component={MobileLogs} key="mobile-logs" />
 
-        <Route
-            path={forumUsers}
-            component={ForumUsers}
-            key="forum-users"
-        />
+      <Route path={forumUsers} component={ForumUsers} key="forum-users" />
 
-        <Route
-            path={forumTopics}
-            component={ForumTopics}
-            key="forum-topics"
-        />
+      <Route path={forumTopics} component={ForumTopics} key="forum-topics" />
 
-        <Route
-            path={forumTopic}
-            component={ForumTopicWrapper}
-            key="forum-topic"
-        />
+      <Route
+        path={forumTopic}
+        component={ForumTopicWrapper}
+        key="forum-topic"
+      />
 
-        <Route
-            path={forumTopicSubscribers}
-            component={ForumTopicSubscribers}
-            key="forum-topic-subscribers"
-        />
+      <Route
+        path={forumTopicSubscribers}
+        component={ForumTopicSubscribers}
+        key="forum-topic-subscribers"
+      />
 
-        <Route
-            path={forumTopicComments}
-            component={ForumComments}
-            key="forum-topic-comments"
-        />
+      <Route
+        path={forumTopicComments}
+        component={ForumComments}
+        key="forum-topic-comments"
+      />
 
-        <Route
-            path={forumTopicLikes}
-            component={ForumLikes}
-            key="forum-topic-likes"
-        />
+      <Route
+        path={forumTopicLikes}
+        component={ForumLikes}
+        key="forum-topic-likes"
+      />
 
-        <Route
-            path={forumCommentLikes}
-            component={ForumLikes}
-            key="forum-comment-likes"
-        />
+      <Route
+        path={forumCommentLikes}
+        component={ForumLikes}
+        key="forum-comment-likes"
+      />
 
-        <Route
-            path={forumTags}
-            component={ForumTags}
-            key="forum-tags"
-        />
+      <Route path={forumTags} component={ForumTags} key="forum-tags" />
 
-        <Route
-            path={reportHazardIdentification}
-            component={ReportHazardIdentificationOverview}
-            key="report-hazard-identification"
-        />
+      <Route
+        path={reportHazardIdentification}
+        component={ReportHazardIdentificationOverview}
+        key="report-hazard-identification"
+      />
 
-        <Route
-            path={reportHazardIdentificationDetails}
-            component={ReportHazardIdentification}
-            key="report-hazard-identification-details"
-        />
+      <Route
+        path={reportHazardIdentificationDetails}
+        component={ReportHazardIdentification}
+        key="report-hazard-identification-details"
+      />
 
-        <Route
-            path={reportHazardClassification}
-            component={HazardClassification}
-            key="report-hazard-classification"
-        />
+      <Route
+        path={reportHazardClassification}
+        component={HazardClassification}
+        key="report-hazard-classification"
+      />
+
+      <Route path={reports} component={Reports} key="reports" />
+
+      <Route path={report} component={Report} key="reports-details" />
 
       <Redirect from={root} to={auditChecklistOverview} />
     </Switch>
