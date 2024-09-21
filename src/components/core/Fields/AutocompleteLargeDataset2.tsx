@@ -124,7 +124,6 @@ const AutocompleteLargeDataset2 = <K extends string, L extends string>({
     name,
     control,
     rules,
-    disabled,
     defaultValue,
   });
 
@@ -141,6 +140,7 @@ const AutocompleteLargeDataset2 = <K extends string, L extends string>({
       required={Boolean(rules?.required)}
       translate={translate}
       readOnly={readOnly}
+      disabled={disabled}
       {...field}
       error={error?.message as string | undefined}
     />

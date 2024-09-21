@@ -195,7 +195,6 @@ const AutocompleteMultiLargeDataset2 = <K extends string, L extends string>({
     name,
     control,
     rules,
-    disabled,
     defaultValue,
   });
 
@@ -213,6 +212,7 @@ const AutocompleteMultiLargeDataset2 = <K extends string, L extends string>({
       hasSelectAll={hasSelectAll}
       translate={translate}
       readOnly={readOnly}
+      disabled={disabled}
       {...field}
       error={error?.message as string | undefined}
     />
