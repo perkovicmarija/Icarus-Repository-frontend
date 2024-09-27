@@ -27,7 +27,6 @@ function SwitchCustom2({
     control,
     rules,
     defaultValue,
-    disabled,
   });
 
   const error = formState.errors[name];
@@ -44,7 +43,7 @@ function SwitchCustom2({
       <FormControlLabel
         control={
           <Switch
-            disabled={field.disabled}
+            disabled={disabled}
             onChange={(e: any) => field.onChange(e.target.checked)}
             checked={field.value}
           />
