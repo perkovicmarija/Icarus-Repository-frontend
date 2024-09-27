@@ -15,7 +15,7 @@ pipelines:
         name: Deploy to test
         image: alpine
         deployment: test
-        # trigger: manual  # Uncomment to make this a manual deployment.
+        trigger: manual  # Uncomment to make this a manual deployment.
         script:
           - echo "Deploying to test environment"
           - mkdir upload

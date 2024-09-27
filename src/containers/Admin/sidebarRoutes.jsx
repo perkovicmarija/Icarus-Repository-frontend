@@ -1,6 +1,8 @@
-import {Group, LibraryBooks, MenuBook, Settings, SupportAgent} from "@mui/icons-material";
+import {Group, LibraryBooks, MenuBook, Settings, SupportAgent, ReportProblem} from "@mui/icons-material";
 import TextSnippetIcon from '@mui/icons-material/TextSnippet';
 import Diversity3Icon from '@mui/icons-material/Diversity3';
+import ReportProblemSharpIcon from '@mui/icons-material/ReportProblemSharp';
+import DedalusIcon from '../../assets/icons/DedalusIcon'
 import {
   androidClients,
   auditChecklistOverview,
@@ -13,6 +15,10 @@ import {
   supportLogs,
   users,
   webClients,
+  reportHazardIdentification,
+  reportHazardClassification,
+  reportsModule,
+  reports,
 } from "../../consts/routePaths";
 
 const sidebarRoutes = [
@@ -130,6 +136,33 @@ const sidebarRoutes = [
         sidebar: true,
       },
     ],
+  },
+  {
+    name: "Dedalus AI",
+    key: "dedalus-module",
+    sidebar: true,
+    icon: DedalusIcon,
+    children: [
+      {
+        path: reportHazardIdentification,
+        name: "Hazard Identification",
+        key: "reportHazardIdentification",
+        sidebar: true,
+      },
+      {
+        path: reportHazardClassification,
+        name: "Hazard Classification",
+        key: "reportHazardClassification",
+        sidebar: true,
+      },
+    ],
+  },
+  {
+    name: "Reports",
+    key: "reports-module",
+    sidebar: true,
+    icon: ReportProblem,
+    path: reports,
   },
 ];
 

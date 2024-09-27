@@ -56,6 +56,32 @@ export const getAuditChecklistOverviewPath = (page: number, rowsPerPage?: number
 
 export const auditChecklist = adminRoot + "/audit-checklists/:id";
 
+// DEDALUS
+export const dedalusModule = adminRoot + "/dedalus";
+
+export const reportHazardIdentification = dedalusModule + "/report-hazard-identification-pagination/";
+export const getReportHazardIdentificationPath = (page: number, rowsPerPage?: number) => {
+  return `${reportHazardIdentification}${page}/${rowsPerPage ?? ""}`;
+};
+
+export const reportHazardIdentificationDetails = dedalusModule + "/report-hazard-identification/:id";
+
+export const reportHazardClassification = dedalusModule + "/report-hazard-classification/hazards";
+export const getReportHazardClassificationPath = (page: number, rowsPerPage?: number) => {
+  return `${reportHazardIdentification}${page}/${rowsPerPage ?? ""}`;
+};
+
+// REPORTS
+export const reportsModule = adminRoot + "/reports";
+
+export const reports = reportsModule + "/pagination/";
+
+export const getReportPath = (page: number, rowsPerPage?: number) => {
+  return `${reportsModule}${page}/${rowsPerPage ?? ""}`;
+}
+
+export const report = reportsModule + "/:id";
+
 // SETTINGS
 export const settingModule = adminRoot + "/settings";
 
