@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 import Grid from '@mui/material/Grid';
 import { ValidatorForm } from 'react-material-ui-form-validator';
 import TextFieldValidation from '../core/TextField/TextFieldValidation';
@@ -9,6 +9,9 @@ import TypographyReportField from "../core/Typography/FormFieldTitle";
 import FormEditBarSubtitle from "../core/Form/FormEditBarSubtitle";
 import FormSubmit from "../core/Form/FormSubmit";
 import AuditorActions from "../auditChecklist/AuditorActions";
+import {$generateNodesFromDOM} from "@lexical/html";
+import {$getRoot, $insertNodes} from "lexical";
+import LexicalEditorWrapper from "../rich_text_editor_lexical/plugins/LexicalEditorWrapper/LexicalEditorWrapper.js";
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -51,6 +54,43 @@ const ChecklistItemCreateForm = (props) => {
         onAddAuditorActions,
         onDeleteAuditorAction
     } = props;
+
+    const [editorQuestion, setEditorQuestion] = useState(undefined);
+    const [editorGuidance, setEditorGuidance] = useState(undefined);
+
+    useEffect(() => {
+        editorQuestion?.update(() => {
+            $getRoot().clear()
+            // In the browser you can use the native DOMParser API to parse the HTML string.
+            const parser = new DOMParser();
+            const dom = parser.parseFromString(selectedItem?.question, "text/html");
+
+            // Once you have the DOM instance it's easy to generate LexicalNodes.
+            const nodes = $generateNodesFromDOM(editorQuestion, dom);
+
+            // Select the root
+            $getRoot().select();
+
+            // Insert them at a selection.
+            $insertNodes(nodes);
+        });
+    }, [selectedItem]);
+
+    useEffect(() => {
+        editorGuidance?.update(() => {
+            $getRoot().clear()
+            const parser = new DOMParser();
+            const dom = parser.parseFromString(selectedItem?.guidance, "text/html");
+
+            const nodes = $generateNodesFromDOM(editorGuidance, dom);
+
+            // Select the root
+            $getRoot().select();
+
+            // Insert them at a selection.
+            $insertNodes(nodes);
+        });
+    }, [selectedItem]);
 
     return (
         <div>
@@ -103,34 +143,38 @@ const ChecklistItemCreateForm = (props) => {
                             null
                     }
                     <Grid item xl={12} lg={12} md={12} sm={12} xs={12}>
-                        <TextFieldValidation
-                            disabled={editDisabled}
-                            id="question"
-                            label="qms.checklist.question"
-                            validators={['required']}
-                            errorMessages={[<IntlMessages id="general.validation"/>]}
-                            required
-                            name="question"
-                            value={selectedItem.question}
-                            onInputChange={onInputChange}
-                            multiline
-                            rows="5"
-                            placeholder="qms.checklist.question"
-                            type="text"
-                        />
+                        <TypographyReportField title={"qms.checklist.question"} />
+                        <LexicalEditorWrapper setEditor={setEditorQuestion} />
+                        {/*<TextFieldValidation*/}
+                        {/*    disabled={editDisabled}*/}
+                        {/*    id="question"*/}
+                        {/*    label="qms.checklist.question"*/}
+                        {/*    validators={['required']}*/}
+                        {/*    errorMessages={[<IntlMessages id="general.validation"/>]}*/}
+                        {/*    required*/}
+                        {/*    name="question"*/}
+                        {/*    value={selectedItem.question}*/}
+                        {/*    onInputChange={onInputChange}*/}
+                        {/*    multiline*/}
+                        {/*    rows="5"*/}
+                        {/*    placeholder="qms.checklist.question"*/}
+                        {/*    type="text"*/}
+                        {/*/>*/}
                     </Grid>
                     <Grid item xl={12} lg={12} md={12} sm={12} xs={12}>
-                        <TextFieldValidation
-                            disabled={editDisabled}
-                            id="guidance"
-                            label="qms.checklist.guidance"
-                            name="guidance"
-                            value={selectedItem.guidance}
-                            onInputChange={onInputChange}
-                            multiline
-                            rows="5"
-                            placeholder="qms.checklist.guidance"
-                            type="text"/>
+                        <TypographyReportField title={"qms.checklist.guidance"} />
+                        <LexicalEditorWrapper setEditor={setEditorGuidance} />
+                        {/*<TextFieldValidation*/}
+                        {/*    disabled={editDisabled}*/}
+                        {/*    id="guidance"*/}
+                        {/*    label="qms.checklist.guidance"*/}
+                        {/*    name="guidance"*/}
+                        {/*    value={selectedItem.guidance}*/}
+                        {/*    onInputChange={onInputChange}*/}
+                        {/*    multiline*/}
+                        {/*    rows="5"*/}
+                        {/*    placeholder="qms.checklist.guidance"*/}
+                        {/*    type="text"/>*/}
                     </Grid>
                     <Grid item xl={6} lg={6} md={6} sm={12} xs={12}>
                         <TextFieldValidation
