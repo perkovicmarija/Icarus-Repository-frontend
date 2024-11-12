@@ -45,9 +45,9 @@ import {InsertTableDialog} from "../TablePlugin.js";
 
 const LowPriority = 1;
 
-const topBarClickListener = () => {
+const topBarClickListener = (ref) => {
   const [editor] = useLexicalComposerContext();
-  const [modal, showModal] = useModal();
+  const [modal, showModal] = useModal(ref);
   const [blockType, setBlockType] = useState("paragraph");
   const [selectedElementKey, setSelectedElementKey] = useState(null);
   const [isRTL, setIsRTL] = useState(false);
@@ -74,9 +74,9 @@ const topBarClickListener = () => {
     if ($isRangeSelection(selection)) {
       const anchorNode = selection.anchor.getNode();
       const element =
-        anchorNode.getKey() === "root"
-          ? anchorNode
-          : anchorNode.getTopLevelElementOrThrow();
+          anchorNode.getKey() === "root"
+              ? anchorNode
+              : anchorNode.getTopLevelElementOrThrow();
       const elementKey = element.getKey();
       const elementDOM = editor.getElementByKey(elementKey);
       if (elementDOM !== null) {
@@ -87,8 +87,8 @@ const topBarClickListener = () => {
           setBlockType(type);
         } else {
           const type = $isHeadingNode(element)
-            ? element.getTag()
-            : element.getType();
+              ? element.getTag()
+              : element.getType();
 
           setBlockType(type);
         }
@@ -96,16 +96,16 @@ const topBarClickListener = () => {
 
       pushInEventTypesState(selection.hasFormat("bold"), eventTypes.formatBold);
       pushInEventTypesState(
-        selection.hasFormat("italic"),
-        eventTypes.formatItalic
+          selection.hasFormat("italic"),
+          eventTypes.formatItalic
       );
       pushInEventTypesState(
-        selection.hasFormat("underline"),
-        eventTypes.formatUnderline
+          selection.hasFormat("underline"),
+          eventTypes.formatUnderline
       );
       pushInEventTypesState(
-        selection.hasFormat("strikethrough"),
-        eventTypes.formatStrike
+          selection.hasFormat("strikethrough"),
+          eventTypes.formatStrike
       );
       pushInEventTypesState(selection.hasFormat("code"), eventTypes.formatCode);
 
@@ -121,7 +121,7 @@ const topBarClickListener = () => {
       } else {
         if (allSelectedEvents.includes(eventTypes.formatInsertLink)) {
           allSelectedEvents = allSelectedEvents.filter(
-            (ev) => ev !== eventTypes.formatCode
+              (ev) => ev !== eventTypes.formatCode
           );
         }
         setIsLink(false);
@@ -133,19 +133,19 @@ const topBarClickListener = () => {
 
   useEffect(() => {
     return mergeRegister(
-      editor.registerUpdateListener(({ editorState }) => {
-        editorState.read(() => {
-          updateToolbar();
-        });
-      }),
-      editor.registerCommand(
-        SELECTION_CHANGE_COMMAND,
-        (_payload, newEditor) => {
-          updateToolbar();
-          return false;
-        },
-        LowPriority
-      )
+        editor.registerUpdateListener(({ editorState }) => {
+          editorState.read(() => {
+            updateToolbar();
+          });
+        }),
+        editor.registerCommand(
+            SELECTION_CHANGE_COMMAND,
+            (_payload, newEditor) => {
+              updateToolbar();
+              return false;
+            },
+            LowPriority
+        )
     );
   }, [editor, updateToolbar]);
 
@@ -186,12 +186,12 @@ const topBarClickListener = () => {
       insertLink();
     } else if (eventType === eventTypes.insertImage) {
       showModal("Insert Image", (onClose) => (
-        <InsertImageDialog activeEditor={editor} onClose={onClose} />
+          <InsertImageDialog activeEditor={editor} onClose={onClose} ref={ref} />
       ));
     }
     else if (eventType === eventTypes.insertTable) {
       showModal("Insert Table", (onClose) => (
-        <InsertTableDialog activeEditor={editor} onClose={onClose} />
+          <InsertTableDialog activeEditor={editor} onClose={onClose} ref={ref} />
       ));
     }
   };

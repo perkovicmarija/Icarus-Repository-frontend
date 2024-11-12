@@ -9,7 +9,7 @@ import {
   COMMAND_PRIORITY_EDITOR,
   createCommand,
 } from "lexical";
-import { createContext, useContext, useEffect, useMemo, useState } from "react";
+import {createContext, forwardRef, useContext, useEffect, useMemo, useState} from "react";
 import * as React from "react";
 
 import {$createTableNodeWithDimensions, TableNode} from "../nodes/TableNode";
@@ -17,6 +17,9 @@ import RichTextEditorTextInput from "../components/TextInput/RichTextEditorTextI
 import {RichTextEditorDialogActions} from "../components/Dialog/RichTextEditorDialog.js";
 import RichTextEditorButton from "../components/Button/RichTextEditorButton.js";
 import {INSERT_TABLE_COMMAND} from "@lexical/table";
+import {Button, Paper} from "@mui/material";
+import IntlMessages from "../../core/IntlMessages.jsx";
+import {LayoutWrapper} from "../../core/LayoutWrapper.jsx";
 
 export default function invariant(cond, message, ...args) {
   if (cond) {
@@ -24,7 +27,7 @@ export default function invariant(cond, message, ...args) {
   }
 
   throw new Error(
-    "Internal Lexical error: invariant() is meant to be replaced at compile " +
+      "Internal Lexical error: invariant() is meant to be replaced at compile " +
       "time. There is no runtime version."
   );
 }
@@ -40,27 +43,26 @@ export const CellContext = createContext({
 export function TableContext({ children }) {
   const [contextValue, setContextValue] = useState({cellEditorConfig: null,cellEditorPlugins: null})
   return (
-    <CellContext.Provider
-      value={useMemo(
-        () => ({
-          cellEditorConfig: contextValue.cellEditorConfig,
-          cellEditorPlugins: contextValue.cellEditorPlugins,
-          set: (cellEditorConfig, cellEditorPlugins) => {
-            setContextValue({ cellEditorConfig, cellEditorPlugins });
-          },
-        }),
-        [contextValue.cellEditorConfig, contextValue.cellEditorPlugins]
-      )}
-    >
-      {children}
-    </CellContext.Provider>
+      <CellContext.Provider
+          value={useMemo(
+              () => ({
+                cellEditorConfig: contextValue.cellEditorConfig,
+                cellEditorPlugins: contextValue.cellEditorPlugins,
+                set: (cellEditorConfig, cellEditorPlugins) => {
+                  setContextValue({ cellEditorConfig, cellEditorPlugins });
+                },
+              }),
+              [contextValue.cellEditorConfig, contextValue.cellEditorPlugins]
+          )}
+      >
+        {children}
+      </CellContext.Provider>
   );
 }
 
-export function InsertTableDialog({
-                                    activeEditor,
-                                    onClose,
-                                  }) {
+export const InsertTableDialog = forwardRef(function InsertTableDialog(
+    { activeEditor, onClose },ref
+){
   const [rows, setRows] = useState('5');
   const [columns, setColumns] = useState('5');
   const [isDisabled, setIsDisabled] = useState(true);
@@ -83,31 +85,33 @@ export function InsertTableDialog({
   };
 
   return (
-    <>
-      <RichTextEditorTextInput
-        placeholder={'# of rows (1-500)'}
-        label="Rows"
-        onChange={setRows}
-        value={rows}
-        data-test-id="table-modal-rows"
-        type="number"
-      />
-      <RichTextEditorTextInput
-        placeholder={'# of columns (1-50)'}
-        label="Columns"
-        onChange={setColumns}
-        value={columns}
-        data-test-id="table-modal-columns"
-        type="number"
-      />
-      <RichTextEditorDialogActions data-test-id="table-model-confirm-insert">
-        <RichTextEditorButton disabled={isDisabled} onClick={onClick}>
-          Confirm
-        </RichTextEditorButton>
-      </RichTextEditorDialogActions>
-    </>
+      <Paper style={{ marginTop: "1rem" }} ref={ref}>
+        <LayoutWrapper>
+          <RichTextEditorTextInput
+              placeholder={'# of rows (1-500)'}
+              label="Rows"
+              onChange={setRows}
+              value={rows}
+              data-test-id="table-modal-rows"
+              type="number"
+          />
+          <RichTextEditorTextInput
+              placeholder={'# of columns (1-50)'}
+              label="Columns"
+              onChange={setColumns}
+              value={columns}
+              data-test-id="table-modal-columns"
+              type="number"
+          />
+          <RichTextEditorDialogActions data-test-id="table-model-confirm-insert">
+            <Button onClick={onClick} disabled={isDisabled}>
+              <IntlMessages id="action.add" />
+            </Button>
+          </RichTextEditorDialogActions>
+        </LayoutWrapper>
+      </Paper>
   );
-}
+})
 
 export function TablePlugin({ cellEditorConfig, children }) {
   const [editor] = useLexicalComposerContext();
@@ -121,49 +125,49 @@ export function TablePlugin({ cellEditorConfig, children }) {
     cellContext.set(cellEditorConfig, children);
 
     return (
-      editor.registerCommand
-      (INSERT_TABLE_COMMAND,
-      ({ columns, rows, includeHeaders }) => {
-        const selection = $getSelection();
+        editor.registerCommand
+        (INSERT_TABLE_COMMAND,
+            ({ columns, rows, includeHeaders }) => {
+              const selection = $getSelection();
 
-        if (!$isRangeSelection(selection)) {
-          return true;
-        }
+              if (!$isRangeSelection(selection)) {
+                return true;
+              }
 
-        const focus = selection.focus;
-        const focusNode = focus.getNode();
+              const focus = selection.focus;
+              const focusNode = focus.getNode();
 
-        if (focusNode !== null) {
-          const tableNode = $createTableNodeWithDimensions(
-            Number(rows),
-            Number(columns),
-            includeHeaders
-          );
+              if (focusNode !== null) {
+                const tableNode = $createTableNodeWithDimensions(
+                    Number(rows),
+                    Number(columns),
+                    includeHeaders
+                );
 
-          if ($isRootOrShadowRoot(focusNode)) {
-            const target = focusNode.getChildAtIndex(focus.offset);
+                if ($isRootOrShadowRoot(focusNode)) {
+                  const target = focusNode.getChildAtIndex(focus.offset);
 
-            if (target !== null) {
-              target.insertBefore(tableNode);
-            } else {
-              focusNode.append(tableNode);
-            }
+                  if (target !== null) {
+                    target.insertBefore(tableNode);
+                  } else {
+                    focusNode.append(tableNode);
+                  }
 
-            tableNode.insertBefore($createParagraphNode());
-          } else {
-            const topLevelNode = focusNode.getTopLevelElementOrThrow();
-            topLevelNode.insertAfter(tableNode);
-          }
+                  tableNode.insertBefore($createParagraphNode());
+                } else {
+                  const topLevelNode = focusNode.getTopLevelElementOrThrow();
+                  topLevelNode.insertAfter(tableNode);
+                }
 
-          tableNode.insertAfter($createParagraphNode());
-          const nodeSelection = $createNodeSelection();
-          nodeSelection.add(tableNode.getKey());
-          $setSelection(nodeSelection);
-        }
+                tableNode.insertAfter($createParagraphNode());
+                const nodeSelection = $createNodeSelection();
+                nodeSelection.add(tableNode.getKey());
+                $setSelection(nodeSelection);
+              }
 
-        return true;
-      },
-      COMMAND_PRIORITY_EDITOR)
+              return true;
+            },
+            COMMAND_PRIORITY_EDITOR)
     );
   }, [cellContext, cellEditorConfig, children, editor]);
 

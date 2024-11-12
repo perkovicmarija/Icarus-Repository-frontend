@@ -1,5 +1,4 @@
 import {LexicalComposer} from "@lexical/react/LexicalComposer";
-import TopBarPlugin from "../TopBar/TopBarPlugin.js";
 import {RichTextPlugin} from "@lexical/react/LexicalRichTextPlugin";
 import {OnChangePlugin} from "@lexical/react/LexicalOnChangePlugin";
 import {HistoryPlugin} from "@lexical/react/LexicalHistoryPlugin";
@@ -9,7 +8,7 @@ import {LinkPlugin} from "@lexical/react/LexicalLinkPlugin";
 import ImagesPlugin from "../ImagePlugin.js";
 import FloatingTextFormatToolbarPlugin from "../FloatingTextEditor/FloatingTextEditorPlugin.js";
 import {useLexicalComposerContext} from "@lexical/react/LexicalComposerContext";
-import {useEffect, useLayoutEffect, useState} from "react";
+import {useEffect, useLayoutEffect, useRef, useState} from "react";
 import {lexicalEditorConfig} from "../../config/lexicalEditorConfig.js";
 import LexicalErrorBoundary from "@lexical/react/LexicalErrorBoundary";
 import {ContentEditable} from "@lexical/react/LexicalContentEditable";
@@ -19,9 +18,10 @@ import {TableHoverActionsPlugin} from "../TableHoverActionsPlugin.js";
 import TableCellResizerPlugin from "../TableCellResizer/TableCellResizerPlugin.js";
 import {TablePlugin} from "@lexical/react/LexicalTablePlugin";
 import {TableContext} from "../TablePlugin.js";
-import TableActionMenuPlugin from "../Table/TableActionMenuPlugin.js";
-import {Box, Divider} from "@mui/material";
+import {TopBarPlugin} from "../TopBar/TopBarPlugin.js";
 import {styled} from "@mui/styles";
+import {Divider} from "@mui/material";
+import {Box} from "@mui/system";
 
 export const MuiContentEditable = styled(ContentEditable)({
   minHeight: 200,
@@ -62,6 +62,7 @@ const StyledContentEditable = styled(ContentEditable)((props) => ({
 function LexicalEditorWrapper({setEditor}) {
 
   const [floatingAnchorElem, setFloatingAnchorElem] = useState(null);
+  const [showTopBar, setShowTopBar] = useState(false);
 
   const onRef = (_floatingAnchorElem) => {
     if (_floatingAnchorElem !== null) {
@@ -69,37 +70,65 @@ function LexicalEditorWrapper({setEditor}) {
     }
   };
 
-  return (
-    <LexicalComposer initialConfig={lexicalEditorConfig}>
-      <TableContext>
-        <Dummy setEditor={setEditor} />
-        <TopBarPlugin />
-        <Divider />
-        <Box sx={{ position: "relative", background: "white" }}>
-          <RichTextPlugin
-            contentEditable={<StyledContentEditable spellCheck="false" />}
-            // placeholder={<Box sx={placeHolderSx}>Enter some text...</Box>}
-            ErrorBoundary={LexicalErrorBoundary}
-          />
-          <OnChangePlugin onChange={onChange} />
-          <HistoryPlugin />
-          {/*<TreeViewPlugin />*/}
-          <ListPlugin />
-          <LinkPlugin />
-          <ImagesPlugin captionsEnabled={false} />
-          <FloatingTextFormatToolbarPlugin />
-          <TablePlugin />
-          <TableHoverActionsPlugin />
-          <TableCellResizerPlugin />
+  const handleClick = () => {
+    if (!showTopBar) {
+      setShowTopBar(true);
+    }
+  };
 
-        </Box>
-        {/*{floatingAnchorElem && (*/}
-        {/*  <>*/}
-        {/*    <TableActionMenuPlugin anchorElem={floatingAnchorElem} />*/}
-        {/*  </>*/}
-        {/*)}*/}
-      </TableContext>
-    </LexicalComposer>
+  const [isDialogOpened, setIsDialogOpened] = useState(false);
+
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (topBarRef.current && !topBarRef.current.contains(event.target)) {
+        setShowTopBar(false);
+      }
+    };
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, []);
+
+  const topBarRef = useRef(null);
+
+  return (
+      <div ref={topBarRef}>
+        <LexicalComposer initialConfig={lexicalEditorConfig}>
+          <TableContext>
+            <Dummy setEditor={setEditor}/>
+            {showTopBar &&
+                <TopBarPlugin ref={topBarRef} />
+            }
+            <Divider/>
+            <Box
+                sx={{position: "relative", background: "white"}}
+                onClick={handleClick}
+            >
+              <RichTextPlugin
+                  contentEditable={<StyledContentEditable spellCheck="false"/>}
+                  // placeholder={<Box sx={placeHolderSx}>Enter some text...</Box>}
+                  ErrorBoundary={LexicalErrorBoundary}
+              />
+              <OnChangePlugin onChange={onChange}/>
+              <HistoryPlugin/>
+              {/*<TreeViewPlugin />*/}
+              <ListPlugin/>
+              <LinkPlugin/>
+              <ImagesPlugin captionsEnabled={false}/>
+              {/*<FloatingTextFormatToolbarPlugin />*/}
+              <TablePlugin/>
+              <TableHoverActionsPlugin/>
+              <TableCellResizerPlugin/>
+            </Box>
+            {/*{floatingAnchorElem && (*/}
+            {/*  <>*/}
+            {/*    <TableActionMenuPlugin anchorElem={floatingAnchorElem} />*/}
+            {/*  </>*/}
+            {/*)}*/}
+          </TableContext>
+        </LexicalComposer>
+      </div>
   );
 }
 
@@ -131,7 +160,7 @@ function MyCustomAutoFocusPlugin() {
   return null;
 }
 
-const Dummy = ({ setEditor }) => {
+const Dummy = ({setEditor}) => {
   const [editor] = useLexicalComposerContext();
 
   useLayoutEffect(() => {

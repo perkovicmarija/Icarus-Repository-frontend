@@ -1,7 +1,7 @@
 import {useCallback, useMemo, useState} from "react";
 import DialogFormFrame from "../../core/Dialog/DialogFormFrame.tsx";
 
-export default function useModal() {
+export default function useModal(ref) {
   const [modalContent, setModalContent] = useState(null);
 
   const onClose = useCallback(() => {
@@ -14,14 +14,16 @@ export default function useModal() {
     }
     const { title, content, closeOnClickOutside } = modalContent;
     return (
-      <DialogFormFrame
-        title={title}
-        open={!!modalContent}
-        onClose={onClose}
-        closeOnClickOutside={closeOnClickOutside}
-      >
-        {content}
-      </DialogFormFrame>
+      <div ref={ref}>
+        <DialogFormFrame
+            title={title}
+            open={!!modalContent}
+            onClose={onClose}
+            closeOnClickOutside={closeOnClickOutside}
+        >
+          {content}
+        </DialogFormFrame>
+      </div>
     );
   }, [modalContent, onClose]);
 
@@ -30,11 +32,13 @@ export default function useModal() {
       title,
       // eslint-disable-next-line no-shadow
       getContent,
-      closeOnClickOutside = false
+      closeOnClickOutside = false,
+      ref,
     ) => {
       setModalContent({
         closeOnClickOutside,
         content: getContent(onClose),
+        ref: ref,
         title,
       });
     },
