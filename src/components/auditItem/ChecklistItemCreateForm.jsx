@@ -9,9 +9,10 @@ import TypographyReportField from "../core/Typography/FormFieldTitle";
 import FormEditBarSubtitle from "../core/Form/FormEditBarSubtitle";
 import FormSubmit from "../core/Form/FormSubmit";
 import AuditorActions from "../auditChecklist/AuditorActions";
-import {$generateNodesFromDOM} from "@lexical/html";
+import {$generateHtmlFromNodes, $generateNodesFromDOM} from "@lexical/html";
 import {$getRoot, $insertNodes} from "lexical";
 import LexicalEditorWrapper from "../rich_text_editor_lexical/plugins/LexicalEditorWrapper/LexicalEditorWrapper.js";
+import {cloneDeep} from "lodash";
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -52,7 +53,7 @@ const ChecklistItemCreateForm = (props) => {
         onInputAuditorActionChange,
         onSelectLocationType,
         onAddAuditorActions,
-        onDeleteAuditorAction
+        onDeleteAuditorAction,
     } = props;
 
     const [editorQuestion, setEditorQuestion] = useState(undefined);
@@ -74,7 +75,7 @@ const ChecklistItemCreateForm = (props) => {
             // Insert them at a selection.
             $insertNodes(nodes);
         });
-    }, [selectedItem]);
+    }, [editorQuestion, selectedItem]);
 
     useEffect(() => {
         editorGuidance?.update(() => {
@@ -90,12 +91,24 @@ const ChecklistItemCreateForm = (props) => {
             // Insert them at a selection.
             $insertNodes(nodes);
         });
-    }, [selectedItem]);
+    }, [editorGuidance, selectedItem]);
 
+    const checklistItemSave = () => {
+        const newItem = cloneDeep(selectedItem);
+        editorQuestion.getEditorState().read(() => {
+            // @ts-ignore
+            newItem.question = $generateHtmlFromNodes(editorQuestion);
+        });
+        editorGuidance.getEditorState().read(() => {
+            // @ts-ignore
+            newItem.guidance = $generateHtmlFromNodes(editorGuidance);
+        });
+        handleChecklistSave(newItem);
+    }
     return (
         <div>
             <ValidatorForm
-                onSubmit={handleChecklistSave}
+                onSubmit={checklistItemSave}
                 onError={handleError}
                 noValidate
             >
@@ -109,7 +122,7 @@ const ChecklistItemCreateForm = (props) => {
                     authPermissions={['PERM_AUDIT_CRUD', 'PERM_AUDIT_ENTRY']}
                     showEdit={selectedItem.auditItemId !== null}
                     onEditSelect={onEditSelect}
-                    onSaveSelect={handleChecklistSave}
+                    onSaveSelect={checklistItemSave}
                     onCancelSelect={handleCancel}
                 />
                 <Grid container spacing={2} className={classes.root}>
