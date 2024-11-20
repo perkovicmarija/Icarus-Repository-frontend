@@ -75,7 +75,7 @@ const ChecklistItemCreateForm = (props) => {
             // Insert them at a selection.
             $insertNodes(nodes);
         });
-    }, [editorQuestion, selectedItem]);
+    }, [editorQuestion, selectedItem?.question]);
 
     useEffect(() => {
         editorGuidance?.update(() => {
@@ -91,7 +91,7 @@ const ChecklistItemCreateForm = (props) => {
             // Insert them at a selection.
             $insertNodes(nodes);
         });
-    }, [editorGuidance, selectedItem]);
+    }, [editorGuidance, selectedItem?.guidance]);
 
     const checklistItemSave = () => {
         const newItem = cloneDeep(selectedItem);
