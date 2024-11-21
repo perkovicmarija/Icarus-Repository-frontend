@@ -8,7 +8,7 @@ import {
   Report as ReportInterface,
   useCreateUpdateReportMutation,
   useDeleteReportMutation,
-  useGetReportsQuery,
+  useGetReportsPaginatedQuery,
 } from "../../redux/report/reportApi";
 import ReportList from "./ReportList";
 import { getReportPath } from "../../consts/routePaths";
@@ -50,13 +50,10 @@ const Reports = () => {
     }),
     [filters, page, rowsPerPage]
   );
-  const { data, isFetching, refetch } =
-    useGetReportsQuery(meta);
+  const { data, isFetching, refetch } = useGetReportsPaginatedQuery(meta);
 
     const { data: hazardClassifications} =
     useGetHazardClassificationsQuery();
-
-  console.log("hazardClassifications", hazardClassifications)
 
   const [triggerAddEdit] = useCreateUpdateReportMutation();
   const [triggerDelete] = useDeleteReportMutation();
