@@ -9,7 +9,7 @@ function HazardClassificators() {
 
   const [dialogExportOpen, setDialogExportOpen] = useState(false);
 
-  
+  const { data, isFetching } = useGetHazardClassificationsQuery();  
 
   const [triggerAddEdit] = useCreateUpdateHazardClassificationMutation();
 
