@@ -77,7 +77,7 @@ export const reportsModule = adminRoot + "/reports";
 export const reports = reportsModule + "/pagination/";
 
 export const getReportPath = (page: number, rowsPerPage?: number) => {
-  return `${reportsModule}${page}/${rowsPerPage ?? ""}`;
+  return `${reports}${page}/${rowsPerPage ?? ""}`;
 }
 
 export const report = reportsModule + "/:id";

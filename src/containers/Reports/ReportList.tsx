@@ -31,6 +31,12 @@ const columnData: ColumnDefinition[] = [
     label: "general.eventDescription",
   },
   {
+    id: "eventDate",
+    numeric: false,
+    disablePadding: false,
+    label: "general.eventDate",
+  },
+  {
     id: "airportDeparture",
     numeric: false,
     disablePadding: false,
@@ -51,6 +57,12 @@ const columnData: ColumnDefinition[] = [
   {
     id: "aircraft",
     label: "general.aircraft",
+    numeric: false,
+    disablePadding: false,
+  },
+  {
+    id: "aircraftType",
+    label: "general.aircraftType",
     numeric: false,
     disablePadding: false,
   },
@@ -109,10 +121,12 @@ const ReportList = <T,>({
                 <TableCell>{item.reportId}</TableCell>
                 <TableCell>{item.title}</TableCell>
                 <TableCell>{item.eventDescription}</TableCell>
+                <TableCell>{item.eventDateFormatted}</TableCell>
                 <TableCell>{item.airportDeparture}</TableCell>
                 <TableCell>{item.airportDestination}</TableCell>
                 <TableCell>{item.flightNumber}</TableCell>
                 <TableCell>{item.aircraft}</TableCell>
+                <TableCell>{item.aircraftType}</TableCell>
                 <TableCell>{item.flightPhase}</TableCell>
                 <TableCell>{item.reportHazardIdentification?.hazardClassification?.name}</TableCell>
                 <TableCell
