@@ -112,6 +112,7 @@
   "general.hazard": "Hazard",
   "general.airportDestination": "Airport destination",
   "general.eventDescription": "Event description",
+  "general.eventDate": "Event date",
   "general.aircraft": "Aircraft",
   "general.aircrafts": "Aircrafts",
   "general.registration": "Registration",
