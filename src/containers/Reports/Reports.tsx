@@ -69,7 +69,6 @@ const Reports = () => {
   );
 
   const handleSearchSubmit = (newFilters: FiltersType): void => {
-    console.log("newFilters", newFilters);
     dispatch(
       reportActions.setFilters({
         ...filters,
@@ -92,6 +91,7 @@ const Reports = () => {
   const onChangePage = (newValue: number): void => {
     history.push(getReportPath(newValue, rowsPerPage));
   };
+
   const onChangeRowsPerPage = (newValue: number): void => {
     storeRowsPerPage(newValue);
     history.push(getReportPath(page, newValue));

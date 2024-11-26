@@ -8,11 +8,13 @@ const DialogFormFrame = ({
   open,
   children,
   maxWidth,
+  formComponent
 }: {
   onClose: DialogProps["onClose"];
   title: string;
   open: Record<string, any> | boolean | undefined;
   children: ReactElement;
+  formComponent: ReactElement;
   maxWidth?: DialogProps["maxWidth"];
 }) => {
   if (!open) {
@@ -30,6 +32,7 @@ const DialogFormFrame = ({
       <DialogTitle id="form-dialog-title">
         <IntlMessages id={title} />
       </DialogTitle>
+      {formComponent}
       {children}
     </Dialog>
   );

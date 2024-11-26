@@ -488,6 +488,7 @@
   "riskManagement.hazardSubcategoryName": "Hazard subcategory name",
   "riskManagement.finding": "Finding",
   "riskManagement.hazard": "Hazard",
+  "riskManagement.selectHazard": "Select hazard",
 
   "report.create": "Create Report",
   "report.update": "Update Report"
