@@ -1,9 +1,7 @@
 import React, { useState } from "react";
-import Button from "@material-ui/core/Button";
-import { DialogActions, DialogContent } from "@material-ui/core";
-import IntlMessages from "../../../components/utility/intlMessages";
-import Grid from "@material-ui/core/Grid";
 import MultilevelHazardClassification from "./MultilevelHazardClassification";
+import IntlMessages from "../core/IntlMessages";
+import { Button, Grid, DialogActions, DialogContent } from "@mui/material";
 
 function DialogFormAddEditHazard2({
   initialData,

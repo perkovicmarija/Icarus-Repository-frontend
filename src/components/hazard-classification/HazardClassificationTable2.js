@@ -124,7 +124,7 @@ function HazardClassificationTable2({
 
       <DialogFormFrame
         onClose={() => setAddEditForm(undefined)}
-        title={"riskManagement.irm.selectHazard"}
+        title={"riskManagement.selectHazard"}
         open={Boolean(addEditForm)}
         maxWidth="lg"
         formComponent={
