@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Box, Tooltip } from "@mui/material";
 import Grid from "@mui/material/Grid";
 import IconButton from "@mui/material/IconButton";
@@ -32,36 +32,40 @@ function MultilevelHazardClassification({
 
   const [valuesFiltered, setValuesFiltered] = useState();
 
+  const { data, isFetching } = useGetHazardClassificationsFilteredQuery({ searchText });
+
+  useEffect(() => {
+    if (data?.data) {
+      setValuesFiltered(data.data);
+    }
+  }, [data]);
+
   const handleInputSearchChange = (event) => {
     setSearchText(event.target.value);
   };
 
   const onSearchSubmit = () => {
-    if (searchText && searchText !== "") {
+    if (searchText.trim() !== "") {
       setSearchActive(true);
-      onSelect(undefined, undefined);
-      setValuesFiltered();
-      const { data } = useGetHazardClassificationsFilteredQuery({ searchText })
-      setValuesFiltered(data.data)
     } else {
       setSearchActive(false);
-      setValuesFiltered();
+      setValuesFiltered([]);
     }
   };
 
-  const getValueFullPath = (value) => {
-    let valueParent = values.find((s) => s.taxonomyId === value.parentId);
-    if (valueParent) {
-      let path = getValueFullPath(valueParent);
-      if (path) {
-        return path + " ---> " + valueParent.name;
-      } else {
-        return valueParent.name;
-      }
-    } else {
+  const getValueFullPath = (value, visited = new Set()) => {
+    if (!value.parentId || visited.has(value.taxonomyId)) {
       return undefined;
     }
+    visited.add(value.taxonomyId);
+    const valueParent = values.find((s) => s.taxonomyId === value.parentId);
+    if (valueParent) {
+      const path = getValueFullPath(valueParent, visited);
+      return path ? path + " ---> " + valueParent.name : valueParent.name;
+    }
+    return undefined;
   };
+  
 
   if (!values) {
     return <ProgressCustom />;
