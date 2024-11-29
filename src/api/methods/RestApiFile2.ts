@@ -8,7 +8,8 @@ export const RestApiFile2 = {
     resourcePath: string,
     data: any,
     onProgress: (value: number | undefined) => void,
-    abortController?: AbortController
+    abortController?: AbortController,
+    signal?: AbortSignal
   ) {
     const token = getToken();
 
@@ -29,7 +30,7 @@ export const RestApiFile2 = {
           : 0;
         onProgress(progress);
       },
-      signal: abortController?.signal,
+      signal: abortController?.signal ?? signal,
     })
       .then((response) => {
         console.log(response);
@@ -92,5 +93,53 @@ export const RestApiFile2 = {
         onProgress(undefined);
         throw e;
       });
+  },
+  upload2(
+    resourcePath: string,
+    data: FormData,
+    onProgress: (value: number | undefined) => void,
+    signal: AbortSignal,
+    method: "POST" | "PUT"
+  ) {
+    const token = getToken();
+
+    return axios({
+      url: getServerPath() + resourcePath + "?access_token=" + token,
+      method,
+      data,
+      onUploadProgress: (progressEvent) => {
+        let progress = progressEvent.total
+          ? Math.floor((progressEvent.loaded * 100) / progressEvent.total)
+          : 0;
+        onProgress(progress);
+      },
+      signal,
+    })
+      .then((response) => {
+        console.log(response);
+        onProgress(undefined);
+        return response;
+      })
+      .catch((e) => {
+        console.log("error", e);
+        onProgress(undefined);
+        throw e;
+      });
+  },
+  download2(
+    resourcePath: string,
+    data: any,
+    onProgress: (value: number | undefined) => void,
+    abortSignal: AbortSignal
+  ) {
+    const getPromise = this.get(
+      resourcePath,
+      data,
+      onProgress,
+      undefined,
+      abortSignal
+    );
+    getPromise.then(downloadFile);
+    return getPromise;
   },
 };

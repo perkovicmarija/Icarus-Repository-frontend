@@ -36,7 +36,6 @@ const DateTimePickerCustom2 = ({
     rules,
     defaultValue,
     shouldUnregister,
-    disabled,
   });
 
   const error = formState.errors[name];
@@ -54,6 +53,7 @@ const DateTimePickerCustom2 = ({
         {...field}
         value={field.value ? dayjs(field.value) : null}
         timezone="UTC"
+        disabled={disabled}
         inputRef={ref}
         slotProps={{
           textField: {

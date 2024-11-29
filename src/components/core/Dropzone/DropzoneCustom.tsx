@@ -1,17 +1,17 @@
 import { useMemo, useCallback, useState } from "react";
 import { DropzoneOptions, useDropzone } from "react-dropzone";
-import IntlMessages from "../IntlMessages";
-import List from "@mui/material/List";
-import ListItem from "@mui/material/ListItem";
-import ListItemSecondaryAction from "@mui/material/ListItemSecondaryAction";
-import ListItemText from "@mui/material/ListItemText";
-import Tooltip from "@mui/material/Tooltip";
-import IconButton from "@mui/material/IconButton";
-import DeleteIcon from "@mui/icons-material/Delete";
-import VerticalAlignBottom from "@mui/icons-material/VerticalAlignBottom";
-import ListSubheader from "@mui/material/ListSubheader";
-import DialogGenericWarning from "../Dialog/DialogGenericWarning";
-import { FormHelperText } from "@mui/material";
+import {
+  List,
+  ListItem,
+  ListItemText,
+  ListItemSecondaryAction,
+  Tooltip,
+  IconButton,
+  ListSubheader,
+} from "@mui/material";
+import { Delete, VerticalAlignBottom } from "@mui/icons-material";
+import DialogGenericWarning from "../../core/Dialog/DialogGenericWarning";
+import { FormattedMessage } from "react-intl";
 
 const baseStyle = {
   flex: 1,
@@ -42,21 +42,16 @@ const rejectStyle = {
   borderColor: "#ff1744",
 };
 
-function DropzoneCustom({
+function DropzoneCusom({
   disabled,
   maxSize,
-  multiple,
   onDropAccepted,
-  //
-  errorMessage,
   files,
   maxSizeMb,
   onDelete,
   onDownload,
   showDownload,
-  showDelete,
 }: DropzoneOptions & {
-  errorMessage?: string;
   files: any[];
   maxSizeMb: string;
   onDelete?: any;
@@ -66,7 +61,7 @@ function DropzoneCustom({
 }) {
   const [dialogWarningSizeOpen, setDialogWarningSizeOpen] = useState(false);
 
-  const onDropRejected = useCallback(() => {
+  const onDropRejected = useCallback((rejectedFiles) => {
     setDialogWarningSizeOpen(true);
   }, []);
 
@@ -80,7 +75,7 @@ function DropzoneCustom({
     //accept: 'image/*,application/pdf',
     disabled,
     maxSize,
-    multiple,
+    multiple: false,
     onDropAccepted,
     onDropRejected: onDropRejected,
   });
@@ -100,40 +95,33 @@ function DropzoneCustom({
   };
 
   return (
-    <div style={{ position: "relative" }}>
+    <div>
       <div {...getRootProps({ style })}>
         <input {...getInputProps()} />
         <p>
-          <IntlMessages id="general.dragAndDropFile" />
+          <FormattedMessage id="general.dragAndDropFile" />
         </p>
         <p>
-          <IntlMessages
+          <FormattedMessage
             id="general.dragAndDropFileMaxSize"
-            values={{ maxSizeMb: maxSizeMb }}
+            values={{ maxSizeMb }}
           />
         </p>
       </div>
+
       <List
-        sx={{
-          backgroundColor: files.length === 0 ? "#ffd7c0" : "#e3f2fd",
+        style={{
+          background: files.length > 0 ? "lightblue" : "#ffd4b4",
         }}
-        subheader={
-          files.length === 0 && (
-            <ListSubheader sx={{ backgroundColor: "inherit" }}>
-              <IntlMessages id={"documentation.noFilesAdded"} />
-            </ListSubheader>
-          )
-        }
-        dense
       >
-        {files.map((file, index) => {
-          return (
-            <ListItem key={index}>
-              <ListItemText primary={file.path} />
-              <ListItemSecondaryAction>
-                {showDownload && (
-                  <Tooltip title={<IntlMessages id="general.download" />}>
-                    <>
+        {files.length > 0 ? (
+          files.map((file, index) => {
+            return (
+              <ListItem key={file.path}>
+                <ListItemText primary={file.path} />
+                <ListItemSecondaryAction>
+                  {showDownload && (
+                    <Tooltip title={<FormattedMessage id="general.download" />}>
                       <span>
                         <IconButton
                           edge="end"
@@ -144,36 +132,33 @@ function DropzoneCustom({
                           <VerticalAlignBottom />
                         </IconButton>
                       </span>
-                    </>
+                    </Tooltip>
+                  )}
+                  <Tooltip title={<FormattedMessage id="general.delete" />}>
+                    <span>
+                      <IconButton
+                        edge="end"
+                        aria-label="delete"
+                        disabled={disabled}
+                        onClick={() => onDelete(file, index)}
+                      >
+                        <Delete />
+                      </IconButton>
+                    </span>
                   </Tooltip>
-                )}
-                {showDelete && (
-                  <Tooltip title={<IntlMessages id="general.delete" />}>
-                    <>
-                      <span>
-                        <IconButton
-                          edge="end"
-                          aria-label="delete"
-                          disabled={disabled}
-                          onClick={() => onDelete(file, index)}
-                        >
-                          <DeleteIcon />
-                        </IconButton>
-                      </span>
-                    </>
-                  </Tooltip>
-                )}
-              </ListItemSecondaryAction>
-            </ListItem>
-          );
-        })}
+                </ListItemSecondaryAction>
+              </ListItem>
+            );
+          })
+        ) : (
+          <ListItem>
+            <ListItemText
+              primary={"No file selected"}
+              style={{ fontStyle: "italic" }}
+            />
+          </ListItem>
+        )}
       </List>
-
-      {errorMessage && (
-        <FormHelperText error={true}>
-          <IntlMessages id={errorMessage} />
-        </FormHelperText>
-      )}
 
       <DialogGenericWarning
         open={dialogWarningSizeOpen}
@@ -184,4 +169,4 @@ function DropzoneCustom({
   );
 }
 
-export default DropzoneCustom;
+export default DropzoneCusom;

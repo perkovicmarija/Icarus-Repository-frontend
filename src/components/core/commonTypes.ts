@@ -11,4 +11,6 @@ export interface ResponseWrapper<T> {
   meta: {
     totalCount: number;
   };
+  message: string;
+  code: string;
 }

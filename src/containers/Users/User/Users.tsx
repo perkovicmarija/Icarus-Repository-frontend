@@ -97,7 +97,16 @@ function Users() {
         <UserForm
           initialData={dialogAddEdit!}
           onClose={() => setDialogAddEdit(undefined)}
-          onSubmit={(payload) => triggerAddEdit(payload).unwrap()}
+          onSubmit={(payload) => {
+            const { newPassword, generatePassword, userRoles, ...user } =
+              payload;
+            return triggerAddEdit({
+              newPassword,
+              generatePassword,
+              user,
+              userRoles,
+            }).unwrap();
+          }}
           userRoles={userRoles}
         />
       </DialogFormFrame>

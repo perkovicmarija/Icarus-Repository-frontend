@@ -12,6 +12,15 @@ export interface User {
   fullName: string;
 }
 
+export interface UserSimple {
+  userId: string;
+  name: string;
+  surname: string;
+  fullName: string;
+  fullNameReverse: string;
+  email: string;
+}
+
 export const usersApi = createApi({
   reducerPath: "usersApi",
   baseQuery: fetchBaseQuery({
@@ -20,6 +29,13 @@ export const usersApi = createApi({
   }),
   tagTypes: ["Users"],
   endpoints: (builder) => ({
+    getUser: builder.query<ResponseWrapper<User>, void>({
+      query: (id) => ({
+        url: `${id}` + `?access_token=${getToken()}`,
+        method: "GET",
+      }),
+      providesTags: ["Users"],
+    }),
     getUsersPaginated: builder.query<ResponseWrapper<User[]>, Meta>({
       query: (body) => ({
         url: `getAllPagination` + `?access_token=${getToken()}`,
@@ -35,15 +51,24 @@ export const usersApi = createApi({
       }),
       invalidatesTags: ["Users"],
     }),
-    addEditUser: builder.mutation<void, User>({
-      query: (body) => ({
+    addEditUser: builder.mutation<
+      void,
+      {
+        newPassword: boolean;
+        generatePassword: boolean;
+        userRoles: any[];
+        user: User;
+      }
+    >({
+      query: ({ newPassword, generatePassword, user, userRoles }) => ({
         url:
-          (body.userId ? "update" : "create") + `?access_token=${getToken()}`,
+          (user.userId ? "update" : "create") + `?access_token=${getToken()}`,
         method: "POST",
         body: {
-          generatePassword: false,
-          newPassword: false,
-          user: body,
+          newPassword,
+          generatePassword,
+          userRoles,
+          user: user,
         },
       }),
       invalidatesTags: ["Users"],
@@ -67,6 +92,7 @@ export const usersApi = createApi({
 });
 
 export const {
+  useGetUserQuery,
   useGetUsersPaginatedQuery,
   useDeleteUserMutation,
   useAddEditUserMutation,

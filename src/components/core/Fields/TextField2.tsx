@@ -34,7 +34,6 @@ const TextField2 = ({
     control,
     rules,
     defaultValue,
-    disabled,
   });
 
   const intl = useIntl();
@@ -55,6 +54,7 @@ const TextField2 = ({
         {...textFieldProps}
         variant="standard"
         error={Boolean(error)}
+        disabled={disabled}
         helperText={
           error?.message && intl.formatMessage({ id: error.message as string })
         }

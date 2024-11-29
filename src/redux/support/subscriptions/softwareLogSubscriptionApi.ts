@@ -2,7 +2,7 @@ import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 import { getServerPath } from "../../../consts/ServerInfo";
 import { getToken } from "../../../helpers/utility";
 import { Meta, ResponseWrapper } from "../../../components/core/commonTypes";
-import {Client} from "../../clientsApi";
+import {Client} from "../../settings/clientsApi";
 
 export interface SoftwareLogSubscription {
   supportSoftwareLogSubscriptionId: string;

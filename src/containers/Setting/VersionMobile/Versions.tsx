@@ -4,22 +4,22 @@ import { usePagination } from "../../../helpers/pagination";
 import { useHistory } from "react-router-dom";
 import DialogFormFrame from "../../../components/core/Dialog/DialogFormFrame";
 //
-import VersionList from "./VersionList";
-import DialogFormVersionMobile from "./DialogFormVersionMobile";
+import VersionList from "../../../components/setting/VersionMobile/VersionList";
+import DialogFormVersionMobile from "../../../components/setting/VersionMobile/DialogFormVersionMobile";
 import { getVersionMobilePath } from "../../../consts/routePaths";
 import {
   FiltersType,
   VersionForAddEdit,
   versionsActions,
-} from "../../../redux/setting/versionsSlice";
-import { useGetClientsQuery } from "../../../redux/clientsApi";
+} from "../../../redux/settings/versionsSlice";
+import { useGetClientsQuery } from "../../../redux/settings/clientsApi";
 import { toast } from "react-toastify";
 import {
   Version,
   useAddEditVersionMutation,
   useDeleteVersionMutation,
   useGetVersionsPaginatedQuery,
-} from "../../../redux/versionsApi";
+} from "../../../redux/settings/versionsApi";
 
 // Check if a version with the same client name, platform and version already exists
 const checkForExistingCombination = (

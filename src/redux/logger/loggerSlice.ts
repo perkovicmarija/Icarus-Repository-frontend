@@ -1,4 +1,4 @@
-import {MobileLog} from "../loggerApi";
+import {MobileLog} from "./loggerApi";
 import {createSlice} from "@reduxjs/toolkit";
 
 

@@ -8,7 +8,7 @@ export default function DialogProgress({
   type,
 }: {
   progress: number | undefined;
-  onClose: () => void;
+  onClose?: () => void;
   type: "upload" | "download";
 }) {
   if (progress === undefined) {
@@ -30,7 +30,7 @@ export default function DialogProgress({
         </Box>
         <Grid container>{progress}/100%</Grid>
       </DialogContent>
-      <DialogActions2 onClose={onClose} hideSubmit />
+      {onClose && <DialogActions2 onClose={onClose} hideSubmit />}
     </DialogNoCloseFrame>
   );
 }

@@ -13,6 +13,7 @@ export const DialogActions2 = ({
   submitDisabled,
   submitText,
   hideSubmit,
+  showCloseText,
 }: {
   onClose: ButtonProps["onClick"];
   onClear?: ButtonProps["onClick"];
@@ -20,6 +21,7 @@ export const DialogActions2 = ({
   submitDisabled?: boolean;
   submitText?: string;
   hideSubmit?: boolean;
+  showCloseText?: boolean;
 }) => {
   return (
     <DialogActions>
@@ -34,9 +36,15 @@ export const DialogActions2 = ({
           <FormattedMessage id="action.clearAll" />
         </Button>
       )}
-      <Button onClick={onClose} disabled={loading}>
-        <FormattedMessage id="action.cancel" />
-      </Button>
+      {showCloseText ? (
+        <Button onClick={onClose} disabled={loading}>
+          <FormattedMessage id="action.close" />
+        </Button>
+      ) : (
+        <Button onClick={onClose} disabled={loading}>
+          <FormattedMessage id="action.cancel" />
+        </Button>
+      )}
       {!hideSubmit && (
         <Button type="submit" disabled={loading || submitDisabled}>
           <FormattedMessage id={submitText ?? "action.submit"} />

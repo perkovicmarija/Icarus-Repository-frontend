@@ -20,7 +20,14 @@ type SelectCustomProps = {
 
 const SelectCustom = forwardRef<HTMLInputElement, SelectCustomProps>(
   (
-    { field: { ref, ...field }, options, label, required, error, textFieldProps },
+    {
+      field: { ref, ...field },
+      options,
+      label,
+      required,
+      error,
+      textFieldProps,
+    },
     ref2
   ) => {
     const intl = useIntl();
@@ -58,13 +65,16 @@ const SelectBasicCustom2 = ({
   defaultValue = "",
   disabled,
   textFieldProps,
-}: { label?: string; options: string[], textFieldProps?: TextFieldProps } & UseControllerProps<any>) => {
+}: {
+  label?: string;
+  options: string[];
+  textFieldProps?: TextFieldProps;
+} & UseControllerProps<any>) => {
   const { field, formState } = useController({
     name,
     control,
     rules,
     defaultValue,
-    disabled,
   });
 
   const error = formState.errors[name];
@@ -75,6 +85,7 @@ const SelectBasicCustom2 = ({
       error={error?.message as string | undefined}
       label={label}
       options={options}
+      disabled={disabled}
       required={Boolean(rules?.required)}
       textFieldProps={textFieldProps}
     />

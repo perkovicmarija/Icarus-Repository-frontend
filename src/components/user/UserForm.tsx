@@ -13,10 +13,6 @@ import { User } from "../../redux/user/usersSlice";
 //
 
 const UserForm = ({
-  //onGeneratePasswordSwitchChange,
-  //onNewPasswordSwitchChange,
-  //onReactivateUserClick,
-  //
   initialData,
   onClose,
   onSubmit,
@@ -25,13 +21,27 @@ const UserForm = ({
 }: {
   initialData: User | {};
   onClose: () => void;
-  onSubmit: (payload: User) => Promise<any>;
+  onSubmit: (
+    payload: User & {
+      newPassword: boolean;
+      generatePassword: boolean;
+      userRoles: any[];
+    }
+  ) => Promise<any>;
   userRoles: any[];
 }) => {
-  const { handleSubmit, control } = useForm({
-    defaultValues: initialData,
+  const { handleSubmit, control, watch } = useForm({
+    defaultValues: {
+      ...initialData,
+      newPassword: false,
+      generatePassword: false,
+      password: "",
+    },
   });
   const [loading, setLoading] = useState(false);
+
+  const newPassword = watch("newPassword");
+  const generatePassword = watch("generatePassword");
 
   return (
     <form
@@ -39,7 +49,9 @@ const UserForm = ({
         e.stopPropagation();
         handleSubmit((data) => {
           setLoading(true);
-          onSubmit(data as User)
+          onSubmit(
+            data as User & { newPassword: boolean; generatePassword: boolean }
+          )
             .then(onClose)
             .catch(() => setLoading(false));
         })(e);
@@ -108,46 +120,64 @@ const UserForm = ({
               name="username"
               rules={{ required: "general.required" }}
               placeholder="form.username"
+              textFieldProps={
+                {
+                  /* autoComplete: "username", */
+                  /* autoComplete: "new-password", */
+                }
+              }
             />
           </Grid>
 
-          {/* {"userId" in initialData && (
-            <Grid item sm={6} xs={12}>
+          {"userId" in initialData ? (
+            <Grid
+              item
+              sm={6}
+              xs={12}
+              style={{ display: "flex", alignItems: "flex-end" }}
+            >
               <SwitchCustom2
                 control={control}
-                inlineLabel="form.newPassword"
                 name="newPassword"
+                inlineLabel="form.newPassword"
               />
             </Grid>
+          ) : (
+            <Grid item sm={6} xs={0} />
           )}
 
-          {(user.userId && newPassword) || !user.userId ? (
-            <Grid item sm={6} xs={12}>
-              <TypographyFieldTitle title="form.generatePassword" />
-              <SwitchCustom
-                disabled={editDisabled}
-                value={generatePassword}
-                onSwitchChange={onGeneratePasswordSwitchChange}
-                name="generatePassword"
-              />
-            </Grid>
-          ) : null}
+          {(("userId" in initialData && newPassword) ||
+            !("userId" in initialData)) && (
+            <>
+              <Grid
+                item
+                sm={6}
+                xs={12}
+                style={{ display: "flex", alignItems: "flex-end" }}
+              >
+                <SwitchCustom2
+                  control={control}
+                  name="generatePassword"
+                  inlineLabel="form.generatePassword"
+                />
+              </Grid>
 
-          {!generatePassword && (
-            <Grid item sm={6} xs={12}>
-              <TypographyFieldTitle title="form.password" />
-              <TextFieldValidation
-                disabled={editDisabled}
-                id="form.password"
-                label="form.password"
-                name="password"
-                value={user.password}
-                onInputChange={onInputChange}
-                placeholder="form.password"
-                type="password"
-              />
-            </Grid>
-          )} */}
+              {!generatePassword && (
+                <Grid item sm={6} xs={12}>
+                  <TextField2
+                    control={control}
+                    label="form.password"
+                    name="password"
+                    rules={{ required: "general.required" }}
+                    textFieldProps={{
+                      type: "password",
+                      autoComplete: "new-password",
+                    }}
+                  />
+                </Grid>
+              )}
+            </>
+          )}
 
           <Grid item xs={12}>
             <TextField2
@@ -170,11 +200,7 @@ const UserForm = ({
           </Grid>
 
           <Grid item sm={6} xs={12}>
-            <TextField2
-              control={control}
-              label="form.phone2"
-              name="phone2"
-            />
+            <TextField2 control={control} label="form.phone2" name="phone2" />
           </Grid>
 
           {protectedAuth(["PERM_USER_CRUD"]) && (

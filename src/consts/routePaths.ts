@@ -56,6 +56,32 @@ export const getAuditChecklistOverviewPath = (page: number, rowsPerPage?: number
 
 export const auditChecklist = adminRoot + "/audit-checklists/:id";
 
+// DEDALUS
+export const dedalusModule = adminRoot + "/dedalus";
+
+export const reportHazardIdentification = dedalusModule + "/report-hazard-identification-pagination/";
+export const getReportHazardIdentificationPath = (page: number, rowsPerPage?: number) => {
+  return `${reportHazardIdentification}${page}/${rowsPerPage ?? ""}`;
+};
+
+export const reportHazardIdentificationDetails = dedalusModule + "/report-hazard-identification/:id";
+
+export const reportHazardClassification = dedalusModule + "/report-hazard-classification/hazards";
+export const getReportHazardClassificationPath = (page: number, rowsPerPage?: number) => {
+  return `${reportHazardIdentification}${page}/${rowsPerPage ?? ""}`;
+};
+
+// REPORTS
+export const reportsModule = adminRoot + "/reports";
+
+export const reports = reportsModule + "/pagination/";
+
+export const getReportPath = (page: number, rowsPerPage?: number) => {
+  return `${reports}${page}/${rowsPerPage ?? ""}`;
+}
+
+export const report = reportsModule + "/:id";
+
 // SETTINGS
 export const settingModule = adminRoot + "/settings";
 
@@ -94,3 +120,55 @@ export const getMobileLogsPath = (platform: string, clientAbbreviation: string) 
 export const getMobileLogsPaginationPath = (platform: string, clientAbbreviation: string, page: number, rowsPerPage?: number) => {
   return `${getMobileLogsPath(platform, clientAbbreviation)}${page}/${rowsPerPage ?? ""}`;
 };
+
+// FORUM
+export const forumModule = adminRoot + "/forum";
+
+export const forumUsers = forumModule + "/registrations/";
+export const getForumRegistrationsPath = (page: number, rowsPerPage?: number) => {
+  return `${forumUsers}${page}/${rowsPerPage ?? ""}`;
+};
+
+export const forumTopics = forumModule + "/topics/";
+export const getForumTopicsPaginationPath = (page: number, rowsPerPage?: number) => {
+  return `${forumTopics}${page}/${rowsPerPage ?? ""}`;
+};
+
+export const forumTopic = forumModule + "/topic/details/:forumTopicId";
+export const getForumTopicFormPath = (id: string | null) => {
+  if (id) {
+    return forumTopic.replace(":forumTopicId", id);
+  } else {
+    return forumTopic.replace(":forumTopicId", "-1");
+  }
+};
+
+export const forumTopicSubscribers = forumModule + "/topic/:forumTopicId/subscribers/";
+export const getForumTopicSubscribersPaginationPath = (forumTopicId: string, page: number, rowsPerPage?: number) => {
+  const pathWithTopicId = forumTopicSubscribers.replace(":forumTopicId", forumTopicId);
+  return `${pathWithTopicId}${page}/${rowsPerPage ?? ""}`;
+};
+
+export const forumTopicComments = forumModule + "/topic/:forumTopicId/comments/";
+export const getForumTopicCommentsPaginationPath = (forumTopicId: string, page: number, rowsPerPage?: number) => {
+  const pathWithTopicId = forumTopicComments.replace(":forumTopicId", forumTopicId);
+  return `${pathWithTopicId}${page}/${rowsPerPage ?? ""}`;
+};
+
+export const forumTopicLikes = forumModule + "/topic/:forumTopicId/likes/";
+export const getForumTopicLikesPaginationPath = (forumTopicId: string, page: number, rowsPerPage?: number) => {
+  const pathWithTopicId = forumTopicLikes.replace(":forumTopicId", forumTopicId);
+  return `${pathWithTopicId}${page}/${rowsPerPage ?? ""}`;
+};
+
+export const forumCommentLikes = forumModule + "/topic/:forumTopicId/comment/:forumCommentId/likes/";
+export const getForumCommentLikesPaginationPath = (forumTopicId: string, forumCommentId: string, page: number, rowsPerPage?: number) => {
+  const pathWithTopicId = forumCommentLikes.replace(":forumTopicId", forumTopicId);
+  const pathWithCommentId = pathWithTopicId.replace(":forumCommentId", forumCommentId);
+  return `${pathWithCommentId}${page}/${rowsPerPage ?? ""}`;
+};
+
+
+export const forumTags = forumModule + "/tags/";
+
+

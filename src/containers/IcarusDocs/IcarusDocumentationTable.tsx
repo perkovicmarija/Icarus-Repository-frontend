@@ -9,7 +9,7 @@ import { ColumnDefinition } from "../../components/core/Table/TableHeader";
 import { DialogDelete2 } from "../../components/core/Dialog/DialogDelete2";
 import DialogFormFrame from "../../components/core/Dialog/DialogFormFrame";
 //
-import DialogFormMove from "./dialogs/DialogFormMove";
+import DialogFormMove from "../../components/documentation/icarusDocs/dialogs/DialogFormMove";
 import { FileRow } from "./FileRow";
 import { FolderRow } from "./FolderRow";
 import { splitPathToPathAndName } from "../../api/methods/utils";

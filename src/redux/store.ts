@@ -8,19 +8,27 @@ import {
   Middleware,
   ThunkDispatch,
   configureStore,
-  getDefaultMiddleware,
 } from "@reduxjs/toolkit";
 import { TypedUseSelectorHook, useDispatch, useSelector } from "react-redux";
-import { clientsApi } from "./clientsApi";
+import { clientsApi } from "./settings/clientsApi";
 import { toast } from "react-toastify";
 import { authApi } from "./authApi";
-import { versionsApi } from "./versionsApi";
-import { supportLogsApi } from "./support/supportLogsApi";
-import { roadmapApi } from "./support/roadmapApi";
+import { versionsApi } from "./settings/versionsApi";
+import { supportLogsApi } from "./support/supportLogs/supportLogsApi";
+import { roadmapApi } from "./support/roadmap/roadmapApi";
 import { auditChecklistsApi } from "./auditChecklistsApi";
 import { usersApi } from "./user/usersApi";
-import { loggerApi } from "./loggerApi";
-import {softwareLogSubscriptionApi} from "./support/subscriptions/softwareLogSubscriptionApi";
+import { loggerApi } from "./logger/loggerApi";
+import { softwareLogSubscriptionApi } from "./support/subscriptions/softwareLogSubscriptionApi";
+import { forumTagsApi } from "./forum/forumTags/forumTagsApi";
+import { forumTopicsApi } from "./forum/forumTopics/forumTopicsApi";
+import { forumCommentsApi } from "./forum/forumComments/forumCommentsApi";
+import { forumUsersApi } from "./forum/forumUsers/forumUsersApi";
+import { forumTopicUsersApi } from "./forum/forumUsers/forumTopicUsersApi";
+import { forumLikesApi } from "./forum/forumLikes/forumLikesApi";
+import { reportHazardIdentificationApi } from "./reportHazardIdentification/reportHazardIdentificationApi";
+import { hazardClassificationApi } from "./hazardClassification/hazardClassificationApi";
+import { reportApi } from "./report/reportApi";
 //used for loading and saving state from local storage - unnecessary for now
 //import { loadState, saveState } from './localStorage';
 //import throttle from 'lodash/throttle';
@@ -57,8 +65,7 @@ const customMiddleware: Middleware = (middlewareAPI) => {
   };
 };
 
-const middleware = [
-  ...getDefaultMiddleware(),
+const middleware: Middleware[] = [
   sagaMiddleware,
   routeMiddleware,
   authApi.middleware,
@@ -70,7 +77,16 @@ const middleware = [
   softwareLogSubscriptionApi.middleware,
   roadmapApi.middleware,
   customMiddleware,
-  loggerApi.middleware
+  loggerApi.middleware,
+  forumTagsApi.middleware,
+  forumTopicsApi.middleware,
+  forumCommentsApi.middleware,
+  forumUsersApi.middleware,
+  forumTopicUsersApi.middleware,
+  forumLikesApi.middleware,
+  reportHazardIdentificationApi.middleware,
+  hazardClassificationApi.middleware,
+  reportApi.middleware,
 ];
 
 //used for lading state from local storage - unnecessary for now
@@ -80,7 +96,8 @@ const reducers = createRootReducer(history);
 
 const store = configureStore({
   reducer: reducers,
-  middleware,
+  middleware: (getDefaultMiddleware) =>
+    getDefaultMiddleware().concat(middleware),
 });
 
 /*const store = createStore(

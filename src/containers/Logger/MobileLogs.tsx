@@ -1,4 +1,4 @@
-import MobileLogsList from "./MobileLogsList";
+import MobileLogsList from "../../components/logger/MobileLogsList";
 import {FiltersType} from "../../redux/logger/loggerSlice";
 import {useAppDispatch, useAppSelector} from "../../redux/store";
 import {initFilters, loggerActions} from "../../redux/logger/loggerSlice";
@@ -6,7 +6,7 @@ import {useEffect, useMemo, useState} from "react";
 import {usePagination} from "../../helpers/pagination";
 import {getMobileLogsPaginationPath} from "../../consts/routePaths";
 import {useHistory, useParams} from "react-router-dom";
-import {MobileLog, useGetMobileLogsPaginatedQuery} from "../../redux/loggerApi";
+import {MobileLog, useGetMobileLogsPaginatedQuery} from "../../redux/logger/loggerApi";
 import DialogFormFrame from "../../components/core/Dialog/DialogFormFrame";
 import DialogFormLoggerFilters from "../../components/logger/DialogFormLoggerFilters";
 

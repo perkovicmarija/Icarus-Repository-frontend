@@ -5,12 +5,12 @@ import {useHistory} from "react-router-dom";
 import {isEmpty} from "lodash";
 import DialogFormFrame from "../../../components/core/Dialog/DialogFormFrame";
 //
-import SubscriptionList from "./SubscriptionList";
-import DialogFormSubscriptions from "./DialogFormSubscriptions";
-import DialogFormSubscriptionFilter from "./DialogFormSubscriptionFilter";
+import SubscriptionList from "../../../components/support/Subscriptions/SubscriptionList";
+import DialogFormSubscriptions from "../../../components/support/Subscriptions/DialogFormSubscriptions";
+import DialogFormSubscriptionFilter from "../../../components/support/Subscriptions/DialogFormSubscriptionFilter";
 import {getSoftwareLogSubscriptionsPath} from "../../../consts/routePaths";
 import {FiltersType, initFilters,} from "../../../redux/support/subscriptions/softwareLogSubscriptionSlice";
-import {useGetClientsQuery} from "../../../redux/clientsApi";
+import {useGetClientsQuery} from "../../../redux/settings/clientsApi";
 import {
   SoftwareLogSubscription,
   softwareLogSubscriptionActions
