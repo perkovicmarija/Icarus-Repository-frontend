@@ -21,7 +21,7 @@ definitions:
         services:
           - docker
         script:
-          - source $ENV_FILE
+          - source common_vars.txt
           - |
             echo "Loaded variables - DOCKER_FILE=$DOCKER_FILE,
             DOCKER_TAG_FULL=$DOCKER_TAG_FULL,
@@ -97,7 +97,6 @@ definitions:
           - git config --global user.name "${BOT_DISPLAY_NAME}"
           - git clone git@bitbucket.org:${BITBUCKET_REPO_OWNER}/icarus-server-info.git
           - cd icarus-server-info
-          - INSTANCE_NAME=none
           - sed -i "/| $INSTANCE_NAME *| $CLIENT_NAME_LOWERCASE *|/c\\| $INSTANCE_NAME         | $CLIENT_NAME_LOWERCASE         | [${BITBUCKET_TAG}](https://bitbucket.org/${BITBUCKET_REPO_OWNER}/${BITBUCKET_REPO_SLUG}/src/"$BITBUCKET_BRANCH"/docs/changelog/CHANGELOG-${BITBUCKET_TAG}.md)   | $TIMESTAMP | none | none |" README.md
           - git add README.md
           - git commit -m "Update README with tag ${BITBUCKET_TAG}"
@@ -231,11 +230,11 @@ pipelines:
         name: Setup environment to build and push docker image with beta tag
         script:
           - commit_id=$(echo $BITBUCKET_COMMIT | cut -c1-7)
-          - echo "DOCKER_TAG_SLIM=$DOCKER_ORGANIZATION_NAME/icarus-repository-frontend:beta" > .env.pipeline.generic
-          - echo "DOCKER_TAG_FULL=$DOCKER_ORGANIZATION_NAME/icarus-repository-frontend:beta-${commit_id}" >> .env.pipeline.generic
-          - echo "DOCKER_FILE=docker/Dockerfile.prod" >> .env.pipeline.generic
+          - echo "DOCKER_TAG_SLIM=$DOCKER_ORGANIZATION_NAME/icarus-repository-frontend:beta" > common_vars.txt
+          - echo "DOCKER_TAG_FULL=$DOCKER_ORGANIZATION_NAME/icarus-repository-frontend:beta-${commit_id}" >> common_vars.txt
+          - echo "DOCKER_FILE=docker/Dockerfile.prod" >> common_vars.txt
         artifacts:
-          - .env.pipeline.generic
+          - common_vars.txt
 
     - step:
         <<: *docker_build
@@ -248,11 +247,11 @@ pipelines:
           name: Setup environment to build and push docker image with beta tag
           script:
             - commit_id=$(echo $BITBUCKET_COMMIT | cut -c1-7)
-            - echo "DOCKER_TAG_SLIM=$DOCKER_ORGANIZATION_NAME/icarus-repository-frontend:beta" > .env.pipeline.generic
-            - echo "DOCKER_TAG_FULL=$DOCKER_ORGANIZATION_NAME/icarus-repository-frontend:beta-${commit_id}" >> .env.pipeline.generic
-            - echo "DOCKER_FILE=docker/Dockerfile.prod" >> .env.pipeline.generic
+            - echo "DOCKER_TAG_SLIM=$DOCKER_ORGANIZATION_NAME/icarus-repository-frontend:beta" > common_vars.txt
+            - echo "DOCKER_TAG_FULL=$DOCKER_ORGANIZATION_NAME/icarus-repository-frontend:beta-${commit_id}" >> common_vars.txt
+            - echo "DOCKER_FILE=docker/Dockerfile.prod" >> common_vars.txt
           artifacts:
-            - .env.pipeline.generic
+            - common_vars.txt
 
       - step:
           <<: *docker_build
@@ -267,11 +266,11 @@ pipelines:
           name: Setup environment to build and push docker image with dev tag
           script:
             - commit_id=$(echo $BITBUCKET_COMMIT | cut -c1-7)
-            - echo "DOCKER_TAG_SLIM=$DOCKER_ORGANIZATION_NAME/icarus-frontend-generic:dev" > .env.pipeline.generic
-            - echo "DOCKER_TAG_FULL=$DOCKER_ORGANIZATION_NAME/icarus-frontend-generic:${commit_id}-dev" >> .env.pipeline.generic
-            - echo "DOCKER_FILE=docker/Dockerfile.prod" >> .env.pipeline.generic
+            - echo "DOCKER_TAG_SLIM=$DOCKER_ORGANIZATION_NAME/icarus-frontend-generic:dev" > common_vars.txt
+            - echo "DOCKER_TAG_FULL=$DOCKER_ORGANIZATION_NAME/icarus-frontend-generic:${commit_id}-dev" >> common_vars.txt
+            - echo "DOCKER_FILE=docker/Dockerfile.prod" >> common_vars.txt
           artifacts:
-            - .env.pipeline.generic
+            - common_vars.txt
 
       - step:
           <<: *docker_build
@@ -285,11 +284,11 @@ pipelines:
           name: Setup environment to build and push docker image with test tag
           script:
             - commit_id=$(echo $BITBUCKET_COMMIT | cut -c1-7)
-            - echo "DOCKER_TAG_SLIM=$DOCKER_ORGANIZATION_NAME/icarus-repository-frontend:test" > .env.pipeline.generic
-            - echo "DOCKER_TAG_FULL=$DOCKER_ORGANIZATION_NAME/icarus-repository-frontend:${commit_id}-test" >> .env.pipeline.generic
-            - echo "DOCKER_FILE=docker/Dockerfile.prod" >> .env.pipeline.generic
+            - echo "DOCKER_TAG_SLIM=$DOCKER_ORGANIZATION_NAME/icarus-repository-frontend:test" > common_vars.txt
+            - echo "DOCKER_TAG_FULL=$DOCKER_ORGANIZATION_NAME/icarus-repository-frontend:${commit_id}-test" >> common_vars.txt
+            - echo "DOCKER_FILE=docker/Dockerfile.prod" >> common_vars.txt
           artifacts:
-            - .env.pipeline.generic
+            - common_vars.txt
 
       - step:
           <<: *docker_build
@@ -305,11 +304,11 @@ pipelines:
           name: Setup environment to build and push docker image with stable tag
           script:
             - source new_tag.txt
-            - echo "DOCKER_TAG_SLIM=$DOCKER_ORGANIZATION_NAME/icarus-repository-frontend:stable" > .env.pipeline.generic
-            - echo "DOCKER_TAG_FULL=$DOCKER_ORGANIZATION_NAME/icarus-repository-frontend:stable-${BITBUCKET_TAG}" >> .env.pipeline.generic
-            - echo "DOCKER_FILE=docker/Dockerfile.prod" >> .env.pipeline.generic
+            - echo "DOCKER_TAG_SLIM=$DOCKER_ORGANIZATION_NAME/icarus-repository-frontend:stable" > common_vars.txt
+            - echo "DOCKER_TAG_FULL=$DOCKER_ORGANIZATION_NAME/icarus-repository-frontend:stable-${BITBUCKET_TAG}" >> common_vars.txt
+            - echo "DOCKER_FILE=docker/Dockerfile.prod" >> common_vars.txt
           artifacts:
-            - .env.pipeline.generic
+            - common_vars.txt
 
       - step:
           <<: *docker_build
