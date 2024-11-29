@@ -218,7 +218,7 @@ definitions:
     - step: &common_vars
         name: Generate common vars
         script:
-          - CLIENT_NAME_LOWERCASE=icarus-frontend-clean
+          - CLIENT_NAME_LOWERCASE=icarus-repository-frontend
           - CLIENT_NAME_UPERCASE="${CLIENT_NAME_LOWERCASE^^}"
           - echo "CLIENT_NAME_LOWERCASE=$CLIENT_NAME_LOWERCASE" > common_vars.txt
           - echo "CLIENT_NAME_UPERCASE=$CLIENT_NAME_UPERCASE" >> common_vars.txt
