@@ -156,6 +156,8 @@ definitions:
 
             echo "Previous tag is: $PREVIOUS_TAG"
 
+            mkdir -p docs/changelog/
+
           - echo "Generating changelog from $PREVIOUS_TAG to the latest commit"
           - git log $PREVIOUS_TAG..HEAD --pretty=format:"- %s" >> docs/changelog/CHANGELOG-tmp.md
 
