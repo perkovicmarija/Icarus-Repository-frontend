@@ -111,6 +111,7 @@
   "general.airportDeparture": "Airport departure",
   "general.hazard": "Hazard",
   "general.airportDestination": "Airport destination",
+  "general.airportLocation": "Airport location",
   "general.eventDescription": "Event description",
   "general.eventDate": "Event date",
   "general.aircraft": "Aircraft",
