@@ -327,5 +327,36 @@ pipelines:
           name: Build and Push docker image
           deployment: Production
 
+      - step:
+          name: Deploy to Production
+          deployment: Production
+          script:
+            - source common_vars.txt
+            - export APPLICATION_NAME="icarus-repository-frontend"
+            - >
+              ssh -o StrictHostKeyChecking=no $SSH_USERNAME@$SSH_SERVER_IP
+              "cd ~/icarus && docker compose --env-file .env.prod
+              -f docker/compose/docker-compose.yaml
+              -f docker/compose/docker-compose.prod.yaml
+              -f docker/compose/clients/docker-compose.${CLIENT_NAME_LOWERCASE}.yaml up -d
+              ${APPLICATION_NAME} --pull always"
+
+          after-script:
+            - source common_vars.txt
+            - echo "Bitbucket exit code -> $BITBUCKET_EXIT_CODE"
+            - echo "BITBUCKET_BRANCH -> $BITBUCKET_BRANCH"
+            - >
+              if [[ $BITBUCKET_EXIT_CODE -eq 0 || "$BITBUCKET_BRANCH" != "master" ]]; then
+                exit 0
+              elif [[ "$BITBUCKET_BRANCH" == "master" ]]; then
+                echo "Step failed!"
+              fi
+            - pipe: atlassian/slack-notify:2.3.1
+              variables:
+                WEBHOOK_URL: $SLACK_WEBHOOK_URL
+                MESSAGE: "Icarus ${CLIENT_NAME_UPERCASE} deployment failed at deploy to production step. Tag: ${BITBUCKET_TAG} :x:"
+                USERNAME: "${BOT_DISPLAY_NAME}"
+                ICON_EMOJI: ":warning:"
+
       - step: *update_server_info
       - step: *notify_slack_success
