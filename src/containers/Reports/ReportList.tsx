@@ -19,6 +19,12 @@ const columnData: ColumnDefinition[] = [
     label: "general.id",
   },
   {
+    id: "type",
+    numeric: false,
+    disablePadding: false,
+    label: "general.type",
+  },
+  {
     id: "title",
     numeric: false,
     disablePadding: false,
@@ -45,6 +51,12 @@ const columnData: ColumnDefinition[] = [
   {
     id: "airportDestination",
     label: "general.airportDestination",
+    numeric: false,
+    disablePadding: false,
+  },
+  {
+    id: "airportLocation",
+    label: "general.airportLocation",
     numeric: false,
     disablePadding: false,
   },
@@ -119,11 +131,13 @@ const ReportList = <T,>({
                 onClick={() => onItemClick(item.reportId)}
               >
                 <TableCell>{item.reportId}</TableCell>
+                <TableCell>{item.reportType}</TableCell>
                 <TableCell>{item.title}</TableCell>
                 <TableCell>{item.eventDescription}</TableCell>
-                <TableCell>{item.eventDateFormatted}</TableCell>
+                <TableCell>{item.eventDateFormatted != "" ? item.eventDateFormatted : item.createdFormatted}</TableCell>
                 <TableCell>{item.airportDeparture}</TableCell>
                 <TableCell>{item.airportDestination}</TableCell>
+                <TableCell>{item.airportLocation}</TableCell>
                 <TableCell>{item.flightNumber}</TableCell>
                 <TableCell>{item.aircraft}</TableCell>
                 <TableCell>{item.aircraftType}</TableCell>
