@@ -90,6 +90,10 @@ definitions:
         name: Update README Table in Server Info repository
         script:
           - source common_vars.txt
+          - |
+            SLEEP_TIME=$((RANDOM % 31 + 10))
+            echo "Sleeping for $SLEEP_TIME seconds..."
+            sleep $SLEEP_TIME
           - export TIMESTAMP=$(date +%Y%m%d%H%M)
           - git config --global user.email "${BOT_EMAIL}"
           - git config --global user.name "${BOT_DISPLAY_NAME}"
@@ -98,7 +102,7 @@ definitions:
           - sed -i "/| $INSTANCE_NAME *| $CLIENT_NAME_LOWERCASE *|/c\\| $INSTANCE_NAME         | $CLIENT_NAME_LOWERCASE         | [${BITBUCKET_TAG}](https://bitbucket.org/${BITBUCKET_REPO_OWNER}/${BITBUCKET_REPO_SLUG}/src/"$BITBUCKET_BRANCH"/docs/changelog/CHANGELOG-${BITBUCKET_TAG}.md)   | $TIMESTAMP | none | none |" README.md
           - git add README.md
           - git commit -m "Update README with tag ${BITBUCKET_TAG}"
-          - git push origin "$BITBUCKET_BRANCH"
+          - git push origin master
         after-script:
           - source common_vars.txt
           - echo "Bitbucket exit code -> $BITBUCKET_EXIT_CODE"
@@ -193,8 +197,6 @@ definitions:
 
               echo "# $BITBUCKET_TAG changelog:" > docs/changelog/CHANGELOG-${BITBUCKET_TAG}.md
               cat docs/changelog/CHANGELOG-tmp.md >> docs/changelog/CHANGELOG-${BITBUCKET_TAG}.md
-              echo -ne "\n\n" >> docs/changelog/CHANGELOG-${BITBUCKET_TAG}.md
-              cat core_changelog.txt >> docs/changelog/CHANGELOG-${BITBUCKET_TAG}.md
               cat docs/changelog/CHANGELOG-${BITBUCKET_TAG}.md
               cat docs/changelog/CHANGELOG-${BITBUCKET_TAG}.md > changelog.txt
               git add docs/changelog/CHANGELOG-${BITBUCKET_TAG}.md
