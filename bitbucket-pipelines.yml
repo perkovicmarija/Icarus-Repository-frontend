@@ -78,7 +78,6 @@ definitions:
     - step: &notify_slack_success
         name: "Notify Slack"
         script:
-          - source new_tag.txt
           - source common_vars.txt
           - pipe: atlassian/slack-notify:2.3.1
             variables:
@@ -90,7 +89,6 @@ definitions:
     - step: &update_server_info
         name: Update README Table in Server Info repository
         script:
-          - source new_tag.txt
           - source common_vars.txt
           - export TIMESTAMP=$(date +%Y%m%d%H%M)
           - git config --global user.email "${BOT_EMAIL}"
@@ -121,6 +119,12 @@ definitions:
     - step: &generate_changelog_and_tag
         name: Generate changelog and tag
         script:
+          - source common_vars.txt
+          - |
+            if [[ "$FRONTEND_ONLY_DEPLOY" == "true" ]]; then
+              echo "Frontend only deployment detected. Exiting step."
+              exit 0
+            fi
           - |
             if git remote get-url origin > /dev/null 2>&1; then
               git remote remove origin
@@ -150,54 +154,58 @@ definitions:
           - |
             export PREVIOUS_TAG=$(git describe --tags $(git rev-list --tags --max-count=1) 2>/dev/null | awk -F'-' '{print $1}' | head -n 1)
 
-            if [ -z "$PREVIOUS_TAG" ]; then
-              PREVIOUS_TAG="v0.0.0.0"
-            fi
-
             echo "Previous tag is: $PREVIOUS_TAG"
 
             mkdir -p docs/changelog/
-
-          - echo "Generating changelog from $PREVIOUS_TAG to the latest commit"
-          - git log $PREVIOUS_TAG..HEAD --pretty=format:"- %s" >> docs/changelog/CHANGELOG-tmp.md
-
-          - |
-            major=$(echo "$PREVIOUS_TAG" | cut -d. -f1 | tr -d 'v')
-            minor=$(echo "$PREVIOUS_TAG" | cut -d. -f2)
-            patch=$(echo "$PREVIOUS_TAG" | cut -d. -f3)
-            refresh=$(echo "$PREVIOUS_TAG" | cut -d. -f4)
-
-            if grep -q "breaking:" docs/changelog/CHANGELOG-tmp.md; then
-                major=$((major + 1))
-                minor=0
-                patch=0
-                refresh=0
-            elif grep -q "feat:" docs/changelog/CHANGELOG-tmp.md; then
-                minor=$((minor + 1))
-                patch=0
-                refresh=0
-            elif grep -q "fix:" docs/changelog/CHANGELOG-tmp.md; then
-                patch=$((patch + 1))
-                refresh=0
+            if [ -z "$PREVIOUS_TAG" ]; then
+              BITBUCKET_TAG="v0.0.0.1"
+              echo "BITBUCKET_TAG=${BITBUCKET_TAG}" >> common_vars.txt
+              echo "# First tag, no changelog" > docs/changelog/CHANGELOG-tmp.md
             else
-                refresh=$((refresh + 1))
+              echo "Generating changelog from $PREVIOUS_TAG to the latest commit"
+              git log $PREVIOUS_TAG..HEAD --pretty=format:"- %s" >> docs/changelog/CHANGELOG-tmp.md
+
+              
+              major=$(echo "$PREVIOUS_TAG" | cut -d. -f1 | tr -d 'v')
+              minor=$(echo "$PREVIOUS_TAG" | cut -d. -f2)
+              patch=$(echo "$PREVIOUS_TAG" | cut -d. -f3)
+              refresh=$(echo "$PREVIOUS_TAG" | cut -d. -f4)
+
+              if grep -q "breaking:" docs/changelog/CHANGELOG-tmp.md; then
+                  major=$((major + 1))
+                  minor=0
+                  patch=0
+                  refresh=0
+              elif grep -q "feat:" docs/changelog/CHANGELOG-tmp.md; then
+                  minor=$((minor + 1))
+                  patch=0
+                  refresh=0
+              elif grep -q "fix:" docs/changelog/CHANGELOG-tmp.md; then
+                  patch=$((patch + 1))
+                  refresh=0
+              else
+                  refresh=$((refresh + 1))
+              fi
+
+              export BITBUCKET_TAG="v${major}.${minor}.${patch}.${refresh}"
+              echo "BITBUCKET_TAG=${BITBUCKET_TAG}" >> common_vars.txt
+              echo "New version determined: $BITBUCKET_TAG"
+
+              echo "# $BITBUCKET_TAG changelog:" > docs/changelog/CHANGELOG-${BITBUCKET_TAG}.md
+              cat docs/changelog/CHANGELOG-tmp.md >> docs/changelog/CHANGELOG-${BITBUCKET_TAG}.md
+              echo -ne "\n\n" >> docs/changelog/CHANGELOG-${BITBUCKET_TAG}.md
+              cat core_changelog.txt >> docs/changelog/CHANGELOG-${BITBUCKET_TAG}.md
+              cat docs/changelog/CHANGELOG-${BITBUCKET_TAG}.md
+              cat docs/changelog/CHANGELOG-${BITBUCKET_TAG}.md > changelog.txt
+              git add docs/changelog/CHANGELOG-${BITBUCKET_TAG}.md
+              git commit -m "[docs] chore: Add changelog for $BITBUCKET_TAG"
             fi
 
-            export BITBUCKET_TAG="v${major}.${minor}.${patch}.${refresh}"
-            echo "BITBUCKET_TAG=${BITBUCKET_TAG}" > new_tag.txt
-            echo "New version determined: $BITBUCKET_TAG"
-
-          - echo "# $BITBUCKET_TAG changelog:" > docs/changelog/CHANGELOG-${BITBUCKET_TAG}.md
-          - cat docs/changelog/CHANGELOG-tmp.md >> docs/changelog/CHANGELOG-${BITBUCKET_TAG}.md
-          - cat docs/changelog/CHANGELOG-${BITBUCKET_TAG}.md
-          - cat docs/changelog/CHANGELOG-${BITBUCKET_TAG}.md > changelog.txt
-          - git add docs/changelog/CHANGELOG-${BITBUCKET_TAG}.md
-          - 'git commit -m "[docs] chore: Add changelog for $BITBUCKET_TAG"'
           - git tag $BITBUCKET_TAG
           - git push origin "$BITBUCKET_BRANCH" --tags
         artifacts:
+          - common_vars.txt
           - changelog.txt
-          - new_tag.txt
         after-script:
           - source common_vars.txt
           - echo "Bitbucket exit code -> $BITBUCKET_EXIT_CODE"
@@ -218,7 +226,7 @@ definitions:
     - step: &common_vars
         name: Generate common vars
         script:
-          - CLIENT_NAME_LOWERCASE=icarus-repository-frontend
+          - CLIENT_NAME_LOWERCASE=$(echo "$BITBUCKET_REPO_SLUG" | cut -d'-' -f2,3)
           - CLIENT_NAME_UPERCASE="${CLIENT_NAME_LOWERCASE^^}"
           - echo "CLIENT_NAME_LOWERCASE=$CLIENT_NAME_LOWERCASE" > common_vars.txt
           - echo "CLIENT_NAME_UPERCASE=$CLIENT_NAME_UPERCASE" >> common_vars.txt
@@ -305,7 +313,7 @@ pipelines:
       - step:
           name: Setup environment to build and push docker image with stable tag
           script:
-            - source new_tag.txt
+            - source common_vars.txt
             - echo "DOCKER_TAG_SLIM=$DOCKER_ORGANIZATION_NAME/icarus-repository-frontend:stable" > common_vars.txt
             - echo "DOCKER_TAG_FULL=$DOCKER_ORGANIZATION_NAME/icarus-repository-frontend:stable-${BITBUCKET_TAG}" >> common_vars.txt
             - echo "DOCKER_FILE=docker/Dockerfile.prod" >> common_vars.txt
