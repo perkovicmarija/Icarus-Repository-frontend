@@ -48,7 +48,7 @@ definitions:
           - pipe: atlassian/slack-notify:2.3.1
             variables:
               WEBHOOK_URL: $SLACK_WEBHOOK_URL
-              MESSAGE: "Icarus frontend deployment failed at docker build step.. tag: ${BITBUCKET_TAG} :x:"
+              MESSAGE: "Icarus repository frontend deployment failed at docker build step.. tag: ${BITBUCKET_TAG} :x:"
               USERNAME: "${BOT_DISPLAY_NAME}"
               ICON_EMOJI: ":warning:"
 
