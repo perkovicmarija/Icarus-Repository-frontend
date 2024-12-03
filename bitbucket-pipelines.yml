@@ -278,7 +278,7 @@ pipelines:
           name: Setup environment to build and push docker image with dev tag
           script:
             - commit_id=$(echo $BITBUCKET_COMMIT | cut -c1-7)
-            - echo "DOCKER_TAG_SLIM=$DOCKER_ORGANIZATION_NAME/icarus-frontend-generic:dev" > common_vars.txt
+            - echo "DOCKER_TAG_SLIM=$DOCKER_ORGANIZATION_NAME/icarus-frontend-generic:dev" >> common_vars.txt
             - echo "DOCKER_TAG_FULL=$DOCKER_ORGANIZATION_NAME/icarus-frontend-generic:${commit_id}-dev" >> common_vars.txt
             - echo "DOCKER_FILE=docker/Dockerfile.prod" >> common_vars.txt
           artifacts:
@@ -287,7 +287,7 @@ pipelines:
       - step:
           <<: *docker_build
           name: Build and Push docker image
-          deployment: Production
+          deployment: Dev
 
     deploy-test:
       - step: *common_vars
@@ -296,7 +296,7 @@ pipelines:
           name: Setup environment to build and push docker image with test tag
           script:
             - commit_id=$(echo $BITBUCKET_COMMIT | cut -c1-7)
-            - echo "DOCKER_TAG_SLIM=$DOCKER_ORGANIZATION_NAME/icarus-repository-frontend:test" > common_vars.txt
+            - echo "DOCKER_TAG_SLIM=$DOCKER_ORGANIZATION_NAME/icarus-repository-frontend:test" >> common_vars.txt
             - echo "DOCKER_TAG_FULL=$DOCKER_ORGANIZATION_NAME/icarus-repository-frontend:${commit_id}-test" >> common_vars.txt
             - echo "DOCKER_FILE=docker/Dockerfile.prod" >> common_vars.txt
           artifacts:
@@ -316,7 +316,7 @@ pipelines:
           name: Setup environment to build and push docker image with stable tag
           script:
             - source common_vars.txt
-            - echo "DOCKER_TAG_SLIM=$DOCKER_ORGANIZATION_NAME/icarus-repository-frontend:stable" > common_vars.txt
+            - echo "DOCKER_TAG_SLIM=$DOCKER_ORGANIZATION_NAME/icarus-repository-frontend:stable" >> common_vars.txt
             - echo "DOCKER_TAG_FULL=$DOCKER_ORGANIZATION_NAME/icarus-repository-frontend:stable-${BITBUCKET_TAG}" >> common_vars.txt
             - echo "DOCKER_FILE=docker/Dockerfile.prod" >> common_vars.txt
           artifacts:
@@ -325,7 +325,6 @@ pipelines:
       - step:
           <<: *docker_build
           name: Build and Push docker image
-          deployment: Production
 
       - step:
           name: Deploy to Production
