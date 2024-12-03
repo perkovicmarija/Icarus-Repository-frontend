@@ -278,8 +278,8 @@ pipelines:
           name: Setup environment to build and push docker image with dev tag
           script:
             - commit_id=$(echo $BITBUCKET_COMMIT | cut -c1-7)
-            - echo "DOCKER_TAG_SLIM=$DOCKER_ORGANIZATION_NAME/icarus-frontend-generic:dev" >> common_vars.txt
-            - echo "DOCKER_TAG_FULL=$DOCKER_ORGANIZATION_NAME/icarus-frontend-generic:${commit_id}-dev" >> common_vars.txt
+            - echo "DOCKER_TAG_SLIM=$DOCKER_ORGANIZATION_NAME/icarus-repository-frontend-dev:dev" >> common_vars.txt
+            - echo "DOCKER_TAG_FULL=$DOCKER_ORGANIZATION_NAME/icarus-repository-frontend-dev:${commit_id}-dev" >> common_vars.txt
             - echo "DOCKER_FILE=docker/Dockerfile.prod" >> common_vars.txt
           artifacts:
             - common_vars.txt
@@ -289,6 +289,37 @@ pipelines:
           name: Build and Push docker image
           deployment: Dev
 
+      - step:
+          name: Deploy to Dev
+          deployment: Dev
+          script:
+            - source common_vars.txt
+            - export APPLICATION_NAME="icarus-repository-frontend-dev"
+            - >
+              ssh -o StrictHostKeyChecking=no $SSH_USERNAME@$SSH_SERVER_IP
+              "cd ~/icarus && docker compose --env-file .env.prod
+              -f docker/compose/docker-compose.yaml
+              -f docker/compose/docker-compose.prod.yaml
+              -f docker/compose/clients/docker-compose.${CLIENT_NAME_LOWERCASE}-dev.yaml up -d
+              ${APPLICATION_NAME} --pull always"
+
+          after-script:
+            - source common_vars.txt
+            - echo "Bitbucket exit code -> $BITBUCKET_EXIT_CODE"
+            - echo "BITBUCKET_BRANCH -> $BITBUCKET_BRANCH"
+            - >
+              if [[ $BITBUCKET_EXIT_CODE -eq 0 || "$BITBUCKET_BRANCH" != "master" ]]; then
+                exit 0
+              elif [[ "$BITBUCKET_BRANCH" == "master" ]]; then
+                echo "Step failed!"
+              fi
+            - pipe: atlassian/slack-notify:2.3.1
+              variables:
+                WEBHOOK_URL: $SLACK_WEBHOOK_URL
+                MESSAGE: "Icarus ${CLIENT_NAME_UPERCASE} deployment failed at deploy to production step. Tag: ${BITBUCKET_TAG} :x:"
+                USERNAME: "${BOT_DISPLAY_NAME}"
+                ICON_EMOJI: ":warning:"
+
     deploy-test:
       - step: *common_vars
       - step: *security_scan
@@ -296,8 +327,8 @@ pipelines:
           name: Setup environment to build and push docker image with test tag
           script:
             - commit_id=$(echo $BITBUCKET_COMMIT | cut -c1-7)
-            - echo "DOCKER_TAG_SLIM=$DOCKER_ORGANIZATION_NAME/icarus-repository-frontend:test" >> common_vars.txt
-            - echo "DOCKER_TAG_FULL=$DOCKER_ORGANIZATION_NAME/icarus-repository-frontend:${commit_id}-test" >> common_vars.txt
+            - echo "DOCKER_TAG_SLIM=$DOCKER_ORGANIZATION_NAME/icarus-repository-frontend-test:test" >> common_vars.txt
+            - echo "DOCKER_TAG_FULL=$DOCKER_ORGANIZATION_NAME/icarus-repository-frontend-test:${commit_id}-test" >> common_vars.txt
             - echo "DOCKER_FILE=docker/Dockerfile.prod" >> common_vars.txt
           artifacts:
             - common_vars.txt
@@ -305,7 +336,37 @@ pipelines:
       - step:
           <<: *docker_build
           name: Build and Push docker image
+
+      - step:
+          name: Deploy to Test
           deployment: Test
+          script:
+            - source common_vars.txt
+            - export APPLICATION_NAME="icarus-repository-frontend-test"
+            - >
+              ssh -o StrictHostKeyChecking=no $SSH_USERNAME@$SSH_SERVER_IP
+              "cd ~/icarus && docker compose --env-file .env.prod
+              -f docker/compose/docker-compose.yaml
+              -f docker/compose/docker-compose.prod.yaml
+              -f docker/compose/clients/docker-compose.${CLIENT_NAME_LOWERCASE}-test.yaml up -d
+              ${APPLICATION_NAME} --pull always"
+
+          after-script:
+            - source common_vars.txt
+            - echo "Bitbucket exit code -> $BITBUCKET_EXIT_CODE"
+            - echo "BITBUCKET_BRANCH -> $BITBUCKET_BRANCH"
+            - >
+              if [[ $BITBUCKET_EXIT_CODE -eq 0 || "$BITBUCKET_BRANCH" != "master" ]]; then
+                exit 0
+              elif [[ "$BITBUCKET_BRANCH" == "master" ]]; then
+                echo "Step failed!"
+              fi
+            - pipe: atlassian/slack-notify:2.3.1
+              variables:
+                WEBHOOK_URL: $SLACK_WEBHOOK_URL
+                MESSAGE: "Icarus ${CLIENT_NAME_UPERCASE} deployment failed at deploy to production step. Tag: ${BITBUCKET_TAG} :x:"
+                USERNAME: "${BOT_DISPLAY_NAME}"
+                ICON_EMOJI: ":warning:"
 
     deploy-production:
       - step: *common_vars
