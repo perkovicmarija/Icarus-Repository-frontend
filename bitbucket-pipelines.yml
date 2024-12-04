@@ -242,8 +242,8 @@ pipelines:
         name: Setup environment to build and push docker image with beta tag
         script:
           - commit_id=$(echo $BITBUCKET_COMMIT | cut -c1-7)
-          - echo "DOCKER_TAG_SLIM=$DOCKER_ORGANIZATION_NAME/icarus-repository-frontend:beta" > common_vars.txt
-          - echo "DOCKER_TAG_FULL=$DOCKER_ORGANIZATION_NAME/icarus-repository-frontend:beta-${commit_id}" >> common_vars.txt
+          - echo "DOCKER_TAG_SLIM=$DOCKER_ORGANIZATION_NAME/${BITBUCKET_REPO_SLUG}:beta" > common_vars.txt
+          - echo "DOCKER_TAG_FULL=$DOCKER_ORGANIZATION_NAME/${BITBUCKET_REPO_SLUG}:beta-${commit_id}" >> common_vars.txt
           - echo "DOCKER_FILE=docker/Dockerfile.prod" >> common_vars.txt
         artifacts:
           - common_vars.txt
@@ -259,8 +259,8 @@ pipelines:
           name: Setup environment to build and push docker image with beta tag
           script:
             - commit_id=$(echo $BITBUCKET_COMMIT | cut -c1-7)
-            - echo "DOCKER_TAG_SLIM=$DOCKER_ORGANIZATION_NAME/icarus-repository-frontend:beta" > common_vars.txt
-            - echo "DOCKER_TAG_FULL=$DOCKER_ORGANIZATION_NAME/icarus-repository-frontend:beta-${commit_id}" >> common_vars.txt
+            - echo "DOCKER_TAG_SLIM=$DOCKER_ORGANIZATION_NAME/${BITBUCKET_REPO_SLUG}:beta" > common_vars.txt
+            - echo "DOCKER_TAG_FULL=$DOCKER_ORGANIZATION_NAME/${BITBUCKET_REPO_SLUG}:beta-${commit_id}" >> common_vars.txt
             - echo "DOCKER_FILE=docker/Dockerfile.prod" >> common_vars.txt
           artifacts:
             - common_vars.txt
@@ -278,8 +278,8 @@ pipelines:
           name: Setup environment to build and push docker image with dev tag
           script:
             - commit_id=$(echo $BITBUCKET_COMMIT | cut -c1-7)
-            - echo "DOCKER_TAG_SLIM=$DOCKER_ORGANIZATION_NAME/icarus-repository-frontend-dev:dev" >> common_vars.txt
-            - echo "DOCKER_TAG_FULL=$DOCKER_ORGANIZATION_NAME/icarus-repository-frontend-dev:${commit_id}-dev" >> common_vars.txt
+            - echo "DOCKER_TAG_SLIM=$DOCKER_ORGANIZATION_NAME/icarus-dev-${CLIENT_NAME_LOWERCASE}:dev" >> common_vars.txt
+            - echo "DOCKER_TAG_FULL=$DOCKER_ORGANIZATION_NAME/icarus-dev-${CLIENT_NAME_LOWERCASE}:${commit_id}-dev" >> common_vars.txt
             - echo "DOCKER_FILE=docker/Dockerfile.prod" >> common_vars.txt
           artifacts:
             - common_vars.txt
@@ -294,13 +294,13 @@ pipelines:
           deployment: Dev
           script:
             - source common_vars.txt
-            - export APPLICATION_NAME="icarus-repository-frontend-dev"
+            - export APPLICATION_NAME="icarus-dev-${CLIENT_NAME_LOWERCASE}"
             - >
               ssh -o StrictHostKeyChecking=no $SSH_USERNAME@$SSH_SERVER_IP
               "cd ~/icarus && docker compose --env-file .env.prod
               -f docker/compose/docker-compose.yaml
               -f docker/compose/docker-compose.prod.yaml
-              -f docker/compose/clients/docker-compose.${CLIENT_NAME_LOWERCASE}-dev.yaml up -d
+              -f docker/compose/clients/docker-compose.dev-${CLIENT_NAME_LOWERCASE}.yaml up -d
               ${APPLICATION_NAME} --pull always"
 
           after-script:
@@ -327,8 +327,8 @@ pipelines:
           name: Setup environment to build and push docker image with test tag
           script:
             - commit_id=$(echo $BITBUCKET_COMMIT | cut -c1-7)
-            - echo "DOCKER_TAG_SLIM=$DOCKER_ORGANIZATION_NAME/icarus-repository-frontend-test:test" >> common_vars.txt
-            - echo "DOCKER_TAG_FULL=$DOCKER_ORGANIZATION_NAME/icarus-repository-frontend-test:${commit_id}-test" >> common_vars.txt
+            - echo "DOCKER_TAG_SLIM=$DOCKER_ORGANIZATION_NAME/icarus-test-${CLIENT_NAME_LOWERCASE}:test" >> common_vars.txt
+            - echo "DOCKER_TAG_FULL=$DOCKER_ORGANIZATION_NAME/icarus-test-${CLIENT_NAME_LOWERCASE}:${commit_id}-test" >> common_vars.txt
             - echo "DOCKER_FILE=docker/Dockerfile.prod" >> common_vars.txt
           artifacts:
             - common_vars.txt
@@ -342,13 +342,13 @@ pipelines:
           deployment: Test
           script:
             - source common_vars.txt
-            - export APPLICATION_NAME="icarus-repository-frontend-test"
+            - export APPLICATION_NAME="icarus-test-${CLIENT_NAME_LOWERCASE}"
             - >
               ssh -o StrictHostKeyChecking=no $SSH_USERNAME@$SSH_SERVER_IP
               "cd ~/icarus && docker compose --env-file .env.prod
               -f docker/compose/docker-compose.yaml
               -f docker/compose/docker-compose.prod.yaml
-              -f docker/compose/clients/docker-compose.${CLIENT_NAME_LOWERCASE}-test.yaml up -d
+              -f docker/compose/clients/docker-compose.test-${CLIENT_NAME_LOWERCASE}.yaml up -d
               ${APPLICATION_NAME} --pull always"
 
           after-script:
@@ -377,8 +377,8 @@ pipelines:
           name: Setup environment to build and push docker image with stable tag
           script:
             - source common_vars.txt
-            - echo "DOCKER_TAG_SLIM=$DOCKER_ORGANIZATION_NAME/icarus-repository-frontend:stable" >> common_vars.txt
-            - echo "DOCKER_TAG_FULL=$DOCKER_ORGANIZATION_NAME/icarus-repository-frontend:stable-${BITBUCKET_TAG}" >> common_vars.txt
+            - echo "DOCKER_TAG_SLIM=$DOCKER_ORGANIZATION_NAME/${BITBUCKET_REPO_SLUG}:stable" >> common_vars.txt
+            - echo "DOCKER_TAG_FULL=$DOCKER_ORGANIZATION_NAME/${BITBUCKET_REPO_SLUG}:stable-${BITBUCKET_TAG}" >> common_vars.txt
             - echo "DOCKER_FILE=docker/Dockerfile.prod" >> common_vars.txt
           artifacts:
             - common_vars.txt
@@ -392,7 +392,7 @@ pipelines:
           deployment: Production
           script:
             - source common_vars.txt
-            - export APPLICATION_NAME="icarus-repository-frontend"
+            - export APPLICATION_NAME="${BITBUCKET_REPO_SLUG}"
             - >
               ssh -o StrictHostKeyChecking=no $SSH_USERNAME@$SSH_SERVER_IP
               "cd ~/icarus && docker compose --env-file .env.prod
