@@ -277,6 +277,7 @@ pipelines:
       - step:
           name: Setup environment to build and push docker image with dev tag
           script:
+            - source common_vars.txt
             - commit_id=$(echo $BITBUCKET_COMMIT | cut -c1-7)
             - echo "DOCKER_TAG_SLIM=$DOCKER_ORGANIZATION_NAME/icarus-dev-${CLIENT_NAME_LOWERCASE}:dev" >> common_vars.txt
             - echo "DOCKER_TAG_FULL=$DOCKER_ORGANIZATION_NAME/icarus-dev-${CLIENT_NAME_LOWERCASE}:${commit_id}-dev" >> common_vars.txt
@@ -326,6 +327,7 @@ pipelines:
       - step:
           name: Setup environment to build and push docker image with test tag
           script:
+            - source common_vars.txt
             - commit_id=$(echo $BITBUCKET_COMMIT | cut -c1-7)
             - echo "DOCKER_TAG_SLIM=$DOCKER_ORGANIZATION_NAME/icarus-test-${CLIENT_NAME_LOWERCASE}:test" >> common_vars.txt
             - echo "DOCKER_TAG_FULL=$DOCKER_ORGANIZATION_NAME/icarus-test-${CLIENT_NAME_LOWERCASE}:${commit_id}-test" >> common_vars.txt
