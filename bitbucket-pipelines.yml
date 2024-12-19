@@ -241,22 +241,6 @@ definitions:
           - common_vars.txt
 
 pipelines:
-  default:
-    - step: *common_vars
-    - step:
-        name: Setup environment to build and push docker image with beta tag
-        script:
-          - commit_id=$(echo $BITBUCKET_COMMIT | cut -c1-7)
-          - echo "DOCKER_TAG_SLIM=$DOCKER_ORGANIZATION_NAME/${BITBUCKET_REPO_SLUG}:beta" > common_vars.txt
-          - echo "DOCKER_TAG_FULL=$DOCKER_ORGANIZATION_NAME/${BITBUCKET_REPO_SLUG}:beta-${commit_id}" >> common_vars.txt
-          - echo "DOCKER_FILE=docker/Dockerfile.prod" >> common_vars.txt
-        artifacts:
-          - common_vars.txt
-
-    - step:
-        <<: *docker_build
-        name: Build and Push docker image
-        deployment: Staging
   branches:
     master:
       - step: *common_vars
