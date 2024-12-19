@@ -79,10 +79,15 @@ definitions:
         name: "Notify Slack"
         script:
           - source common_vars.txt
+          - |
+            if [ -z "$SLACK_MESSAGE" ]; then 
+              echo -e "SLACK_MESSAGE=\"Icarus ${CLIENT_NAME_UPERCASE} successfully published to ${BITBUCKET_TAG} :tada: \n\nChangelog:  https://bitbucket.org/${BITBUCKET_REPO_OWNER}/${BITBUCKET_REPO_SLUG}/src/${BITBUCKET_BRANCH}/docs/changelog/CHANGELOG-${BITBUCKET_TAG}.md\"" >> common_vars.txt
+              source common_vars.txt
+            fi
           - pipe: atlassian/slack-notify:2.3.1
             variables:
               WEBHOOK_URL: $SLACK_WEBHOOK_URL
-              MESSAGE: "Icarus ${CLIENT_NAME_UPERCASE} successfully published to ${BITBUCKET_TAG} :tada: \n\nChangelog:  https://bitbucket.org/${BITBUCKET_REPO_OWNER}/${BITBUCKET_REPO_SLUG}/src/${BITBUCKET_BRANCH}/docs/changelog/CHANGELOG-${BITBUCKET_TAG}.md"
+              MESSAGE: ${SLACK_MESSAGE}
               USERNAME: "${BOT_DISPLAY_NAME}"
               ICON_EMOJI: ":rocket:"
 
@@ -321,6 +326,14 @@ pipelines:
                 USERNAME: "${BOT_DISPLAY_NAME}"
                 ICON_EMOJI: ":warning:"
 
+      - step:
+          name: Setup slack message
+          script:
+            - echo -e "SLACK_MESSAGE=\"Icarus ${CLIENT_NAME_UPERCASE} successfully published to DEV :tada:\"" >> common_vars.txt
+          artifacts:
+            - common_vars.txt
+      - step: *notify_slack_success
+
     deploy-test:
       - step: *common_vars
       - step: *security_scan
@@ -369,6 +382,14 @@ pipelines:
                 MESSAGE: "Icarus ${CLIENT_NAME_UPERCASE} deployment failed at deploy to production step. Tag: ${BITBUCKET_TAG} :x:"
                 USERNAME: "${BOT_DISPLAY_NAME}"
                 ICON_EMOJI: ":warning:"
+
+      - step:
+          name: Setup slack message
+          script:
+            - echo -e "SLACK_MESSAGE=\"Icarus ${CLIENT_NAME_UPERCASE} successfully published to TEST :tada:\"" >> common_vars.txt
+          artifacts:
+            - common_vars.txt
+      - step: *notify_slack_success
 
     deploy-production:
       - step: *common_vars
