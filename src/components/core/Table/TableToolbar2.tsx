@@ -20,6 +20,7 @@ import {
   IconButton,
 } from "@mui/material";
 import { FormattedMessage } from "react-intl";
+import { QueryStats } from "@mui/icons-material";
 
 const useStyles = makeStyles((theme: any) => ({
   appBar: {
@@ -69,6 +70,8 @@ export interface TableToolbar2Props {
   onFilterClick?: any;
   initFilters?: any;
   //
+  onStatisticsClick?: any;
+  //
   customItems?: any[];
   //
   toolbarStyle?: any;
@@ -106,6 +109,8 @@ function TableToolbar2({
   //
   onFilterClick,
   initFilters,
+  //
+  onStatisticsClick,
   //
   customItems,
   //
@@ -311,6 +316,18 @@ function TableToolbar2({
                 onFilterClick={() => onFilterClick(filters)}
                 filtersActive={filtersActive}
               />
+            </Tooltip>
+          )}
+
+          {onStatisticsClick && (
+            <Tooltip title={<FormattedMessage id="action.statistics" />}>
+              <IconButton
+                style={{ padding: "0.5rem" }}
+                aria-haspopup="true"
+                onClick={onStatisticsClick}
+              >
+                <QueryStats />
+              </IconButton>
             </Tooltip>
           )}
 

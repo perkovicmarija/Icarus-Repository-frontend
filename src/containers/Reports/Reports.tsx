@@ -9,6 +9,7 @@ import {
   useCreateUpdateReportMutation,
   useDeleteReportMutation,
   useGetReportsPaginatedQuery,
+  useGetReportStatisticsQuery,
 } from "../../redux/report/reportApi";
 import ReportList from "./ReportList";
 import { getReportPath } from "../../consts/routePaths";
@@ -19,6 +20,8 @@ import DialogFormReport from "../../components/report/DialogFormReport";
 import { handleNotify } from "../../helpers/utility";
 import { isEmpty } from "lodash";
 import { useGetHazardClassificationsQuery } from "../../redux/hazardClassification/hazardClassificationApi";
+import DialogFormReportFilters from "./DialogFormReportsFilters";
+import DialogFormReportStatistics from "./DialogFormReportsStatistics";
 
 const Reports = () => {
   const dispatch = useAppDispatch();
@@ -28,6 +31,8 @@ const Reports = () => {
   ReportInterface | {} | undefined
   >();
   const [dialogFilters, setDialogFilters] = useState<boolean>();
+
+  const [dialogStatistics, setDialogStatistics] = useState<boolean>();
   
   const [
     reportResult,
@@ -51,6 +56,8 @@ const Reports = () => {
     [filters, page, rowsPerPage]
   );
   const { data, isFetching, refetch } = useGetReportsPaginatedQuery(meta);
+
+  const { data: statistics } = useGetReportStatisticsQuery();
 
     const { data: hazardClassifications} =
     useGetHazardClassificationsQuery();
@@ -85,7 +92,7 @@ const Reports = () => {
         ...newFilters,
       })
     );
-    history.push(getReportPath(page, rowsPerPage));
+    refetch();
   };
 
   const onChangePage = (newValue: number): void => {
@@ -117,6 +124,7 @@ const Reports = () => {
             initFilters,
             filters,
             onFilterClick: setDialogFilters,
+            onStatisticsClick: setDialogStatistics,
             onSearchSubmit: handleSearchSubmit,
           }}
           paginationProps={{
@@ -153,6 +161,27 @@ const Reports = () => {
               })
           }
           clients={activeClients}
+        />
+      </DialogFormFrame>
+      <DialogFormFrame
+        onClose={() => setDialogFilters(undefined)}
+        title="general.selectFilters"
+        open={dialogFilters}
+      >
+        <DialogFormReportFilters
+          initialData={dialogFilters!}
+          onClose={() => setDialogFilters(undefined)}
+          onSubmit={handleSubmitFilters}
+          hazardClassifications={hazardClassifications?.data}
+        />
+      </DialogFormFrame>
+      <DialogFormFrame
+        onClose={() => setDialogStatistics(undefined)}
+        title="report.statistics"
+        open={dialogStatistics}
+      >
+        <DialogFormReportStatistics
+          reportStatistics={statistics?.data}
         />
       </DialogFormFrame>
     </>

@@ -1,9 +1,10 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { Report } from "./reportApi";
+import { HazardClassification } from "../hazardClassification/hazardClassificationApi";
 
 export const initFilters = {
-  title: "",
-  text: ""
+  showWithoutHazardClassification: false,
+  hazardClassifications: [] as HazardClassification[],
 };
 
 const initialState = {
@@ -11,7 +12,7 @@ const initialState = {
   meta: {
     totalCount: undefined as number | undefined,
   },
-  filters: { ...initFilters},
+  filters: { ...initFilters, stringSearch: "" },
 };
 
 export type FiltersType = (typeof initialState)["filters"];

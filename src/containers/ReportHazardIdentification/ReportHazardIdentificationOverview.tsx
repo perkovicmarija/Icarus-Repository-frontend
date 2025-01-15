@@ -99,6 +99,8 @@ const ReportHazardIdentificationOverview = () => {
     history.push(getReportHazardIdentificationPath(page, newValue));
   };
 
+  console.log("tabel")
+
   return (
     <>
       <Paper>
