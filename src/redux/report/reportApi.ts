@@ -3,6 +3,7 @@ import { ResponseWrapper, Meta } from "../../components/core/commonTypes";
 import { getServerPath } from "../../consts/ServerInfo";
 import { getToken } from "../../helpers/utility";
 import { ReportHazardIdentification } from "../reportHazardIdentification/reportHazardIdentificationApi";
+import { HazardClassification } from "../hazardClassification/hazardClassificationApi";
 
 export interface Report {
     reportId: string;
@@ -15,6 +16,16 @@ export interface Report {
     aircraft: string;
     flightNumber: string;
     reportHazardIdentification: ReportHazardIdentification;
+}
+
+export interface FrequentHazardClassification {
+    count: number;
+    classification: HazardClassification;
+}
+
+export interface ReportStatistics {
+    reportsWithHazardClassification: number;
+    mostFrequentHazardClassifications: FrequentHazardClassification[];
 }
 
 export const reportApi = createApi({
@@ -34,6 +45,10 @@ export const reportApi = createApi({
         }),
         getReports: builder.query<ResponseWrapper<Report[]>, void>({
             query: () => `/getAllLatest?access_token=${getToken()}`,
+            providesTags: ["Report"],
+        }),
+        getReportStatistics: builder.query<ResponseWrapper<ReportStatistics>, void>({
+            query: () => `/statistics?access_token=${getToken()}`,
             providesTags: ["Report"],
         }),
         getReportsPaginated: builder.query<ResponseWrapper<Report[]>, Meta>({
@@ -68,4 +83,5 @@ export const {
     useDeleteReportMutation,
     useGetReportsQuery,
     useGetReportsPaginatedQuery,
+    useGetReportStatisticsQuery
 } = reportApi;
