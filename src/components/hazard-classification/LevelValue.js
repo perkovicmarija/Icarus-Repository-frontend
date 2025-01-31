@@ -57,7 +57,7 @@ function LevelValue({
             }}
             onClick={(event) => onSelected(event, value)}
           >
-            <span>{value.name}</span>
+            <span>{`${value.name} ${value.count ? ` (count: ${value.count})` : ""}`}</span>
 
             {(isOpen || !value.hasChild) && (
               <>

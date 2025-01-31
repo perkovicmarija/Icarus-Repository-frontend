@@ -14,12 +14,20 @@ import {
 import ReportList from "./ReportList";
 import { getReportPath } from "../../consts/routePaths";
 import { useGetUserQuery } from "../../redux/user/usersApi";
-import { FiltersType, initFilters, reportActions } from "../../redux/report/reportSlice";
+import {
+  FiltersType,
+  initFilters,
+  reportActions,
+} from "../../redux/report/reportSlice";
 import DialogFormFrame from "../../components/core/Dialog/DialogFormFrame";
 import DialogFormReport from "../../components/report/DialogFormReport";
 import { handleNotify } from "../../helpers/utility";
 import { isEmpty } from "lodash";
-import { useGetHazardClassificationsQuery } from "../../redux/hazardClassification/hazardClassificationApi";
+import {
+  useGetHazardClassificationsQuery,
+  useGetHazardClassificationsStatisticsFilteredQuery,
+  useGetHazardClassificationsWithStatisticsQuery,
+} from "../../redux/hazardClassification/hazardClassificationApi";
 import DialogFormReportFilters from "./DialogFormReportsFilters";
 import DialogFormReportStatistics from "./DialogFormReportsStatistics";
 
@@ -28,23 +36,16 @@ const Reports = () => {
   const history = useHistory();
 
   const [dialogAddEdit, setDialogAddEdit] = useState<
-  ReportInterface | {} | undefined
+    ReportInterface | {} | undefined
   >();
   const [dialogFilters, setDialogFilters] = useState<boolean>();
 
   const [dialogStatistics, setDialogStatistics] = useState<boolean>();
-  
-  const [
-    reportResult,
-    setReportResult,
-  ] = useState<ReportInterface>();
 
-  const { page, rowsPerPage, storeRowsPerPage } = usePagination(
-    "report"
-  );
-  const filters = useAppSelector(
-    (state) => state.Report.filters
-  );
+  const [reportResult, setReportResult] = useState<ReportInterface>();
+
+  const { page, rowsPerPage, storeRowsPerPage } = usePagination("report");
+  const filters = useAppSelector((state) => state.Report.filters);
   const meta = useMemo(
     () => ({
       filters,
@@ -59,8 +60,12 @@ const Reports = () => {
 
   const { data: statistics } = useGetReportStatisticsQuery();
 
-    const { data: hazardClassifications} =
-    useGetHazardClassificationsQuery();
+  const { data: hazardClassificationsStatistics } =
+    useGetHazardClassificationsWithStatisticsQuery();
+
+  const [loading, setLoading] = useState(false);
+
+  const { data: hazardClassifications } = useGetHazardClassificationsQuery();
 
   const [triggerAddEdit] = useCreateUpdateReportMutation();
   const [triggerDelete] = useDeleteReportMutation();
@@ -113,9 +118,9 @@ const Reports = () => {
           onDelete={(payload: ReportInterface): Promise<void> =>
             triggerDelete(payload.reportId).unwrap()
           }
-          onItemClick={(id) =>{
-            history.push("/admin/reports/" + id)}
-          }
+          onItemClick={(id) => {
+            history.push("/admin/reports/" + id);
+          }}
           toolbarProps={{
             onAddClick: setDialogAddEdit,
             title: "",
@@ -140,11 +145,7 @@ const Reports = () => {
 
       <DialogFormFrame
         onClose={() => setDialogAddEdit(undefined)}
-        title={
-          isEmpty(dialogAddEdit)
-            ? "report.create"
-            : "report.update"
-        }
+        title={isEmpty(dialogAddEdit) ? "report.create" : "report.update"}
         open={dialogAddEdit}
       >
         <DialogFormReport
@@ -182,6 +183,9 @@ const Reports = () => {
       >
         <DialogFormReportStatistics
           reportStatistics={statistics?.data}
+          hazardClassificationsStatistics={
+            hazardClassificationsStatistics?.data
+          }
         />
       </DialogFormFrame>
     </>

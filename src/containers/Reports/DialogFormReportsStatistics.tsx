@@ -1,11 +1,17 @@
 import { DialogContent, Grid, Typography, Paper } from "@mui/material";
 import { ReportStatistics } from "../../redux/report/reportApi";
 import IntlMessages from "../../components/core/IntlMessages";
+import { HazardClassification } from "../../redux/hazardClassification/hazardClassificationApi";
+import MultilevelHazardClassificationStatistics from "../../components/hazard-classification/MultilevelHazardClassificationStatistics";
 
 const DialogFormReportStatistics = ({
-  reportStatistics
+  reportStatistics,
+  hazardClassificationsStatistics,
 }: {
-  reportStatistics: ReportStatistics
+  reportStatistics: ReportStatistics;
+  hazardClassificationsStatistics: HazardClassification[];
+  searchData: [];
+  searchIsFetching: boolean;
 }) => {
   return (
     <DialogContent>
@@ -18,6 +24,20 @@ const DialogFormReportStatistics = ({
             <Typography variant="h4" color="primary">
               {reportStatistics.reportsWithHazardClassification}
             </Typography>
+          </Paper>
+        </Grid>
+
+        <Grid item xs={12}>
+          <Typography variant="h6" sx={{ mb: 1 }}>
+            <IntlMessages id="report.statistics.hazardClassification" />
+          </Typography>
+          <Paper elevation={1} sx={{ p: 2, gap: 4 }}>
+            <MultilevelHazardClassificationStatistics
+              values={hazardClassificationsStatistics}
+              onSelect={() => {}}
+              selectedValue={undefined}
+              showSearchOption={true}
+            />
           </Paper>
         </Grid>
 

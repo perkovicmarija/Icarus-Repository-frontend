@@ -496,6 +496,7 @@
   "report.create": "Create Report",
   "report.update": "Update Report",
   "report.statistics": "Report Statistics",
+  "report.statistics.hazardClassification": "Hazard Classifications Statistics:",
   "report.statistics.count": "Reports with Hazard Classifications:",
   "report.statistics.mostFrequent": "Most Frequent Hazard Classifications:"
 }
