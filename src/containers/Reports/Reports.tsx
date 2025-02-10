@@ -125,7 +125,7 @@ const Reports = () => {
             onAddClick: setDialogAddEdit,
             title: "",
             searchPlaceholder: "search.search",
-            searchTextPropKey: "title",
+            searchTextPropKey: "stringSearch",
             initFilters,
             filters,
             onFilterClick: setDialogFilters,
