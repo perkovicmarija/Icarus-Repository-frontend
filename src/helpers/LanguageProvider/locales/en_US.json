@@ -111,6 +111,7 @@
   "general.airportDeparture": "Airport departure",
   "general.hazard": "Hazard",
   "general.airportDestination": "Airport destination",
+  "general.airportLocation": "Airport location",
   "general.eventDescription": "Event description",
   "general.eventDate": "Event date",
   "general.aircraft": "Aircraft",
@@ -275,6 +276,7 @@
   "action.filter": "Filter",
   "action.filters": "Filters",
   "action.download": "Download",
+  "action.statistics": "Statistics",
 
   "support.title": "Support center",
   "support.logs": "Logs",
@@ -474,6 +476,7 @@
   "reportHazardIdentification.sentimentAnalysis.words": "Words",
   "reportHazardIdentification.sentimentAnalysis.legend": "Values range from -1 to 1, where -1 indicates extremely negative and 1 indicates extremely positive.",
   "hazardClassification": "Hazard classification",
+  "hazardClassification.filter.showWithoutHazardClassification": "Show without hazard classification",
   "riskManagement.hazardRegister": "Hazard/Risk Register",
   "riskManagement.tab1HazardRegister": "Hazard classificators",
   "riskManagement.tab2RiskRegister": "Risk Register",
@@ -491,5 +494,9 @@
   "riskManagement.selectHazard": "Select hazard",
 
   "report.create": "Create Report",
-  "report.update": "Update Report"
+  "report.update": "Update Report",
+  "report.statistics": "Report Statistics",
+  "report.statistics.hazardClassification": "Hazard Classifications Statistics:",
+  "report.statistics.count": "Reports with Hazard Classifications:",
+  "report.statistics.mostFrequent": "Most Frequent Hazard Classifications:"
 }

@@ -1,5 +1,5 @@
 import {createApi, fetchBaseQuery} from "@reduxjs/toolkit/query/react";
-import { ResponseWrapper, Meta } from "../../components/core/commonTypes";
+import { ResponseWrapper } from "../../components/core/commonTypes";
 import { getServerPath } from "../../consts/ServerInfo";
 import { getToken } from "../../helpers/utility";
 
@@ -11,6 +11,7 @@ export interface HazardClassification {
     path: string;
     parentId: string;
     level: number;
+    count: number;
     hasChild: boolean;
 }
 
@@ -37,9 +38,21 @@ export const hazardClassificationApi = createApi({
             query: () => `?access_token=${getToken()}`,
             providesTags: ["HazardClassification"],
         }),
+        getHazardClassificationsWithStatistics: builder.query<ResponseWrapper<HazardClassification[]>, void>({
+            query: () => `statistics?access_token=${getToken()}`,
+            providesTags: ["HazardClassification"],
+        }),
         getHazardClassificationsFiltered: builder.query<ResponseWrapper<HazardClassification[]>, HazardClassificationSearchViewModel>({
             query: (body) => ({
                 url: `filtered` + `?access_token=${getToken()}`,
+                method: "POST",
+                body,
+            }),
+            providesTags: ["HazardClassification"],
+        }),
+        getHazardClassificationsStatisticsFiltered: builder.query<ResponseWrapper<HazardClassification[]>, HazardClassificationSearchViewModel>({
+            query: (body) => ({
+                url: `/statistics/filtered` + `?access_token=${getToken()}`,
                 method: "POST",
                 body,
             }),
@@ -67,5 +80,7 @@ export const {
     useGetHazardClassificationsFilteredQuery,
     useGetHazardClassificationsQuery,
     useCreateUpdateHazardClassificationMutation,
-    useDeleteHazardClassificationMutation
+    useDeleteHazardClassificationMutation,
+    useGetHazardClassificationsWithStatisticsQuery,
+    useGetHazardClassificationsStatisticsFilteredQuery
 } = hazardClassificationApi;

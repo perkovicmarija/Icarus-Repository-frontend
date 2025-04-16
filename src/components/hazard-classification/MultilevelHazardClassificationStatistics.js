@@ -11,9 +11,9 @@ import DialogAddEditHazard from "./DialogAddEditHazard";
 import { FormattedMessage } from "react-intl";
 import { TableNoItems } from "../core/Table/TableNoItems";
 import ToolbarSearch from "../core/ToolbarSearch";
-import { useGetHazardClassificationsFilteredQuery } from "../../redux/hazardClassification/hazardClassificationApi";
+import { useGetHazardClassificationsStatisticsFilteredQuery } from "../../redux/hazardClassification/hazardClassificationApi";
 
-function MultilevelHazardClassification({
+function MultilevelHazardClassificationStatistics({
   values,
   onSelect,
   selectedValue,
@@ -32,7 +32,7 @@ function MultilevelHazardClassification({
 
   const [valuesFiltered, setValuesFiltered] = useState();
 
-  const { data, isFetching } = useGetHazardClassificationsFilteredQuery({ searchText });
+  const { data, isFetching } = useGetHazardClassificationsStatisticsFilteredQuery({ searchText });
 
   useEffect(() => {
     if (data?.data) {
@@ -159,7 +159,7 @@ function MultilevelHazardClassification({
                     style={{ cursor: "pointer" }}
                     onClick={(event) => onSelect(event, value)}
                   >
-                    {value.name}
+                    {`${value.name} (count: ${value.count})`}
                   </Box>
                   <Box
                     fontSize={11}
@@ -202,4 +202,4 @@ function MultilevelHazardClassification({
   );
 }
 
-export default MultilevelHazardClassification;
+export default MultilevelHazardClassificationStatistics;

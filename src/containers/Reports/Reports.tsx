@@ -9,37 +9,43 @@ import {
   useCreateUpdateReportMutation,
   useDeleteReportMutation,
   useGetReportsPaginatedQuery,
+  useGetReportStatisticsQuery,
 } from "../../redux/report/reportApi";
 import ReportList from "./ReportList";
 import { getReportPath } from "../../consts/routePaths";
 import { useGetUserQuery } from "../../redux/user/usersApi";
-import { FiltersType, initFilters, reportActions } from "../../redux/report/reportSlice";
+import {
+  FiltersType,
+  initFilters,
+  reportActions,
+} from "../../redux/report/reportSlice";
 import DialogFormFrame from "../../components/core/Dialog/DialogFormFrame";
 import DialogFormReport from "../../components/report/DialogFormReport";
 import { handleNotify } from "../../helpers/utility";
 import { isEmpty } from "lodash";
-import { useGetHazardClassificationsQuery } from "../../redux/hazardClassification/hazardClassificationApi";
+import {
+  useGetHazardClassificationsQuery,
+  useGetHazardClassificationsStatisticsFilteredQuery,
+  useGetHazardClassificationsWithStatisticsQuery,
+} from "../../redux/hazardClassification/hazardClassificationApi";
+import DialogFormReportFilters from "./DialogFormReportsFilters";
+import DialogFormReportStatistics from "./DialogFormReportsStatistics";
 
 const Reports = () => {
   const dispatch = useAppDispatch();
   const history = useHistory();
 
   const [dialogAddEdit, setDialogAddEdit] = useState<
-  ReportInterface | {} | undefined
+    ReportInterface | {} | undefined
   >();
   const [dialogFilters, setDialogFilters] = useState<boolean>();
-  
-  const [
-    reportResult,
-    setReportResult,
-  ] = useState<ReportInterface>();
 
-  const { page, rowsPerPage, storeRowsPerPage } = usePagination(
-    "report"
-  );
-  const filters = useAppSelector(
-    (state) => state.Report.filters
-  );
+  const [dialogStatistics, setDialogStatistics] = useState<boolean>();
+
+  const [reportResult, setReportResult] = useState<ReportInterface>();
+
+  const { page, rowsPerPage, storeRowsPerPage } = usePagination("report");
+  const filters = useAppSelector((state) => state.Report.filters);
   const meta = useMemo(
     () => ({
       filters,
@@ -52,8 +58,14 @@ const Reports = () => {
   );
   const { data, isFetching, refetch } = useGetReportsPaginatedQuery(meta);
 
-    const { data: hazardClassifications} =
-    useGetHazardClassificationsQuery();
+  const { data: statistics } = useGetReportStatisticsQuery();
+
+  const { data: hazardClassificationsStatistics } =
+    useGetHazardClassificationsWithStatisticsQuery();
+
+  const [loading, setLoading] = useState(false);
+
+  const { data: hazardClassifications } = useGetHazardClassificationsQuery();
 
   const [triggerAddEdit] = useCreateUpdateReportMutation();
   const [triggerDelete] = useDeleteReportMutation();
@@ -85,7 +97,7 @@ const Reports = () => {
         ...newFilters,
       })
     );
-    history.push(getReportPath(page, rowsPerPage));
+    refetch();
   };
 
   const onChangePage = (newValue: number): void => {
@@ -106,17 +118,18 @@ const Reports = () => {
           onDelete={(payload: ReportInterface): Promise<void> =>
             triggerDelete(payload.reportId).unwrap()
           }
-          onItemClick={(id) =>{
-            history.push("/admin/reports/" + id)}
-          }
+          onItemClick={(id) => {
+            history.push("/admin/reports/" + id);
+          }}
           toolbarProps={{
             onAddClick: setDialogAddEdit,
             title: "",
             searchPlaceholder: "search.search",
-            searchTextPropKey: "title",
+            searchTextPropKey: "stringSearch",
             initFilters,
             filters,
             onFilterClick: setDialogFilters,
+            onStatisticsClick: setDialogStatistics,
             onSearchSubmit: handleSearchSubmit,
           }}
           paginationProps={{
@@ -132,11 +145,7 @@ const Reports = () => {
 
       <DialogFormFrame
         onClose={() => setDialogAddEdit(undefined)}
-        title={
-          isEmpty(dialogAddEdit)
-            ? "report.create"
-            : "report.update"
-        }
+        title={isEmpty(dialogAddEdit) ? "report.create" : "report.update"}
         open={dialogAddEdit}
       >
         <DialogFormReport
@@ -153,6 +162,30 @@ const Reports = () => {
               })
           }
           clients={activeClients}
+        />
+      </DialogFormFrame>
+      <DialogFormFrame
+        onClose={() => setDialogFilters(undefined)}
+        title="general.selectFilters"
+        open={dialogFilters}
+      >
+        <DialogFormReportFilters
+          initialData={dialogFilters!}
+          onClose={() => setDialogFilters(undefined)}
+          onSubmit={handleSubmitFilters}
+          hazardClassifications={hazardClassifications?.data}
+        />
+      </DialogFormFrame>
+      <DialogFormFrame
+        onClose={() => setDialogStatistics(undefined)}
+        title="report.statistics"
+        open={dialogStatistics}
+      >
+        <DialogFormReportStatistics
+          reportStatistics={statistics?.data}
+          hazardClassificationsStatistics={
+            hazardClassificationsStatistics?.data
+          }
         />
       </DialogFormFrame>
     </>

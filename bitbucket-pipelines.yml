@@ -1,40 +1,4 @@
-image: node:20.9.0
-
 pipelines:
-  default:
-    - step:
-        name: Build React Project
-        script:
-          - yarn install
-          - yarn build_only
-          - mkdir packaged
-          - tar -czvf packaged/package-${BITBUCKET_BUILD_NUMBER}.tar.gz -C build .
-        artifacts:
-          - packaged/**
-    - step:
-        name: Deploy to test
-        image: alpine
-        deployment: test
-        trigger: manual  # Uncomment to make this a manual deployment.
-        script:
-          - echo "Deploying to test environment"
-          - mkdir upload
-          - tar -xf packaged/package-${BITBUCKET_BUILD_NUMBER}.tar.gz -C upload
-          - apk update && apk add openssh rsync
-          - rsync -a  -e "ssh -o StrictHostKeyChecking=no" --delete upload/ $USERNAME@$SERVER_TEST:/home/inxelo/docker/apache/html/temp/react-${BITBUCKET_BUILD_NUMBER}
-          - ssh -o StrictHostKeyChecking=no $USERNAME@$SERVER_TEST "rm -r /home/inxelo/docker/apache/html/repository/build"
-          - ssh -o StrictHostKeyChecking=no $USERNAME@$SERVER_TEST "mv '/home/inxelo/docker/apache/html/temp/react-${BITBUCKET_BUILD_NUMBER}' '/home/inxelo/docker/apache/html/repository/build'"
-          - ssh -o StrictHostKeyChecking=no $USERNAME@$SERVER_TEST "chmod -R u+rwX,go+rX,go-w /home/inxelo/docker/apache/html/repository/build"
-    - step:
-        name: Deploy to Production
-        image: alpine
-        trigger: manual
-        deployment: production
-        script:
-          - mkdir upload
-          - tar -xf packaged/package-${BITBUCKET_BUILD_NUMBER}.tar.gz -C upload
-          - apk update && apk add openssh rsync
-          - rsync -a  -e "ssh -o StrictHostKeyChecking=no" --delete upload/ $USERNAME@$SERVER:/home/inxelo/docker/apache/html/temp/react-${BITBUCKET_BUILD_NUMBER}
-          - ssh -o StrictHostKeyChecking=no $USERNAME@$SERVER "rm -r /home/inxelo/docker/apache/html/icarus/repository/build"
-          - ssh -o StrictHostKeyChecking=no $USERNAME@$SERVER "mv '/home/inxelo/docker/apache/html/temp/react-${BITBUCKET_BUILD_NUMBER}' '/home/inxelo/docker/apache/html/icarus/repository/build'"
-          - ssh -o StrictHostKeyChecking=no $USERNAME@$SERVER "chmod -R u+rwX,go+rX,go-w /home/inxelo/docker/apache/html/icarus/repository/build"
+  custom:
+    deploy-production:
+      import: icarus-iac:main:icarus-repository-frontend-deploy-production

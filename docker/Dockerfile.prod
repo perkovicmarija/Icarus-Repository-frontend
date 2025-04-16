@@ -1,0 +1,41 @@
+FROM node:20.9.0 AS build
+
+# without --max-old-space-size i get error:
+# FATAL ERROR: Ineffective mark-compacts near heap limit Allocation failed - JavaScript heap out of memory
+# we used to have --max-old-space-size to 6144
+# but pipeline builder only have 4096 so i get:
+# ERROR: yarn build did not complete successfully: exit code: 137
+# ENV NODE_OPTIONS=--max-old-space-size=5000
+ARG FRONTEND_IMAGE_TAG=""
+
+WORKDIR /app
+COPY . .
+
+
+RUN mkdir -p /var/www/ && chown -R www-data:www-data /app /var/www
+
+USER www-data:www-data
+
+
+RUN yarn install && yarn build_only
+
+FROM alpine
+
+WORKDIR /app
+
+COPY --from=build /app/build /app/build/
+COPY --from=build /app/docker/docker-entrypoint.sh /app/
+
+ARG FRONTEND_IMAGE_TAG=""
+LABEL FRONTEND_IMAGE_TAG=${FRONTEND_IMAGE_TAG}
+
+RUN apk add shadow && \
+  groupmod -g 33 www-data && \
+  adduser -u 33 -G www-data -D www-data && \
+  chown -R www-data:www-data /app
+
+RUN mkdir -p /var/www/ && chown -R www-data:www-data /app /var/www
+
+USER www-data:www-data
+
+ENTRYPOINT ["/app/docker-entrypoint.sh"]
