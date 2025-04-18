@@ -224,19 +224,19 @@ const AuditChecklist = (props) => {
     });
   };
 
-  const handleChecklistItemSave = (event) => {
-    event.preventDefault();
+  const handleChecklistItemSave = (item) => {
+    // event.preventDefault();
     setItemVisible(false);
 
     let viewModel = {};
-    viewModel.selectedItem = cloneDeep(selectedItem);
+    viewModel.selectedItem = cloneDeep(item);
 
     let checklistCopy = cloneDeep(checklistDnd.auditChecklist);
     viewModel.auditChecklist = {
       auditChecklistId: checklistCopy.auditChecklistId,
     };
 
-    if (!selectedItem.auditChecklistSubArea) {
+    if (!item.auditChecklistSubArea) {
       viewModel.selectedItem.auditChecklist = {
         auditChecklistId: checklistCopy.auditChecklistId,
       };
